@@ -270,6 +270,7 @@ $(document).ready(function() {
         dropdownParent: $('.language')
     });
 });
+
 $(document).ready(function() {
     $('.custom-select2').select2({
         minimumResultsForSearch: 8,

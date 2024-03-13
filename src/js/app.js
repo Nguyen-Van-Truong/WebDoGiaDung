@@ -1,5 +1,7 @@
 //password field show and hide
-
+import Swiper from 'swiper';
+import $ from 'jquery';
+import mixitup from 'mixitup';
 
 function currentPasswordIcon(){
 
