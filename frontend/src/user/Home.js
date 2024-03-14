@@ -1,29 +1,29 @@
-import logo from './logo.svg';
+
 import React, {useState, useEffect, useRef} from 'react';
-import './assets/plugins/css/swipper.css'
-import './assets/plugins/css/select2.css'
-import './css/tailwind.css'
-import './css/styles.css'
-import './css/responsive.css'
-import img_2 from './assets/images/all-img/2.jpg'
-import product1 from './assets/images/all-img/f-product-01.png';
-import cart1 from './assets/images/all-img/cart-01.png'
-import product3 from './assets/images/all-img/f-product-03.png';
-import product2 from './assets/images/all-img/f-product-02.png'
-import img_6 from './assets/images/all-img/6.jpg'
-import img_4 from './assets/images/all-img/4.jpg'
-import f_product_4 from './assets/images/all-img/f-product-04.png'
+import '../assets/plugins/css/swipper.css'
+import '../assets/plugins/css/select2.css'
+import '../css/tailwind.css'
+import '../css/styles.css'
+import '../css/responsive.css'
+import img_2 from '../assets/images/all-img/2.jpg'
+import product1 from '../assets/images/all-img/f-product-01.png';
+import cart1 from '../assets/images/all-img/cart-01.png'
+import product3 from '../assets/images/all-img/f-product-03.png';
+import product2 from '../assets/images/all-img/f-product-02.png'
+import img_6 from '../assets/images/all-img/6.jpg'
+import img_4 from '../assets/images/all-img/4.jpg'
+import f_product_4 from '../assets/images/all-img/f-product-04.png'
 import $ from 'jquery';
 import Swiper from "swiper";
 import 'select2/dist/js/select2';
-import chair from './assets/images/all-img/chair.png';
+import chair from '../assets/images/all-img/chair.png';
 import mixitup from 'mixitup';
-import discount from './assets/images/all-img/discount.png'
-import t_pr1 from './assets/images/all-img/t-product-01.png'
-import t_pr2 from './assets/images/all-img/t-product-02.png'
-import t_pr3 from './assets/images/all-img/t-product-03.png'
+import discount from '../assets/images/all-img/discount.png'
+import t_pr1 from '../assets/images/all-img/t-product-01.png'
+import t_pr2 from '../assets/images/all-img/t-product-02.png'
+import t_pr3 from '../assets/images/all-img/t-product-03.png'
 
-const App = () => {
+const Home = () => {
     // Refs for the password inputs and icons
     const containerRef = useRef(null);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -2420,7 +2420,7 @@ const App = () => {
                             <p className="text-center text-[#9A9CAA]">@ 2021 - Blogy - Designed & Develop by <b
                                 className="text-grayscales-900">Zakirsoft</b></p>
                             <div className="inline-flex justify-center h-[27px] w-[227px]">
-                                <img src="./assets/images/all-img/payments.png" alt=""/>
+                                <img src="../assets/images/all-img/payments.png" alt=""/>
                             </div>
                         </div>
                     </div>
@@ -2432,4 +2432,4 @@ const App = () => {
     );
 }
 
-export default App;
+export default Home;
