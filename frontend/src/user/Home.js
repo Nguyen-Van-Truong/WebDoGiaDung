@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect, useRef} from 'react';
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
@@ -499,7 +498,7 @@ const Home = () => {
                                                                 <Link to="/login">Đăng nhập</Link>
                                                             </li>
                                                             <li>
-                                                                <a href="sign-up.html">Tạo tài khoản</a>
+                                                                <Link to={"/register"}>Đăng kí</Link>
                                                             </li>
                                                         </div>
                                                         <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
@@ -572,13 +571,14 @@ const Home = () => {
 
                                 <ul className="lg:flex gap-8 items-center hidden main-menu">
                                     <li>
-                                        <a href="index.html">Trang chủ</a>
+                                        <Link to={"/"}>Trang chủ</Link>
                                     </li>
                                     <li>
-                                        <a href="products.html">Shop</a>
+                                        <Link to={"/products"}>Shop</Link>
+
                                     </li>
                                     <li>
-                                        <a href="product-details.html">Sản phẩm</a>
+                                        <Link to={"/product-detail"}>Sản phẩm</Link>
                                     </li>
 
                                 </ul>
@@ -663,18 +663,7 @@ const Home = () => {
                                                 <li>
                                                     <a href="#">Đăng kí </a>
                                                 </li>
-                                                <li>
-                                                    <a href="#">Cài đặt tài khoản</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lịch sử đơn hàng</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Giỏ hàng</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Đăng xuất</a>
-                                                </li>
+
                                             </ul>
                                         )}
                                     </div>
