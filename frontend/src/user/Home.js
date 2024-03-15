@@ -16,12 +16,14 @@ import f_product_4 from '../assets/images/all-img/f-product-04.png'
 import $ from 'jquery';
 import Swiper from "swiper";
 import 'select2/dist/js/select2';
-import chair from '../assets/images/all-img/chair.png';
 import mixitup from 'mixitup';
 import discount from '../assets/images/all-img/discount.png'
 import t_pr1 from '../assets/images/all-img/t-product-01.png'
 import t_pr2 from '../assets/images/all-img/t-product-02.png'
 import t_pr3 from '../assets/images/all-img/t-product-03.png'
+import chair from '../assets/images/all-img/chair.png';
+
+import {Link} from "react-router-dom";
 
 const Home = () => {
     // Refs for the password inputs and icons
@@ -50,21 +52,47 @@ const Home = () => {
     /* ay cho menu với giao diện man hinh nho */
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);
-        setIsMenu(!isMenu);
+        setIsMenu(true, () => {
+            if (isMenu) {
+                setIsMenu(false);
+            }
+        });
+
+        setIUserMin(false);
+        setCategory(false);
+
     };
 
     const handleCloseClick = () => {
-        setMenuOpen(false);
-        setIUserMin(false);
-        setIsMenu(!isMenu);
+
+
+        setMenuOpen(!menuOpen);
+        setIsMenu(true, () => {
+
+            if (isMenu) {
+
+                setIsMenu(false);
+            }
+        });
+
     };
     const handClickMenu = () => {
-        setIsMenu(!isMenu);
+        setIsMenu(true, () => {
+            if (isMenu) {
+                setIsMenu(false);
+            }
+        });
+        setIUserMin(false);
         setCategory(false);
     };
     const handCategory = () => {
         setIsMenu(false);
-        setCategory(!isCategory);
+        setCategory(true, () => {
+            if (setCategory) {
+                setCategory(false);
+            }
+        });
+
     };
     const handClickUserMin = () => {
         setIUserMin(!isUserMin);
@@ -468,7 +496,7 @@ const Home = () => {
                                                         style={{display: isUserOpen ? 'block' : 'none'}}>
                                                         <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
                                                             <li>
-                                                                <a href="sign-in.html">Đăng nhập</a>
+                                                                <Link to="/login">Đăng nhập</Link>
                                                             </li>
                                                             <li>
                                                                 <a href="sign-up.html">Tạo tài khoản</a>
