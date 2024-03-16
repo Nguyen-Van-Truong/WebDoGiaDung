@@ -503,10 +503,10 @@ const Home = () => {
                                                         </div>
                                                         <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
                                                             <li>
-                                                                <a href="account-setting.html">Cài đặt tài khoản</a>
+                                                                <Link to={"/forget-password"}>Quên mật khẩu</Link>
                                                             </li>
                                                             <li>
-                                                                <a href="order-history.html">Lịch sử đơn hàng</a>
+                                                                <Link to={"/order-history"}>Lịch sử đơn hàng</Link>
                                                             </li>
                                                         </div>
                                                         <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
@@ -514,7 +514,8 @@ const Home = () => {
                                                                 <a href="wishlist.html">Yêu thích</a>
                                                             </li>
                                                             <li>
-                                                                <a href="shopping-cart.html">Giỏ hàng</a>
+                                                                <Link to={"/cart"}>Giỏ hàng</Link>
+
                                                             </li>
                                                         </div>
                                                         <div className="px-3">
