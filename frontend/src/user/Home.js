@@ -452,8 +452,8 @@ const Home = () => {
                                                         <div className="flex justify-between items-center">
                                                             <a href="shopping-cart.html" className="btn-transparent">View
                                                                 Cart</a>
-                                                            <a href="checkout-shopping.html"
-                                                               className="btn-primary">Checkout</a>
+                                                            <Link className="btn-primary" to={"/checkout-shopping"}>Thanh toán</Link>
+
                                                         </div>
 
                                                     </ul>

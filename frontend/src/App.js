@@ -9,6 +9,8 @@ import Order_History from "./user/Order-history";
 import Forget_Password from "./user/Forget-Password";
 import Change_Password from "./user/Change-Password";
 import Information_Profile from "./user/Information_Profile";
+import Checkout_Shopping from "./user/Checkout-Shopping";
+import Order_Details from "./user/Order-Details";
 
 
 
@@ -27,6 +29,8 @@ const App = () => {
                 <Route path="/forget-password" element={<Forget_Password/>}/>
                 <Route path="/change-password" element={<Change_Password/>}/>
                 <Route path="/account-setting" element={<Information_Profile/>}/>
+                <Route path="/order-details" element={<Order_Details/>}/>
+                <Route path="/checkout-shopping" element={<Checkout_Shopping/>}/>
             </Routes>
         </Router>
     );
