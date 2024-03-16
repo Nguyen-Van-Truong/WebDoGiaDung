@@ -7,6 +7,8 @@ import Product_details from "./user/Product-details";
 import Cart from "./user/Cart";
 import Order_History from "./user/Order-history";
 import Forget_Password from "./user/Forget-Password";
+import Change_Password from "./user/Change-Password";
+import Information_Profile from "./user/Information_Profile";
 
 
 
@@ -23,6 +25,8 @@ const App = () => {
                 <Route path="/cart" element={<Cart/>}/>
                 <Route path="/order-history" element={<Order_History/>}/>
                 <Route path="/forget-password" element={<Forget_Password/>}/>
+                <Route path="/change-password" element={<Change_Password/>}/>
+                <Route path="/account-setting" element={<Information_Profile/>}/>
             </Routes>
         </Router>
     );
