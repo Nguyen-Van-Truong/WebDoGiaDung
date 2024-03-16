@@ -4,13 +4,13 @@ import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
-import shop_cart from "../assets/images/all-img/shopping-cart-01.png";
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
-const  Cart = () => {
+
+const Order_Details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -253,15 +253,14 @@ const  Cart = () => {
         };
     }, []);
     return (
-
         <div>
-         
-            <header class="font-display">
-                <div id="header-sticky" class="">
-                    <div class="top-header bg-secondary">
-                        <div class="container px-3 md:px-5 xl:px-0">
-                            <div class="py-3.5 flex justify-center sm:justify-between">
-                                <p class="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
+
+            <header className="font-display">
+                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
+                    <div className="top-header bg-secondary">
+                        <div className="container px-3 md:px-5 xl:px-0">
+                            <div className="py-3.5 flex justify-center sm:justify-between">
+                                <p className="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
                             <span>
                                 <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.3334 4.5L6.00002 11.8333L2.66669 8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -270,18 +269,18 @@ const  Cart = () => {
                                     <span>Free shipping on all orders over $50</span>
                                 </p>
                                 <div>
-                                    <ul class="flex gap-6 items-center">
-                                        <li class="inline-flex items-center text-white-50 justify-center relative language">
-                                            <select class="custom-select" name="state">
+                                    <ul className="flex gap-6 items-center">
+                                        <li className="inline-flex items-center text-white-50 justify-center relative language">
+                                            <select className="custom-select" name="state">
                                                 <option value="AL">Eng</option>
                                                 <option value="WY">Bangla</option>
                                             </select>
                                         </li>
-                                        <li class="inline-flex items-center justify-center">
-                                            <a href="#" class="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
+                                        <li className="inline-flex items-center justify-center">
+                                            <a href="#" className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
                                         </li>
-                                        <li class="inline-flex items-center justify-center">
-                                            <a href="#" class="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
+                                        <li className="inline-flex items-center justify-center">
+                                            <a href="#" className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
                                         <span>
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g opacity="0.7" clip-path="url(#clip0_906_1673)">
@@ -304,29 +303,29 @@ const  Cart = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
-                        <div class="container px-3 md:px-5 xl:px-0">
-                            <div class="flex justify-between items-center py-5">
+                    <div className="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
+                        <div className="container px-3 md:px-5 xl:px-0">
+                            <div className="flex justify-between items-center py-5">
                                 <div>
                                     <a href="index.html">
                                         <img src="../assets/images/all-img/logo.png" alt=""/>
                                     </a>
                                 </div>
-                                <div class="lg:max-w-[413px] lg:block hidden w-full">
-                                    <div class="relative">
-                                        <input type="text" id="search" placeholder="search here..." class="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
-                                            <label for="search" class="absolute right-4 top-3">
-                                                <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M10.5833 17.4167C14.6334 17.4167 17.9167 14.1334 17.9167 10.0833C17.9167 6.03325 14.6334 2.75 10.5833 2.75C6.53325 2.75 3.25 6.03325 3.25 10.0833C3.25 14.1334 6.53325 17.4167 10.5833 17.4167Z" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M19.75 19.25L15.7625 15.2625" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </label>
+                                <div className="lg:max-w-[413px] lg:block hidden w-full">
+                                    <div className="relative">
+                                        <input type="text" id="search" placeholder="search here..." className="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
+                                        <label htmlFor="search" className="absolute right-4 top-3">
+                                            <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10.5833 17.4167C14.6334 17.4167 17.9167 14.1334 17.9167 10.0833C17.9167 6.03325 14.6334 2.75 10.5833 2.75C6.53325 2.75 3.25 6.03325 3.25 10.0833C3.25 14.1334 6.53325 17.4167 10.5833 17.4167Z" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M19.75 19.25L15.7625 15.2625" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="lg:block hidden">
-                                    <ul class="flex items-center gap-3">
-                                        <li class="relative">
-                                            <a href="#" class="inline-flex gap-2 bg-white rounded-lg p-[11px]" id="addToCart">
+                                <div className="lg:block hidden">
+                                    <ul className="flex items-center gap-3">
+                                        <li className="relative">
+                                            <a href="#" className="inline-flex gap-2 bg-white rounded-lg p-[11px]" id="addToCart">
                                         <span><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M2.52087 2.97916L4.42754 3.30916L5.31029 13.8261C5.3442 14.2399 5.5329 14.6258 5.83873 14.9066C6.14457 15.1875 6.54506 15.3427 6.96029 15.3413H16.9611C17.3587 15.3418 17.7431 15.1986 18.0436 14.9383C18.344 14.6779 18.5404 14.3178 18.5965 13.9242L19.4673 7.91266C19.4905 7.75279 19.482 7.58991 19.4422 7.43333C19.4024 7.27675 19.3322 7.12955 19.2354 7.00015C19.1387 6.87074 19.0175 6.76167 18.8786 6.67917C18.7397 6.59667 18.5859 6.54235 18.426 6.51933C18.3673 6.51291 4.73371 6.50833 4.73371 6.50833" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                 <path d="M12.948 9.89542H15.4899" stroke="#272343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -335,23 +334,23 @@ const  Cart = () => {
                                             </svg>
                                         </span>
                                                 <span>Cart</span>
-                                                <span class="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
+                                                <span className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
                                             </a>
-                                            <div class="cart-content">
-                                                <ul class="p-6">
-                                                    <li class="pb-4">
-                                                        <div class="flex items-center justify-between">
-                                                            <div class="flex items-center gap-1">
+                                            <div className="cart-content">
+                                                <ul className="p-6">
+                                                    <li className="pb-4">
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex items-center gap-1">
                                                                 <div>
                                                                     <img src="../assets/images/all-img/cart-01.png" alt=""/>
                                                                 </div>
-                                                                <div class="px-2">
-                                                                    <h2 class="text-gray-black"><span>Isolate Sofa Chair</span> <span class="text-[#636270]">x5</span></h2>
-                                                                    <p class="text-gray-black font-semibold mb-0">$150.00</p>
+                                                                <div className="px-2">
+                                                                    <h2 className="text-gray-black"><span>Isolate Sofa Chair</span> <span className="text-[#636270]">x5</span></h2>
+                                                                    <p className="text-gray-black font-semibold mb-0">$150.00</p>
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <button class="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
+                                                                <button className="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
                                                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <path d="M10 10L14 14M14 14L18 10M14 14L10 18M14 14L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                                     </svg>
@@ -359,19 +358,19 @@ const  Cart = () => {
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li class="py-4">
-                                                        <div class="flex items-center justify-between">
-                                                            <div class="flex items-center gap-1">
+                                                    <li className="py-4">
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex items-center gap-1">
                                                                 <div>
                                                                     <img src="../assets/images/all-img/cart-01.png" alt=""/>
                                                                 </div>
-                                                                <div class="px-2">
-                                                                    <h2 class="text-gray-black"><span>Isolate Sofa Chair</span> <span class="text-[#636270]">x5</span></h2>
-                                                                    <p class="text-gray-black font-semibold mb-0">$150.00</p>
+                                                                <div className="px-2">
+                                                                    <h2 className="text-gray-black"><span>Isolate Sofa Chair</span> <span className="text-[#636270]">x5</span></h2>
+                                                                    <p className="text-gray-black font-semibold mb-0">$150.00</p>
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <button class="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
+                                                                <button className="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
                                                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <path d="M10 10L14 14M14 14L18 10M14 14L10 18M14 14L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                                     </svg>
@@ -379,19 +378,19 @@ const  Cart = () => {
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <div class="flex justify-between items-center py-2 mb-4">
-                                                        <p class="text-[#636270] text-lg">2 Products</p>
-                                                        <p class="text-gray-black text-xl font-medium">$250.00</p>
+                                                    <div className="flex justify-between items-center py-2 mb-4">
+                                                        <p className="text-[#636270] text-lg">2 Products</p>
+                                                        <p className="text-gray-black text-xl font-medium">$250.00</p>
                                                     </div>
-                                                    <div class="flex justify-between items-center">
-                                                        <a href="shopping-cart.html" class="btn-transparent">View Cart</a>
-                                                        <a href="checkout-shopping.html" class="btn-primary">Checkout</a>
+                                                    <div className="flex justify-between items-center">
+                                                        <a href="shopping-cart.html" className="btn-transparent">View Cart</a>
+                                                        <a href="checkout-shopping.html" className="btn-primary">Checkout</a>
                                                     </div>
                                                 </ul>
                                             </div>
                                         </li>
-                                        <li class="inline-flex items-center justify-center">
-                                            <a href="#" class="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]">
+                                        <li className="inline-flex items-center justify-center">
+                                            <a href="#" className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]">
                                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.63262 10.6315C1.64903 7.56067 2.79762 4.05075 6.02245 3.01217C6.85867 2.74459 7.74676 2.68086 8.61262 2.82629C9.47849 2.97172 10.297 3.32208 10.9999 3.84817C12.3337 2.81692 14.2743 2.46858 15.9683 3.01217C19.1922 4.05075 20.349 7.56067 19.3664 10.6315C17.8355 15.499 10.9999 19.2482 10.9999 19.2482C10.9999 19.2482 4.21478 15.5558 2.63262 10.6315V10.6315Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
@@ -445,15 +444,15 @@ const  Cart = () => {
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
                                     <button onClick={toggleDropdown}
-                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
-        <span className="text-gray-black inline-flex">
-          {/* SVG remains unchanged */}
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
-            <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
-            <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
-          </svg>
-        </span>
+                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md custom-dropdown text-gray-black text-sm leading-4 font-medium font-display">
+                                <span className="text-gray-black inline-flex">
+                                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
+                                        <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
+                                        <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
+                                    </svg>
+                                </span>
                                         <span className="text-gray-black inline-flex">Danh mục</span>
                                     </button>
                                     {isDropdownOpen && (
@@ -468,6 +467,7 @@ const  Cart = () => {
                                             </ul>
                                         </div>
                                     )}
+
                                 </div>
 
                                 <ul className="lg:flex gap-8 items-center hidden main-menu">
@@ -475,11 +475,10 @@ const  Cart = () => {
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
                                     <li>
-                                        <Link to={"/products"}>Shop</Link>
-
+                                        <a href="products.html">Shop</a>
                                     </li>
                                     <li>
-                                        <Link to={"/product-detail"}>Sản phẩm</Link>
+                                        <a href="product-details.html">Sản phẩm</a>
                                     </li>
 
                                 </ul>
@@ -498,7 +497,7 @@ const  Cart = () => {
                         <div className="flex justify-between  items-center px-3 py-4 mb-4">
                             <div>
                                 <a href="#">
-                                    <img src="./assets/images/all-img/logo-sm.png" alt=""/>
+                                    <img src="../assets/images/all-img/logo-sm.png" alt=""/>
                                 </a>
                             </div>
                             <ul className="flex items-center gap-3">
@@ -540,34 +539,36 @@ const  Cart = () => {
                                     </a>
                                 </li>
                                 <li className="relative">
-                                    <button onClick={handClickUser}
-                                            className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px] user-profile">
+                                    <button
+                                        className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px] user-profile"
+                                        onClick={handClickUserMin}>
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                   d="M10.9862 14.0672C7.44053 14.0672 4.4137 14.6034 4.4137 16.7503C4.4137 18.8971 7.42128 19.4526 10.9862 19.4526C14.5309 19.4526 17.5587 18.9154 17.5587 16.7695C17.5587 14.6236 14.5502 14.0672 10.9862 14.0672V14.0672Z"
-                                                  stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                   d="M10.9862 11.0055C11.8195 11.0055 12.634 10.7584 13.3268 10.2955C14.0197 9.83255 14.5597 9.17457 14.8785 8.40475C15.1974 7.63492 15.2808 6.78783 15.1183 5.97058C14.9557 5.15334 14.5545 4.40266 13.9653 3.81346C13.3761 3.22426 12.6254 2.82301 11.8081 2.66045C10.9909 2.49789 10.1438 2.58132 9.37397 2.9002C8.60415 3.21907 7.94617 3.75906 7.48324 4.45188C7.02031 5.14471 6.77322 5.95925 6.77322 6.7925C6.76932 7.90581 7.20779 8.97508 7.99218 9.76515C8.77657 10.5552 9.84266 11.0014 10.956 11.0055H10.9862Z"
-                                                  stroke="currentColor" stroke-width="1.429"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                                  stroke="currentColor" stroke-width="1.429" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
                                         </svg>
                                     </button>
-                                    {isUserOpen && (
-                                        <div className="profile-content">
-                                            <ul className="py-3"
-                                                style={{display: isUserOpen ? 'block' : 'none'}}>
-                                                <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
-                                                    <li>
-                                                        <Link to="/login">Đăng nhập</Link>
-                                                    </li>
+                                    <div className="profile-content">
 
-                                                </div>
+                                        {(isUserMin &&
+                                            <ul style={{display: isUserMin ? 'block' : 'none'}}>
+                                                <li>
+                                                    <Link to="/login">Đăng nhập</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/register"}>Đăng kí</Link>
+                                                </li>
 
                                             </ul>
-                                        </div>
-                                    )}
+                                        )}
+
+                                    </div>
                                 </li>
                                 <li>
                         <span
@@ -620,7 +621,7 @@ const  Cart = () => {
 
                     <div id="panels">
                         {(isMenu &&
-                            <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content py-5'}>
+                            <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
                                 <ul className="flex flex-col items-center">
                                     <li className="w-full block">
                                         <a href="" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
@@ -663,201 +664,157 @@ const  Cart = () => {
                 <div className={menuOpen ? 'overlay open' : 'overlay'} id="overlay"></div>
             </header>
 
-
-           
-            <div class="pt_b"   style={{backgroundColor: "var(--bg-breadcum)"}}>
-                <div class="container px-3 md:px-5 xl:px-0">
-                    <div class="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Home</a>
+            <div className="pt_b" tyle={{backgroundColor: "var(--bg-breadcum)"}}>
+                <div className="container px-3 md:px-5 xl:px-0">
+                    <div className="flex items-center gap-1 py-[1.5px]">
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
+                                  stroke-linejoin="round" />
                         </svg>
 
-                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Shop</span>
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                        </svg>
+
+                        <span className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Đăng kí</span>
                     </div>
 
-
+                    <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Đăng kí</h2>
                 </div>
             </div>
-          
 
-            <section   style={{backgroundColor: "var(--bg-breadcum)"}}>
-                <div class="container px-3 md:px-5 xl:px-0">
-
-                    <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap items-start gap-6">
-
-                        <div class="shopping-cart lg:w-2/3 w-full">
-                            <div class="px-6 py-6 overflow-x-auto">
-
-                                <table class="w-[824px] leading-normal">
-                                    <thead>
-                                    <tr>
-                                        <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[240px]">
-                                            Sản phẩm
-                                        </th>
-                                        <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[104px]">
-                                            Giá
-                                        </th>
-                                        <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[164px]">
-                                            Số lượng
-                                        </th>
-                                        <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[96px]">
-                                            Tổng tiền
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="cart-item">
-                                        <td class="py-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
-                                                </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input select-none" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart-item">
-                                        <td class="pb-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
-                                                </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart-item">
-                                        <td class="pb-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
-                                                </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <hr class="my-0"/>
-                                <div class="coupon-wrap p-6">
-                                    <input type="text" name="" id="" class="px-5 py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
-                                        <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
-                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
-                                </div>
-
-
-                        </div>
-
-
-
-                        <div class="cart-total p-8 lg:w-1/3 w-full">
-                            <div class="subtotal-info">
-                                <div class="flex justify-between items-center">
-                                    <p class="common-hedding">Tổng tiền</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">$1,435.00</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Mã giảm giá</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">26%</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Phí vận chuyển </p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">Free</p>
-                                </div>
-                                <hr/>
-                                    <div class="flex justify-between items-center">
-                                        <p class="common-hedding">Tổng:</p>
-                                        <p class="text-gray-black text-[22px] leading-[120%] font-display font-semibold">$1026.23</p>
+            <div style={{backgroundColor: "var(--bg-breadcum)"}}>
+                <div className="container py-20" >
+                    <div className="sign_in">
+                        <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng kí</h2>
+                        <div className="form">
+                            <form action="" className="">
+                                <div className="xl:flex flex-wrap justify-between items-center mb-4">
+                                    <div className="xl:w-[284px] w-full">
+                                        <input type="text" placeholder="First Name"
+                                               className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                     </div>
-                                    <button class="mt-6 bg-accents hover:bg-[#272343] transition-all duration-300 py-[19px] rounded-lg text-[18px] font-bold font-display leading-[110%] text-gray-white text-center w-full">Thanh toán</button>
+                                    <div className="xl:w-[284px] w-full">
+                                        <input type="text" placeholder="Last Name"
+                                               className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <input type="text" placeholder="Email"
+                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                </div>
+                                <div className="relative">
+                                    <input type={showPassword ? "text" : "password"} id="myInput" placeholder="Password"
+                                           className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                           name="password"/>
+                                    <span className="absolute top-[17px] right-5 cursor-pointer ">
 
-                            </div>
+                            <svg id="create-icon-show" onClick={togglePasswordVisibility} width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 4.24902C4.5 4.24902 1.5 11.9999 1.5 11.9999C1.5 11.9999 4.5 19.749 12 19.749C19.5 19.749 22.5 11.9999 22.5 11.9999C22.5 11.9999 19.5 4.24902 12 4.24902V4.24902Z"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12 15.75C12.9946 15.75 13.9484 15.3549 14.6517 14.6517C15.3549 13.9484 15.75 12.9946 15.75 12C15.75 11.0054 15.3549 10.0516 14.6517 9.34835C13.9484 8.64509 12.9946 8.25 12 8.25C11.0054 8.25 10.0516 8.64509 9.34835 9.34835C8.64509 10.0516 8.25 11.0054 8.25 12C8.25 12.9946 8.64509 13.9484 9.34835 14.6517C10.0516 15.3549 11.0054 15.75 12 15.75V15.75Z"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <svg className="mt-[10px]" id="create-icon-hide" onClick="CreatePasswordIcon()" width="20"
+                                 height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.858 2.93481L18.9963 6.63906" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12.4547 4.99353L13.1215 8.77578" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M7.53701 4.99133L6.86951 8.77433" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M3.13825 2.9325L0.989502 6.6525" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M1 0.83252C2.575 2.78252 5.4655 5.25002 10 5.25002C14.5345 5.25002 17.4235 2.78252 19 0.83252"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                                </div>
+                                <div className="relative">
+                                    <input type={isConfirmPassWord ? "text" : "password"} placeholder="Confirm Password"
+                                           className="form_password focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                           id="myInput" name="password"/>
+                                    <span className="absolute top-[17px] right-5 cursor-pointer ">
+                            <svg id="icon-show" onClick={toggleConfirmPasswordVisibility} width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 4.24902C4.5 4.24902 1.5 11.9999 1.5 11.9999C1.5 11.9999 4.5 19.749 12 19.749C19.5 19.749 22.5 11.9999 22.5 11.9999C22.5 11.9999 19.5 4.24902 12 4.24902V4.24902Z"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12 15.75C12.9946 15.75 13.9484 15.3549 14.6517 14.6517C15.3549 13.9484 15.75 12.9946 15.75 12C15.75 11.0054 15.3549 10.0516 14.6517 9.34835C13.9484 8.64509 12.9946 8.25 12 8.25C11.0054 8.25 10.0516 8.64509 9.34835 9.34835C8.64509 10.0516 8.25 11.0054 8.25 12C8.25 12.9946 8.64509 13.9484 9.34835 14.6517C10.0516 15.3549 11.0054 15.75 12 15.75V15.75Z"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <svg className="mt-[10px]" id="icon-hide" onClick="PasswordIcon()" width="20" height="10"
+                                 viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.858 2.93481L18.9963 6.63906" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12.4547 4.99353L13.1215 8.77578" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M7.53701 4.99133L6.86951 8.77433" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M3.13825 2.9325L0.989502 6.6525" stroke="#272343" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M1 0.83252C2.575 2.78252 5.4655 5.25002 10 5.25002C14.5345 5.25002 17.4235 2.78252 19 0.83252"
+                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="cursor-pointer">
+                                        <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent"
+                                               className="cursor-pointer" type="checkbox" value="yes"/>
+                                        <label htmlFor="wp-comment-cookies-consent">Chấp nhận tất cả các điều khoản và điều kiện</label>
+                                    </div>
+                                </div>
+                                <button className="form_btn w-full">
+                                    Đăng kí
+                                    <span>
+                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 7.5L20.5 12M20.5 12L16 16.5M20.5 12H4.5" stroke="white" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                                </button>
+                            </form>
+                            <div className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">
+                                Đã có tài khoản?  <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/login"}>Đăng nhập</Link></div>
                         </div>
-
                     </div>
                 </div>
-            </section>
+            </div>
 
-           
+            //footer
             <footer>
-                <div class="footer-top xl:pt-20 xl:pb-[60px] py-6 sm:py-8 md:py-12 shadow-[inset_0px_1px_0px_#E1E3E6]">
-                    <div class="container px-3 md:px-5 xl:px-0">
-                        <div class=" flex flex-wrap gap-y-6 justify-between">
-                            <div class="footer-widget max-w-[350px]">
-                                <div class="lg:mb-6 mb-4">
+                <div className="footer-top xl:pt-20 xl:pb-[60px] py-6 sm:py-8 md:py-12 shadow-[inset_0px_1px_0px_#E1E3E6]">
+                    <div className="container px-3 md:px-5 xl:px-0">
+                        <div className=" flex flex-wrap gap-y-6 justify-between">
+                            <div className="footer-widget max-w-[350px]">
+                                <div className="lg:mb-6 mb-4">
                                     <a href="#">
                                         <img src="../assets/images/all-img/logo.png" alt=""/>
                                     </a>
                                 </div>
-                                <p class="lg:mb-6 mb-4 text-[#272343] text-base">Vivamus tristique odio sit amet velit semper, eu posuere turpis interdum. Cras egestas purus </p>
-                                <ul class="flex gap-1">
+                                <p className="lg:mb-6 mb-4 text-[#272343] text-base">Vivamus tristique odio sit amet velit semper, eu posuere turpis interdum. Cras egestas purus </p>
+                                <ul className="flex gap-1">
                                     <li>
-                                        <a href="#" class="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
+                                        <a href="#" className="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_1101_2875)">
                                                     <path d="M16 8C16 3.58167 12.4183 0 8 0C3.58167 0 0 3.58167 0 8C0 11.993 2.92533 15.3027 6.75 15.9027V10.3127H4.71867V8H6.75V6.23733C6.75 4.23267 7.94433 3.125 9.77167 3.125C10.6467 3.125 11.5623 3.28133 11.5623 3.28133V5.25H10.5537C9.56 5.25 9.25 5.86667 9.25 6.5V8H11.4687L11.114 10.3127H9.25V15.9027C13.0747 15.3027 16 11.9927 16 8Z" fill="currentColor" />
@@ -871,7 +828,7 @@ const  Cart = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
+                                        <a href="#" className="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_1101_2879)">
                                                     <path d="M5.03333 14.5001C11.07 14.5001 14.3723 9.49813 14.3723 5.16146C14.3723 5.0208 14.369 4.87713 14.3627 4.73646C15.0052 4.27179 15.5596 3.69621 16 3.0368C15.4017 3.3028 14.7667 3.4768 14.116 3.55213C14.8008 3.14166 15.3136 2.49681 15.5593 1.73713C14.915 2.11902 14.2104 2.38843 13.4757 2.5338C12.9807 2.00757 12.3261 1.65911 11.6132 1.54228C10.9002 1.42546 10.1687 1.54679 9.53161 1.88752C8.89456 2.22824 8.38752 2.76937 8.08891 3.42721C7.79031 4.08506 7.71677 4.82296 7.87967 5.5268C6.575 5.46133 5.29865 5.12242 4.13336 4.53206C2.96806 3.94169 1.93984 3.11303 1.11533 2.0998C0.696305 2.82229 0.568091 3.67723 0.756747 4.49086C0.945403 5.30449 1.43677 6.01576 2.131 6.48013C1.60977 6.46361 1.09995 6.3233 0.643667 6.0708V6.11146C0.643231 6.86962 0.905349 7.60455 1.38547 8.19131C1.86559 8.77808 2.53409 9.18048 3.27733 9.33013C2.79463 9.46221 2.28801 9.48149 1.79667 9.38646C2.00644 10.0385 2.41454 10.6087 2.964 11.0176C3.51346 11.4266 4.17688 11.6537 4.86167 11.6675C4.18054 12.2026 3.40049 12.5981 2.56623 12.8313C1.73197 13.0644 0.859899 13.1306 0 13.0261C1.50191 13.9895 3.24899 14.5012 5.03333 14.5001Z" fill="currentColor" />
@@ -885,7 +842,7 @@ const  Cart = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
+                                        <a href="#" className="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M10.6667 4.66667C10.6667 4.48986 10.7369 4.32029 10.8619 4.19526C10.9869 4.07024 11.1565 4 11.3333 4C11.5101 4 11.6797 4.07024 11.8047 4.19526C11.9298 4.32029 12 4.48986 12 4.66667C12 4.84348 11.9298 5.01305 11.8047 5.13807C11.6797 5.2631 11.5101 5.33333 11.3333 5.33333C11.1565 5.33333 10.9869 5.2631 10.8619 5.13807C10.7369 5.01305 10.6667 4.84348 10.6667 4.66667Z" fill="currentColor" />
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99998 4.83301C7.16013 4.83301 6.35467 5.16664 5.76081 5.7605C5.16694 6.35437 4.83331 7.15982 4.83331 7.99967C4.83331 8.83953 5.16694 9.64498 5.76081 10.2388C6.35467 10.8327 7.16013 11.1663 7.99998 11.1663C8.83983 11.1663 9.64529 10.8327 10.2392 10.2388C10.833 9.64498 11.1666 8.83953 11.1666 7.99967C11.1666 7.15982 10.833 6.35437 10.2392 5.7605C9.64529 5.16664 8.83983 4.83301 7.99998 4.83301ZM5.83331 7.99967C5.83331 7.42504 6.06159 6.87394 6.46792 6.46761C6.87424 6.06128 7.42534 5.83301 7.99998 5.83301C8.57462 5.83301 9.12572 6.06128 9.53204 6.46761C9.93837 6.87394 10.1666 7.42504 10.1666 7.99967C10.1666 8.57431 9.93837 9.12541 9.53204 9.53174C9.12572 9.93807 8.57462 10.1663 7.99998 10.1663C7.42534 10.1663 6.87424 9.93807 6.46792 9.53174C6.06159 9.12541 5.83331 8.57431 5.83331 7.99967Z" fill="currentColor" />
@@ -894,7 +851,7 @@ const  Cart = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
+                                        <a href="#" className="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_1101_2893)">
                                                     <path d="M8 0C3.58133 0 0 3.58133 0 8C0 11.3907 2.10933 14.2843 5.08433 15.45C5.01567 14.8157 4.95 13.8467 5.11267 13.1563C5.25933 12.5313 6.05 9.18133 6.05 9.18133C6.05 9.18133 5.80933 8.703 5.80933 7.99367C5.80933 6.88133 6.453 6.05 7.256 6.05C7.93733 6.05 8.26867 6.56267 8.26867 7.178C8.26867 7.86566 7.83133 8.89066 7.60633 9.84066C7.41867 10.6373 8.00633 11.2873 8.79067 11.2873C10.2123 11.2873 11.3063 9.78733 11.3063 7.625C11.3063 5.70933 9.93133 4.36867 7.96567 4.36867C5.69067 4.36867 4.353 6.075 4.353 7.84066C4.353 8.528 4.61867 9.26566 4.95 9.66566C5.01567 9.74366 5.025 9.81566 5.00633 9.89366C4.947 10.147 4.80967 10.6903 4.78433 10.8C4.75 10.9467 4.66867 10.978 4.51567 10.9063C3.51567 10.4407 2.89067 8.98133 2.89067 7.80633C2.89067 5.28133 4.725 2.96567 8.175 2.96567C10.95 2.96567 13.1063 4.94367 13.1063 7.58733C13.1063 10.344 11.3687 12.5623 8.95633 12.5623C8.147 12.5623 7.38433 12.1407 7.122 11.6437C7.122 11.6437 6.722 13.172 6.625 13.547C6.44367 14.2403 5.95633 15.1127 5.63133 15.6437C6.3986 15.8804 7.19706 16.0005 8 16C12.4187 16 16 12.4187 16 8C16 3.58133 12.4187 0 8 0Z" fill="currentColor" />
@@ -908,7 +865,7 @@ const  Cart = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
+                                        <a href="#" className="text-[#636270] p-[11px] rounded-full border border-transparent hover:text-[#007580] hover:border-[#007580] transition-all duration-500">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M15.8407 4.80007C15.8407 4.80007 15.6843 3.69674 15.203 3.21274C14.5937 2.57507 13.9123 2.57207 13.6 2.5344C11.3627 2.37207 8.00333 2.37207 8.00333 2.37207H7.99667C7.99667 2.37207 4.63767 2.37207 2.4 2.5344C2.08733 2.57207 1.40633 2.57507 0.796667 3.21274C0.316 3.69674 0.162667 4.80007 0.162667 4.80007C0.162667 4.80007 0 6.09674 0 7.39074V8.60307C0 9.89707 0.159333 11.1937 0.159333 11.1937C0.159333 11.1937 0.315667 12.2971 0.793667 12.7814C1.403 13.4187 2.203 13.3971 2.55933 13.4657C3.84067 13.5877 8 13.6251 8 13.6251C8 13.6251 11.3623 13.6187 13.6 13.4594C13.9127 13.4221 14.5937 13.4187 15.2033 12.7814C15.6843 12.2971 15.8407 11.1937 15.8407 11.1937C15.8407 11.1937 16 9.9004 16 8.6034V7.39107C16 6.0974 15.8407 4.8004 15.8407 4.8004V4.80007ZM6.34667 10.0751V5.5784L10.6683 7.8344L6.34667 10.0751Z" fill="currentColor" />
                                             </svg>
@@ -917,32 +874,32 @@ const  Cart = () => {
                                 </ul>
                             </div>
 
-                            <div class="footer-widget">
-                                <h2 class="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Category</h2>
-                                <ul class="flex flex-col gap-3">
+                            <div className="footer-widget">
+                                <h2 className="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Category</h2>
+                                <ul className="flex flex-col gap-3">
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1 ease-in-out">Sofa</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1 ease-in-out">Sofa</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Armchair</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Armchair</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Wing Chair</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Wing Chair</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Desk Chair</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Desk Chair</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">wooden Chair</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">wooden Chair</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Park Bench</a>
+                                        <a href="#" className="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Park Bench</a>
                                     </li>
                                 </ul>
                             </div>
 
-                            <div class="footer-widget">
-                                <h2 class="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Support</h2>
+                            <div className="footer-widget">
+                                <h2 className="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Support</h2>
                                 <ul class="flex flex-col gap-3">
                                     <li>
                                         <a href="#" class="footer-link text-[#272343] text-base leading-[110%] hover:text-[#007580] transition-all duration-500 inline-block pb-1">Help & Support</a>
@@ -964,7 +921,7 @@ const  Cart = () => {
                                 <h2 class="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Newsletter</h2>
                                 <form action="" class="flex flex-wrap xl:flex-nowrap gap-3">
                                     <input type="text" name="" id="" class="bg-[#FFFFFF] block max-w-[285px] w-full px-5 py-[15px] rounded-lg focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out border border-[#E1E3E6]" placeholder="Your email"/>
-                                        <button type="submit" class="btn-primary">Subscribe</button>
+                                    <button type="submit" class="btn-primary">Subscribe</button>
                                 </form>
                                 <p class="py-3 text-[#272343] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt erat enim.</p>
                             </div>
@@ -983,9 +940,8 @@ const  Cart = () => {
                     </div>
                 </div>
             </footer>
-            
-        </div>
 
+        </div>
     );
 }
-export default Cart ;
+export default Order_Details;
