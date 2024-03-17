@@ -585,7 +585,6 @@ const  Cart = () => {
                             </ul>
                         </div>
                     )}
-
                     <div className="px-3 mb-4">
                         <div className="lg:max-w-[413px] w-full">
                             <div className="relative">
@@ -604,7 +603,6 @@ const  Cart = () => {
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <nav className="tabs flex flex-row">
                             <button data-target="panel-1" onClick={handClickMenu}
@@ -617,7 +615,6 @@ const  Cart = () => {
                             </button>
                         </nav>
                     </div>
-
                     <div id="panels">
                         {(isMenu &&
                             <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content py-5'}>
@@ -659,12 +656,8 @@ const  Cart = () => {
                         )}
                     </div>
                 </div>
-
                 <div className={menuOpen ? 'overlay open' : 'overlay'} id="overlay"></div>
             </header>
-
-
-           
             <div class="pt_b"   style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container px-3 md:px-5 xl:px-0">
                     <div class="flex items-center gap-1 py-[1.5px]">
@@ -673,15 +666,10 @@ const  Cart = () => {
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-
                         <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Shop</span>
                     </div>
-
-
                 </div>
             </div>
-          
-
             <section   style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container px-3 md:px-5 xl:px-0">
 
@@ -759,7 +747,6 @@ const  Cart = () => {
                                             <p class="mb-0">$250.00</p>
                                         </td>
                                         <td class="pb-6 text-sm">
-
                                             <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
                                                 <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
                                                 <input type="text" class="text-[#272343] text-base plus_mines_input" value="01"/>
@@ -809,12 +796,7 @@ const  Cart = () => {
                                         <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
                                         <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
                                 </div>
-
-
                         </div>
-
-
-
                         <div class="cart-total p-8 lg:w-1/3 w-full">
                             <div class="subtotal-info">
                                 <div class="flex justify-between items-center">
@@ -842,8 +824,6 @@ const  Cart = () => {
                     </div>
                 </div>
             </section>
-
-           
             <footer>
                 <div class="footer-top xl:pt-20 xl:pb-[60px] py-6 sm:py-8 md:py-12 shadow-[inset_0px_1px_0px_#E1E3E6]">
                     <div class="container px-3 md:px-5 xl:px-0">
@@ -985,7 +965,6 @@ const  Cart = () => {
             </footer>
             
         </div>
-
     );
 }
 export default Cart ;
