@@ -2,7 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
-import '../css/styles.css'
+import  '../css/styles.css'
+
 import '../css/responsive.css'
 import img_2 from '../assets/images/all-img/2.jpg'
 import product1 from '../assets/images/all-img/f-product-01.png';
@@ -578,7 +579,7 @@ const Home = () => {
                                     )}
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu ulOverride ">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
@@ -593,7 +594,7 @@ const Home = () => {
                                 </ul>
                             </div>
                             <div>
-                                <p className="text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
+                                <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
                                     className="text-secondary font-medium">(808) 555-0111</span></p>
                             </div>

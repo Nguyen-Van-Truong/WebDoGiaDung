@@ -70,6 +70,9 @@
   text-transform: capitalize;
   padding-bottom: 24px;
 }
+.mr-10{
+    margin-right: 10px;
+}
 
 
 .field-icon {
@@ -78,6 +81,10 @@
   margin-top: -25px;
   position: relative;
   z-index: 2;
+}
+.ulOverride {
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
 }
 
 .form {

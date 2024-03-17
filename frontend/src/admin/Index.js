@@ -1,16 +1,27 @@
 import React, {useState, useEffect, useRef} from 'react';
-
+import $ from 'jquery';
+import 'datatables.net-responsive';
 import './assets/css/ebazar.style.min.css';
 import './assets/plugin/datatables/responsive.dataTables.min.css';
 import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
-
+import './assets/css/main.css'
 import Sidebar from "./component/Index/Sidebar";
 import DashboardSummary from "./component/Index/DashboardSummary";
 import MyDataTable from "./component/Index/MyDataTable";
+import './assets/css/ebazar.style.min.css'
 import Pagination from "./component/Index/Pagination";
 
 const Index = () => {
-
+    useEffect(() => {
+        $('#myDataTable')
+            .addClass('nowrap')
+            .DataTable({
+                responsive: true,
+                columnDefs: [
+                    { targets: [-1, -3], className: 'dt-body-right' }
+                ]
+            });
+    }, []);
     return (
         <div>
             <>
@@ -434,13 +445,12 @@ const Index = () => {
                                         </div>
 
                                         <div className="card-body">
-                                        <MyDataTable />
 
-                                            <table
-                                                id="myDataTable"
-                                                className="table table-hover align-middle mb-0"
-                                                style={{width: "100%"}}
-                                            >
+                                         <MyDataTable />
+
+
+                                            <table className="table table-hover align-middle mb-0"
+                                                style={{width: "100%"}}>
                                                 <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -588,7 +598,9 @@ const Index = () => {
                                                 </tbody>
                                             </table>
 
-                                            <Pagination />
+                                            <Pagination/>
+
+
 
                                         </div>
 
