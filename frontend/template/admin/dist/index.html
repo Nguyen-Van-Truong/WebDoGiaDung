@@ -8,8 +8,10 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 
     <!-- plugin css file  -->
-    <link rel="stylesheet" href="assets/plugin/datatables/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../assets/plugin/datatables/jquery.dataTables.min.js">
+    <link rel="stylesheet" href="./assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="./assets/plugin/datatables/responsive.dataTables.min.css">
+
 
     <!-- project css file  -->
     <link rel="stylesheet" href="assets/css/ebazar.style.min.css">
@@ -220,7 +222,7 @@
                                                     <small class="">Johnquinn@gmail.com</small>
                                                 </div>
                                             </div>
-                                            
+
                                             <div><hr class="dropdown-divider border-dark"></div>
                                         </div>
                                         <div class="list-group m-2 ">
@@ -235,12 +237,12 @@
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#Settingmodal"><i class="icofont-gear-alt fs-5"></i></a>
                             </div>
                         </div>
-        
+
                         <!-- menu toggler -->
                         <button class="navbar-toggler p-0 border-0 menu-toggle order-3" type="button" data-bs-toggle="collapse" data-bs-target="#mainHeader">
                             <span class="fa fa-bars"></span>
                         </button>
-        
+
                         <!-- main menu Search-->
                         <div class="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
                             <div class="input-group flex-nowrap input-group-lg">
@@ -248,7 +250,7 @@
                                 <button type="button" class="input-group-text" id="addon-wrapping"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
-        
+
                     </div>
                 </nav>
             </div>
@@ -371,14 +373,14 @@
                     </div><!-- Row end  -->
 
 
-                    <div class="row g-3 mb-3"> 
+                    <div class="row g-3 mb-3">
                         <div class="col-md-12">
-                            <div class="card"> 
+                            <div class="card">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
                                     <h6 class="m-0 fw-bold">Giao dịch gần đây</h6>
                                 </div>
-                                <div class="card-body"> 
-                                    <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">  
+                                <div class="card-body">
+                                    <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
@@ -466,10 +468,10 @@
                             </div>
                         </div>
                     </div><!-- Row end  -->
-                    
+
                 </div>
             </div>
-        
+
             <!-- Modal Custom Settings-->
             <div class="modal fade right" id="Settingmodal" tabindex="-1"  aria-hidden="true">
                 <div class="modal-dialog  modal-sm">
@@ -608,10 +610,10 @@
                         </div>
                     </div>
                 </div>
-            </div> 
-            
+            </div>
+
         </div>
-    
+
     </div>
 
     <!-- Jquery Core Js -->
@@ -619,12 +621,12 @@
 
     <!-- Plugin Js -->
     <script src="assets/bundles/apexcharts.bundle.js"></script>
-    <script src="assets/bundles/dataTables.bundle.js"></script>  
+    <script src="assets/bundles/dataTables.bundle.js"></script>
 
     <!-- Jquery Page Js -->
     <script src="../js/template.js"></script>
     <script src="../js/page/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1Jr7axGGkwvHRnNfoOzoVRFV3yOPHJEU&callback=myMap"></script>  
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1Jr7axGGkwvHRnNfoOzoVRFV3yOPHJEU&callback=myMap"></script>
     <script>
         $('#myDataTable')
         .addClass( 'nowrap')
@@ -636,4 +638,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

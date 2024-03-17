@@ -11,6 +11,7 @@ import '../css/styles.css'
 import '../css/responsive.css'
 import product from '../assets/images/all-img/product1.png'
 
+
 const Checkout_Shopping = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
