@@ -9,6 +9,7 @@ import Sidebar from "./component/Index/Sidebar";
 import DashboardSummary from "./component/Index/DashboardSummary";
 import MyDataTable from "./component/Index/MyDataTable";
 import './assets/css/ebazar.style.min.css'
+import Pagination from "./component/Index/Pagination";
 
 const Index = () => {
     useEffect(() => {
@@ -597,29 +598,7 @@ const Index = () => {
                                                 </tbody>
                                             </table>
 
-                                            <div className="row">
-                                                <div className="col-sm-12 col-md-7">
-                                                    <div className="dataTables_paginate paging_simple_numbers" id="myDataTable_paginate">
-                                                        <ul className="pagination">
-                                                            <li className="paginate_button page-item previous disabled" id="myDataTable_previous">
-                                                                <a href="#" aria-controls="myDataTable" data-dt-idx="0" tabIndex="0" className="page-link">Trang trước</a>
-                                                            </li>
-                                                            <li class="paginate_button page-item active">
-                                                                <a href="#" aria-controls="myDataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                                            </li>
-                                                            <li className="paginate_button page-item active">
-                                                                <a href="#" aria-controls="myDataTable" data-dt-idx="1" tabIndex="0" className="page-link">2</a>
-                                                            </li><li className="paginate_button page-item active">
-                                                            <a href="#" aria-controls="myDataTable" data-dt-idx="1" tabIndex="0" className="page-link">3</a>
-                                                        </li>
-
-                                                            <li class="paginate_button page-item next disabled" id="myDataTable_next">
-                                                                <a href="#" aria-controls="myDataTable" data-dt-idx="2" tabindex="0" class="page-link">Trang sau</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <Pagination/>
 
 
 

@@ -1,25 +1,33 @@
 import React from 'react';
+import ReactPaginate from "react-paginate";
 
-const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
-    const pageNumbers = [];
+function Pagination() {
 
-    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-        pageNumbers.push(i);
+    const  handlePageClick =()=>{
+
     }
-
     return (
-        <nav>
-            <ul className='pagination'>
-                {pageNumbers.map(number => (
-                    <li key={number} className='page-item'>
-                        <a onClick={() => paginate(number)} href='!#' className='page-link'>
-                            {number}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
+        <ReactPaginate
+            nextLabel="Trang sau>"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={14}
+            previousLabel="< Trang trước"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+        />
     );
 };
 
-export default Pagination;
+export default Pagination ;
