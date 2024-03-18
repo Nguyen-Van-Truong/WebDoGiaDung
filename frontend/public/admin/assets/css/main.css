@@ -1,0 +1,10 @@
+ul.pagination {
+    margin: 15px 0;
+
+}
+.page-item.active .page-link {
+    background-color: whitesmoke;
+    border-color: #F0F0F0;
+    color: #0e0e0e;
+}
+

@@ -12,6 +12,7 @@
     "datatables.net-responsive-dt": "^3.0.0",
     "jquery": "^3.7.1",
     "mixitup": "^3.3.1",
+    "nouislider": "^15.7.1",
     "react": "^18.2.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
@@ -24,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "esbuild src/index.js --bundle --outfile=Bundle.js --loader:.js=jsx --format=cjs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -2,18 +2,28 @@ import React from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
 
+import './assets/css/ebazar.style.min.css';
+import './assets/plugin/multi-select/css/multi-select.css';
+import './assets/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css';
+import './assets/plugin/cropper/cropper.min.css';
+import './assets/plugin/dropify/dist/css/dropify.min.css';
+import './assets/plugin/datatables/responsive.dataTables.min.css';
+import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
+
+import product1 from './assets/images/product/product-1.jpg'
+
 const ProductEdit = () => {
     // Logic của component ở đây
 
     return (
         <div id="ebazar-layout" className="theme-blue">
             {/* sidebar */}
-            <Sidebar />
+            <Sidebar/>
 
             {/* main body area */}
             <div className="main px-lg-4 px-md-4">
                 {/* Body: Header */}
-                <Header />
+                <Header/>
                 {/* Body: Body */}
                 <div className="body d-flex py-3">
                     <div className="container-xxl">
@@ -333,7 +343,7 @@ const ProductEdit = () => {
                                                     <input type="file" id="input-file-to-destroy" className="dropify"
                                                            data-allowed-formats="portrait square"
                                                            data-max-file-size="2M" data-max-height={2000}
-                                                           data-default-file="./assets/images/product/product-1.jpg"/>
+                                                           data-default-file="./admin/assets/images/product/product-1.jpg"/>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <label className="form-label w-100">Select Product Color</label>
@@ -513,7 +523,7 @@ const ProductEdit = () => {
                                         <div className="row g-3 mb-3">
                                             <div className="col-xxl-12 col-xl-12 col-lg-12">
                                                 <div className="img-container">
-                                                    <img id="image" src="./assets/images/product/product-1.jpg"
+                                                    <img id="image" src={product1}
                                                          className="img-responsive" alt="Picture"/>
                                                 </div>
                                             </div>
