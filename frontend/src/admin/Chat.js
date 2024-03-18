@@ -1,4 +1,5 @@
 import React from 'react';
+import Sidebar from "./component/Sidebar";
 
 const Chat = () => {
     // Logic của component ở đây
@@ -6,76 +7,7 @@ const Chat = () => {
     return (
         <div id="ebazar-layout" className="theme-blue">
             {/* sidebar */}
-            <div className="sidebar px-4 py-4 py-md-4 me-0">
-                <div className="d-flex flex-column h-100">
-                    <a href="index.html" className="mb-0 brand-icon">
-              <span className="logo-icon">
-                <i className="bi bi-bag-check-fill fs-4"/>
-              </span>
-                        <span className="logo-text">eTTShop</span>
-                    </a>
-                    {/* Menu: main ul */}
-                    <ul className="menu-list flex-grow-1 mt-3">
-                        <li><a className="m-link" href="index.html"><i className="icofont-home fs-5"/> <span>Bảng điều khiển</span></a>
-                        </li>
-                        <li className="collapsed">
-                            <a className="m-link" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
-                                <i className="icofont-truck-loaded fs-5"/> <span>Sản phẩm</span> <span
-                                className="arrow icofont-rounded-down ms-auto text-end fs-5"/></a>
-                            {/* Menu: Sub menu ul */}
-                            <ul className="sub-menu collapse" id="menu-product">
-                                <li><a className="ms-link" href="product-list.html">Danh sách sản phẩm</a></li>
-                                <li><a className="ms-link" href="product-edit.html">Chỉnh sửa sản phẩm</a></li>
-                                <li><a className="ms-link" href="product-add.html">Thêm sản phẩm</a></li>
-                            </ul>
-                        </li>
-                        <li className="collapsed">
-                            <a className="m-link" data-bs-toggle="collapse" data-bs-target="#menu-order" href="#">
-                                <i className="icofont-notepad fs-5"/> <span>Đơn hàng</span> <span
-                                className="arrow icofont-rounded-down ms-auto text-end fs-5"/></a>
-                            {/* Menu: Sub menu ul */}
-                            <ul className="sub-menu collapse" id="menu-order">
-                                <li><a className="ms-link" href="order-list.html">Danh sách đơn hàng</a></li>
-                                <li><a className="ms-link" href="order-details.html">Chi tiết đơn hàng</a></li>
-                                <li><a className="ms-link" href="order-invoices.html">Hoá đơn đặt hàng</a></li>
-                            </ul>
-                        </li>
-                        <li className="collapsed">
-                            <a className="m-link" data-bs-toggle="collapse" data-bs-target="#customers-info" href="#">
-                                <i className="icofont-funky-man fs-5"/> <span>Khách hàng</span> <span
-                                className="arrow icofont-rounded-down ms-auto text-end fs-5"/></a>
-                            {/* Menu: Sub menu ul */}
-                            <ul className="sub-menu collapse" id="customers-info">
-                                <li><a className="ms-link" href="customers.html">Danh sách khách hàng</a></li>
-                                <li><a className="ms-link" href="customer-detail.html">Chi tiết khách hàng</a></li>
-                            </ul>
-                        </li>
-                        <li className="collapsed">
-                            <a className="m-link" data-bs-toggle="collapse" data-bs-target="#menu-sale" href="#">
-                                <i className="icofont-sale-discount fs-5"/> <span>Khuyến mãi </span> <span
-                                className="arrow icofont-rounded-down ms-auto text-end fs-5"/></a>
-                            {/* Menu: Sub menu ul */}
-                            <ul className="sub-menu collapse" id="menu-sale">
-                                <li><a className="ms-link" href="coupons-list.html">Danh sách mã giảm giá</a></li>
-                                <li><a className="ms-link" href="coupon-add.html">Thêm mã sản phẩm</a></li>
-                            </ul>
-                        </li>
-                        <li className="collapsed">
-                            <a className="m-link" data-bs-toggle="collapse" data-bs-target="#app" href="#">
-                                <i className="icofont-code-alt fs-5"/> <span>App</span> <span
-                                className="arrow icofont-rounded-down ms-auto text-end fs-5"/></a>
-                            {/* Menu: Sub menu ul */}
-                            <ul className="sub-menu collapse" id="app">
-                                <li><a className="ms-link" href="chat.html"> Chat App</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    {/* Menu: menu collepce btn */}
-                    <button type="button" className="btn btn-link sidebar-mini-btn text-light">
-                        <span className="ms-2"><i className="icofont-bubble-right"/></span>
-                    </button>
-                </div>
-            </div>
+            <Sidebar />
             {/* main body area */}
             <div className="main">
                 {/* Body: Body */}
