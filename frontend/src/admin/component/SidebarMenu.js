@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import '../../assets/css/ebazar.style.min.css'
+import '../assets/css/ebazar.style.min.css'
 
 export const MenuItem = ({ item }) => {
     const [isOpen, setIsOpen] = useState(false);
