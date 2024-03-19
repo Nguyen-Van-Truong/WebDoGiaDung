@@ -1,20 +1,61 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
+import Cropper from 'cropperjs';
+
+import './assets/plugin/cropper/cropper.min.css';
+import './assets/css/ebazar.style.min.css';
+import './assets/plugin/multi-select/css/multi-select.css';
+import './assets/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css';
+import './assets/plugin/dropify/dist/css/dropify.min.css';
+import './assets/plugin/datatables/responsive.dataTables.min.css';
+import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
+
+import product1 from './assets/images/product/product-1.jpg'
 
 const ProductAdd = () => {
-    // Logic của component ở đây
+    const imageElement = useRef(null);
+    const previewLarge = useRef(null);
+    const previewMedium = useRef(null);
+    const previewSmall = useRef(null);
+    const previewExtraSmall = useRef(null);
+
+    useEffect(() => {
+        const cropperInstance = new Cropper(imageElement.current, {
+            zoomable: false, scalable: false, aspectRatio: 16 / 9, crop() {
+                updatePreview(cropperInstance);
+            },
+        });
+
+        // Cleanup
+        return () => {
+            cropperInstance.destroy();
+        };
+    }, []);
+
+    const updatePreview = (cropper) => {
+        const imgDataUrl = cropper.getCroppedCanvas().toDataURL();
+
+        [previewLarge, previewMedium, previewSmall, previewExtraSmall].forEach(previewRef => {
+            if (previewRef.current) {
+                previewRef.current.style.backgroundImage = `url(${imgDataUrl})`;
+                previewRef.current.style.backgroundSize = 'cover';
+                previewRef.current.style.backgroundPosition = 'center';
+            }
+        });
+    };
+
 
     return (
         <div>
             <div id="ebazar-layout" className="theme-blue">
                 {/* sidebar */}
-                <Sidebar />
+                <Sidebar/>
 
                 {/* main body area */}
                 <div className="main px-lg-4 px-md-4">
                     {/* Body: Header */}
-                    <Header />
+                    <Header/>
                     {/* Body: Body */}
                     <div className="body d-flex py-3">
                         <div className="container-xxl">
@@ -346,7 +387,7 @@ const ProductAdd = () => {
                                                                                 className="product-cart d-flex align-items-center">
                                                                                 <div className="product-thumb">
                                                                                     <img
-                                                                                        src="assets/images/product/upload.png"
+                                                                                        src="./admin/assets/images/product/product-1.jpg"
                                                                                         className="img-fluid avatar xl"
                                                                                         alt="Product"/>
                                                                                 </div>
@@ -382,7 +423,7 @@ const ProductAdd = () => {
                                                                                 className="product-cart d-flex align-items-center">
                                                                                 <div className="product-thumb">
                                                                                     <img
-                                                                                        src="assets/images/product/upload.png"
+                                                                                        src="./admin/assets/images/product/product-1.jpg"
                                                                                         className="img-fluid avatar xl"
                                                                                         alt="Product"/>
                                                                                 </div>
@@ -418,7 +459,7 @@ const ProductAdd = () => {
                                                                                 className="product-cart d-flex align-items-center">
                                                                                 <div className="product-thumb">
                                                                                     <img
-                                                                                        src="assets/images/product/upload.png"
+                                                                                        src="./admin/assets/images/product/product-1.jpg"
                                                                                         className="img-fluid avatar xl"
                                                                                         alt="Product"/>
                                                                                 </div>
@@ -454,7 +495,7 @@ const ProductAdd = () => {
                                                                                 className="product-cart d-flex align-items-center">
                                                                                 <div className="product-thumb">
                                                                                     <img
-                                                                                        src="assets/images/product/upload.png"
+                                                                                        src="./admin/assets/images/product/product-1.jpg"
                                                                                         className="img-fluid avatar xl"
                                                                                         alt="Product"/>
                                                                                 </div>
@@ -502,16 +543,21 @@ const ProductAdd = () => {
                                             <div className="row g-3 mb-3">
                                                 <div className="col-xxl-12 col-xl-12 col-lg-12">
                                                     <div className="img-container">
-                                                        <img id="image" src="./assets/images/product/cropimg-upload.jpg"
-                                                             className="img-responsive" alt="Picture"/>
+                                                        <img ref={imageElement} src={product1} alt="Source"/>
+
                                                     </div>
                                                 </div>
                                                 <div className="col-xxl-12 col-xl-12 col-lg-12">
                                                     <div className="docs-preview clearfix">
-                                                        <div className="img-preview preview-lg"/>
-                                                        <div className="img-preview preview-md"/>
-                                                        <div className="img-preview preview-sm"/>
-                                                        <div className="img-preview preview-xs"/>
+                                                        <div ref={previewLarge}
+                                                             className="img-preview preview-lg"></div>
+                                                        <div ref={previewMedium}
+                                                             className="img-preview preview-md"></div>
+                                                        <div ref={previewSmall}
+                                                             className="img-preview preview-sm"></div>
+                                                        <div ref={previewExtraSmall}
+                                                             className="img-preview preview-xs"></div>
+
                                                     </div>
                                                     <div className="docs-data">
                                                         <div className="input-group">
@@ -587,15 +633,17 @@ const ProductAdd = () => {
                                                 <div className="col-lg-7 col-md-12 docs-buttons">
                                                     {/* .btn groups */}
                                                     <button type="button" className="btn btn-sm btn-info"
-                                                            data-method="setDragMode" data-option="move" title="Move">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)"> <i
-                                                            className="icofont-drag1"/> </span></button>
+                                                            data-method="setDragMode" data-option="move"
+                                                            title="Move"><span
+                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)"> <i
+                                                        className="icofont-drag1"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-info"
-                                                            data-method="setDragMode" data-option="crop" title="Crop">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)"> <i
-                                                            className="icofont-crop"/> </span></button>
+                                                            data-method="setDragMode" data-option="crop"
+                                                            title="Crop"><span
+                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)"> <i
+                                                        className="icofont-crop"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-success"
                                                             data-method="zoom" data-option="0.1" title="Zoom In"><span
                                                         className="docs-tooltip" data-toggle="tooltip"
@@ -631,34 +679,38 @@ const ProductAdd = () => {
                                                                                     title="$().cropper(&quot;move&quot;, 0, 10)"> <i
                                                         className="icofont-circled-down"/></span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
-                                                            data-method="rotate" data-option={-45} title="Rotate Left">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;rotate&quot;, -45)"> <i
-                                                            className="icofont-rotation"/> </span></button>
+                                                            data-method="rotate" data-option={-45}
+                                                            title="Rotate Left"><span
+                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        title="$().cropper(&quot;rotate&quot;, -45)"> <i
+                                                        className="icofont-rotation"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
-                                                            data-method="rotate" data-option={45} title="Rotate Right">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;rotate&quot;, 45)"> <i
-                                                            className="icofont-rotation"/> </span></button>
+                                                            data-method="rotate" data-option={45}
+                                                            title="Rotate Right"><span
+                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        title="$().cropper(&quot;rotate&quot;, 45)"> <i
+                                                        className="icofont-rotation"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
                                                             data-method="scaleX" data-option={-1}
-                                                            title="Flip Horizontal"><span className="docs-tooltip"
-                                                                                          data-toggle="tooltip"
-                                                                                          title="$().cropper(&quot;scaleX&quot;, -1)"> <i
+                                                            title="Flip Horizontal">
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;scaleX&quot;, -1)"> <i
                                                         className="icofont-exchange"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
                                                             data-method="scaleY" data-option={-1} title="Flip Vertical">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;scaleY&quot;, -1)"> <i
-                                                            className="icofont-expand-alt"/> </span></button>
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;scaleY&quot;, -1)"> <i
+                                                        className="icofont-expand-alt"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
                                                             data-method="crop" title="Crop"><span
-                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        className="docs-tooltip"
+                                                        data-toggle="tooltip"
                                                         title="$().cropper(&quot;crop&quot;)"> <i
                                                         className="icofont-checked"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
                                                             data-method="clear" title="Clear"><span
-                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        className="docs-tooltip"
+                                                        data-toggle="tooltip"
                                                         title="$().cropper(&quot;clear&quot;)"> <i
                                                         className="icofont-ui-delete"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
@@ -673,13 +725,15 @@ const ProductAdd = () => {
                                                         className="icofont-unlock"/> </span></button>
                                                     <button type="button" className="btn btn-sm btn-secondary"
                                                             data-method="reset" title="Reset"><span
-                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        className="docs-tooltip"
+                                                        data-toggle="tooltip"
                                                         title="$().cropper(&quot;reset&quot;)"> <i
                                                         className="icofont-refresh"/> </span></button>
                                                     <label className="btn btn-sm btn-secondary btn-upload"
                                                            htmlFor="inputImage" title="Upload image file">
                                                         <input type="file" className="sr-only" id="inputImage"
-                                                               name="file" accept="image/*"/>
+                                                               name="file"
+                                                               accept="image/*"/>
                                                         <span className="docs-tooltip" data-toggle="tooltip"
                                                               title="Import image with Blob URLs"> <i
                                                             className="icofont-upload"/> </span>
@@ -699,20 +753,21 @@ const ProductAdd = () => {
                                                             data-method="getCroppedCanvas" data-bs-toggle="modal"
                                                             data-bs-target="#getCroppedCanvasModal"
                                                             data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 160, height: 90 })"> 160×90 </span>
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 160, height: 90 })"> 160×90 </span>
                                                     </button>
                                                     <button type="button" className="btn btn-sm btn-danger"
                                                             data-method="getCroppedCanvas" data-bs-toggle="modal"
                                                             data-bs-target="#getCroppedCanvasModal"
                                                             data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 320, height: 180 })"> 320×180 </span>
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 320, height: 180 })"> 320×180 </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
-                                                            data-method="getData" data-option data-target="#putData">
-                                                        <span className="docs-tooltip" data-toggle="tooltip"
-                                                              title="$().cropper(&quot;getData&quot;)"> Get Data </span>
+                                                            data-method="getData" data-option
+                                                            data-target="#putData"><span
+                                                        className="docs-tooltip" data-toggle="tooltip"
+                                                        title="$().cropper(&quot;getData&quot;)"> Get Data </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="setData" data-target="#putData"><span
@@ -727,15 +782,15 @@ const ProductAdd = () => {
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="getImageData" data-option
-                                                            data-target="#putData"><span className="docs-tooltip"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="$().cropper(&quot;getImageData&quot;)"> Get Image Data </span>
+                                                            data-target="#putData">
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;getImageData&quot;)"> Get Image Data </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="getCanvasData" data-option
-                                                            data-target="#putData"><span className="docs-tooltip"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="$().cropper(&quot;getCanvasData&quot;)"> Get Canvas Data </span>
+                                                            data-target="#putData">
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;getCanvasData&quot;)"> Get Canvas Data </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="setCanvasData" data-target="#putData"><span
@@ -744,9 +799,9 @@ const ProductAdd = () => {
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="getCropBoxData" data-option
-                                                            data-target="#putData"><span className="docs-tooltip"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="$().cropper(&quot;getCropBoxData&quot;)"> Get Crop Box Data </span>
+                                                            data-target="#putData">
+                                                    <span className="docs-tooltip" data-toggle="tooltip"
+                                                          title="$().cropper(&quot;getCropBoxData&quot;)"> Get Crop Box Data </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="setCropBoxData" data-target="#putData"><span
@@ -754,13 +809,17 @@ const ProductAdd = () => {
                                                         title="$().cropper(&quot;setCropBoxData&quot;, data)"> Set Crop Box Data </span>
                                                     </button>
                                                     <button type="button" className="btn btn-secondary"
-                                                            data-method="moveTo" data-option={0}><span
-                                                        className="docs-tooltip" data-toggle="tooltip"
-                                                        title="cropper.moveTo(0)"> 0,0 </span></button>
+                                                            data-method="moveTo"
+                                                            data-option={0}><span className="docs-tooltip"
+                                                                                  data-toggle="tooltip"
+                                                                                  title="cropper.moveTo(0)"> 0,0 </span>
+                                                    </button>
                                                     <button type="button" className="btn btn-secondary"
-                                                            data-method="zoomTo" data-option={1}><span
-                                                        className="docs-tooltip" data-toggle="tooltip"
-                                                        title="cropper.zoomTo(1)"> 100% </span></button>
+                                                            data-method="zoomTo"
+                                                            data-option={1}><span className="docs-tooltip"
+                                                                                  data-toggle="tooltip"
+                                                                                  title="cropper.zoomTo(1)"> 100% </span>
+                                                    </button>
                                                     <button type="button" className="btn btn-secondary"
                                                             data-method="rotateTo" data-option={180}><span
                                                         className="docs-tooltip" data-toggle="tooltip"

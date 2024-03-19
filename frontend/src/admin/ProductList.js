@@ -59,8 +59,12 @@ const ProductList = () => {
             if (sliderRef.current && sliderRef.current.noUiSlider) {
                 sliderRef.current.noUiSlider.destroy();
             }
-            inputMinRef.current.removeEventListener('change', handleMinInputChange);
-            inputMaxRef.current.removeEventListener('change', handleMaxInputChange);
+            if (inputMinRef.current) {
+                inputMinRef.current.removeEventListener('change', handleMinInputChange);
+            }
+            if (inputMaxRef.current) {
+                inputMaxRef.current.removeEventListener('change', handleMaxInputChange);
+            }
         };
     }, []);
 
