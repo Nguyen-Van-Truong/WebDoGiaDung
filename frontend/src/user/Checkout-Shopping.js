@@ -524,7 +524,7 @@ const Checkout_Shopping = () => {
 
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu ulOverride">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
@@ -538,7 +538,7 @@ const Checkout_Shopping = () => {
                                 </ul>
                             </div>
                             <div>
-                                <p className="text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
+                                <p className="text-grayscales-900 inline-flex gap-2 items-center text-sm font-display ">
                                     <span>Contact:</span><span
                                     className="text-secondary font-medium">(808) 555-0111</span></p>
                             </div>
@@ -739,7 +739,7 @@ const Checkout_Shopping = () => {
 
                 <div className="" style={{backgroundColor: "var(--bg-breadcum)"}}>
                     <div className="container py-20">
-                        <div className="flex flex-wrap lg:flex-nowrap items-start gap-6">
+                        <div className="flex flex-wrap-tw lg:flex-nowrap items-start gap-6">
 
                             <div className="cart-total lg:w-2/3 w-full p-8">
                                 <h2 className="text-start text-2xl text-[#272343] font-semibold mb-6 font-display">Thông tin thanh toán hoá đơn</h2>

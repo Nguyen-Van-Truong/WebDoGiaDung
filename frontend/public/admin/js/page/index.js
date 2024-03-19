@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import ApexCharts from 'apexcharts';
 
 
 if (typeof jQuery === "undefined") {
@@ -254,7 +255,7 @@ $(function() {
     });
 
 });
-
+/* global google */
 function myMap() {
 
     let map;

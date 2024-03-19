@@ -444,15 +444,15 @@ const Register = () => {
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
                                     <button onClick={toggleDropdown}
-                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md custom-dropdown text-gray-black text-sm leading-4 font-medium font-display">
-                                <span className="text-gray-black inline-flex">
-                                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
-                                        <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
-                                        <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
-                                    </svg>
-                                </span>
+                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
+        <span className="text-gray-black inline-flex">
+          {/* SVG remains unchanged */}
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
+            <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
+            <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
+          </svg>
+        </span>
                                         <span className="text-gray-black inline-flex">Danh mục</span>
                                     </button>
                                     {isDropdownOpen && (
@@ -467,24 +467,24 @@ const Register = () => {
                                             </ul>
                                         </div>
                                     )}
-
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu ulOverride ">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
                                     <li>
-                                        <a href="products.html">Shop</a>
+                                        <Link to={"/products"}>Shop</Link>
+
                                     </li>
                                     <li>
-                                        <a href="product-details.html">Sản phẩm</a>
+                                        <Link to={"/product-detail"}>Sản phẩm</Link>
                                     </li>
 
                                 </ul>
                             </div>
                             <div>
-                                <p className="text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
+                                <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
                                     className="text-secondary font-medium">(808) 555-0111</span></p>
                             </div>
