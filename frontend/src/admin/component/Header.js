@@ -1,7 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import profile from "../assets/images/profile_av.jpg";
+import $ from 'jquery';
 
 const Header = () => {
+
+    useEffect(() => {
+        // Example of safely using jQuery inside a React component
+        // Always ensure any direct DOM manipulation does not conflict with React
+        $(document).ready(function() {
+            console.log("jQuery is ready!");
+            // More jQuery code can go here
+        });
+    }, []);
+
     return (
         <div className="header">
             <nav className="navbar py-4">
@@ -219,10 +230,6 @@ const Header = () => {
                     </div>
                 </div>
             </nav>
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/js/template.js"></script>
-
         </div>
 
     );

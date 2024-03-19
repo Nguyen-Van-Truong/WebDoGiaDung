@@ -25888,3 +25888,17 @@ table.dataTable > tbody > tr.child ul.dtr-details {
 .sub-menu.show {
     max-height: 500px; /* Adjust this value based on the submenu's potential maximum height */
 }
+.product-thumb {
+    display: flex;
+    justify-content: center;
+    /* Align items vertically center if needed */
+    align-items: center;
+}
+
+.product-thumb img {
+    /* Ensure the image does not exceed the container's size */
+    max-width: 100%;
+    height: auto;
+    /* Center the image if it's not flex or if flex doesn't work as expected */
+    margin: auto;
+}

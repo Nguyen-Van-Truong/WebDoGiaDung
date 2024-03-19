@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
+import Pagination from "./component/Index/Pagination";
 
 const CouponsList = () => {
     // Logic của component ở đây
@@ -170,6 +171,9 @@ const CouponsList = () => {
                                             </tr>
                                             </tbody>
                                         </table>
+
+                                        <Pagination/>
+
                                     </div>
                                 </div>
                             </div>

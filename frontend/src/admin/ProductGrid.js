@@ -1,9 +1,45 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import noUiSlider from 'nouislider';
+import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-
 const ProductGrid = () => {
-    // Logic của component ở đây
+    const sliderRef = useRef(null);
+    const inputMinRef = useRef(null);
+    const inputMaxRef = useRef(null);
+
+    useEffect(() => {
+        const initializeSlider = () => {
+            if (sliderRef.current && !sliderRef.current.noUiSlider) {
+                noUiSlider.create(sliderRef.current, {
+                    start: [0, 2000], // Initial values for the slider
+                    connect: true,
+                    step: 1,
+                    range: {
+                        'min': 0,
+                        'max': 2000
+                    },
+                });
+
+                sliderRef.current.noUiSlider.on('update', function (values, handle) {
+                    const value = Math.round(values[handle]); // Round the value to avoid decimal places
+                    if (handle === 0) { // If the handle being dragged is the first (min value)
+                        inputMinRef.current.value = value;
+                    } else { // If the handle being dragged is the second (max value)
+                        inputMaxRef.current.value = value;
+                    }
+                });
+            }
+        };
+
+        initializeSlider();
+
+        return () => {
+            if (sliderRef.current && sliderRef.current.noUiSlider) {
+                sliderRef.current.noUiSlider.destroy();
+            }
+        };
+    }, []);
 
     return (
         <div id="ebazar-layout" className="theme-blue">
@@ -189,17 +225,16 @@ const ProductGrid = () => {
                                                     <div className="price-amount flex-wrap">
                                                         <div className="amount-input mt-1">
                                                             <label className="fw-bold">Minimum Price</label>
-                                                            <input type="text" id="minAmount2"
+                                                            <input type="text" ref={inputMinRef}
                                                                    className="form-control"/>
                                                         </div>
                                                         <div className="amount-input mt-1">
                                                             <label className="fw-bold">Maximum Price</label>
-                                                            <input type="text" id="maxAmount2"
+                                                            <input type="text" ref={inputMaxRef}
                                                                    className="form-control"/>
                                                         </div>
                                                     </div>
-                                                    <div id="slider-range2"
-                                                         className="slider-range noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr"/>
+                                                    <div ref={sliderRef} className="slider-range"></div>
                                                 </div>
                                             </div>
                                         </div>

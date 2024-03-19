@@ -15,7 +15,7 @@ import Index from "./admin/Index";
 import ProductList from "./admin/ProductList";
 import ProductGrid from "./admin/ProductGrid";
 import ProductEdit from "./admin/ProductEdit";
-import ProductAdd from "./admin/Product-Add";
+import ProductAdd from "./admin/ProductAdd";
 import OrderList from "./admin/OrderList";
 import OrderInvoices from "./admin/OrderInvoices";
 import OrderDetails from "./admin/OrderDetails";

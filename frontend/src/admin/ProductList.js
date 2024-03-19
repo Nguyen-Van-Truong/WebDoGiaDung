@@ -1,22 +1,85 @@
-import React from 'react';
-import $ from 'jquery';
+import React, {useEffect, useRef} from 'react';
+import noUiSlider from 'nouislider';
+import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
-import profile from "./assets/images/profile_av.jpg";
 import Header from "./component/Header";
+import Pagination from "./component/Index/Pagination";
 
 const ProductList = () => {
-    // Logic của component ở đây
+    const sliderRef = useRef(null);
+    const inputMinRef = useRef(null);
+    const inputMaxRef = useRef(null);
+
+    useEffect(() => {
+        const initializeSlider = () => {
+            if (sliderRef.current && !sliderRef.current.noUiSlider) {
+                noUiSlider.create(sliderRef.current, {
+                    start: [0, 2000], // Initial values for the slider
+                    connect: true,
+                    step: 1,
+                    range: {
+                        'min': 0,
+                        'max': 2000
+                    },
+                });
+
+                sliderRef.current.noUiSlider.on('update', function (values, handle) {
+                    const value = Math.round(values[handle]);
+                    if (handle === 0) {
+                        inputMinRef.current.value = value;
+                    } else {
+                        inputMaxRef.current.value = value;
+                    }
+                });
+            }
+        };
+
+        const setSliderValue = (handle, value) => {
+            if (sliderRef.current && sliderRef.current.noUiSlider) {
+                let sliderValues = sliderRef.current.noUiSlider.get();
+                sliderValues[handle] = value;
+                sliderRef.current.noUiSlider.set(sliderValues);
+            }
+        };
+
+        const handleMinInputChange = (event) => {
+            setSliderValue(0, event.target.value);
+        };
+
+        const handleMaxInputChange = (event) => {
+            setSliderValue(1, event.target.value);
+        };
+
+        initializeSlider();
+
+        inputMinRef.current.addEventListener('change', handleMinInputChange);
+        inputMaxRef.current.addEventListener('change', handleMaxInputChange);
+
+        // Cleanup function
+        return () => {
+            if (sliderRef.current && sliderRef.current.noUiSlider) {
+                sliderRef.current.noUiSlider.destroy();
+            }
+            if (inputMinRef.current) {
+                inputMinRef.current.removeEventListener('change', handleMinInputChange);
+            }
+            if (inputMaxRef.current) {
+                inputMaxRef.current.removeEventListener('change', handleMaxInputChange);
+            }
+        };
+    }, []);
+
 
     return (
         <div>
             <div id="ebazar-layout" className="theme-blue">
                 {/* sidebar */}
-                <Sidebar />
+                <Sidebar/>
 
                 {/* main body area */}
                 <div className="main px-lg-4 px-md-4">
                     {/* Body: Header */}
-                    <Header />
+                    <Header/>
 
 
                     {/* Body: Body */}
@@ -198,17 +261,16 @@ const ProductList = () => {
                                                         <div className="price-amount flex-wrap">
                                                             <div className="amount-input mt-1">
                                                                 <label className="fw-bold">Minimum Price</label>
-                                                                <input type="text" id="minAmount2"
+                                                                <input type="text" ref={inputMinRef}
                                                                        className="form-control"/>
                                                             </div>
                                                             <div className="amount-input mt-1">
                                                                 <label className="fw-bold">Maximum Price</label>
-                                                                <input type="text" id="maxAmount2"
+                                                                <input type="text" ref={inputMaxRef}
                                                                        className="form-control"/>
                                                             </div>
                                                         </div>
-                                                        <div id="slider-range2"
-                                                             className="slider-range noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr"/>
+                                                        <div ref={sliderRef} className="slider-range"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -891,27 +953,9 @@ const ProductList = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="row g-3 mb-3">
-                                        <div className="col-md-12">
-                                            <nav className="justify-content-end d-flex">
-                                                <ul className="pagination">
-                                                    <li className="page-item disabled">
-                                                        <a className="page-link" href="#" tabIndex={-1}>Previous</a>
-                                                    </li>
-                                                    <li className="page-item"><a className="page-link" href="#">1</a>
-                                                    </li>
-                                                    <li className="page-item active" aria-current="page">
-                                                        <a className="page-link" href="#">2</a>
-                                                    </li>
-                                                    <li className="page-item"><a className="page-link" href="#">3</a>
-                                                    </li>
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#">Next</a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
+
+                                    <Pagination/>
+
                                 </div>
                             </div>
                             {/* Row end  */}

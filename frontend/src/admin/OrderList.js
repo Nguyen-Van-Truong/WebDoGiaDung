@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
+import Pagination from "./component/Index/Pagination";
 
 const Orderlist = () => {
     // Logic của component ở đây
@@ -44,7 +45,7 @@ const Orderlist = () => {
                                             <tbody>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-78414</strong></a></td>
-                                                <td><img src="assets/images/product/product-1.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span> Oculus VR </span>
                                                 </td>
                                                 <td>Molly</td>
@@ -56,7 +57,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-58414</strong></a></td>
-                                                <td><img src="assets/images/product/product-2.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Wall Clock</span>
                                                 </td>
                                                 <td>Brian</td>
@@ -68,7 +69,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-48414</strong></a></td>
-                                                <td><img src="assets/images/product/product-3.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Note Diaries</span>
                                                 </td>
                                                 <td>Julia</td>
@@ -80,7 +81,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-38414</strong></a></td>
-                                                <td><img src="assets/images/product/product-4.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Flower Port</span>
                                                 </td>
                                                 <td>Sonia</td>
@@ -92,7 +93,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-28414</strong></a></td>
-                                                <td><img src="assets/images/product/product-1.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Oculus VR</span>
                                                 </td>
                                                 <td>Adam H</td>
@@ -104,7 +105,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-18414</strong></a></td>
-                                                <td><img src="assets/images/product/product-2.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Wall Clock</span>
                                                 </td>
                                                 <td>Alexander</td>
@@ -116,7 +117,7 @@ const Orderlist = () => {
                                             </tr>
                                             <tr>
                                                 <td><a href="order-details.html"><strong>#Order-11414</strong></a></td>
-                                                <td><img src="assets/images/product/product-3.jpg"
+                                                <td><img src="./admin/assets/images/product/product-1.jpg"
                                                          className="avatar lg rounded me-2" alt="profile-image"/><span>Note Diaries</span>
                                                 </td>
                                                 <td>Gabrielle</td>
@@ -128,6 +129,9 @@ const Orderlist = () => {
                                             </tr>
                                             </tbody>
                                         </table>
+
+                                        <Pagination/>
+
                                     </div>
                                 </div>
                             </div>
