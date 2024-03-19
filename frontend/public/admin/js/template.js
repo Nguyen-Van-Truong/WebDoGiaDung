@@ -7,6 +7,9 @@
 * Copyright 2021 Pixelwibes
 */
 
+/* global $ */
+
+
 if (typeof jQuery === "undefined") {
     throw new Error("jQuery plugins need to be before this file");
 }
@@ -68,6 +71,7 @@ $(function() {
             $(".sidebar.sidebar-mini").css( "overflow", "visible"); 
         }
     }
+    /* global bootstrap */
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

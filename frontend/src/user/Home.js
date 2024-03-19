@@ -22,7 +22,6 @@ import t_pr1 from '../assets/images/all-img/t-product-01.png'
 import t_pr2 from '../assets/images/all-img/t-product-02.png'
 import t_pr3 from '../assets/images/all-img/t-product-03.png'
 import chair from '../assets/images/all-img/chair.png';
-
 import {Link} from "react-router-dom";
 
 const Home = () => {
@@ -278,54 +277,9 @@ const Home = () => {
                     <div className="top-header bg-secondary">
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="py-3.5 flex justify-center sm:justify-between">
-                                <p className="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
-                            <span>
-                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.3334 4.5L6.00002 11.8333L2.66669 8.5" stroke="white" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </span>
-                                    <span>Free shipping on all orders over $50</span>
-                                </p>
+
                                 <div>
-                                    <ul className="flex gap-6 items-center">
-                                        <li className="inline-flex items-center text-white-50 justify-center relative language">
-                                            <select className="custom-select" name="state">
-                                                <option value="AL">Eng</option>
-                                                <option value="WY">Bangla</option>
-                                            </select>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#"
-                                               className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#"
-                                               className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
-                                        <span>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g opacity="0.7" clip-path="url(#clip0_906_1673)">
-                                                    <path
-                                                        d="M7.99992 14.6667C11.6818 14.6667 14.6666 11.6819 14.6666 8C14.6666 4.3181 11.6818 1.33333 7.99992 1.33333C4.31802 1.33333 1.33325 4.3181 1.33325 8C1.33325 11.6819 4.31802 14.6667 7.99992 14.6667Z"
-                                                        stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                                    <path d="M8 5.33333V8" stroke="white" stroke-linecap="round"
-                                                          stroke-linejoin="round"/>
-                                                    <path d="M8 10.6667H8.00615" stroke="white" stroke-linecap="round"
-                                                          stroke-linejoin="round"/>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_906_1673">
-                                                        <rect width="16" height="16" fill="white"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                                <span>Need Help</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -385,7 +339,7 @@ const Home = () => {
                                             </a>
                                             <div className="cart-content">
                                                 {isCartOpen && (
-                                                    <ul className="p-6"
+                                                    <ul className="p-6-t"
                                                         style={{display: isCartOpen ? 'block' : 'none'}}>
 
                                                         <li className="pb-4">
@@ -394,8 +348,8 @@ const Home = () => {
                                                                     <div>
                                                                         <img src={cart1} alt=""/>
                                                                     </div>
-                                                                    <div className="px-2">
-                                                                        <h2 className="text-gray-black"><span>Isolate Sofa Chair</span>
+                                                                    <div className="px-2-t">
+                                                                        <h2 style={{fontSize :"19px"}} className="text-gray-black "><span>Isolate Sofa Chair</span>
                                                                             <span className="text-[#636270]">x5</span>
                                                                         </h2>
                                                                         <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -423,8 +377,8 @@ const Home = () => {
                                                                     <div>
                                                                         <img src={cart1} alt=""/>
                                                                     </div>
-                                                                    <div className="px-2">
-                                                                        <h2 className="text-gray-black"><span>Isolate Sofa Chair</span>
+                                                                    <div className="px-2-t">
+                                                                        <h2 style={{fontSize :"19px"}}className="text-gray-black "><span>Isolate Sofa Chair</span>
                                                                             <span className="text-[#636270]">x5</span>
                                                                         </h2>
                                                                         <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -633,7 +587,7 @@ const Home = () => {
                                 </svg>
                             </span>
                                         <span
-                                            className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
+                                            className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2-t py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
                                     </a>
                                 </li>
                                 <li>
@@ -874,7 +828,7 @@ const Home = () => {
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div
                         className="bg-white shadow-[0px_24px_100px_rgba(22,25,50,0.07)] rounded-xl xl:py-[50px] xl:px-[70px] p-8 mb-[26px]">
-                        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 xl:grid-cols-4 sm:grid-cols-2 gap-6-t">
                             <div className="feature-card flex gap-4 items-center w-full max-w-[280px]">
                                 <div>
                                     <svg width="46" height="46" viewBox="0 0 46 46" fill="none"
@@ -1031,7 +985,7 @@ const Home = () => {
 
             <section className="xl:pb-20 pb-8 md:pb-12 pt-4  " style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
-                    <div className="flex flex-wrap justify-between items-center mb-10 px-2 xl:px-0">
+                    <div className="flex flex-wrap justify-between items-center mb-10 px-2-t xl:px-0">
                         <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Sản
                             phẩm nổi bật</h2>
                         <div className="flex gap-[18px]">

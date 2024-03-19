@@ -1,4 +1,5 @@
 // sparklines
+
 $(document).ready(function() {
    
     var randomizeArray = function (arg) {
