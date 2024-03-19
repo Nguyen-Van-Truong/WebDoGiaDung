@@ -1383,9 +1383,13 @@ video {
   padding-right: 9px;
 }
 
-.px-2 {
+.px-2-t {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+
+}
+.f_15{
+  font-size: 19px !important;
 }
 
 .py-4 {

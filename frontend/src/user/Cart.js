@@ -445,7 +445,7 @@ const  Cart = () => {
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
                                     <button onClick={toggleDropdown}
-                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
+                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5-tw border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
         <span className="text-gray-black inline-flex">
           {/* SVG remains unchanged */}
             <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -470,7 +470,7 @@ const  Cart = () => {
                                     )}
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu  ulOverride">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
@@ -673,7 +673,7 @@ const  Cart = () => {
             <section   style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container px-3 md:px-5 xl:px-0">
 
-                    <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap items-start gap-6">
+                    <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap-tw items-start gap-6">
 
                         <div class="shopping-cart lg:w-2/3 w-full">
                             <div class="px-6 py-6 overflow-x-auto">
@@ -791,8 +791,8 @@ const  Cart = () => {
                                 </table>
                             </div>
                             <hr class="my-0"/>
-                                <div class="coupon-wrap p-6">
-                                    <input type="text" name="" id="" class="px-5 py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
+                                <div class="coupon-wrap p-6-t">
+                                    <input type="text" name="" id="" class="px-5-tw py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
                                         <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
                                         <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
                                 </div>
@@ -943,7 +943,7 @@ const  Cart = () => {
                             <div class="footer-widget w-[424px]">
                                 <h2 class="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Newsletter</h2>
                                 <form action="" class="flex flex-wrap xl:flex-nowrap gap-3">
-                                    <input type="text" name="" id="" class="bg-[#FFFFFF] block max-w-[285px] w-full px-5 py-[15px] rounded-lg focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out border border-[#E1E3E6]" placeholder="Your email"/>
+                                    <input type="text" name="" id="" class="bg-[#FFFFFF] block max-w-[285px] w-full px-5-tw py-[15px] rounded-lg focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out border border-[#E1E3E6]" placeholder="Your email"/>
                                         <button type="submit" class="btn-primary">Subscribe</button>
                                 </form>
                                 <p class="py-3 text-[#272343] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt erat enim.</p>
