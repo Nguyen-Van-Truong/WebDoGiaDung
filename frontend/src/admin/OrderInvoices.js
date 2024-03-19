@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
+import Pagination from "./component/Index/Pagination";
 
 const OrderInvoices = () => {
     // Logic của component ở đây
@@ -180,6 +181,9 @@ const OrderInvoices = () => {
                                             </tr>
                                             </tbody>
                                         </table>
+
+                                        <Pagination/>
+
                                     </div>
                                 </div>
                             </div>
