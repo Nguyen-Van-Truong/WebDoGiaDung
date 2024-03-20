@@ -115,34 +115,7 @@ const Home = () => {
             keyboard: true,
         });
 
-        const swiperBanner2 = new Swiper(".brandSwiper", {
-            slidesPerView: 2,
-            spaceBetween: 12,
-            loop: true,
-            mousewheel: true,
-            breakpoints: {
-                375: {
-                    slidesPerView: 3,
-                    spaceBetween: 12,
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 5,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                },
-                1500: {
-                    slidesPerView: 6,
-                    spaceBetween: 106,
-                }
-            },
-        });
+
         const swiper3 = new Swiper(".topCategoriesSwiper", {
             slidesPerView: 1,
             spaceBetween: 12,
@@ -167,74 +140,6 @@ const Home = () => {
                 },
             },
         });
-
-        const swiper4 = new Swiper(".featureSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".featureSwiper-button-next",
-                prevEl: ".featureSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper5 = new Swiper(".recentSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".recentSwiper-button-next",
-                prevEl: ".recentSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-
-//testimonials Slider
-
-        const swiper6 = new Swiper(".testimonialSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            navigation: {
-                nextEl: ".testimonials-button-next",
-                prevEl: ".testimonials-button-prev",
-            },
-            breakpoints: {
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
 
         // Initialize mixitup
         if (containerRef.current) {
