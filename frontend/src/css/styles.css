@@ -11,8 +11,18 @@
   --success: #01AD5A;
   
 }
-
-
+.display-none{
+    display: none !important;
+}
+.bi.bi-bag-check-fill::before{
+    font-size: 28px;
+    color: var(--success);
+}
+.logo-text{
+    margin-left: 5px;
+    font-size: 20px;
+    color: var(--success);
+}
 .pt_b {
     padding: 50px 0px;
 }

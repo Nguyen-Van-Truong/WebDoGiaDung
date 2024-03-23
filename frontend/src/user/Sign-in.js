@@ -130,9 +130,10 @@ const SignIn = () => {
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="flex justify-between items-center py-5">
                                 <div>
-                                    <a href="index.html">
-                                        <img src="../assets/images/all-img/logo.png" alt=""/>
-                                    </a>
+                                            <span className="logo-icon">
+                        <i className="bi bi-bag-check-fill fs-4"></i>
+                                 </span>
+                                    <span className="logo-text">eTTShop</span>
                                 </div>
                                 <div className="lg:max-w-[413px] lg:block hidden w-full">
                                     <div className="relative">
