@@ -135,9 +135,10 @@ const Forget_Password = () => {
                         <div class="container px-3 md:px-5 xl:px-0">
                             <div class="flex justify-between items-center py-5">
                                 <div>
-                                    <a href="index.html">
-                                        <img src="../assets/images/all-img/logo.png" alt=""/>
-                                    </a>
+                                            <span className="logo-icon">
+                        <i className="bi bi-bag-check-fill fs-4"></i>
+                                 </span>
+                                    <span className="logo-text">eTTShop</span>
                                 </div>
                                 <div class="lg:max-w-[413px] lg:block hidden w-full">
                                     <div class="relative">

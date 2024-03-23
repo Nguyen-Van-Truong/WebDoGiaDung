@@ -1,5 +1,5 @@
 import React from 'react';
-
+import '../assets/css/main.css'
 export const BrandIcon = () => {
     return (
         <a href="index-admin" className="mb-0 brand-icon">

@@ -669,9 +669,10 @@ const Information_Profile = () => {
                         <div className=" flex flex-wrap gap-y-6 justify-between">
                             <div className="footer-widget max-w-[350px]">
                                 <div className="lg:mb-6 mb-4">
-                                    <a href="#">
-                                        <img src="../assets/images/all-img/logo.png" alt=""/>
-                                    </a>
+                                            <span className="logo-icon">
+                        <i className="bi bi-bag-check-fill fs-4"></i>
+                                 </span>
+                                    <span className="logo-text">eTTShop</span>
                                 </div>
                                 <p className="lg:mb-6 mb-4 text-[#272343] text-base">Vivamus tristique odio sit amet velit semper, eu posuere turpis interdum. Cras egestas purus </p>
                                 <ul className="flex gap-1">
