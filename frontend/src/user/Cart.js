@@ -83,141 +83,6 @@ const  Cart = () => {
 
     };
     useEffect(() => {
-        const swiperBanner = new Swiper('.bannerSwiper', {
-            cssMode: true,
-            loop: true,
-            speed: 1000,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            mousewheel: true,
-            keyboard: true,
-        });
-
-        const swiperBanner2 = new Swiper(".brandSwiper", {
-            slidesPerView: 2,
-            spaceBetween: 12,
-            loop: true,
-            mousewheel: true,
-            breakpoints: {
-                375: {
-                    slidesPerView: 3,
-                    spaceBetween: 12,
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 5,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                },
-                1500: {
-                    slidesPerView: 6,
-                    spaceBetween: 106,
-                }
-            },
-        });
-        const swiper3 = new Swiper(".topCategoriesSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 12,
-            centeredSlides: true,
-            loop: true,
-            navigation: {
-                nextEl: ".categoriesSwiper-button-next",
-                prevEl: ".categoriesSwiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper4 = new Swiper(".featureSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".featureSwiper-button-next",
-                prevEl: ".featureSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper5 = new Swiper(".recentSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".recentSwiper-button-next",
-                prevEl: ".recentSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-
-//testimonials Slider
-
-        const swiper6 = new Swiper(".testimonialSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            navigation: {
-                nextEl: ".testimonials-button-next",
-                prevEl: ".testimonials-button-prev",
-            },
-            breakpoints: {
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-            },
-        });
 
 
         // Initialize mixitup
@@ -258,48 +123,12 @@ const  Cart = () => {
          
             <header class="font-display">
                 <div id="header-sticky" class="">
-                    <div class="top-header bg-secondary">
-                        <div class="container px-3 md:px-5 xl:px-0">
-                            <div class="py-3.5 flex justify-center sm:justify-between">
-                                <p class="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
-                            <span>
-                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.3334 4.5L6.00002 11.8333L2.66669 8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                                    <span>Free shipping on all orders over $50</span>
-                                </p>
+                    <div className="top-header bg-secondary">
+                        <div className="container px-3 md:px-5 xl:px-0">
+                            <div className="py-3.5 flex justify-center sm:justify-between">
+
                                 <div>
-                                    <ul class="flex gap-6 items-center">
-                                        <li class="inline-flex items-center text-white-50 justify-center relative language">
-                                            <select class="custom-select" name="state">
-                                                <option value="AL">Eng</option>
-                                                <option value="WY">Bangla</option>
-                                            </select>
-                                        </li>
-                                        <li class="inline-flex items-center justify-center">
-                                            <a href="#" class="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
-                                        </li>
-                                        <li class="inline-flex items-center justify-center">
-                                            <a href="#" class="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
-                                        <span>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <g opacity="0.7" clip-path="url(#clip0_906_1673)">
-                                                    <path d="M7.99992 14.6667C11.6818 14.6667 14.6666 11.6819 14.6666 8C14.6666 4.3181 11.6818 1.33333 7.99992 1.33333C4.31802 1.33333 1.33325 4.3181 1.33325 8C1.33325 11.6819 4.31802 14.6667 7.99992 14.6667Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M8 5.33333V8" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M8 10.6667H8.00615" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_906_1673">
-                                                        <rect width="16" height="16" fill="white" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                                <span>Need Help</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -445,7 +274,7 @@ const  Cart = () => {
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
                                     <button onClick={toggleDropdown}
-                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
+                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5-tw border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
         <span className="text-gray-black inline-flex">
           {/* SVG remains unchanged */}
             <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -470,7 +299,7 @@ const  Cart = () => {
                                     )}
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu  ulOverride">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
@@ -673,7 +502,7 @@ const  Cart = () => {
             <section   style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container px-3 md:px-5 xl:px-0">
 
-                    <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap items-start gap-6">
+                    <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap-tw items-start gap-6">
 
                         <div class="shopping-cart lg:w-2/3 w-full">
                             <div class="px-6 py-6 overflow-x-auto">
@@ -791,8 +620,8 @@ const  Cart = () => {
                                 </table>
                             </div>
                             <hr class="my-0"/>
-                                <div class="coupon-wrap p-6">
-                                    <input type="text" name="" id="" class="px-5 py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
+                                <div class="coupon-wrap p-6-t">
+                                    <input type="text" name="" id="" class="px-5-tw py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
                                         <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
                                         <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
                                 </div>
@@ -943,7 +772,7 @@ const  Cart = () => {
                             <div class="footer-widget w-[424px]">
                                 <h2 class="widget-title text-[#9A9CAA] text-sm leading-[110%] font-display font-medium uppercase mb-5">Newsletter</h2>
                                 <form action="" class="flex flex-wrap xl:flex-nowrap gap-3">
-                                    <input type="text" name="" id="" class="bg-[#FFFFFF] block max-w-[285px] w-full px-5 py-[15px] rounded-lg focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out border border-[#E1E3E6]" placeholder="Your email"/>
+                                    <input type="text" name="" id="" class="bg-[#FFFFFF] block max-w-[285px] w-full px-5-tw py-[15px] rounded-lg focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out border border-[#E1E3E6]" placeholder="Your email"/>
                                         <button type="submit" class="btn-primary">Subscribe</button>
                                 </form>
                                 <p class="py-3 text-[#272343] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt erat enim.</p>

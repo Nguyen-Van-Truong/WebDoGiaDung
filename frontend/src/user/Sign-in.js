@@ -79,142 +79,6 @@ const SignIn = () => {
 
     };
     useEffect(() => {
-        const swiperBanner = new Swiper('.bannerSwiper', {
-            cssMode: true,
-            loop: true,
-            speed: 1000,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            mousewheel: true,
-            keyboard: true,
-        });
-
-        const swiperBanner2 = new Swiper(".brandSwiper", {
-            slidesPerView: 2,
-            spaceBetween: 12,
-            loop: true,
-            mousewheel: true,
-            breakpoints: {
-                375: {
-                    slidesPerView: 3,
-                    spaceBetween: 12,
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 5,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                },
-                1500: {
-                    slidesPerView: 6,
-                    spaceBetween: 106,
-                }
-            },
-        });
-        const swiper3 = new Swiper(".topCategoriesSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 12,
-            centeredSlides: true,
-            loop: true,
-            navigation: {
-                nextEl: ".categoriesSwiper-button-next",
-                prevEl: ".categoriesSwiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper4 = new Swiper(".featureSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".featureSwiper-button-next",
-                prevEl: ".featureSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper5 = new Swiper(".recentSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".recentSwiper-button-next",
-                prevEl: ".recentSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-
-//testimonials Slider
-
-        const swiper6 = new Swiper(".testimonialSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            navigation: {
-                nextEl: ".testimonials-button-next",
-                prevEl: ".testimonials-button-prev",
-            },
-            breakpoints: {
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
 
         // Initialize mixitup
         if (containerRef.current) {
@@ -255,54 +119,9 @@ const SignIn = () => {
                     <div className="top-header bg-secondary">
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="py-3.5 flex justify-center sm:justify-between">
-                                <p className="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
-                            <span>
-                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.3334 4.5L6.00002 11.8333L2.66669 8.5" stroke="white" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </span>
-                                    <span>Free shipping on all orders over $50</span>
-                                </p>
+
                                 <div>
-                                    <ul className="flex gap-6 items-center">
-                                        <li className="inline-flex items-center text-white-50 justify-center relative language">
-                                            <select className="custom-select" name="state">
-                                                <option value="AL">Eng</option>
-                                                <option value="WY">Bangla</option>
-                                            </select>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#"
-                                               className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#"
-                                               className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
-                                        <span>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <g opacity="0.7" clip-path="url(#clip0_906_1673)">
-                                                    <path
-                                                        d="M7.99992 14.6667C11.6818 14.6667 14.6666 11.6819 14.6666 8C14.6666 4.3181 11.6818 1.33333 7.99992 1.33333C4.31802 1.33333 1.33325 4.3181 1.33325 8C1.33325 11.6819 4.31802 14.6667 7.99992 14.6667Z"
-                                                        stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                                    <path d="M8 5.33333V8" stroke="white" stroke-linecap="round"
-                                                          stroke-linejoin="round"/>
-                                                    <path d="M8 10.6667H8.00615" stroke="white" stroke-linecap="round"
-                                                          stroke-linejoin="round"/>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_906_1673">
-                                                        <rect width="16" height="16" fill="white"/>
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                                <span>Need Help</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -402,15 +221,15 @@ const SignIn = () => {
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
                                     <button onClick={toggleDropdown}
-                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md custom-dropdown text-gray-black text-sm leading-4 font-medium font-display">
-                                <span className="text-gray-black inline-flex">
-                                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
-                                        <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
-                                        <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
-                                    </svg>
-                                </span>
+                                            className="max-h-12 inline-flex items-center justify-center gap-4 py-3.5 px-5 border border-grayscales-700 rounded-md text-gray-black text-sm leading-4 font-medium font-display custom-dropdown">
+        <span className="text-gray-black inline-flex">
+          {/* SVG remains unchanged */}
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 2.5H0V0.5H18V2.5Z" fill="currentColor"/>
+            <path d="M18 8.5H0V6.5H18V8.5Z" fill="currentColor"/>
+            <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor"/>
+          </svg>
+        </span>
                                         <span className="text-gray-black inline-flex">Danh mục</span>
                                     </button>
                                     {isDropdownOpen && (
@@ -425,24 +244,24 @@ const SignIn = () => {
                                             </ul>
                                         </div>
                                     )}
-
                                 </div>
 
-                                <ul className="lg:flex gap-8 items-center hidden main-menu">
+                                <ul className="lg:flex gap-8 items-center hidden main-menu ulOverride ">
                                     <li>
                                         <Link to={"/"}>Trang chủ</Link>
                                     </li>
                                     <li>
-                                        <a href="products.html">Shop</a>
+                                        <Link to={"/products"}>Shop</Link>
+
                                     </li>
                                     <li>
-                                        <a href="product-details.html">Sản phẩm</a>
+                                        <Link to={"/product-detail"}>Sản phẩm</Link>
                                     </li>
 
                                 </ul>
                             </div>
                             <div>
-                                <p className="text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
+                                <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
                                     className="text-secondary font-medium">(808) 555-0111</span></p>
                             </div>
