@@ -14,6 +14,7 @@ import '../css/styles.css'
 import '../css/responsive.css'
 import '../css/tailwind.css'
 import cart1 from "../assets/images/all-img/cart-01.png";
+import MiniChat from "./MiniChat";
 
 const  Products = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -1182,7 +1183,7 @@ const  Products = () => {
                     </div>
                 </div>
             </footer>
-         
+            <MiniChat/>
         </div>
   
     );

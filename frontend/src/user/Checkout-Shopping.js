@@ -10,6 +10,7 @@ import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import product from '../assets/images/all-img/product1.png'
+import MiniChat from "./MiniChat";
 
 
 const Checkout_Shopping = () => {
@@ -884,7 +885,7 @@ const Checkout_Shopping = () => {
                     </div>
                 </div>
             </footer>
-
+            <MiniChat/>v
         </div>
     );
 }
