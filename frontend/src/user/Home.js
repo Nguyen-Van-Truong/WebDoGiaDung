@@ -946,11 +946,12 @@ const Home = () => {
                                     <a href="/product-detail">
                                         <div className="product-thumb">
 
-                                            <img src={product1} alt=""/>
+                                            {/*<img src={product1} alt=""/>*/}
+                                            <img src={"http://localhost:8080/images/5.jpg"} alt=""/>
                                             <span className="badge new">New</span>
                                         </div>
                                         <div className="product-info">
-                                            <div>
+                                        <div>
                                                 <h2 className="product-name">Library Stool Chair</h2>
                                                 <h3 className="product-price">$20</h3>
                                             </div>
