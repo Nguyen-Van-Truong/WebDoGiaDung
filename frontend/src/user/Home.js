@@ -947,7 +947,9 @@ const Home = () => {
                                         <div className="product-thumb">
 
                                             {/*<img src={product1} alt=""/>*/}
-                                            <img src={"http://localhost:8080/images/5.jpg"} alt=""/>
+                                            {/*<img src={"http://localhost:8080/images/5.jpg"} alt=""/>*/}
+                                            <img src={product2} alt="Image"/>
+
                                             <span className="badge new">New</span>
                                         </div>
                                         <div className="product-info">
