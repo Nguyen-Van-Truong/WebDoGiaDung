@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
-import  '../css/styles.css'
+import '../css/styles.css'
 
 import '../css/responsive.css'
 import img_2 from '../assets/images/all-img/2.jpg'
@@ -23,6 +23,8 @@ import t_pr2 from '../assets/images/all-img/t-product-02.png'
 import t_pr3 from '../assets/images/all-img/t-product-03.png'
 import chair from '../assets/images/all-img/chair.png';
 import {Link} from "react-router-dom";
+import MiniChat from "./MiniChat";
+import ChatUser from "./ChatUser";
 
 const Home = () => {
     // Refs for the password inputs and icons
@@ -38,6 +40,9 @@ const Home = () => {
     const [isMenu, setIsMenu] = useState(false);
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const [isUserMin, setIUserMin] = useState(false);
+   const [isAll, setIsAll] =useState(false);
+   const [isNew, setIsNew] =useState(false);
+
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -48,6 +53,25 @@ const Home = () => {
     const userOpen = () => {
         setIsUserOpen(!isUserOpen);
     }
+    const handClickNew = () =>{
+
+        setIsNew(true, () => {
+            if (isNew) {
+                setIsNew(false);
+            }
+        });
+        setIsAll(true);
+
+    };
+    const handClickAll = () =>{
+
+        setIsAll(false, () => {
+            if (isAll) {
+                setIsAll(true);
+            }
+        });
+        setIsNew(false);
+    };
     /* ay cho menu với giao diện man hinh nho */
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);
@@ -115,34 +139,7 @@ const Home = () => {
             keyboard: true,
         });
 
-        const swiperBanner2 = new Swiper(".brandSwiper", {
-            slidesPerView: 2,
-            spaceBetween: 12,
-            loop: true,
-            mousewheel: true,
-            breakpoints: {
-                375: {
-                    slidesPerView: 3,
-                    spaceBetween: 12,
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 5,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                },
-                1500: {
-                    slidesPerView: 6,
-                    spaceBetween: 106,
-                }
-            },
-        });
+
         const swiper3 = new Swiper(".topCategoriesSwiper", {
             slidesPerView: 1,
             spaceBetween: 12,
@@ -167,74 +164,6 @@ const Home = () => {
                 },
             },
         });
-
-        const swiper4 = new Swiper(".featureSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".featureSwiper-button-next",
-                prevEl: ".featureSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper5 = new Swiper(".recentSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".recentSwiper-button-next",
-                prevEl: ".recentSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-
-//testimonials Slider
-
-        const swiper6 = new Swiper(".testimonialSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            navigation: {
-                nextEl: ".testimonials-button-next",
-                prevEl: ".testimonials-button-prev",
-            },
-            breakpoints: {
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
 
         // Initialize mixitup
         if (containerRef.current) {
@@ -288,9 +217,10 @@ const Home = () => {
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="flex justify-between items-center py-5">
                                 <div>
-                                    <a href="index.html">
-                                        <img src="./assets/images/all-img/logo.png" alt=""/>
-                                    </a>
+                                  <span className="logo-icon">
+                        <i className="bi bi-bag-check-fill fs-4"></i>
+                                 </span>
+                                    <span className="logo-text">eTTShop</span>
                                 </div>
                                 <div className="lg:max-w-[413px] lg:block hidden w-full">
                                     <div className="relative">
@@ -349,7 +279,8 @@ const Home = () => {
                                                                         <img src={cart1} alt=""/>
                                                                     </div>
                                                                     <div className="px-2-t">
-                                                                        <h2 style={{fontSize :"19px"}} className="text-gray-black "><span>Isolate Sofa Chair</span>
+                                                                        <h2 style={{fontSize: "19px"}}
+                                                                            className="text-gray-black "><span>Isolate Sofa Chair</span>
                                                                             <span className="text-[#636270]">x5</span>
                                                                         </h2>
                                                                         <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -378,7 +309,8 @@ const Home = () => {
                                                                         <img src={cart1} alt=""/>
                                                                     </div>
                                                                     <div className="px-2-t">
-                                                                        <h2 style={{fontSize :"19px"}}className="text-gray-black "><span>Isolate Sofa Chair</span>
+                                                                        <h2 style={{fontSize: "19px"}}
+                                                                            className="text-gray-black "><span>Isolate Sofa Chair</span>
                                                                             <span className="text-[#636270]">x5</span>
                                                                         </h2>
                                                                         <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -407,7 +339,8 @@ const Home = () => {
                                                         <div className="flex justify-between items-center">
                                                             <a href="shopping-cart.html" className="btn-transparent">View
                                                                 Cart</a>
-                                                            <Link className="btn-primary" to={"/checkout-shopping"}>Thanh toán</Link>
+                                                            <Link className="btn-primary" to={"/checkout-shopping"}>Thanh
+                                                                toán</Link>
 
                                                         </div>
 
@@ -1010,7 +943,7 @@ const Home = () => {
                         <div className="swiper-wrapper">
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
 
                                             <img src={product1} alt=""/>
@@ -1059,7 +992,7 @@ const Home = () => {
 
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product1} alt=""/>
                                             <span className="badge new">New</span>
@@ -1106,7 +1039,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product2} alt=""/>
                                             <span className="badge new">New</span>
@@ -1153,7 +1086,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product3} alt=""/>
                                             <span className="badge new">New</span>
@@ -1200,7 +1133,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={f_product_4} alt=""/>
                                             <span className="badge new">New</span>
@@ -1247,7 +1180,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product3} alt=""/>
                                             <span className="badge new">New</span>
@@ -1294,7 +1227,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product2} alt=""/>
                                             <span className="badge new">New</span>
@@ -1341,7 +1274,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product1} alt=""/>
                                             <span className="badge new">New</span>
@@ -1489,14 +1422,14 @@ const Home = () => {
                         phẩm</h2>
                     <ul id="filters" className="flex flex-wrap justify-center gap-2 mb-10">
                         <li>
-                            <button
-                                className="filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active"
+                            <button onClick={handClickAll}
+                                className={isAll ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 ' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active'}
                                 data-filter=".all" data-mixitup-control>Tất cả
                             </button>
                         </li>
                         <li>
-                            <button
-                                className="filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2"
+                            <button onClick={handClickNew}
+                                className={isNew ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active' :'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
                                 data-filter=".newest">Mới nhất
                             </button>
                         </li>
@@ -1520,10 +1453,10 @@ const Home = () => {
                         </li>
                     </ul>
 
-                    <div id="portfoliolist" className="portfoliolist justify-center mx-auto">
+                    <div id="portfoliolist"  className={isAll ? 'portfoliolist justify-center mx-auto display-none':'portfoliolist justify-center mx-auto'}>
                         <div className="mix all featured" data-cat="featured">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={img_2} alt=""/>
                                         <span className="badge new">New</span>
@@ -1571,7 +1504,7 @@ const Home = () => {
 
                         <div className="mix all trending" data-cat="trending">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={img_6} alt=""/>
                                         <span className="badge new">New</span>
@@ -1619,7 +1552,7 @@ const Home = () => {
 
                         <div className="mix all featured" data-cat="featured">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={img_4} alt=""/>
                                         <span className="badge new">New</span>
@@ -1667,7 +1600,7 @@ const Home = () => {
 
                         <div className="mix all best-sellers" data-cat="best-sellers">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={f_product_4} alt=""/>
                                         <span className="badge new">New</span>
@@ -1715,7 +1648,7 @@ const Home = () => {
 
                         <div className="mix all trending" data-cat="trending">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={f_product_4} alt=""/>
                                         <span className="badge new">New</span>
@@ -1763,7 +1696,7 @@ const Home = () => {
 
                         <div className="mix all trending" data-cat="trending">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={product3} alt=""/>
                                         <span className="badge new">New</span>
@@ -1811,7 +1744,7 @@ const Home = () => {
 
                         <div className="mix all best-sellers" data-cat="best-sellers">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={product2} alt=""/>
                                         <span className="badge new">New</span>
@@ -1859,9 +1792,203 @@ const Home = () => {
 
                         <div className="mix all newest" data-cat="newest">
                             <div className="product-card">
-                                <a href="product-details.html">
+                                <a href="/product-detail">
                                     <div className="product-thumb">
                                         <img src={product1} alt=""/>
+                                        <span className="badge new">New</span>
+                                    </div>
+                                    <div className="product-info">
+                                        <div>
+                                            <h2 className="product-name">Library Stool Chair</h2>
+                                            <h3 className="product-price">$20</h3>
+                                        </div>
+                                        <div>
+                                            <button className="cart-icon">
+                                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                                    <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
+                                                          stroke-width="1.5" stroke-linecap="round"
+                                                          stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M6.5578 18.5194C6.62502 18.5165 6.69213 18.5272 6.75509 18.551C6.81805 18.5747 6.87556 18.611 6.92414 18.6575C6.97273 18.704 7.01139 18.7599 7.03781 18.8218C7.06422 18.8837 7.07784 18.9503 7.07784 19.0176C7.07784 19.0849 7.06422 19.1515 7.03781 19.2133C7.01139 19.2752 6.97273 19.3311 6.92414 19.3777C6.87556 19.4242 6.81805 19.4605 6.75509 19.4842C6.69213 19.5079 6.62502 19.5187 6.5578 19.5158C6.42936 19.5103 6.30801 19.4554 6.21908 19.3626C6.13015 19.2697 6.08051 19.1461 6.08051 19.0176C6.08051 18.889 6.13015 18.7654 6.21908 18.6726C6.30801 18.5798 6.42936 18.5249 6.5578 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M16.8988 18.5194C17.0312 18.5194 17.1583 18.572 17.252 18.6657C17.3457 18.7594 17.3983 18.8865 17.3983 19.019C17.3983 19.1515 17.3457 19.2786 17.252 19.3723C17.1583 19.4659 17.0312 19.5186 16.8988 19.5186C16.7663 19.5186 16.6392 19.4659 16.5455 19.3723C16.4518 19.2786 16.3992 19.1515 16.3992 19.019C16.3992 18.8865 16.4518 18.7594 16.5455 18.6657C16.6392 18.572 16.7663 18.5194 16.8988 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="wishlist.html" className="heart-icon">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.63268 10.6315C1.64909 7.56068 2.79768 4.05077 6.02251 3.01218C6.85874 2.74461 7.74682 2.68088 8.61268 2.8263C9.47855 2.97173 10.2971 3.3221 11 3.84818C12.3338 2.81693 14.2743 2.4686 15.9683 3.01218C19.1923 4.05077 20.3491 7.56068 19.3664 10.6315C17.8356 15.499 11 19.2482 11 19.2482C11 19.2482 4.21484 15.5558 2.63268 10.6315V10.6315Z"
+                                              stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="portfoliolist"  className={isNew ? 'portfoliolist justify-center mx-auto ':'portfoliolist justify-center mx-auto display-none'}>
+                        <div className="mix all featured" data-cat="featured">
+                            <div className="product-card">
+                                <a href="/product-detail">
+                                    <div className="product-thumb">
+                                        <img src={img_2} alt=""/>
+                                        <span className="badge new">New</span>
+                                    </div>
+                                    <div className="product-info">
+                                        <div>
+                                            <h2 className="product-name">Library Stool Chair</h2>
+                                            <h3 className="product-price">$20</h3>
+                                        </div>
+                                        <div>
+                                            <button className="cart-icon">
+                                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                                    <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
+                                                          stroke-width="1.5" stroke-linecap="round"
+                                                          stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M6.5578 18.5194C6.62502 18.5165 6.69213 18.5272 6.75509 18.551C6.81805 18.5747 6.87556 18.611 6.92414 18.6575C6.97273 18.704 7.01139 18.7599 7.03781 18.8218C7.06422 18.8837 7.07784 18.9503 7.07784 19.0176C7.07784 19.0849 7.06422 19.1515 7.03781 19.2133C7.01139 19.2752 6.97273 19.3311 6.92414 19.3777C6.87556 19.4242 6.81805 19.4605 6.75509 19.4842C6.69213 19.5079 6.62502 19.5187 6.5578 19.5158C6.42936 19.5103 6.30801 19.4554 6.21908 19.3626C6.13015 19.2697 6.08051 19.1461 6.08051 19.0176C6.08051 18.889 6.13015 18.7654 6.21908 18.6726C6.30801 18.5798 6.42936 18.5249 6.5578 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M16.8988 18.5194C17.0312 18.5194 17.1583 18.572 17.252 18.6657C17.3457 18.7594 17.3983 18.8865 17.3983 19.019C17.3983 19.1515 17.3457 19.2786 17.252 19.3723C17.1583 19.4659 17.0312 19.5186 16.8988 19.5186C16.7663 19.5186 16.6392 19.4659 16.5455 19.3723C16.4518 19.2786 16.3992 19.1515 16.3992 19.019C16.3992 18.8865 16.4518 18.7594 16.5455 18.6657C16.6392 18.572 16.7663 18.5194 16.8988 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="wishlist.html" className="heart-icon">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.63268 10.6315C1.64909 7.56068 2.79768 4.05077 6.02251 3.01218C6.85874 2.74461 7.74682 2.68088 8.61268 2.8263C9.47855 2.97173 10.2971 3.3221 11 3.84818C12.3338 2.81693 14.2743 2.4686 15.9683 3.01218C19.1923 4.05077 20.3491 7.56068 19.3664 10.6315C17.8356 15.499 11 19.2482 11 19.2482C11 19.2482 4.21484 15.5558 2.63268 10.6315V10.6315Z"
+                                              stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div className="mix all featured" data-cat="featured">
+                            <div className="product-card">
+                                <a href="/product-detail">
+                                    <div className="product-thumb">
+                                        <img src={img_4} alt=""/>
+                                        <span className="badge new">New</span>
+                                    </div>
+                                    <div className="product-info">
+                                        <div>
+                                            <h2 className="product-name">Library Stool Chair</h2>
+                                            <h3 className="product-price">$20</h3>
+                                        </div>
+                                        <div>
+                                            <button className="cart-icon">
+                                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                                    <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
+                                                          stroke-width="1.5" stroke-linecap="round"
+                                                          stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M6.5578 18.5194C6.62502 18.5165 6.69213 18.5272 6.75509 18.551C6.81805 18.5747 6.87556 18.611 6.92414 18.6575C6.97273 18.704 7.01139 18.7599 7.03781 18.8218C7.06422 18.8837 7.07784 18.9503 7.07784 19.0176C7.07784 19.0849 7.06422 19.1515 7.03781 19.2133C7.01139 19.2752 6.97273 19.3311 6.92414 19.3777C6.87556 19.4242 6.81805 19.4605 6.75509 19.4842C6.69213 19.5079 6.62502 19.5187 6.5578 19.5158C6.42936 19.5103 6.30801 19.4554 6.21908 19.3626C6.13015 19.2697 6.08051 19.1461 6.08051 19.0176C6.08051 18.889 6.13015 18.7654 6.21908 18.6726C6.30801 18.5798 6.42936 18.5249 6.5578 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M16.8988 18.5194C17.0312 18.5194 17.1583 18.572 17.252 18.6657C17.3457 18.7594 17.3983 18.8865 17.3983 19.019C17.3983 19.1515 17.3457 19.2786 17.252 19.3723C17.1583 19.4659 17.0312 19.5186 16.8988 19.5186C16.7663 19.5186 16.6392 19.4659 16.5455 19.3723C16.4518 19.2786 16.3992 19.1515 16.3992 19.019C16.3992 18.8865 16.4518 18.7594 16.5455 18.6657C16.6392 18.572 16.7663 18.5194 16.8988 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="wishlist.html" className="heart-icon">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.63268 10.6315C1.64909 7.56068 2.79768 4.05077 6.02251 3.01218C6.85874 2.74461 7.74682 2.68088 8.61268 2.8263C9.47855 2.97173 10.2971 3.3221 11 3.84818C12.3338 2.81693 14.2743 2.4686 15.9683 3.01218C19.1923 4.05077 20.3491 7.56068 19.3664 10.6315C17.8356 15.499 11 19.2482 11 19.2482C11 19.2482 4.21484 15.5558 2.63268 10.6315V10.6315Z"
+                                              stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="mix all best-sellers" data-cat="best-sellers">
+                            <div className="product-card">
+                                <a href="/product-detail">
+                                    <div className="product-thumb">
+                                        <img src={f_product_4} alt=""/>
+                                        <span className="badge new">New</span>
+                                    </div>
+                                    <div className="product-info">
+                                        <div>
+                                            <h2 className="product-name">Library Stool Chair</h2>
+                                            <h3 className="product-price">$20</h3>
+                                        </div>
+                                        <div>
+                                            <button className="cart-icon">
+                                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                                    <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
+                                                          stroke-width="1.5" stroke-linecap="round"
+                                                          stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M6.5578 18.5194C6.62502 18.5165 6.69213 18.5272 6.75509 18.551C6.81805 18.5747 6.87556 18.611 6.92414 18.6575C6.97273 18.704 7.01139 18.7599 7.03781 18.8218C7.06422 18.8837 7.07784 18.9503 7.07784 19.0176C7.07784 19.0849 7.06422 19.1515 7.03781 19.2133C7.01139 19.2752 6.97273 19.3311 6.92414 19.3777C6.87556 19.4242 6.81805 19.4605 6.75509 19.4842C6.69213 19.5079 6.62502 19.5187 6.5578 19.5158C6.42936 19.5103 6.30801 19.4554 6.21908 19.3626C6.13015 19.2697 6.08051 19.1461 6.08051 19.0176C6.08051 18.889 6.13015 18.7654 6.21908 18.6726C6.30801 18.5798 6.42936 18.5249 6.5578 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                          d="M16.8988 18.5194C17.0312 18.5194 17.1583 18.572 17.252 18.6657C17.3457 18.7594 17.3983 18.8865 17.3983 19.019C17.3983 19.1515 17.3457 19.2786 17.252 19.3723C17.1583 19.4659 17.0312 19.5186 16.8988 19.5186C16.7663 19.5186 16.6392 19.4659 16.5455 19.3723C16.4518 19.2786 16.3992 19.1515 16.3992 19.019C16.3992 18.8865 16.4518 18.7594 16.5455 18.6657C16.6392 18.572 16.7663 18.5194 16.8988 18.5194Z"
+                                                          fill="#272343" stroke="currentColor" stroke-width="1.5"
+                                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="wishlist.html" className="heart-icon">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.63268 10.6315C1.64909 7.56068 2.79768 4.05077 6.02251 3.01218C6.85874 2.74461 7.74682 2.68088 8.61268 2.8263C9.47855 2.97173 10.2971 3.3221 11 3.84818C12.3338 2.81693 14.2743 2.4686 15.9683 3.01218C19.1923 4.05077 20.3491 7.56068 19.3664 10.6315C17.8356 15.499 11 19.2482 11 19.2482C11 19.2482 4.21484 15.5558 2.63268 10.6315V10.6315Z"
+                                              stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="mix all trending" data-cat="trending">
+                            <div className="product-card">
+                                <a href="/product-detail">
+                                    <div className="product-thumb">
+                                        <img src={f_product_4} alt=""/>
                                         <span className="badge new">New</span>
                                     </div>
                                     <div className="product-info">
@@ -1935,7 +2062,7 @@ const Home = () => {
                         <div className="swiper-wrapper">
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product1} alt=""/>
                                             <span className="badge new">New</span>
@@ -1982,7 +2109,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product2} alt=""/>
                                             <span className="badge new">New</span>
@@ -2029,7 +2156,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product3} alt=""/>
                                             <span className="badge new">New</span>
@@ -2076,7 +2203,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={f_product_4} alt=""/>
                                             <span className="badge new">New</span>
@@ -2123,7 +2250,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product1} alt=""/>
                                             <span className="badge new">New</span>
@@ -2170,7 +2297,7 @@ const Home = () => {
                             </div>
                             <div className="swiper-slide">
                                 <div className="product-card">
-                                    <a href="product-details.html">
+                                    <a href="/product-detail">
                                         <div className="product-thumb">
                                             <img src={product2} alt=""/>
                                             <span className="badge new">New</span>
@@ -2407,7 +2534,8 @@ const Home = () => {
                     </div>
                 </div>
             </footer>
-
+             <MiniChat/>
+            {/*<ChatUser/>*/}
 
         </div>
     );

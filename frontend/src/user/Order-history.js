@@ -9,6 +9,7 @@ import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
+import MiniChat from "./MiniChat";
 
 const Order_History= () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -83,142 +84,6 @@ const Order_History= () => {
 
     };
     useEffect(() => {
-        const swiperBanner = new Swiper('.bannerSwiper', {
-            cssMode: true,
-            loop: true,
-            speed: 1000,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            mousewheel: true,
-            keyboard: true,
-        });
-
-        const swiperBanner2 = new Swiper(".brandSwiper", {
-            slidesPerView: 2,
-            spaceBetween: 12,
-            loop: true,
-            mousewheel: true,
-            breakpoints: {
-                375: {
-                    slidesPerView: 3,
-                    spaceBetween: 12,
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 5,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                },
-                1500: {
-                    slidesPerView: 6,
-                    spaceBetween: 106,
-                }
-            },
-        });
-        const swiper3 = new Swiper(".topCategoriesSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 12,
-            centeredSlides: true,
-            loop: true,
-            navigation: {
-                nextEl: ".categoriesSwiper-button-next",
-                prevEl: ".categoriesSwiper-button-prev",
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper4 = new Swiper(".featureSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".featureSwiper-button-next",
-                prevEl: ".featureSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-        const swiper5 = new Swiper(".recentSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 24,
-            loop: true,
-            navigation: {
-                nextEl: ".recentSwiper-button-next",
-                prevEl: ".recentSwiper-button-prev",
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 12,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 18,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
-
-//testimonials Slider
-
-        const swiper6 = new Swiper(".testimonialSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            navigation: {
-                nextEl: ".testimonials-button-next",
-                prevEl: ".testimonials-button-prev",
-            },
-            breakpoints: {
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-            },
-        });
-
 
         // Initialize mixitup
         if (containerRef.current) {
@@ -260,45 +125,9 @@ const Order_History= () => {
                     <div className="top-header bg-secondary">
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="py-3.5 flex justify-center sm:justify-between">
-                                <p className="sm:flex gap-2 items-center text-[13px] leading-[110%] text-white opacity-70 hidden">
-                            <span>
-                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.3334 4.5L6.00002 11.8333L2.66669 8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                                    <span>Free shipping on all orders over $50</span>
-                                </p>
+
                                 <div>
-                                    <ul className="flex gap-6 items-center">
-                                        <li className="inline-flex items-center text-white-50 justify-center relative language">
-                                            <select className="custom-select" name="state">
-                                                <option value="AL">Eng</option>
-                                                <option value="WY">Bangla</option>
-                                            </select>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#" className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">Faqs</a>
-                                        </li>
-                                        <li className="inline-flex items-center justify-center">
-                                            <a href="#" className="inline-flex gap-2 items-center text-white opacity-70 text-[13px] leading-[130%]">
-                                        <span>
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <g opacity="0.7" clip-path="url(#clip0_906_1673)">
-                                                    <path d="M7.99992 14.6667C11.6818 14.6667 14.6666 11.6819 14.6666 8C14.6666 4.3181 11.6818 1.33333 7.99992 1.33333C4.31802 1.33333 1.33325 4.3181 1.33325 8C1.33325 11.6819 4.31802 14.6667 7.99992 14.6667Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M8 5.33333V8" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M8 10.6667H8.00615" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_906_1673">
-                                                        <rect width="16" height="16" fill="white" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
-                                        </span>
-                                                <span>Need Help</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -307,9 +136,10 @@ const Order_History= () => {
                         <div className="container px-3 md:px-5 xl:px-0">
                             <div className="flex justify-between items-center py-5">
                                 <div>
-                                    <a href="index.html">
-                                        <img src="../assets/images/all-img/logo.png" alt=""/>
-                                    </a>
+                                           <span className="logo-icon">
+                        <i className="bi bi-bag-check-fill fs-4"></i>
+                                 </span>
+                                    <span className="logo-text">eTTShop</span>
                                 </div>
                                 <div className="lg:max-w-[413px] lg:block hidden w-full">
                                     <div className="relative">
@@ -925,7 +755,7 @@ const Order_History= () => {
                     </div>
                 </div>
             </footer>
-      
+            <MiniChat/>
         </div>
     );
 }

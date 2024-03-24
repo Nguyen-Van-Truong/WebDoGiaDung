@@ -11,8 +11,33 @@
   --success: #01AD5A;
   
 }
-
-
+.display-none{
+    display: none !important;
+}
+.bi.bi-bag-check-fill::before{
+    font-size: 28px;
+    color: var(--success);
+}
+.logo-text{
+    margin-left: 5px;
+    font-size: 20px;
+    color: var(--success);
+}
+.chat-img{
+    font-size: 30px;
+    color:var(--success) ;
+    padding: 12px;
+    display: flex;
+    gap: 5px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+.mini-chat {
+    position: fixed;
+    z-index: 99999;
+    right: 8px;
+    bottom: 15px;
+}
 .pt_b {
     padding: 50px 0px;
 }
