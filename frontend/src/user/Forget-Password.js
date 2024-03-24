@@ -9,6 +9,7 @@ import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
+import MiniChat from "./MiniChat";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -686,7 +687,7 @@ const Forget_Password = () => {
                     </div>
                 </div>
             </footer>
-            
+            <MiniChat/>
         </div>
     );
 }

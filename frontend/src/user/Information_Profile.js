@@ -10,6 +10,7 @@ import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import  profile from  '../assets/images/all-img/profile-photo.png'
+import MiniChat from "./MiniChat";
 
 const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -803,7 +804,7 @@ const Information_Profile = () => {
                     </div>
                 </div>
             </footer>
-
+            <MiniChat/>
         </div>
     );
 }
