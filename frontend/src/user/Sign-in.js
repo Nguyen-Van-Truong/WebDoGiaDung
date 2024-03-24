@@ -9,6 +9,7 @@ import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
+import MiniChat from "./MiniChat";
 const SignIn = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
@@ -728,6 +729,7 @@ const SignIn = () => {
                     </div>
                 </div>
             </footer>
+            <MiniChat/>
         </div>
     );
 }

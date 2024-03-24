@@ -23,6 +23,21 @@
     font-size: 20px;
     color: var(--success);
 }
+.chat-img{
+    font-size: 30px;
+    color:var(--success) ;
+    padding: 12px;
+    display: flex;
+    gap: 5px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+.mini-chat {
+    position: fixed;
+    z-index: 99999;
+    right: 8px;
+    bottom: 15px;
+}
 .pt_b {
     padding: 50px 0px;
 }

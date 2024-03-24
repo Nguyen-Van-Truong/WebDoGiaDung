@@ -13,6 +13,7 @@ import '../css/styles.css'
 import '../css/responsive.css'
 import {Link} from "react-router-dom";
 import cart1 from "../assets/images/all-img/cart-01.png";
+import MiniChat from "./MiniChat";
 
 const Product_details = () => {
     const containerRef = useRef(null);
@@ -1345,6 +1346,7 @@ const Product_details = () => {
                     </div>
                 </div>
             </footer>
+            <MiniChat/>
         </div>
 
     )

@@ -23,6 +23,8 @@ import t_pr2 from '../assets/images/all-img/t-product-02.png'
 import t_pr3 from '../assets/images/all-img/t-product-03.png'
 import chair from '../assets/images/all-img/chair.png';
 import {Link} from "react-router-dom";
+import MiniChat from "./MiniChat";
+import ChatUser from "./ChatUser";
 
 const Home = () => {
     // Refs for the password inputs and icons
@@ -2532,7 +2534,8 @@ const Home = () => {
                     </div>
                 </div>
             </footer>
-
+             <MiniChat/>
+            {/*<ChatUser/>*/}
 
         </div>
     );
