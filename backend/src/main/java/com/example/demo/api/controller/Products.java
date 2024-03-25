@@ -15,6 +15,7 @@ import java.util.Set;
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private int product_id;
 
     @Column(name = "category_id")
@@ -22,6 +23,8 @@ public class Products {
 
     @Column(name = "product_name")
     private String product_name;
+    @Column(name ="description")
+    private String description;
     @Column(name = "price")
     private BigDecimal price;
     @Column (name = "stock_quantity")
@@ -84,6 +87,14 @@ public class Products {
 
     public void setMedias(Set<Medias> medias) {
         this.medias = medias;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
