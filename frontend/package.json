@@ -60,5 +60,6 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

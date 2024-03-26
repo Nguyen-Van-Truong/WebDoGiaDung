@@ -23,7 +23,6 @@ public class Medias {
 @Column(name = "uploaded_at")
 private Timestamp uploaded_at;
 
-
     public int getMedia_id() {
         return media_id;
     }

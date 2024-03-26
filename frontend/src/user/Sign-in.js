@@ -538,7 +538,7 @@ const SignIn = () => {
                             <div
                                 className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">Bạn
                                 chưa
-                                có tài khoản?     <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/register"}>Đăng kí</Link></div>
+                                có tài khoản? <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/register"}>Đăng kí</Link></div>
                         </div>
                     </div>
                 </div>
