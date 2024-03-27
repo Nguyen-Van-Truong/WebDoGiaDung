@@ -316,7 +316,7 @@ const Order_History= () => {
                             <div>
                                 <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
-                                    className="text-secondary font-medium">(808) 555-0111</span></p>
+                                    className="text-secondary font-medium">0339171545</span></p>
                             </div>
                         </div>
                     </div>

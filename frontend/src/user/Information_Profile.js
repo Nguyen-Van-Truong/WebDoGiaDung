@@ -126,7 +126,7 @@ const Information_Profile = () => {
             <header className="font-display">
                 <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
                     <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
+                        <div className="container px-3_t md:px-5 xl:px-0">
                             <div className="py-3.5 flex justify-center sm:justify-between">
 
                                 <div>
@@ -136,7 +136,7 @@ const Information_Profile = () => {
                         </div>
                     </div>
                     <div className="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
-                        <div className="container px-3 md:px-5 xl:px-0">
+                        <div className="container px-3_t md:px-5 xl:px-0">
                             <div className="flex justify-between items-center py-5">
                                 <div>
                                     <a href="index.html">
@@ -247,7 +247,7 @@ const Information_Profile = () => {
                                                 <div className="profile-content">
                                                     <ul className="py-3"
                                                         style={{display: isUserOpen ? 'block' : 'none'}}>
-                                                        <div className="px-3 shadow-[0px_1px_0px_#E1E3E6]">
+                                                        <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                             <li>
                                                                 <Link to="/login">Đăng nhập</Link>
                                                             </li>
@@ -271,7 +271,7 @@ const Information_Profile = () => {
                     </div>
                 </div>
                 <div className="bottom-header bg-white shadow-[0px_1px_0px_#E1E3E6] relative z-30 hidden lg:block">
-                    <div className="container px-3 md:px-5 xl:px-0">
+                    <div className="container px-3_t md:px-5 xl:px-0">
                         <div className="py-3.5 flex justify-between items-center">
                             <div className="flex gap-8 items-center">
                                 <div className="relative">
@@ -318,7 +318,7 @@ const Information_Profile = () => {
                             <div>
                                 <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
-                                    className="text-secondary font-medium">(808) 555-0111</span></p>
+                                    className="text-secondary font-medium">0339171545</span></p>
                             </div>
                         </div>
                     </div>
@@ -326,7 +326,7 @@ const Information_Profile = () => {
 
                 <div className={menuOpen ? 'nav-menu open' : 'nav-menu'} id="nav-menu">
                     {menuOpen && (
-                        <div className="flex justify-between  items-center px-3 py-4 mb-4">
+                        <div className="flex justify-between  items-center px-3_t py-4 mb-4">
                             <div>
                                 <a href="#">
                                     <img src="../assets/images/all-img/logo-sm.png" alt=""/>
@@ -419,7 +419,7 @@ const Information_Profile = () => {
                         </div>
                     )}
 
-                    <div className="px-3 mb-4">
+                    <div className="px-3_t mb-4">
                         <div className="lg:max-w-[413px] w-full">
                             <div className="relative">
                                 <input type="text" placeholder="search here..."
@@ -456,13 +456,13 @@ const Information_Profile = () => {
                             <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
                                 <ul className="flex flex-col items-center">
                                     <li className="w-full block">
-                                        <a href="" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
+                                        <a href="" className="border-b border-[#029FAE] block px-3_t py-2">Trang chủ</a>
                                     </li>
                                     <li className="w-full block">
-                                        <a href="" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>
+                                        <a href="" className="border-b border-[#029FAE] block px-3_t py-2">Shop</a>
                                     </li>
                                     <li className="w-full block">
-                                        <a href="" className="border-b border-[#029FAE] block px-3 py-2">Sản phẩm</a>
+                                        <a href="" className="border-b border-[#029FAE] block px-3_t py-2">Sản phẩm</a>
                                     </li>
 
                                 </ul>
@@ -472,20 +472,20 @@ const Information_Profile = () => {
                             <div className={isCategory ? 'panel-2 tab-content active' : 'panel-2 tab-content py-5'}>
                                 <ul>
                                     <li>
-                                        <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bàn ghế</a>
+                                        <a href="#" className="border-b border-[#029FAE] block px-3_t py-2">Bàn ghế</a>
                                     </li>
                                     <li>
-                                        <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bếp điện
+                                        <a href="#" className="border-b border-[#029FAE] block px-3_t py-2">Bếp điện
                                             từ</a>
                                     </li>
                                     <li>
-                                        <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Nồi cơm</a>
+                                        <a href="#" className="border-b border-[#029FAE] block px-3_t py-2">Nồi cơm</a>
                                     </li>
                                     <li>
-                                        <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Tủ lạnh</a>
+                                        <a href="#" className="border-b border-[#029FAE] block px-3_t py-2">Tủ lạnh</a>
                                     </li>
                                     <li>
-                                        <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Quạt</a>
+                                        <a href="#" className="border-b border-[#029FAE] block px-3_t py-2">Quạt</a>
                                     </li>
                                 </ul>
                             </div>
@@ -497,7 +497,7 @@ const Information_Profile = () => {
             </header>
 
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
-                <div className="container px-3 md:px-5 xl:px-0">
+                <div className="container px-3_t md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
                         <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
 
@@ -528,7 +528,7 @@ const Information_Profile = () => {
 
                         <div >
                             <div id="account_settings">
-                                <div className="container px-3 md:px-5 xl:px-0 py-10">
+                                <div className="container px-3_t md:px-5 xl:px-0 py-10">
                                     <div className="accout-setting flex flex-col xl:flex-row gap-6-t">
 
                                         <div className="box xl:w-[536px]">
@@ -666,7 +666,7 @@ const Information_Profile = () => {
 
             <footer>
                 <div className="footer-top xl:pt-20 xl:pb-[60px] py-6 sm:py-8 md:py-12 shadow-[inset_0px_1px_0px_#E1E3E6]">
-                    <div className="container px-3 md:px-5 xl:px-0">
+                    <div className="container px-3_t md:px-5 xl:px-0">
                         <div className=" flex flex-wrap gap-y-6 justify-between">
                             <div className="footer-widget max-w-[350px]">
                                 <div className="lg:mb-6 mb-4">
@@ -794,7 +794,7 @@ const Information_Profile = () => {
                     </div>
                 </div>
                 <div class="footer-bottom shadow-[inset_0px_1px_0px_#E1E3E6] py-6">
-                    <div class="container px-3 md:px-5 xl:px-0">
+                    <div class="container px-3_t md:px-5 xl:px-0">
                         <div class="flex flex-wrap sm:justify-between sm:flex-nowrap justify-center items-center gap-y-6">
                             <p class="text-center text-[#9A9CAA]">@ 2021 - Blogy - Designed & Develop by <b class="text-grayscales-900">Zakirsoft</b></p>
                             <div class="inline-flex justify-center h-[27px] w-[227px]">
