@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 public class Medias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int media_id;
     @Column(name = "file_url")
     private String file_url;
@@ -69,6 +70,8 @@ private Timestamp uploaded_at;
     public void setProducts(Products products) {
         this.products = products;
     }
+
+
 
     @ManyToOne
     @JoinColumn(name = "product_id" , nullable = false ,referencedColumnName = "product_id")

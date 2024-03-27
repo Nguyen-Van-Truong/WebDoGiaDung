@@ -265,7 +265,7 @@ const SignIn = () => {
                             <div>
                                 <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
-                                    className="text-secondary font-medium">(808) 555-0111</span></p>
+                                    className="text-secondary font-medium">0339171545</span></p>
                             </div>
                         </div>
                     </div>
@@ -538,7 +538,7 @@ const SignIn = () => {
                             <div
                                 className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">Bạn
                                 chưa
-                                có tài khoản?     <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/register"}>Đăng kí</Link></div>
+                                có tài khoản? <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/register"}>Đăng kí</Link></div>
                         </div>
                     </div>
                 </div>

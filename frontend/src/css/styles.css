@@ -662,7 +662,9 @@ a {
   -ms-transition: all 0.5s ease-out 0s;
   -o-transition: all 0.5s ease-out 0s;
   transition: all 0.5s ease-out 0s;
-  display: inline-block;
+    background: #fff;
+    padding: 4px 16px;
+    border-radius: 7px;
 }
 
 .product-card .product-thumb {
@@ -674,8 +676,10 @@ a {
 }
 
 .product-card .product-thumb img {
-  width: 100%;
-  object-fit: cover;
+    width: 350px; /* Chiều rộng tối đa là 100% của container */
+    height: 240px; /* Đặt chiều cao cố định */
+    object-fit: contain; /* Giữ nguyên tỷ lệ, không cắt bất kỳ phần nào của hình ảnh */
+    object-position: center;
   border-radius: 6px;
   -webkit-transition: all 0.5s ease-out 0s;
   -moz-transition: all 0.5s ease-out 0s;
@@ -688,8 +692,8 @@ a {
 }
 .product-card .badge {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 5%;
+  left: 5%;
   font-weight: 500;
   font-size: 13px;
   line-height: 110%;
@@ -727,6 +731,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+    gap: 30px;
 }
 
 .product-card .product-info .product-name {
@@ -757,10 +762,11 @@ a {
   font-size: 18px;
   line-height: 110%;
   text-transform: capitalize;
+   color: orange;
 }
 
 .product-card .cart-icon {
-  background: #ffffff;
+  background: var(--accents);
   border-radius: 8px;
   padding: 11px 12px;
   display: inline-block;
@@ -1257,6 +1263,9 @@ header{
   font-family: 'Inter',sans-serif;
   font-size: 14px;
   line-height: 20px;
+}
+.m-b-30{
+    margin-bottom:30px
 }
 .main-menu>li>a:hover{
   color: #029FAE;
