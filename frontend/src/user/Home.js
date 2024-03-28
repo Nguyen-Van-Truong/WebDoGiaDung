@@ -3,7 +3,7 @@ import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
-
+import axios from 'axios';
 import '../css/responsive.css'
 import img_2 from '../assets/images/all-img/2.jpg'
 
@@ -123,23 +123,22 @@ const Home = () => {
 
     useEffect(() => {
 
-
-        // sử dung api
         const fetchProducts = async () => {
             try {
-                // Note the URL here is a relative path, not the full URL
-                const response = await fetch("/api/products/allproducts");
+                // Sử dụng axios.get  thực hiện yêu cầu GET
+                const response = await axios.get("/api/products/allproducts");
 
-                const data = await response.json();
+                // Dữ liệu trả về từ axios nằm trong property `data` của response
+                const data = response.data;
                 setProduct(data);
                 console.log(data);
             } catch (error) {
-                console.error('Lỗi khi lấy dữ liệu:', error);
+
+                console.error( error.response || error.request || error.message);
             }
         };
 
         fetchProducts();
-
         // Initialize Swiper instances
         const swiperBanner = new Swiper('.bannerSwiper', {
             cssMode: true,
@@ -1040,6 +1039,7 @@ const Home = () => {
                         ))}
 
                     </div>
+
                 </div>
             </section>
 
