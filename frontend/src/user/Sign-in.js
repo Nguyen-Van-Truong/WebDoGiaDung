@@ -478,7 +478,7 @@ const SignIn = () => {
                         <div className="form">
                             <form action="" className="">
                                 <div className="mb-4">
-                                    <input type="text" placeholder="Email"
+                                    <input type="email" placeholder="Email"
                                            className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                 </div>
 
