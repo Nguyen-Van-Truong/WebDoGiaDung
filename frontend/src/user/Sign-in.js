@@ -265,7 +265,7 @@ const SignIn = () => {
                             <div>
                                 <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
                                     <span>Contact:</span><span
-                                    className="text-secondary font-medium">(808) 555-0111</span></p>
+                                    className="text-secondary font-medium">0339171545</span></p>
                             </div>
                         </div>
                     </div>
@@ -478,7 +478,7 @@ const SignIn = () => {
                         <div className="form">
                             <form action="" className="">
                                 <div className="mb-4">
-                                    <input type="text" placeholder="Email"
+                                    <input type="email" placeholder="Email"
                                            className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                 </div>
 
