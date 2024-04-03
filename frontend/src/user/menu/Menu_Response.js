@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory, setIsMenu, setMenuOpen, setUserMin, toggleMenuOpen} from "../../redux/Action";
+import {setCategory, setIsMenu,  setUserMin, toggleMenuOpen} from "../../redux/Action";
 
 
 const Menu_Response = () => {
@@ -15,7 +15,7 @@ const Menu_Response = () => {
     }
     const handleCloseClick = () => {
         dispatch(toggleMenuOpen());
-        dispatch(setIsMenu(isMenu));
+        dispatch(setIsMenu(!isMenu));
     };
     const handClickMenu = () => {
         dispatch(setIsMenu(!isMenu));
@@ -28,6 +28,12 @@ const Menu_Response = () => {
         dispatch((setCategory(!isCategory)));
         console.log("trang thai 1" + !isCategory)
     };
+    const clickAll = () => {
+
+        dispatch(setIsMenu(!isMenu));
+        dispatch(setUserMin(isUserMin));
+        dispatch((setCategory(!isCategory)));
+    }
     return (
    <div>
        <div className={menuOpen ? 'nav-menu open' : 'nav-menu'} >
@@ -97,10 +103,10 @@ const Menu_Response = () => {
                                {(isUserMin &&
                                    <ul style={{display: isUserMin ? 'block' : 'none'}}>
                                        <li>
-                                           <Link to="/login">Đăng nhập</Link>
+                                           <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
                                        </li>
                                        <li>
-                                           <Link to={"/register"}>Đăng kí</Link>
+                                           <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
                                        </li>
 
                                    </ul>
