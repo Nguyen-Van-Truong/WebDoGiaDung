@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {setCategory, setIsCart, setIsMenu, setMenuOpen, setUserMin, toggleMenuOpen} from "../../redux/Action";
 const Header_Menu =() => {
     const dispatch = useDispatch();
-    const    menuOpen =useSelector((state) => state.menuOpen);
+
     const isCart = useSelector((state) => state.isCart);
     const  isMenu = useSelector((state) => state.isMenu);
 
@@ -27,6 +27,11 @@ const Header_Menu =() => {
         dispatch(setUserMin(isUserMin));
         dispatch(setCategory(isCategory));
     };
+    const clickAll = () => {
+        dispatch(setIsMenu(!isMenu));
+        dispatch(setUserMin(isUserMin));
+        dispatch((setCategory(isCategory)));
+    }
     return (
         <div className="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
             <div className="container px-3_t md:px-5 xl:px-0">
@@ -154,7 +159,7 @@ const Header_Menu =() => {
                                             <div className="flex justify-between items-center">
                                                 <a href="shopping-cart.html" className="btn-transparent">View
                                                     Cart</a>
-                                                <Link className="btn-primary" to={"/checkout-shopping"}>Thanh
+                                                <Link className="btn-primary" to={"/checkout-shopping"} onClick={clickAll}>Thanh
                                                     toán</Link>
 
                                             </div>
@@ -198,33 +203,33 @@ const Header_Menu =() => {
                                             style={{display: isMenu ? 'block' : 'none'}}>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                 <li>
-                                                    <Link to="/login">Đăng nhập</Link>
+                                                    <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/register"}>Đăng kí</Link>
-                                                </li>
-                                            </div>
-                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                <li>
-                                                    <Link to={"/forget-password"}>Quên mật khẩu</Link>
-                                                </li>
-                                                <li>
-                                                    <Link to={"/order-history"}>Lịch sử đơn hàng</Link>
+                                                    <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
                                                 </li>
                                             </div>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                 <li>
-                                                    <Link to={"/change-password"}>Đổi mật khẩu</Link>
+                                                    <Link to={"/forget-password"} onClick={clickAll}>Quên mật khẩu</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn hàng</Link>
+                                                </li>
+                                            </div>
+                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                <li>
+                                                    <Link to={"/change-password"} onClick={clickAll}>Đổi mật khẩu</Link>
 
                                                 </li>
                                                 <li>
-                                                    <Link to={"/cart"}>Giỏ hàng</Link>
+                                                    <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
 
                                                 </li>
                                             </div>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                 <li>
-                                                    <Link to={"/account-setting"}>Cài đặt tài khoản</Link>
+                                                    <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài khoản</Link>
 
                                                 </li>
 
