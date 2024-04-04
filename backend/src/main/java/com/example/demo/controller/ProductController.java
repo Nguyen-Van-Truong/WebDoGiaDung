@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.api.controller.ProductMediaInfo;
-import com.example.demo.api.controller.Products;
+import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +20,10 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("/allproducts")
-    public List<ProductMediaInfo> getAll() {
-        return service.getAllList();
-    }
-
-    @GetMapping("/newest")
-    public List<ProductMediaInfo> getNewestProducts(@RequestParam(value = "count", defaultValue = "5") int count) {
-        return service.getNewestProducts(count);
+    @GetMapping("/products")
+    public List<ProductMediaInfo> getProducts(@RequestParam(value = "count", defaultValue = Integer.MAX_VALUE + "") int count,
+                                              @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
+        return service.getProducts(count, sortOrder);
     }
 
 }

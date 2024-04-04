@@ -1,4 +1,4 @@
-package com.example.demo.api.controller;
+package com.example.demo.model;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ClassPathResource;

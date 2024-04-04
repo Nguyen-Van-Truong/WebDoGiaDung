@@ -1,4 +1,4 @@
-package com.example.demo.api.controller;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 
