@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -24,5 +25,9 @@ public class ProductService {
         return repo.findProductsWithMedia(PageRequest.of(0, count, sort));
     }
 
-
+    public List<ProductMediaInfo> getTopSellingProducts(int limit) {
+        return repo.findTopSellingProducts(PageRequest.of(0, limit)).stream()
+                .map(p -> new ProductMediaInfo(p.getProduct_name(), p.getDescription(), p.getPrice(), p.getStock_quantity(), (p.getMedias().isEmpty() ? null : p.getMedias().iterator().next().getFile_url())))
+                .collect(Collectors.toList());
+    }
 }

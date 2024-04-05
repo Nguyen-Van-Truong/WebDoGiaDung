@@ -26,4 +26,8 @@ public class ProductController {
         return service.getProducts(count, sortOrder);
     }
 
+    @GetMapping("/top-selling")
+    public List<ProductMediaInfo> getTopSellingProducts(@RequestParam(value = "limit", defaultValue = "10") int limit) {
+        return service.getTopSellingProducts(limit);
+    }
 }

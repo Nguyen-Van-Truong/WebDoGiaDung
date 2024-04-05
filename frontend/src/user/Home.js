@@ -71,7 +71,7 @@ const Home = () => {
         const fetchProducts = async () => {
             try {
                 // Sử dụng axios.get  thực hiện yêu cầu GET
-                const response = await axios.get("/api/products/allproducts");
+                const response = await axios.get("/api/products/products");
 
                 // Dữ liệu trả về từ axios nằm trong property `data` của response
                 const data = response.data;
