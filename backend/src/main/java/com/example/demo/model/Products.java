@@ -1,4 +1,4 @@
-package com.example.demo.api.controller;
+package com.example.demo.model;
 
 import java.sql.Timestamp;
 
@@ -17,21 +17,28 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private int product_id;
-
-    @Column(name = "category_id")
-    private  int category_id;
-
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Categories category;
     @Column(name = "product_name")
     private String product_name;
-    @Column(name ="description")
+    @Column(name = "description")
     private String description;
     @Column(name = "price")
     private BigDecimal price;
-    @Column (name = "stock_quantity")
-    private  int stock_quantity;
+    @Column(name = "stock_quantity")
+    private int stock_quantity;
 
     @Column(name = "created_at")
     private Timestamp created_at;
+
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
+    }
 
     public int getProduct_id() {
         return product_id;
@@ -41,13 +48,9 @@ public class Products {
         this.product_id = product_id;
     }
 
-    public int getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
-    }
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Medias> medias;
 
     public String getProduct_name() {
         return product_name;
@@ -96,8 +99,4 @@ public class Products {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Medias> medias;
 }
