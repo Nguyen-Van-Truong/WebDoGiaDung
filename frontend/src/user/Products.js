@@ -4,10 +4,7 @@ import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
 import {Link} from "react-router-dom";
-import product1 from '../assets/images/all-img/f-product-01.png';
-import product3 from '../assets/images/all-img/f-product-03.png';
-import product2 from '../assets/images/all-img/f-product-02.png'
-import f_product_4 from '../assets/images/all-img/f-product-04.png'
+
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/styles.css'
@@ -24,19 +21,10 @@ import Footer from "./footer/Footer";
 const  Products = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const [isMenu, setIsMenu] = useState(false);
+
 
     const[products , setProduct] = useState([]);
-
-
-
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
 
 
     useEffect(() => {

@@ -1,13 +1,17 @@
 import {
+  IS_ALL,
+  IS_TOP_SELLING, NEW_PRODUCTS, SET_ALL,
   SET_CATEGORY,
   SET_IS_CART,
-  SET_IS_MENU,
+  SET_IS_MENU, SET_NEW_PRODUCTS, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART,
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY
 } from "./Action";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
+import { thunk } from 'redux-thunk';
+
 
 // khởi tạo trạng thái ban đầu
 const initialState = {
@@ -15,7 +19,14 @@ const initialState = {
     isMenu: false,
     isUserMin: false,
     isCategory: false ,
-    isCart : false
+    isCart : false,
+    isTopSelling : false,
+    products :[],
+    top_selling :[],
+    products_new :[],
+    is_new :false,
+    isAll :false,
+    error :null
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -54,9 +65,75 @@ const initialState = {
           ...state ,
           isCart : action.payload
         }
+      case  IS_TOP_SELLING :
+        return {
+          ...state ,
+          isTopSelling: !state.isTopSelling
+        }
+      case SET_TOP_SELLING :
+        return {
+          ...state ,
+          isTopSelling: action.payload
+        }
+      case IS_ALL :
+        return  {
+          ...state,
+          isAll: !state.isAll
+        }
+      case SET_ALL:
+        return  {
+          ...state ,
+          isAll: !action.payload
+        }
+      case NEW_PRODUCTS:
+        return {
+          ...state,
+          is_new: !state.is_new
+        }
+      case SET_NEW_PRODUCTS :
+        return {
+          ...state,
+          is_new: action.payload
+        }
+      case  'FETCH_PRODUCTS_SUCCESS' :
+            return {
+          ...state ,
+              products: action.payload,
+              error: null
+            }
+      case 'FETCH_PRODUCTS_ERROR' :
+        return {
+          ...state,
+          error: action.payload
+        }
+      case 'TOP_SELLING_SUCCESS' :
+        return {
+          ...state,
+          top_selling: action.payload ,
+          error: null
+        }
+      case 'TOP_SELLING_ERROR' :
+        return {
+          ...state ,
+          error: action.payload
+        }
+      case 'PRODUCTS_NEW_SUCCESS' :
+        return {
+          ...state,
+          products_new: action.payload,
+          error: null
+        }
+      case 'PRODUCTS_NEW_ERROR' :
+        return {
+          ...state,
+          error: action.payload
+        }
       default:
         return state;
     }
   };
- const  store = createStore(appReducer);
+const store = createStore(
+    appReducer,
+    applyMiddleware(thunk)
+);
  export  default  store;
