@@ -27,29 +27,39 @@ public class ProductService {
 
 	public List<ProductMediaInfo> getProducts(int count, String sortOrder) {
 		Sort sort = Sort.by("created_at");
-		sort = "asc".equalsIgnoreCase(sortOrder) ? sort.ascending() : sort.descending();
+		if ("asc".equalsIgnoreCase(sortOrder)) {
+			sort = sort.ascending();
+		} else {
+			sort.descending();
+		}
+
 		return repo.findProductsWithMedia(PageRequest.of(0, count, sort));
 	}
 
 	public List<ProductMediaInfo> getTopSellingProducts(int limit) {
-		return repo.findTopSellingProducts(PageRequest.of(0, limit)).stream()
-				.map(p -> new ProductMediaInfo(p.getProduct_name(), p.getDescription(), p.getPrice(),
-						p.getStock_quantity(),
-						(p.getMedias().isEmpty() ? null : p.getMedias().iterator().next().getFile_url())))
-				.collect(Collectors.toList());
+		List<Products> products = repo.findTopSellingProducts(PageRequest.of(0, limit));
+		List<ProductMediaInfo> info = new ArrayList<>();
+		for (Products p : products) {
+			String fileUrl = null;
+			if (!p.getMedias().isEmpty()) {
+				fileUrl = p.getMedias().iterator().next().getFile_url();
+			}
+			ProductMediaInfo productMediaInfo = new ProductMediaInfo(p.getProduct_name(), p.getDescription(),
+					p.getPrice(), p.getStock_quantity(), fileUrl);
+			info.add(productMediaInfo);
+		}
+		return info;
 	}
 
 	public List<ProductMediaInfo> getNew(int limit) {
-	    List<ProductMediaInfo> originalProductMediaInfos = repo.findGetNew(PageRequest.of(0, limit));
-	    List<ProductMediaInfo> modifiedProductMediaInfos = new ArrayList<>(); 
+		List<ProductMediaInfo> originalProductMediaInfos = repo.findGetNew(PageRequest.of(0, limit));
+		List<ProductMediaInfo> modifiedProductMediaInfos = new ArrayList<>();
+		for (ProductMediaInfo p : originalProductMediaInfos) {
+			modifiedProductMediaInfos.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
+					p.getStockQuantity(), p.getFileUrl()));
+		}
 
-	    for (ProductMediaInfo p : originalProductMediaInfos) {
-	       
-	        modifiedProductMediaInfos.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
-	                p.getStockQuantity(), p.getFileUrl()));
-	    }
-
-	    return modifiedProductMediaInfos; 
+		return modifiedProductMediaInfos;
 	}
 
 }
