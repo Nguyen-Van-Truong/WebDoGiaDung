@@ -11,6 +11,7 @@ import {
 } from "./Action";
 import {applyMiddleware, createStore} from "redux";
 import { thunk } from 'redux-thunk';
+import {commune} from "../api/Api";
 
 
 // khởi tạo trạng thái ban đầu
@@ -24,6 +25,9 @@ const initialState = {
     products :[],
     top_selling :[],
     products_new :[],
+  provinces :[],
+  districts :[] ,
+  communes :[],
     is_new :false,
     isAll :false,
     error :null
@@ -124,6 +128,39 @@ const initialState = {
           error: null
         }
       case 'PRODUCTS_NEW_ERROR' :
+        return {
+          ...state,
+          error: action.payload
+        }
+      case 'PROVINCE_SUCCESS' :
+        return {
+          ...state,
+          provinces: action.payload,
+          error: null
+        }
+      case 'PROVINCE_ERROR' :
+        return {
+          ...state,
+          error: action.payload
+        }
+      case 'DISTRICT_SUCCESS' :
+        return {
+          ...state,
+         districts: action.payload,
+          error: null
+        }
+      case 'DISTRICT_ERROR' :
+        return {
+          ...state,
+          error: action.payload
+        }
+      case 'COMMUNE_SUCCESS' :
+        return {
+          ...state,
+          communes: action.payload,
+          error: null
+        }
+      case 'COMMUNE_ERROR' :
         return {
           ...state,
           error: action.payload

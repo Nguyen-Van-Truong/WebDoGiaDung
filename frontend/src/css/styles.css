@@ -11,6 +11,14 @@
   --success: #01AD5A;
   
 }
+
+.f_20 {
+    font-size: 15px;
+}
+.address_list{
+    margin-left: -90px ;
+    gap: 70px;
+}
 .display-none{
     display: none !important;
 }

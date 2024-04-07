@@ -66,8 +66,27 @@ const Home = () => {
     };
 
 
+    const formatPrice = (price) => {
+        let priceStr = price.toString();
 
 
+        if (priceStr.match(/0000000/)) {
+
+            priceStr = priceStr.replace(/0000000/, '0.000.000');
+        } else if(priceStr.match(/000000/)){
+            priceStr = priceStr.replace(/000000/, '.000.000');
+
+        }else if(priceStr.match(/00000/)) {
+            priceStr = priceStr.replace(/00000/, '0.0000');
+
+        }
+        else if(priceStr.match(/0000/)) {
+            priceStr = priceStr.replace(/0000/, '.0000');
+
+        }
+
+        return priceStr;
+    };
 
     useEffect(() => {
 
@@ -469,7 +488,7 @@ const Home = () => {
                                         <div className="product-info">
                                             <div>
                                                 <h2 className="product-name">{product.productName}</h2>
-                                                <h3 className="product-price">{product.price} VNĐ</h3>
+                                                <h3 className="product-price">{formatPrice(product.price)} VNĐ</h3>
                                             </div>
                                             <div>
                                                 <button className="cart-icon">
@@ -647,7 +666,7 @@ const Home = () => {
                                         <div className="product-info">
                                             <div>
                                                 <h2 className="product-name">{product.productName}</h2>
-                                                <h3 className="product-price">{product.price} VNĐ</h3>
+                                                <h3 className="product-price">{formatPrice(product.price)} VNĐ</h3>
                                             </div>
                                             <div>
                                                 <button className="cart-icon">
@@ -700,7 +719,7 @@ const Home = () => {
                                         <div className="product-info">
                                             <div>
                                                 <h2 className="product-name">{topSelling.productName}</h2>
-                                                <h3 className="product-price">{topSelling.price} VNĐ</h3>
+                                                <h3 className="product-price">{formatPrice(topSelling.price)} VNĐ</h3>
                                             </div>
                                             <div>
                                                 <button className="cart-icon">
@@ -753,7 +772,7 @@ const Home = () => {
                                         <div className="product-info">
                                             <div>
                                                 <h2 className="product-name">{produtsList.productName}</h2>
-                                                <h3 className="product-price">{produtsList.price} VNĐ</h3>
+                                                <h3 className="product-price">{formatPrice(produtsList.price)} VNĐ</h3>
                                             </div>
                                             <div>
                                                 <button className="cart-icon">
@@ -814,7 +833,7 @@ const Home = () => {
                                         <div className="product-info">
                                             <div>
                                                 <h2 className="product-name">{product.productName}</h2>
-                                                <h3 className="product-price">{product.price} VNĐ</h3>
+                                                <h3 className="product-price">{formatPrice(product.price)} VNĐ</h3>
                                             </div>
                                             <div>
                                                 <button className="cart-icon">

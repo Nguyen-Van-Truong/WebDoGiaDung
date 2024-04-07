@@ -12,3 +12,7 @@ ul.pagination {
     font-size: 20px;
     color: var(--success) !important;
 }
+.mt-300 {
+    margin-top: 300px !important;
+    margin-left: -91px !important;
+}
