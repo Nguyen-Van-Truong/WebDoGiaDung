@@ -15,24 +15,61 @@ import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {commune, dis_tricts, province} from "../api/Api";
 
 
 const Checkout_Shopping = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dispatch = useDispatch();
+    const provinces = useSelector((state)=> state.provinces);
+    const  districts =useSelector((state)=> state.districts);
+    const communes =useSelector((state)=> state.communes);
+    const [selectedProvinceId, setSelectedProvinceId] = useState(null);
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
+    const [selectedProvinceName, setSelectedProvinceName] = useState('');
+    const [selectedDistrictName, setSelectedDistrictName] = useState('');
+    const [selectedCommuneName, setSelectedCommuneName] = useState('');
+    const [address, setAddress] = useState('');
+    const handleProvinceChange = (e) => {
+        const provinceId = e.target.value;
+        setSelectedProvinceId(provinceId);
 
-    const [isMenu, setIsMenu] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
+        const province = provinces.find(p => p.id.toString() === provinceId);
+        setSelectedProvinceName(province.name)
+        console.log(province.name);
+        console.log(provinceId);
     };
+    const handleDistrictChange = (e) => {
+        const districtId = e.target.value;
+        setSelectedDistrict(districtId)
+        const district = districts.find(d => d.id.toString() === districtId);
+        setSelectedDistrictName(district.name)
+        console.log(districtId);
+    };
+    const handleCommuneChange = (e) => {
+        const communeId = e.target.value;
 
+        const commune = communes.find(c => c.id.toString() === communeId);
+        setSelectedCommuneName(commune.name);
+    };
+    const handleAddressChange = (event) => {
+
+        setAddress(event.target.value);
+    };
     useEffect(() => {
 
+        dispatch(province());
 
+        if (selectedProvinceId) {
+            dispatch(dis_tricts(selectedProvinceId));
 
+        }
+        if (selectedDistrict) {
+            dispatch(commune(selectedDistrict));
+
+        }
+        setAddress(`${selectedCommuneName ?  selectedCommuneName  +' - ' : ''  }${selectedDistrictName} -${selectedProvinceName}  `);
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -47,7 +84,7 @@ const Checkout_Shopping = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [dispatch, selectedProvinceId,selectedDistrict, selectedProvinceName, selectedDistrictName, selectedCommuneName]);
     return (
         <div>
 
@@ -112,10 +149,50 @@ const Checkout_Shopping = () => {
                                                        className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                             </div>
                                         </div>
+                                        <div className="flex flex-col sm:flex-row gap-3 items-center mb-5">
+
+                                            <div className=" w-full">
+                                                <li className="inline-flex items-center justify-center address">
+                                                    <select className="custom-select2 relative" onChange={handleProvinceChange} name="category">
+                                                        <option value="" disabled selected>Chọn tỉnh</option>
+                                                        {provinces.map((province) => (
+                                                            <option key={province.id} value={province.id}>{province.name}</option>
+                                                        ))}
+
+                                                    </select>
+                                                </li>
+                                            </div>
+                                            <div className=" w-full">
+                                                <li className="inline-flex items-center justify-center address "  onChange={handleDistrictChange}>
+                                                    <select className="custom-select2 relative" >
+                                                        <option value="" disabled selected>Chọn huyện</option>
+                                                        {districts.map((district) => (
+                                                            <option key={district.id} value={district.id}>{district.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </li>
+                                            </div>
+                                            <div className=" w-full">
+                                                <li className="inline-flex items-center justify-center address">
+                                                    <select className="custom-select2 relative" onChange={handleCommuneChange} >
+                                                        <option value="" disabled selected>Chọn xã</option>
+                                                        {communes.map((commune) => (
+                                                            <option key={commune.id} value={commune.id}>{commune.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </li>
+                                            </div>
+                                        </div>
                                         <div className="w-full inline-flex mb-5">
-                                            <textarea
-                                                className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                                placeholder="Address" name="" cols="10" rows="5"></textarea>
+                                             <textarea
+                                                 className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                                 placeholder="Address"
+                                                 name=""
+                                                 cols="8"
+                                                 rows="3"
+                                                 value={address}
+                                                 onChange={handleAddressChange}
+                                             ></textarea>
                                         </div>
 
                                         <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">

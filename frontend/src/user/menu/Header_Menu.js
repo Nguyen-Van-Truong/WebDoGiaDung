@@ -1,17 +1,18 @@
 import {useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setCategory, setIsCart, setIsMenu, setMenuOpen, setUserMin, toggleMenuOpen} from "../../redux/Action";
-const Header_Menu =() => {
+
+const Header_Menu = () => {
     const dispatch = useDispatch();
 
     const isCart = useSelector((state) => state.isCart);
-    const  isMenu = useSelector((state) => state.isMenu);
+    const isMenu = useSelector((state) => state.isMenu);
 
-    const  isUserMin = useSelector ((state) => state.isUserMin);
+    const isUserMin = useSelector((state) => state.isUserMin);
 
-    const  isCategory = useSelector ((state) => state.isCategory);
+    const isCategory = useSelector((state) => state.isCategory);
 
     const userOpen = () => {
 
@@ -100,7 +101,8 @@ const Header_Menu =() => {
                                                         </div>
                                                         <div className="px-2-t">
                                                             <h2 style={{fontSize: "19px"}}
-                                                                className="text-gray-black "><span>Isolate Sofa Chair</span>
+                                                                className="text-gray-black ">
+                                                                <span>Isolate Sofa Chair</span>
                                                                 <span className="text-[#636270]">x5</span>
                                                             </h2>
                                                             <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -130,7 +132,8 @@ const Header_Menu =() => {
                                                         </div>
                                                         <div className="px-2-t">
                                                             <h2 style={{fontSize: "19px"}}
-                                                                className="text-gray-black "><span>Isolate Sofa Chair</span>
+                                                                className="text-gray-black ">
+                                                                <span>Isolate Sofa Chair</span>
                                                                 <span className="text-[#636270]">x5</span>
                                                             </h2>
                                                             <p className="text-gray-black font-semibold mb-0">$150.00</p>
@@ -159,7 +162,8 @@ const Header_Menu =() => {
                                             <div className="flex justify-between items-center">
                                                 <a href="shopping-cart.html" className="btn-transparent">View
                                                     Cart</a>
-                                                <Link className="btn-primary" to={"/checkout-shopping"} onClick={clickAll}>Thanh
+                                                <Link className="btn-primary" to={"/checkout-shopping"}
+                                                      onClick={clickAll}>Thanh
                                                     toán</Link>
 
                                             </div>
@@ -172,13 +176,13 @@ const Header_Menu =() => {
                             <li className="inline-flex items-center justify-center">
                                 <a href="#"
                                    className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]">
-                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                              d="M2.63262 10.6315C1.64903 7.56067 2.79762 4.05075 6.02245 3.01217C6.85867 2.74459 7.74676 2.68086 8.61262 2.82629C9.47849 2.97172 10.297 3.32208 10.9999 3.84817C12.3337 2.81692 14.2743 2.46858 15.9683 3.01217C19.1922 4.05075 20.349 7.56067 19.3664 10.6315C17.8355 15.499 10.9999 19.2482 10.9999 19.2482C10.9999 19.2482 4.21478 15.5558 2.63262 10.6315V10.6315Z"
-                                              stroke="currentColor" stroke-width="1.5"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" className="feather feather-bell">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                                     </svg>
+
                                 </a>
                             </li>
                             <li className="relative">
@@ -211,10 +215,12 @@ const Header_Menu =() => {
                                             </div>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                 <li>
-                                                    <Link to={"/forget-password"} onClick={clickAll}>Quên mật khẩu</Link>
+                                                    <Link to={"/forget-password"} onClick={clickAll}>Quên mật
+                                                        khẩu</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn hàng</Link>
+                                                    <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
+                                                        hàng</Link>
                                                 </li>
                                             </div>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
@@ -229,7 +235,8 @@ const Header_Menu =() => {
                                             </div>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                 <li>
-                                                    <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài khoản</Link>
+                                                    <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
+                                                        khoản</Link>
 
                                                 </li>
 

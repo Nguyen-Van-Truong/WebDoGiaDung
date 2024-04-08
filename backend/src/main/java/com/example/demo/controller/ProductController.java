@@ -13,21 +13,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final ProductService service;
+	private final ProductService service;
 
-    @Autowired
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
+	@Autowired
+	public ProductController(ProductService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/products")
-    public List<ProductMediaInfo> getProducts(@RequestParam(value = "count", defaultValue = Integer.MAX_VALUE + "") int count,
-                                              @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
-        return service.getProducts(count, sortOrder);
-    }
+	@GetMapping("/products")
+	public List<ProductMediaInfo> getProducts(
+			@RequestParam(value = "count", defaultValue = Integer.MAX_VALUE + "") int count,
+			@RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
+		return service.getProducts(count, sortOrder);
+	}
 
-    @GetMapping("/top-selling")
-    public List<ProductMediaInfo> getTopSellingProducts(@RequestParam(value = "limit", defaultValue = "10") int limit) {
-        return service.getTopSellingProducts(limit);
-    }
+	@GetMapping("/top-selling")
+	public List<ProductMediaInfo> getTopSellingProducts(@RequestParam(value = "limit", defaultValue = "10") int limit) {
+		return service.getTopSellingProducts(limit);
+	}
+
+	@GetMapping("/new")
+	public List<ProductMediaInfo> getNew(@RequestParam(value = "limit", defaultValue = "10") int limit) {
+		return service.getNew(limit);
+	}
 }

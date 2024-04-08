@@ -8,6 +8,37 @@ export const SET_MENU_OPEN = 'SET_MENU_OPEN';
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const TOGGLE_IS_CART = 'TOGGLE_IS_CART';
 export const SET_IS_CART ='SET_IS_CART';
+
+export  const  IS_TOP_SELLING = 'IS_TOP_SELLING';
+
+export const SET_TOP_SELLING = 'SET_TOP_SELLING';
+export  const  IS_ALL = 'IS_ALL';
+
+export  const  SET_ALL = 'SET_IS_ALL';
+export  const NEW_PRODUCTS = 'NEW_PRODUCTS';
+export  const SET_NEW_PRODUCTS = 'SET_NEW_PRODUCTS';
+
+
+
+
+export const  tabTopSelling = () =>({
+    type : IS_TOP_SELLING
+})
+export const  setTabTopSelling = () => ({
+    type : SET_TOP_SELLING
+});
+export  const  tabNewProducts = () => ({
+    type:NEW_PRODUCTS
+})
+export  const  setTabNewProducts = () => ({
+    type : SET_NEW_PRODUCTS
+})
+export  const  tabAll = () =>({
+    type : IS_ALL
+})
+export  const setTabAll = () => ({
+    type : SET_ALL
+})
 export const toggleMenuOpen = () => ({
     type : TOGGLE_MENU_OPEN
 });

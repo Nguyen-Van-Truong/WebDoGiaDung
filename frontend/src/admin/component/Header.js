@@ -178,7 +178,7 @@ const Header = () => {
                                      src="assets/images/profile_av.svg" alt="profile"/>
                             </a>
                             <div
-                                className="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
+                                className="  mt-300 dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
                                 <div className="card border-0 w280">
                                     <div className="card-body pb-0">
                                         <div className="d-flex py-1">

@@ -8,7 +8,9 @@
   .breadcrumb {
     padding: 48px 0px;
   }
+
 }
+
 
 @media(max-width:480px) {
   .breadcrumb {
@@ -87,6 +89,7 @@
   .breadcrumb{
     padding: 48px 0px;
   }
+
 }
 
 
@@ -103,6 +106,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 18px;
   }
+
+
 }
 
 @media (min-width: 1024px) {
@@ -110,6 +115,9 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
   }
+
+
+
 }
 @media (min-width:1860px) {
   .banner-slider-button{
@@ -125,4 +133,5 @@
   .right-side{
     max-width: 730px;
   }
+
 }
