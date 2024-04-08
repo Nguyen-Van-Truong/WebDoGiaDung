@@ -1,11 +1,11 @@
-package com.example.demo.api.controller;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "users") // Ensure table name matches your database schema
+@Table(name = "users")
 public class User {
 
     @Id
@@ -16,7 +16,7 @@ public class User {
     private String username;
 
     @Column(name = "password")
-    private String password; // Storing passwords in plain text is not recommended
+    private String password; 
 
     @Column(name = "email")
     private String email;
@@ -33,11 +33,11 @@ public class User {
     @Column(name = "created_at")
     private Timestamp created_at;
 
-    // Default constructor is required by JPA
+    
     public User() {
     }
 
-    // Full constructor for all fields
+ 
     public User(int user_id, String username, String password, String email, String full_name, String address, boolean is_admin, Timestamp created_at) {
         this.user_id = user_id;
         this.username = username;
@@ -49,7 +49,7 @@ public class User {
         this.created_at = created_at;
     }
 
-    // Getters and setters for all fields
+    
     public int getUser_id() {
         return user_id;
     }

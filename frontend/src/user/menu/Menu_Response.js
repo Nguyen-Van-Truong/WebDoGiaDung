@@ -1,15 +1,15 @@
 import {Link} from "react-router-dom";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory, setIsMenu,  setUserMin, toggleMenuOpen} from "../../redux/Action";
+import {setCategory, setIsMenu, setUserMin, toggleMenuOpen} from "../../redux/Action";
 
 
 const Menu_Response = () => {
     const dispatch = useDispatch();
-    const    menuOpen =useSelector((state) => state.menuOpen);
-    const  isUserMin = useSelector ((state) => state.isUserMin);
-    const  isMenu = useSelector((state) => state.isMenu);
-    const  isCategory = useSelector ((state) => state.isCategory);
+    const menuOpen = useSelector((state) => state.menuOpen);
+    const isUserMin = useSelector((state) => state.isUserMin);
+    const isMenu = useSelector((state) => state.isMenu);
+    const isCategory = useSelector((state) => state.isCategory);
     const handClickUserMin = () => {
         dispatch(setUserMin(!isUserMin))
     }
@@ -35,18 +35,18 @@ const Menu_Response = () => {
         dispatch((setCategory(!isCategory)));
     }
     return (
-   <div>
-       <div className={menuOpen ? 'nav-menu open' : 'nav-menu'} >
-           {menuOpen && (
-               <div className="flex justify-between  items-center px-3 py-4 mb-4">
-                   <div>
-                       <a href="#">
-                           <img src="../assets/images/all-img/logo-sm.png" alt=""/>
-                       </a>
-                   </div>
-                   <ul className="flex items-center gap-3">
-                       <li>
-                           <a href="#" className="inline-flex gap-2 bg-white rounded-lg p-[11px] relative">
+        <div>
+            <div className={menuOpen ? 'nav-menu open' : 'nav-menu'}>
+                {menuOpen && (
+                    <div className="flex justify-between  items-center px-3 py-4 mb-4">
+                        <div>
+                            <a href="#">
+                                <img src="../assets/images/all-img/logo-sm.png" alt=""/>
+                            </a>
+                        </div>
+                        <ul className="flex items-center gap-3">
+                            <li>
+                                <a href="#" className="inline-flex gap-2 bg-white rounded-lg p-[11px] relative">
                             <span>
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -66,55 +66,55 @@ const Menu_Response = () => {
                                           stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                               <span
-                                   className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
-                           </a>
-                       </li>
-                       <li>
-                           <a href="#"
-                              className="bg-white text-gray-black flex hover:text-[#007580] rounded-lg p-[11px]">
-                               <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                   <path fill-rule="evenodd" clip-rule="evenodd"
-                                         d="M2.63262 10.6315C1.64903 7.56067 2.79762 4.05075 6.02245 3.01217C6.85867 2.74459 7.74676 2.68086 8.61262 2.82629C9.47849 2.97172 10.297 3.32208 10.9999 3.84817C12.3337 2.81692 14.2743 2.46858 15.9683 3.01217C19.1922 4.05075 20.349 7.56067 19.3664 10.6315C17.8355 15.499 10.9999 19.2482 10.9999 19.2482C10.9999 19.2482 4.21478 15.5558 2.63262 10.6315V10.6315Z"
-                                         stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                         stroke-linejoin="round"/>
-                               </svg>
-                           </a>
-                       </li>
-                       <li className="relative">
-                           <button
-                               className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px] user-profile"
-                               onClick={handClickUserMin}>
-                               <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                   <path fill-rule="evenodd" clip-rule="evenodd"
-                                         d="M10.9862 14.0672C7.44053 14.0672 4.4137 14.6034 4.4137 16.7503C4.4137 18.8971 7.42128 19.4526 10.9862 19.4526C14.5309 19.4526 17.5587 18.9154 17.5587 16.7695C17.5587 14.6236 14.5502 14.0672 10.9862 14.0672V14.0672Z"
-                                         stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                         stroke-linejoin="round"/>
-                                   <path fill-rule="evenodd" clip-rule="evenodd"
-                                         d="M10.9862 11.0055C11.8195 11.0055 12.634 10.7584 13.3268 10.2955C14.0197 9.83255 14.5597 9.17457 14.8785 8.40475C15.1974 7.63492 15.2808 6.78783 15.1183 5.97058C14.9557 5.15334 14.5545 4.40266 13.9653 3.81346C13.3761 3.22426 12.6254 2.82301 11.8081 2.66045C10.9909 2.49789 10.1438 2.58132 9.37397 2.9002C8.60415 3.21907 7.94617 3.75906 7.48324 4.45188C7.02031 5.14471 6.77322 5.95925 6.77322 6.7925C6.76932 7.90581 7.20779 8.97508 7.99218 9.76515C8.77657 10.5552 9.84266 11.0014 10.956 11.0055H10.9862Z"
-                                         stroke="currentColor" stroke-width="1.429" stroke-linecap="round"
-                                         stroke-linejoin="round"/>
-                               </svg>
-                           </button>
-                           <div className="profile-content">
+                                    <span
+                                        className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   className="bg-white text-gray-black flex hover:text-[#007580] rounded-lg p-[11px]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" className="feather feather-bell">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                                    </svg>
 
-                               {(isUserMin &&
-                                   <ul style={{display: isUserMin ? 'block' : 'none'}}>
-                                       <li>
-                                           <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
-                                       </li>
-                                       <li>
-                                           <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
-                                       </li>
+                                </a>
+                            </li>
+                            <li className="relative">
+                                <button
+                                    className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px] user-profile"
+                                    onClick={handClickUserMin}>
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M10.9862 14.0672C7.44053 14.0672 4.4137 14.6034 4.4137 16.7503C4.4137 18.8971 7.42128 19.4526 10.9862 19.4526C14.5309 19.4526 17.5587 18.9154 17.5587 16.7695C17.5587 14.6236 14.5502 14.0672 10.9862 14.0672V14.0672Z"
+                                              stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M10.9862 11.0055C11.8195 11.0055 12.634 10.7584 13.3268 10.2955C14.0197 9.83255 14.5597 9.17457 14.8785 8.40475C15.1974 7.63492 15.2808 6.78783 15.1183 5.97058C14.9557 5.15334 14.5545 4.40266 13.9653 3.81346C13.3761 3.22426 12.6254 2.82301 11.8081 2.66045C10.9909 2.49789 10.1438 2.58132 9.37397 2.9002C8.60415 3.21907 7.94617 3.75906 7.48324 4.45188C7.02031 5.14471 6.77322 5.95925 6.77322 6.7925C6.76932 7.90581 7.20779 8.97508 7.99218 9.76515C8.77657 10.5552 9.84266 11.0014 10.956 11.0055H10.9862Z"
+                                              stroke="currentColor" stroke-width="1.429" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <div className="profile-content">
 
-                                   </ul>
-                               )}
+                                    {(isUserMin &&
+                                        <ul style={{display: isUserMin ? 'block' : 'none'}}>
+                                            <li>
+                                                <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
+                                            </li>
+                                            <li>
+                                                <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
+                                            </li>
 
-                           </div>
-                       </li>
-                       <li>
+                                        </ul>
+                                    )}
+
+                                </div>
+                            </li>
+                            <li>
                         <span
                             className="hamburger-btn-close bg-[#F7F7F9] text-black w-[44px] h-[44px] rounded-full flex items-center justify-center"
                             id="hamburger-btn-close" onClick={handleCloseClick}>
@@ -126,17 +126,17 @@ const Menu_Response = () => {
                                       stroke-linejoin="round"></path>
                             </svg>
                         </span>
-                       </li>
-                   </ul>
-               </div>
-           )}
+                            </li>
+                        </ul>
+                    </div>
+                )}
 
-           <div className="px-3 mb-4">
-               <div className="lg:max-w-[413px] w-full">
-                   <div className="relative">
-                       <input type="text" placeholder="search here..."
-                              className="block w-full bg-grayscales-500 focus:outline-none border-0 px-4 py-3 rounded-lg"/>
-                       <span className="absolute right-4 top-3">
+                <div className="px-3 mb-4">
+                    <div className="lg:max-w-[413px] w-full">
+                        <div className="relative">
+                            <input type="text" placeholder="search here..."
+                                   className="block w-full bg-grayscales-500 focus:outline-none border-0 px-4 py-3 rounded-lg"/>
+                            <span className="absolute right-4 top-3">
                             <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -146,66 +146,66 @@ const Menu_Response = () => {
                                       stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </span>
-                   </div>
-               </div>
-           </div>
+                        </div>
+                    </div>
+                </div>
 
-           <div>
-               <nav className="tabs flex flex-row">
-                   <button data-target="panel-1" onClick={handClickMenu}
-                           className={isMenu ? 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 active' : 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500'}>
-                       Menu
-                   </button>
-                   <button data-target="panel-2" onClick={handCategory}
-                           className={isCategory ? 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 active' : 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500'}>
-                       Danh mục
-                   </button>
-               </nav>
-           </div>
+                <div>
+                    <nav className="tabs flex flex-row">
+                        <button data-target="panel-1" onClick={handClickMenu}
+                                className={isMenu ? 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 active' : 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500'}>
+                            Menu
+                        </button>
+                        <button data-target="panel-2" onClick={handCategory}
+                                className={isCategory ? 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 active' : 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500'}>
+                            Danh mục
+                        </button>
+                    </nav>
+                </div>
 
-           <div id="panels">
-               {(isMenu &&
-                   <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
-                       <ul className="flex flex-col items-center">
-                           <li className="w-full block">
-                               <a href="" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
-                           </li>
-                           <li className="w-full block">
-                               <a href="" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>
-                           </li>
-                           <li className="w-full block">
-                               <a href="" className="border-b border-[#029FAE] block px-3 py-2">Sản phẩm</a>
-                           </li>
+                <div id="panels">
+                    {(isMenu &&
+                        <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
+                            <ul className="flex flex-col items-center">
+                                <li className="w-full block">
+                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
+                                </li>
+                                <li className="w-full block">
+                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>
+                                </li>
+                                <li className="w-full block">
+                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Sản phẩm</a>
+                                </li>
 
-                       </ul>
-                   </div>
-               )}
-               {(isCategory &&
-                   <div className={isCategory ? 'panel-2 tab-content active' : 'panel-2 tab-content py-5'}>
-                       <ul>
-                           <li>
-                               <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bàn ghế</a>
-                           </li>
-                           <li>
-                               <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bếp điện
-                                   từ</a>
-                           </li>
-                           <li>
-                               <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Nồi cơm</a>
-                           </li>
-                           <li>
-                               <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Tủ lạnh</a>
-                           </li>
-                           <li>
-                               <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Quạt</a>
-                           </li>
-                       </ul>
-                   </div>
-               )}
-           </div>
-       </div>
-       <div className={menuOpen ? 'overlay open' : 'overlay'} id="overlay"></div>
-   </div>
+                            </ul>
+                        </div>
+                    )}
+                    {(isCategory &&
+                        <div className={isCategory ? 'panel-2 tab-content active' : 'panel-2 tab-content py-5'}>
+                            <ul>
+                                <li>
+                                    <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bàn ghế</a>
+                                </li>
+                                <li>
+                                    <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Bếp điện
+                                        từ</a>
+                                </li>
+                                <li>
+                                    <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Nồi cơm</a>
+                                </li>
+                                <li>
+                                    <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Tủ lạnh</a>
+                                </li>
+                                <li>
+                                    <a href="#" className="border-b border-[#029FAE] block px-3 py-2">Quạt</a>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className={menuOpen ? 'overlay open' : 'overlay'} id="overlay"></div>
+        </div>
     )
 }
-export  default  Menu_Response;
+export default Menu_Response;
