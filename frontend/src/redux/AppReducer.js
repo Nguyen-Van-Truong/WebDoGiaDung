@@ -9,11 +9,6 @@ import {
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY
 } from "./Action";
-import { createStore, applyMiddleware } from 'redux';
-import { thunk } from 'redux-thunk';
-
-import rootReducer from "../admin/redux/reducers/RootReducer";
-
 
 
 // khởi tạo trạng thái ban đầu
@@ -171,10 +166,5 @@ const initialState = {
         return state;
     }
   };
-const store = createStore(
-    // rootReducer, // Use the rootReducer here
 
-    appReducer,
-    applyMiddleware(thunk)
-);
- export  default  store;
+ export  default  appReducer;

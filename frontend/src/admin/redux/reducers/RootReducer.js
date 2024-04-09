@@ -1,9 +1,13 @@
-import { combineReducers } from 'redux';
-import productReducer from './ProductReducer';
+
+
+import {combineReducers} from "redux";
+import appReducer from "../../../redux/AppReducer";
+import productReducer from "./ProductReducer";
+
 
 const rootReducer = combineReducers({
-    product: productReducer,
-
+    appUser: appReducer,
+    productAdmin: productReducer,
 });
 
 export default rootReducer;
