@@ -9,9 +9,6 @@ import {
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY
 } from "./Action";
-import {applyMiddleware, createStore} from "redux";
-import { thunk } from 'redux-thunk';
-import {commune} from "../api/Api";
 
 
 // khởi tạo trạng thái ban đầu
@@ -169,8 +166,5 @@ const initialState = {
         return state;
     }
   };
-const store = createStore(
-    appReducer,
-    applyMiddleware(thunk)
-);
- export  default  store;
+
+ export  default  appReducer;

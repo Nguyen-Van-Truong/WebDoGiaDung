@@ -3,11 +3,9 @@ import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
-import axios from 'axios';
+
 import '../css/responsive.css'
-import img_2 from '../assets/images/all-img/2.jpg'
-import img_4 from '../assets/images/all-img/4.jpg'
-import f_product_4 from '../assets/images/all-img/f-product-04.png'
+
 import $ from 'jquery';
 import Swiper from "swiper";
 import 'select2/dist/js/select2';
@@ -38,12 +36,12 @@ const Home = () => {
 
 
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const  products = useSelector((state) => state.products);
-    const   isTopSelling = useSelector ((state) => state.isTopSelling);
-    const  top_selling_array = useSelector((state) => state.top_selling);
-    const isAll = useSelector((state) => state.isAll);
-    const is_new  = useSelector((state) => state.is_new);
-    const products_new_array = useSelector((state)=> state.products_new);
+    const  products = useSelector((state) => state.appUser.products);
+    const   isTopSelling = useSelector ((state) => state.appUser.isTopSelling);
+    const  top_selling_array = useSelector((state) => state.appUser.top_selling);
+    const isAll = useSelector((state) => state.appUser.isAll);
+    const is_new  = useSelector((state) => state.appUser.is_new);
+    const products_new_array = useSelector((state)=> state.appUser.products_new);
 
 
     const handClickTopSelling = () =>{
@@ -90,7 +88,7 @@ const Home = () => {
 
     useEffect(() => {
 
-
+        console.log(products);
         dispatch(fetchProducts());
         dispatch(top_selling());
         dispatch(products_new());
@@ -169,7 +167,7 @@ const Home = () => {
             window.removeEventListener('scroll', handleScroll);
         };
 
-    }, [dispatch]);
+    }, [dispatch, products]);
     return (
         <div className="font-display">
 
