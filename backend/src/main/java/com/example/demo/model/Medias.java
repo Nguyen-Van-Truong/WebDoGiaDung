@@ -16,12 +16,17 @@ public class Medias {
     private String file_url;
 
     @Column(name = "file_type")
-    private  String file_type;
-    @Column (name = "file_size")
+    private String file_type;
+    @Column(name = "file_size")
     private int file_size;
 
-@Column(name = "uploaded_at")
-private Timestamp uploaded_at;
+    @Column(name = "uploaded_at")
+    private Timestamp uploaded_at;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false, referencedColumnName = "product_id")
+    @JsonBackReference
+    private Products products;
 
     public int getMedia_id() {
         return media_id;
@@ -70,12 +75,5 @@ private Timestamp uploaded_at;
     public void setProducts(Products products) {
         this.products = products;
     }
-
-
-
-    @ManyToOne
-    @JoinColumn(name = "product_id" , nullable = false ,referencedColumnName = "product_id")
-    @JsonBackReference
-    private Products products;
 
 }
