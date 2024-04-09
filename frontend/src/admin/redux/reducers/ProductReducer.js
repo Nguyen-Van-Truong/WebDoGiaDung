@@ -1,8 +1,7 @@
 
 
 import {QUANTITY, SET_QUANTITY, SET_TOTAL_QUANTITY, TOTAL_QUANTITY} from '../actions/ProductActions';
-import {applyMiddleware, createStore} from "redux";
-import {thunk} from "redux-thunk";
+
 
 const initialState = {
     quantity: 0,

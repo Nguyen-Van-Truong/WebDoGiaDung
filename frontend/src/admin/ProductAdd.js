@@ -12,14 +12,15 @@ import './assets/plugin/datatables/responsive.dataTables.min.css';
 import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setQuantity, setTotalQuantity} from "./redux/actions/ProductActions";
+import productReducer from "./redux/reducers/ProductReducer";
 
 
 const ProductAdd = () => {
     // dispatch action
     const dispatch = useDispatch();
-    const totalQuantity = useSelector((state) => state.totalQuantity);
+    const totalQuantity = useSelector((state) => state.productAdmin.totalQuantity);
     //dung useselector de lay gia tri cua quantity tu store
-    const quantity = useSelector((state) => state.quantity);
+    const quantity = useSelector((state) => state.productAdmin.quantity);
     const handleQuantityChange = (event) => {
         const inputQuantity = parseInt(event.target.value, 10) || 0;
 
