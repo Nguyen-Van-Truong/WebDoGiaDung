@@ -1,10 +1,21 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
+/*
+    JsonIdentityInfo sẽ giúp giải quyết vấn đề vòng lặp trong JSON
+    vì categories có thể chứa nhiều quan hệ 1 nhiều với chính nó và 1 sản phẩm có thể thuộc nhiều categories
+    nên khi chuyển sang JSON sẽ bị lặp vô tận
+ */
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "categoryId"
+)
 @Table(name = "categories")
 public class Categories {
     @Id
