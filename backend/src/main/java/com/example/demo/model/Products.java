@@ -2,16 +2,21 @@ package com.example.demo.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 
 import java.math.BigDecimal;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "products")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "product_id"
+)
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +37,10 @@ public class Products {
     @Column(name = "created_at")
     private Timestamp created_at;
 
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Medias> medias;
+
     public Categories getCategory() {
         return category;
     }
@@ -47,10 +56,6 @@ public class Products {
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
     }
-
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Medias> medias;
 
     public String getProduct_name() {
         return product_name;
@@ -100,3 +105,4 @@ public class Products {
         this.description = description;
     }
 }
+
