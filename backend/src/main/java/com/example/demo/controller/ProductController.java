@@ -40,5 +40,9 @@ public class ProductController {
 	public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
 		return service.addProduct(productDTO);
 	}
+	@GetMapping("/search")
+	public List<ProductMediaInfo> getSeach(@RequestParam(value = "keyword") String keyword){
+		return service.seachProduct(keyword);
+	}
 
 }

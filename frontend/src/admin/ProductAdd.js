@@ -17,6 +17,7 @@ import productReducer from "./redux/reducers/ProductReducer";
 
 const ProductAdd = () => {
     // dispatch action
+
     const dispatch = useDispatch();
     const totalQuantity = useSelector((state) => state.productAdmin.totalQuantity);
     //dung useselector de lay gia tri cua quantity tu store
