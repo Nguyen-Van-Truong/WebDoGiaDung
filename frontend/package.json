@@ -63,7 +63,8 @@
   },
   "devDependencies": {
     "axios": "^1.6.8",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "react-quill": "^2.0.0"
   },
   "proxy": "http://localhost:8080"
 }

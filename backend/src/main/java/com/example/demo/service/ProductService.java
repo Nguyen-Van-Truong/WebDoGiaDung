@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.*;
-import com.example.demo.repository.CategoriesRepository;
+import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.InventoryTransactionsRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.print.attribute.standard.Media;
 
 @Service
 public class ProductService {
     private final ProductRepository repo;
     @Autowired
-    private CategoriesRepository categoriesRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
     private InventoryTransactionsRepository inventoryTransactionsRepository;
 
@@ -76,7 +72,7 @@ public class ProductService {
         product.setPrice(productDTO.getPrice());
         product.setStock_quantity(productDTO.getStockQuantity());
         product.setCreated_at(new Timestamp(System.currentTimeMillis()));
-        Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+        Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElse(null);
         product.setCategory(category);
         // Lưu sản phẩm vao database
         Products savedProduct = repo.save(product);
