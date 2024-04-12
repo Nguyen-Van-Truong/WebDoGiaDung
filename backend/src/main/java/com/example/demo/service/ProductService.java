@@ -126,6 +126,18 @@ public class ProductService {
 
         return productDTO;
     }
+ /*
+  * tim kiem san phan theo chu cai dau
+  */
+    public List<ProductMediaInfo> seachProduct(String productName){
+    	  List<ProductMediaInfo> seachList = repo.searchProduct(productName);
+    	  List<ProductMediaInfo> save = new ArrayList<>();
+    	  for (ProductMediaInfo p : seachList) {
+    		  save.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
+                    p.getStockQuantity(), p.getFileUrl()));
+    	  }
+		return save;
+    }
 
     public String storeFile(MultipartFile file) throws IOException {
         Path path = Paths.get(uploadDir);

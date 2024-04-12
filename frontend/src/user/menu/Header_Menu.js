@@ -2,21 +2,32 @@ import {useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory, setIsCart, setIsMenu, setMenuOpen, setUserMin, toggleMenuOpen} from "../../redux/Action";
+import {
+
+    setCategory,
+    setIsCart,
+    setIsMenu,
+    setUserMin, tabIsSeach,
+    toggleMenuOpen
+} from "../../redux/Action";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
 
-    const isCart = useSelector((state) => state.isCart);
-    const isMenu = useSelector((state) => state.isMenu);
+    const isCart = useSelector((state) => state.appUser.isCart);
+    const isMenu = useSelector((state) => state.appUser.isMenu);
+   const  isSeach = useSelector((state) => state.appUser.isSearch);
+    const isUserMin = useSelector((state) => state.appUser.isUserMin);
 
-    const isUserMin = useSelector((state) => state.isUserMin);
-
-    const isCategory = useSelector((state) => state.isCategory);
+    const isCategory = useSelector((state) => state.appUser.isCategory);
 
     const userOpen = () => {
 
         dispatch(setIsMenu(!isMenu))
+    }
+    const clickSeach = () => {
+        dispatch(tabIsSeach());
+
     }
     const cartOpen = () => {
         dispatch(setIsCart(!isCart));
@@ -45,9 +56,9 @@ const Header_Menu = () => {
                     </div>
                     <div className="lg:max-w-[413px] lg:block hidden w-full">
                         <div className="relative">
-                            <input type="text" id="search" placeholder="search here..."
+                            <input    type="text" id="search" placeholder="search here..."
                                    className="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
-                            <label for="search" className="absolute right-4 top-3">
+                            <label onClick={clickSeach} for="search" className="absolute right-4 top-3">
                                 <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -60,6 +71,20 @@ const Header_Menu = () => {
                                 </svg>
                             </label>
                         </div>
+                        {isSeach && (
+                            <div className="seach-content">
+                                <ul className="py-3"
+                                    style={{display: isSeach ? 'block' : 'none'}}>
+                                    <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                        <li>
+                                            <Link to="/login" >không có sản phẩm nào</Link>
+                                        </li>
+
+                                    </div>
+
+                                </ul>
+                            </div>
+                        )}
                     </div>
                     <div className="lg:block hidden">
                         <ul className="flex items-center gap-3">
@@ -249,6 +274,7 @@ const Header_Menu = () => {
                                         </ul>
                                     </div>
                                 )}
+
                             </li>
                         </ul>
                     </div>

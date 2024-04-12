@@ -19,6 +19,7 @@ import {fetchCategories} from "./Api/CategoryApi";
 
 
 const ProductAdd = () => {
+    // dispatch action
     const dispatch = useDispatch();
 
     const [productName, setProductName] = useState('');
