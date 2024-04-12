@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDTO {
     private int productId;
@@ -9,9 +10,18 @@ public class ProductDTO {
     private BigDecimal price;
     private int stockQuantity;
     private int categoryId;
+    private List<String> mediaUrls;
 
-    // Constructors, Getters, and Setters
+
     public ProductDTO() {
+    }
+
+    public List<String> getMediaUrls() {
+        return mediaUrls;
+    }
+
+    public void setMediaUrls(List<String> mediaUrls) {
+        this.mediaUrls = mediaUrls;
     }
 
     public int getCategoryId() {

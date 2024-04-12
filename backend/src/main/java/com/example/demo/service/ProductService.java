@@ -3,30 +3,39 @@ package com.example.demo.service;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.*;
-import com.example.demo.repository.CategoriesRepository;
+import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.InventoryTransactionsRepository;
+import com.example.demo.repository.MediaRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.print.attribute.standard.Media;
+import java.util.UUID;
 
 @Service
 public class ProductService {
     private final ProductRepository repo;
     @Autowired
-    private CategoriesRepository categoriesRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
     private InventoryTransactionsRepository inventoryTransactionsRepository;
+    @Autowired
+    private MediaRepository mediaRepository;
 
+    @Value("${upload.dir}")
+    private String uploadDir;
     @Autowired
     public ProductService(ProductRepository repo) {
         this.repo = repo;
@@ -69,17 +78,39 @@ public class ProductService {
         return modifiedProductMediaInfos;
     }
 
-    public ProductDTO addProduct(ProductDTO productDTO) {
+    public ProductDTO addProduct(ProductDTO productDTO, MultipartFile[] imageFiles) throws IOException {
         Products product = new Products();
         product.setProduct_name(productDTO.getProductName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setStock_quantity(productDTO.getStockQuantity());
         product.setCreated_at(new Timestamp(System.currentTimeMillis()));
-        Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+        Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElse(null);
         product.setCategory(category);
         // Lưu sản phẩm vao database
         Products savedProduct = repo.save(product);
+
+        // Lưu ảnh vào database
+        List<String> mediaUrls = new ArrayList<>();
+        if (imageFiles != null) {
+            for (MultipartFile file : imageFiles) {
+                if (!file.isEmpty()) {
+                    try {
+                        String fileName = storeFile(file);
+                        Medias media = new Medias();
+                        media.setFile_url("/api/images/"+fileName);
+                        media.setUploaded_at(new Timestamp(System.currentTimeMillis()));
+                        media.setProducts(savedProduct);
+                        mediaRepository.save(media);
+                        mediaUrls.add(fileName);
+                    } catch (IOException e) {
+                        // Handle possible I/O errors
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        productDTO.setMediaUrls(mediaUrls);
 
         // Khởi tạo giao dịch nhập kho
         InventoryTransactions transaction = new InventoryTransactions();
@@ -107,4 +138,23 @@ public class ProductService {
     	  }
 		return save;
     }
+
+    public String storeFile(MultipartFile file) throws IOException {
+        Path path = Paths.get(uploadDir);
+        if (!Files.exists(path)) {
+            Files.createDirectories(path);
+        }
+
+        // Tao ten file moi de tranh trung lap
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+
+        // luu file vao thu muc
+        File targetFile = new File(path.toFile(), uniqueFileName);
+        file.transferTo(targetFile);
+
+        return uniqueFileName;
+    }
+
 }
