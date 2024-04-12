@@ -23,7 +23,7 @@ function FileUpload() {
         const formData = new FormData();
         selectedFiles.forEach(({ file }) => formData.append('files', file));
 
-        axios.post('http://localhost:3000/api/upload', formData, {
+        axios.post('/api/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

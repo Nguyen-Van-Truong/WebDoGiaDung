@@ -1,9 +1,9 @@
 import {
-  IS_ALL,
+  IS_ALL, IS_SEARCH,
   IS_TOP_SELLING, NEW_PRODUCTS, SET_ALL,
   SET_CATEGORY,
   SET_IS_CART,
-  SET_IS_MENU, SET_NEW_PRODUCTS, SET_TOP_SELLING,
+  SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART,
   TOGGLE_MENU_OPEN,
@@ -18,6 +18,7 @@ const initialState = {
     isUserMin: false,
     isCategory: false ,
     isCart : false,
+     isSearch : false,
     isTopSelling : false,
     products :[],
     top_selling :[],
@@ -95,6 +96,16 @@ const initialState = {
         return {
           ...state,
           is_new: action.payload
+        }
+      case IS_SEARCH :
+        return  {
+          ...state ,
+          isSearch: !state.isSearch
+        }
+      case  SET_IS_SEACH :
+        return  {
+          ...state,
+          isSearch: action.payload
         }
       case  'FETCH_PRODUCTS_SUCCESS' :
             return {

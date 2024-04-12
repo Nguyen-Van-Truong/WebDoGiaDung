@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +18,15 @@ import java.util.UUID;
 
 @RestController
 public class MediaController {
-    private static final String UPLOAD_DIR = "D:\\project-uploads";
+    @Value("${upload.dir}")
+    private String uploadDir;
 
     //api này dùng để xem ảnh trong thư mục UPLOAD_DIR nơi lưu trữ ảnh đã upload
     @GetMapping("/api/images/{imageName:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
+        System.out.println("uploadDir:" + uploadDir);
         try {
-            Path filePath = Paths.get(UPLOAD_DIR, imageName);
+            Path filePath = Paths.get(uploadDir, imageName);
             if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
                 return ResponseEntity.notFound().build();
             }
@@ -68,7 +71,7 @@ public class MediaController {
                     continue;
                 }
 
-                File uploadDir = new File(UPLOAD_DIR);
+                File uploadDir = new File(this.uploadDir);
                 if (!uploadDir.exists()) {
                     uploadDir.mkdirs();
                 }
@@ -78,7 +81,7 @@ public class MediaController {
                 String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                 String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
 
-                File saveFile = new File(UPLOAD_DIR, uniqueFileName);
+                File saveFile = new File(this.uploadDir, uniqueFileName);
                 file.transferTo(saveFile);
             }
             return ResponseEntity.ok("Files uploaded successfully");

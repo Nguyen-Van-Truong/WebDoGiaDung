@@ -1,0 +1,6 @@
+import axios from 'axios';
+
+export const FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS';
+export const FETCH_CATEGORIES_ERROR = 'FETCH_CATEGORIES_ERROR';
+
+

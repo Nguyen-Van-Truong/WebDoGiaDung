@@ -1,6 +1,11 @@
-
-
-import {QUANTITY, SET_QUANTITY, SET_TOTAL_QUANTITY, TOTAL_QUANTITY} from '../actions/ProductActions';
+import {
+    ADD_PRODUCT_ERROR,
+    ADD_PRODUCT_SUCCESS,
+    QUANTITY,
+    SET_QUANTITY,
+    SET_TOTAL_QUANTITY,
+    TOTAL_QUANTITY
+} from '../actions/ProductActions';
 
 
 const initialState = {
@@ -8,15 +13,27 @@ const initialState = {
     totalQuantity: 100,
 };
 
+
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
+        case ADD_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                products: [...state.products, action.payload],
+                error: null,
+            };
+        case ADD_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: action.payload,
+            };
         case QUANTITY:
             return {
                 ...state,
-                quantity: state.quantity ,
+                quantity: state.quantity,
             };
-            case TOTAL_QUANTITY:
-                return {
+        case TOTAL_QUANTITY:
+            return {
                 ...state,
                 totalQuantity: state.totalQuantity,
             };
@@ -35,4 +52,4 @@ const productReducer = (state = initialState, action) => {
     }
 };
 
-export default  productReducer;
+export default productReducer;
