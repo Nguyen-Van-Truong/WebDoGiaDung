@@ -29,6 +29,9 @@ const ProductAdd = () => {
 
     const categories = useSelector((state) => state.category.categories);
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -43,24 +46,55 @@ const ProductAdd = () => {
                 </React.Fragment>
             ));
     };
+    // Xử lý tạo sản phẩm
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const productData = {
+
+        const productData = JSON.stringify({
             productName,
             description,
             price: parseFloat(price),
             stockQuantity: parseInt(stockQuantity, 10),
             categoryId: parseInt(selectedCategory, 10),
-        };
-        console.log(productData);
-        addProduct(productData);
-        // After submission logic (e.g., clear form, navigate, show message)
+        });
+
+        const formData = new FormData();
+        formData.append("product", new Blob([productData], { type: "application/json" }));
+
+        selectedFiles.forEach(file => {
+            formData.append("files", file.file);
+        });
+
+        try {
+            const responseData = await addProduct(formData);
+            console.log('Product added successfully:', responseData);
+
+            // After submission logic here: clear form, navigate, show message, etc.
+
+        } catch (error) {
+            console.error('Failed to add product:', error);
+        }
     };
+
 
     // dùng thư viện react-quill để tạo trình soạn thảo
     const handleDescriptionChange = (content, delta, source, editor) => {
         setDescription(editor.getHTML());
     };
+
+
+    const handleFileSelect = (event) => {
+        const newFiles = Array.from(event.target.files).map(file => ({
+            file,
+            id: Date.now() + Math.random()
+        }));
+        setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
+    };
+
+    const handleRemoveFile = (fileId) => {
+        setSelectedFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+    };
+
 
     return (<div>
         <div id="ebazar-layout" className="theme-blue">
@@ -178,10 +212,23 @@ const ProductAdd = () => {
                                                         <small className="d-block text-muted mb-2">Chỉ hình ảnh dọc hoặc
                                                             hình vuông, chiều cao tối đa 2M và chiều cao tối đa
                                                             2000px.</small>
-                                                        <input type="file" id="input-file-to-destroy"
-                                                               className="dropify"
-                                                               data-allowed-formats="portrait square"
-                                                               data-max-file-size="2M" data-max-height={2000}/>
+                                                        {/*<input type="file" id="input-file-to-destroy"*/}
+                                                        {/*       className="dropify"*/}
+                                                        {/*       data-allowed-formats="portrait square"*/}
+                                                        {/*       data-max-file-size="2M" data-max-height={2000}/>*/}
+
+                                                        <input type="file" multiple onChange={handleFileSelect}/>
+                                                        <ul>
+                                                            {selectedFiles.map(({file, id}) => (
+                                                                <li key={id}>
+                                                                    {file.name}{" "}
+                                                                    <button
+                                                                        onClick={() => handleRemoveFile(id)}>Remove
+                                                                    </button>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+
                                                     </div>
                                                 </div>
                                             </form>
