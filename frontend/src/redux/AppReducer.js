@@ -1,13 +1,14 @@
 import {
+  ERROR,
   IS_ALL, IS_SEARCH,
   IS_TOP_SELLING, NEW_PRODUCTS, SET_ALL,
-  SET_CATEGORY,
+  SET_CATEGORY, SET_ERROR,
   SET_IS_CART,
   SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART,
   TOGGLE_MENU_OPEN,
-  TOOGLE_CATEGORY
+  TOOGLE_CATEGORY, UPDATE_FORM
 } from "./Action";
 
 
@@ -28,10 +29,30 @@ const initialState = {
   communes :[],
     is_new :false,
     isAll :false,
-    error :null
+    error :null,
+   formData: {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+   },
+  registrationMessage: null,
+  errorsMessage :null,
+  userInfo: null,
+  errors : ''
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
+      case ERROR :
+        return  {
+          ...state,
+          errors:state.errors
+        }
+      case  SET_ERROR :
+        return {
+          ...state ,
+          errors: action.payload
+        }
       case TOGGLE_MENU_OPEN:
         return {
           ...state,
@@ -82,6 +103,7 @@ const initialState = {
           ...state,
           isAll: !state.isAll
         }
+
       case SET_ALL:
         return  {
           ...state ,
@@ -107,6 +129,15 @@ const initialState = {
           ...state,
           isSearch: action.payload
         }
+
+      case 'SET_FORM_DATA':
+        return {
+          ...state,
+          formData: {
+            ...state.formData,
+            [action.payload.name]: action.payload.value
+          }
+        };
       case  'FETCH_PRODUCTS_SUCCESS' :
             return {
           ...state ,
@@ -172,6 +203,30 @@ const initialState = {
         return {
           ...state,
           error: action.payload
+        }
+      case  'REGISTER_SUCCESS' :
+        return  {
+          ...state,
+          registrationMessage: action.payload,
+          userInfo: action.payload.user,
+          //load lai form xoa du lieu di
+          formData: {
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          },
+          error: null,
+          errors: '',
+          errorsMessage :''
+        }
+      case  'REGISTER_ERROR' :
+        return {
+          ...state,
+          error: action.payload,
+          registrationMessage:'',
+          errorsMessage :action.payload,
+          errors: '',
         }
       default:
         return state;
