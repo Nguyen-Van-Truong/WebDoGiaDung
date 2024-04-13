@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,6 +44,13 @@ public class Products {
 
     public Categories getCategory() {
         return category;
+    }
+
+    public int getCategory_id() {
+        return this.category.getCategoryId();
+    }
+    public List<String> getMediaUrls() {
+        return this.medias.stream().map(Medias::getFile_url).toList();
     }
 
     public void setCategory(Categories category) {
