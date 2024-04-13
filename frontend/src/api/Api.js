@@ -1,32 +1,32 @@
 import axios from "axios";
- export const fetchProducts = () => {
-     return async dispatch => {
-         try {
-             const response = await axios.get("/api/products/products");
 
-             const data = response.data;
-             dispatch ({type: 'FETCH_PRODUCTS_SUCCESS' ,payload :data});
-         }
-         catch (error) {
-             dispatch ({type: 'FETCH_PRODUCTS_ERROR' ,payload : error.message});
-         }
-     }
 
-}
-export  const top_selling = () => {
-    return async  dispatch => {
+export const fetchProducts = () => {
+    return async dispatch => {
         try {
-            const  reponse = await  axios.get("/api/products/top-selling");
-            const  data = reponse.data
-            dispatch ({type: 'TOP_SELLING_SUCCESS' ,payload :data});
-        }
-        catch (error) {
-            dispatch ({type: 'TOP_SELLING_ERROR' ,payload : error.message});
+            const response = await axios.get("/api/products/products");
+
+            const data = response.data;
+            dispatch({type: 'FETCH_PRODUCTS_SUCCESS', payload: data});
+        } catch (error) {
+            dispatch({type: 'FETCH_PRODUCTS_ERROR', payload: error.message});
         }
     }
 
 }
-export  const products_new = () => {
+export const top_selling = () => {
+    return async dispatch => {
+        try {
+            const reponse = await axios.get("/api/products/top-selling");
+            const data = reponse.data
+            dispatch({type: 'TOP_SELLING_SUCCESS', payload: data});
+        } catch (error) {
+            dispatch({type: 'TOP_SELLING_ERROR', payload: error.message});
+        }
+    }
+
+}
+export const products_new = () => {
     return async dispatch => {
         try {
             const reponse = await axios.get("/api/products/new");
@@ -37,7 +37,7 @@ export  const products_new = () => {
         }
     }
 }
-export  const province = () => {
+export const province = () => {
     return async dispatch => {
         try {
             const reponse = await axios.get("https://vnprovinces.pythonanywhere.com/api/provinces/?basic=true&limit=100");
@@ -55,9 +55,9 @@ export const dis_tricts = (province_id) => {
             const numericDistrictId = Number(province_id);
             const response = await axios.get(`https://vnprovinces.pythonanywhere.com/api/districts/?province_id=${numericDistrictId}&basic=true&limit=100`);
             const data = response.data;
-            dispatch({ type: 'DISTRICT_SUCCESS', payload: data.results });
+            dispatch({type: 'DISTRICT_SUCCESS', payload: data.results});
         } catch (error) {
-            dispatch({ type: 'DISTRICT_ERROR', payload: error.message });
+            dispatch({type: 'DISTRICT_ERROR', payload: error.message});
 
         }
     };
@@ -68,10 +68,32 @@ export const commune = (districtId) => {
             const numericDistrictId = Number(districtId);
             const response = await axios.get(`https://vnprovinces.pythonanywhere.com/api/wards/?district_id=${numericDistrictId}&basic=true&limit=100`);
             const data = response.data;
-            dispatch({ type: 'COMMUNE_SUCCESS', payload: data.results });
+            dispatch({type: 'COMMUNE_SUCCESS', payload: data.results});
         } catch (error) {
-            dispatch({ type: 'COMMUNE_ERROR', payload: error.message });
+            dispatch({type: 'COMMUNE_ERROR', payload: error.message});
 
         }
     };
 };
+export const register = (userData  , onSuccess) => {
+
+    return async (dispatch, getState) => {
+        try {
+
+            const response = await axios.post("/api/users/register", userData);
+            const data = response.data;
+            dispatch({type: 'REGISTER_SUCCESS', payload: data.message  || data});
+            console.log(data.message);
+            setTimeout(() => {
+                if (onSuccess) onSuccess(); // Gọi hàm onSuccess nếu được truyền vào
+            }, 7000);
+        } catch (error) {
+
+            const errorMessage = error.response.data;
+            dispatch({
+                type: 'REGISTER_ERROR',
+                payload: errorMessage
+            });
+        }
+    }
+}
