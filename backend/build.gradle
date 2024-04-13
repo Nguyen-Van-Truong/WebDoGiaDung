@@ -16,6 +16,7 @@ java {
 
 }
 
+
 repositories {
 	mavenCentral()
 }
@@ -27,6 +28,10 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 }
+compileJava {
+    options.compilerArgs << "-parameters"
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

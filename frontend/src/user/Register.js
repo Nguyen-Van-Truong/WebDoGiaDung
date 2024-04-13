@@ -1,7 +1,7 @@
 
 import 'select2/dist/js/select2';
-import React, {useState, useEffect, useRef} from 'react';
-import {Link} from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import {Link, useNavigate} from "react-router-dom";
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
@@ -12,31 +12,56 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {register} from "../api/Api";
+import {setError, setFormData} from "../redux/Action";
+import {bindActionCreators} from "redux";
 
 const Register = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
-    const [isMenu, setIsMenu] = useState(false);
-
     const [isConfirmPassWord, setConfirmPass] =useState(false);
-
-
+    const dispatch = useDispatch();
+    const formData = useSelector(state => state.appUser.formData);
+    const errors =useSelector (state => state.appUser.errors);
+    const registerReponse = useSelector(state => state.appUser.registrationMessage);
+    const errorMessage = useSelector(state => state.appUser.errorsMessage);
+    const navigate = useNavigate();
+    /**
+     *  goi hàm  action
+     */
+    const { registerAction } = bindActionCreators({ registerAction: register }, dispatch);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
     const toggleConfirmPasswordVisibility = () => {
         setConfirmPass(!isConfirmPassWord);
     };
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        console.log("Input changed:", name, value);
+        dispatch(setFormData(name, value));
+        console.log("Updated formData:", formData);
     };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(formData.password === formData.confirmPassword){
+            const userData = {
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
 
-
-
+            };
+            dispatch(register(userData));
+            // tu dong chuyen trang
+            registerAction(userData, () => navigate('/login'));
+            dispatch(setError(''));
+        }
+        else{
+            console.log("mat khau khong trung khop")
+            dispatch(setError('Mật khẩu không trùng khớp'));
+        }
+    }
     useEffect(() => {
 
 
@@ -111,25 +136,23 @@ const Register = () => {
                     <div className="sign_in">
                         <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng kí</h2>
                         <div className="form">
-                            <form action="" className="">
-                                <div className="xl:flex flex-wrap justify-between items-center mb-4">
-                                    <div className="xl:w-[284px] w-full">
-                                        <input type="text" placeholder="First Name"
-                                               className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
-                                    </div>
-                                    <div className="xl:w-[284px] w-full">
-                                        <input type="text" placeholder="Last Name"
-                                               className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
-                                    </div>
+                            <form onSubmit={handleSubmit} className="">
+                                {registerReponse && <div className="alert alert-success p-lg-1">{registerReponse}</div>}
+                                {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
+                                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
+                                <div className="mb-4">
+                                    <input type="text" placeholder="Username"   name="username"
+                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out" value={formData.username} onChange={handleInputChange}/>
                                 </div>
                                 <div className="mb-4">
-                                    <input type="text" placeholder="Email"
-                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                    <input type="email" placeholder="Email" name="email"
+                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out" value={formData.email} onChange={handleInputChange} />
                                 </div>
                                 <div className="relative">
-                                    <input type={showPassword ? "text" : "password"} id="myInput" placeholder="Password"
+                                    <input type={showPassword ? "text" : "password"}  placeholder="Password"
                                            className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                           name="password"/>
+                                           name="password" value={formData.password} onChange={handleInputChange} />
                               <span className="absolute top-[17px] right-5 cursor-pointer ">
 
                             <svg id="create-icon-show" onClick={togglePasswordVisibility} width="24" height="24"
@@ -163,7 +186,7 @@ const Register = () => {
                                 <div className="relative">
                                     <input type={isConfirmPassWord ? "text" : "password"} placeholder="Confirm Password"
                                            className="form_password focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                           id="myInput" name="password"/>
+                                          name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange}/>
                               <span className="absolute top-[17px] right-5 cursor-pointer ">
                             <svg id="icon-show" onClick={toggleConfirmPasswordVisibility} width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,14 +216,8 @@ const Register = () => {
                             </svg>
                         </span>
                                 </div>
-                                <div className="flex justify-between items-center">
-                                    <div className="cursor-pointer">
-                                        <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent"
-                                               className="cursor-pointer" type="checkbox" value="yes"/>
-                                            <label htmlFor="wp-comment-cookies-consent">Chấp nhận tất cả các điều khoản và điều kiện</label>
-                                    </div>
-                                </div>
-                                <button className="form_btn w-full">
+
+                                <button type={"submit"} className="form_btn w-full">
                                     Đăng kí
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"

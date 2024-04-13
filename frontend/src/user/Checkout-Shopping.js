@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Swiper from "swiper";
 import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
@@ -22,9 +22,9 @@ import {commune, dis_tricts, province} from "../api/Api";
 const Checkout_Shopping = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const dispatch = useDispatch();
-    const provinces = useSelector((state)=> state.provinces);
-    const  districts =useSelector((state)=> state.districts);
-    const communes =useSelector((state)=> state.communes);
+    const provinces = useSelector((state)=> state.appUser.provinces);
+    const  districts =useSelector((state)=> state.appUser.districts);
+    const communes =useSelector((state)=> state.appUser.communes);
     const [selectedProvinceId, setSelectedProvinceId] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedProvinceName, setSelectedProvinceName] = useState('');
