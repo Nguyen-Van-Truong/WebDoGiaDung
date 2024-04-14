@@ -13,6 +13,8 @@ import Pagination from "./component/Index/Pagination";
 import Header from "./component/Header";
 
 const Index = () => {
+
+
     useEffect(() => {
         $('#myDataTable')
             .addClass('nowrap')

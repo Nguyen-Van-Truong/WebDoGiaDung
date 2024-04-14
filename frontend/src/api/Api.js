@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import {loginSuccess, resetRegistrationMessage} from "../redux/Action";
+
 
 export const fetchProducts = () => {
     return async dispatch => {
@@ -84,9 +86,15 @@ export const register = (userData  , onSuccess) => {
             const data = response.data;
             dispatch({type: 'REGISTER_SUCCESS', payload: data.message  || data});
             console.log(data.message);
+            /**
+             * tu dong chuyen trang khi dang ki thah cong mac dinh 4s
+             */
             setTimeout(() => {
                 if (onSuccess) onSuccess(); // Gọi hàm onSuccess nếu được truyền vào
-            }, 7000);
+                   dispatch(resetRegistrationMessage());
+            }, 4000);
+
+
         } catch (error) {
 
             const errorMessage = error.response.data;
@@ -97,3 +105,19 @@ export const register = (userData  , onSuccess) => {
         }
     }
 }
+export const login = (email, password) => {
+    return async dispatch => {
+        try {
+            const response = await axios.post('/api/users/login', { email, password });
+            const data = response.data;
+            dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+            const is_admin = response.data.is_admin;
+            console.log(is_admin);
+
+        } catch (error) {
+            const errorMessage = error.response.data;
+            dispatch({type: 'LOGIN_ERROR', payload: errorMessage});
+
+        }
+    };
+};

@@ -23,9 +23,52 @@ export const UPDATE_FORM = 'UPDATE_FORM'
 export  const  ERROR ='ERROR';
 export  const  SET_ERROR ='SET_ERROR';
 
+// reset lại trạng thái cua form khi dang khi thanh cong
+export const RESET_REGISTRATION_MESSAGE = 'RESET_REGISTRATION_MESSAGE';
+/**
+ * thiet lap cac thuoc tinh cho email
+ * @returns {{type: string}}
+ */
+export  const  EMAIL = 'EMAIL';
+export  const  SET_EMAIL ='SET_EMAIL';
+ export const  PASSWORD_LOGIN = 'PASSWORD_LOGIN';
+ export  const  SET_PASSWORD_LOGIN = 'SET_PASSWORD_LOGIN';
 
 
 
+ export const  email = () => {
+     return {
+         type : EMAIL
+     }
+ }
+ export  const  setEmail = (email)=>{
+     return {
+         type: SET_EMAIL,
+         payload: email
+     };
+ }
+ export  const  password_Login = () => {
+     return {
+         type : PASSWORD_LOGIN
+     }
+ }
+export const logout = () => {
+    return {
+        type: 'LOGOUT'
+    };
+};
+
+export  const  setPassword = (password)=>{
+    return {
+        type: SET_PASSWORD_LOGIN,
+        payload: password
+    };
+}
+export const resetRegistrationMessage = () => {
+    return {
+        type: RESET_REGISTRATION_MESSAGE
+    };
+};
 export const  tabTopSelling = () =>({
     type : IS_TOP_SELLING
 })
@@ -109,3 +152,8 @@ export const setIsCart =(isCart) => ({
     type :SET_IS_CART ,
     payload : isCart
 })
+/**
+ * login lay user nguoi dung
+ * @param userData
+ * @returns {{payload, type: string}}
+ */
