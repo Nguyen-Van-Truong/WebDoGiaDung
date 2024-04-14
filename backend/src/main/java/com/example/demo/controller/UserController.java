@@ -47,9 +47,7 @@ public class UserController {
 
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody UserDTO dto) {
-
 		String email = dto.getEmail();
-
 		String password = dto.getPassword();
 		System.out.println("name" + dto.getUsername());
 		System.out.println("email" + dto.getEmail());
