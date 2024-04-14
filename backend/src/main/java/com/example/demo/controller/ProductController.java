@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.ProductListAdminDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,11 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final ProductService service;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService service) {
-        this.service = service;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     // lấy tất cả sản phẩm có thể chọn số lượng và thứ tự sắp xếp
@@ -25,31 +27,42 @@ public class ProductController {
     public List<ProductMediaInfo> getProducts(
             @RequestParam(value = "count", defaultValue = Integer.MAX_VALUE + "") int count,
             @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
-        return service.getProducts(count, sortOrder);
+        return productService.getProducts(count, sortOrder);
+    }
+
+    @GetMapping("/admin/products")
+    public Page<ProductListAdminDTO> getAdminProducts(
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection,
+            @RequestParam(defaultValue = "created_at") String sortBy) {
+
+        return productService.listAdminProducts(categoryId, page, size, sortDirection, sortBy);
     }
 
     // lấy sản phẩm bán chạy
     @GetMapping("/top-selling")
     public List<ProductMediaInfo> getTopSellingProducts(@RequestParam(value = "limit", defaultValue = "10") int limit) {
-        return service.getTopSellingProducts(limit);
+        return productService.getTopSellingProducts(limit);
     }
 
     // lấy sản phẩm mới
     @GetMapping("/new")
     public List<ProductMediaInfo> getNew(@RequestParam(value = "limit", defaultValue = "10") int limit) {
-        return service.getNew(limit);
+        return productService.getNew(limit);
     }
 
 	@GetMapping("/search")
 	public List<ProductMediaInfo> getSeach(@RequestParam(value = "keyword") String keyword){
-		return service.seachProduct(keyword);
+		return productService.seachProduct(keyword);
 	}
     // thêm sản phẩm mới
     @PostMapping("/add")
     public ProductDTO addProduct(
             @RequestPart("product") ProductDTO productDTO,
             @RequestPart("files") MultipartFile[] files) throws IOException {
-        return service.addProduct(productDTO, files);
+        return productService.addProduct(productDTO, files);
     }
 
 

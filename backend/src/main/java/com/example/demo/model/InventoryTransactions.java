@@ -19,9 +19,8 @@ public class InventoryTransactions {
     @Column(name = "quantity")
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "transaction_type")
-    private InventoryTransactionType transactionType;
+    @Column(name = "transaction_type", length = 50)
+    private String transactionType; // Change to String type
 
     @Column(name = "transaction_date")
     private Timestamp transactionDate;
@@ -56,11 +55,11 @@ public class InventoryTransactions {
         this.quantity = quantity;
     }
 
-    public InventoryTransactionType getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(InventoryTransactionType transactionType) {
+    public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
 

@@ -1,74 +1,55 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import noUiSlider from 'nouislider';
 import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
 import Pagination from "./component/Index/Pagination";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories} from "./Api/CategoryApi";
+import {fetchProducts} from "./Api/ProductApi";
+import Pagination2 from "./component/Index/Pagination2";
 
 const ProductList = () => {
-    const sliderRef = useRef(null);
-    const inputMinRef = useRef(null);
-    const inputMaxRef = useRef(null);
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.category.categories);
+    const [products, setProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageCount, setPageCount] = useState(0);
+    const [sortOrder, setSortOrder] = useState('desc');
+    const [sortBy, setSortBy] = useState('created_at');
 
     useEffect(() => {
-        const initializeSlider = () => {
-            if (sliderRef.current && !sliderRef.current.noUiSlider) {
-                noUiSlider.create(sliderRef.current, {
-                    start: [0, 2000], // Initial values for the slider
-                    connect: true,
-                    step: 1,
-                    range: {
-                        'min': 0,
-                        'max': 2000
-                    },
-                });
+        dispatch(fetchCategories());
+        loadProducts();
+    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy]); // Ensure currentPage is a dependency
 
-                sliderRef.current.noUiSlider.on('update', function (values, handle) {
-                    const value = Math.round(values[handle]);
-                    if (handle === 0) {
-                        inputMinRef.current.value = value;
-                    } else {
-                        inputMaxRef.current.value = value;
-                    }
-                });
-            }
-        };
+    const loadProducts = async () => {
+        const data = await fetchProducts({
+            categoryId: selectedCategory || undefined,
+            page: currentPage,
+            size: 5,
+            sortOrder,
+            sortBy
+        });
+        setProducts(data.content);
+        setPageCount(data.totalPages); // Assuming your API returns totalPages
+    };
 
-        const setSliderValue = (handle, value) => {
-            if (sliderRef.current && sliderRef.current.noUiSlider) {
-                let sliderValues = sliderRef.current.noUiSlider.get();
-                sliderValues[handle] = value;
-                sliderRef.current.noUiSlider.set(sliderValues);
-            }
-        };
+    const handlePageClick = (data) => {
+        setCurrentPage(data.selected);
+    };
 
-        const handleMinInputChange = (event) => {
-            setSliderValue(0, event.target.value);
-        };
-
-        const handleMaxInputChange = (event) => {
-            setSliderValue(1, event.target.value);
-        };
-
-        initializeSlider();
-
-        inputMinRef.current.addEventListener('change', handleMinInputChange);
-        inputMaxRef.current.addEventListener('change', handleMaxInputChange);
-
-        // Cleanup function
-        return () => {
-            if (sliderRef.current && sliderRef.current.noUiSlider) {
-                sliderRef.current.noUiSlider.destroy();
-            }
-            if (inputMinRef.current) {
-                inputMinRef.current.removeEventListener('change', handleMinInputChange);
-            }
-            if (inputMaxRef.current) {
-                inputMaxRef.current.removeEventListener('change', handleMaxInputChange);
-            }
-        };
-    }, []);
-
+    const buildOptions = (categories, parentId = null, prefix = '') => {
+        return categories
+            .filter(category => category.parentId === parentId)
+            .map(category => (
+                <React.Fragment key={category.categoryId}>
+                    <option value={category.categoryId}>{prefix + category.categoryName}</option>
+                    {buildOptions(categories, category.categoryId, prefix + '--')}
+                </React.Fragment>
+            ));
+    };
 
     return (
         <div>
@@ -89,7 +70,7 @@ const ProductList = () => {
                                 <div className="border-0 mb-4">
                                     <div
                                         className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                                        <h3 className="fw-bold mb-0">Products</h3>
+                                        <h3 className="fw-bold mb-0">Danh sách sản phẩm</h3>
                                         <div className="btn-group group-link btn-set-task w-sm-100">
                                             <a href="product-grid" className="btn d-inline-flex align-items-center"
                                                aria-current="page"><i className="icofont-wall px-2 fs-5"/>Grid View</a>
@@ -104,860 +85,106 @@ const ProductList = () => {
                             <div className="row g-3 mb-3">
                                 <div className="col-md-12 col-lg-4 col-xl-4 col-xxl-3">
                                     <div className="sticky-lg-top">
+
                                         <div className="card mb-3">
                                             <div className="reset-block">
                                                 <div className="filter-title">
-                                                    <h4 className="title">Filter</h4>
+                                                    <h4 className="title">Bộ lọc</h4>
                                                 </div>
                                                 <div className="filter-btn">
                                                     <a className="btn btn-primary" href="#">Reset</a>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {/*categories*/}
                                         <div className="card mb-3">
-                                            <div className="categories">
-                                                <div className="filter-title">
-                                                    <a className="title" data-bs-toggle="collapse" href="#category"
-                                                       role="button" aria-expanded="true">Categories</a>
-                                                </div>
-                                                <div className="collapse show" id="category">
-                                                    <div className="filter-search">
-                                                        <form action="#">
-                                                            <input type="text" placeholder="Search"
-                                                                   className="form-control"/>
-                                                            <button><i className="lni lni-search-alt"/></button>
-                                                        </form>
-                                                    </div>
-                                                    <div className="filter-category">
-                                                        <ul className="category-list">
-                                                            <li><a href="#" data-bs-toggle="collapse"
-                                                                   data-bs-target="#collapseOne" aria-expanded="false"
-                                                                   className="collapsed">Game accessories</a>
-                                                                <ul id="collapseOne" className="sub-category collapse"
-                                                                    data-parent="#category">
-                                                                    <li><a href="#">PlayStation 4</a></li>
-                                                                    <li><a href="#">Oculus VR</a></li>
-                                                                    <li><a href="#">Remote</a></li>
-                                                                    <li><a href="#">Lighting Keyborad</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a className="collapsed" href="#"
-                                                                   data-bs-toggle="collapse"
-                                                                   data-bs-target="#collapseTwo">Bags</a>
-                                                                <ul id="collapseTwo" className="sub-category collapse"
-                                                                    data-parent="#category">
-                                                                    <li><a href="#">School Bags</a></li>
-                                                                    <li><a href="#">Traveling Bags</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a className="collapsed" href="#"
-                                                                   data-bs-toggle="collapse"
-                                                                   data-bs-target="#collapseThree">Flower Port</a>
-                                                                <ul id="collapseThree" className="sub-category collapse"
-                                                                    data-parent="#category">
-                                                                    <li><a href="#">Woodan Port</a></li>
-                                                                    <li><a href="#">Pattern Port</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a className="collapsed" href="#"
-                                                                   data-bs-toggle="collapse"
-                                                                   data-bs-target="#collapseFour">Watch</a>
-                                                                <ul id="collapseFour" className="sub-category collapse"
-                                                                    data-parent="#category">
-                                                                    <li><a href="#">Wall Clock</a></li>
-                                                                    <li><a href="#">Smart Watch</a></li>
-                                                                    <li><a href="#">Rado Watch</a></li>
-                                                                    <li><a href="#">Fasttrack Watch</a></li>
-                                                                    <li><a href="#">Noise Watch</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a className="collapsed" href="#"
-                                                                   data-bs-toggle="collapse"
-                                                                   data-bs-target="#collapseFive">Accessories</a>
-                                                                <ul id="collapseFive" className="sub-category collapse"
-                                                                    data-parent="#category">
-                                                                    <li><a href="#">Note Diaries</a></li>
-                                                                    <li><a href="#">Fold Diaries</a></li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <div
+                                                className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                                                <h6 className="m-0 fw-bold">Loại sản phẩm</h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <label className="form-label">Chọn danh mục</label>
+                                                <select
+                                                    className="form-select"
+                                                    size={7}
+                                                    aria-label="size 3 select example"
+                                                    value={selectedCategory}
+                                                    onChange={e => {
+                                                        setSelectedCategory(e.target.value);
+                                                        handlePageClick({selected: 0})
+                                                    }}>
+                                                    <option value="">Tất cả</option>
+                                                    {buildOptions(categories)}
+                                                </select>
                                             </div>
                                         </div>
-                                        <div className="card mb-3">
-                                            <div className="size-block">
-                                                <div className="filter-title">
-                                                    <a className="title" data-bs-toggle="collapse" href="#size"
-                                                       role="button" aria-expanded="true">Select Size</a>
-                                                </div>
-                                                <div className="collapse show" id="size">
-                                                    <div className="filter-size" id="filter-size-1">
-                                                        <ul>
-                                                            <li>XS</li>
-                                                            <li>S</li>
-                                                            <li className>M</li>
-                                                            <li>L</li>
-                                                            <li>XL</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card mb-3">
-                                            <div className="color-block">
-                                                <div className="filter-title">
-                                                    <a className="title" data-bs-toggle="collapse" href="#color"
-                                                       role="button" aria-expanded="false">Select Color</a>
-                                                </div>
-                                                <div className="collapse show" id="color">
-                                                    <div className="filter-color">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="color-check">
-                                                                    <p><span style={{backgroundColor: '#4114e4'}}/>
-                                                                        <strong>Blue</strong></p>
-                                                                    <input type="checkbox" id="color-1"/>
-                                                                    <label htmlFor="color-1"><span/></label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="color-check">
-                                                                    <p><span style={{backgroundColor: '#E14C7B'}}/>
-                                                                        <strong>Red</strong></p>
-                                                                    <input type="checkbox" id="color-2"/>
-                                                                    <label htmlFor="color-2"><span/></label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="color-check">
-                                                                    <p><span style={{backgroundColor: '#7CB637'}}/>
-                                                                        <strong>Green</strong></p>
-                                                                    <input type="checkbox" id="color-3"/>
-                                                                    <label htmlFor="color-3"><span/></label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="color-check">
-                                                                    <p><span style={{backgroundColor: '#161359'}}/>
-                                                                        <strong>Dark</strong></p>
-                                                                    <input type="checkbox" id="color-4"/>
-                                                                    <label htmlFor="color-4"><span/></label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card mb-3">
-                                            <div className="price-range-block">
-                                                <div className="filter-title">
-                                                    <a className="title" data-bs-toggle="collapse" href="#pricingTwo"
-                                                       role="button" aria-expanded="false">Pricing Range</a>
-                                                </div>
-                                                <div className="collapse show" id="pricingTwo">
-                                                    <div className="price-range">
-                                                        <div className="price-amount flex-wrap">
-                                                            <div className="amount-input mt-1">
-                                                                <label className="fw-bold">Minimum Price</label>
-                                                                <input type="text" ref={inputMinRef}
-                                                                       className="form-control"/>
-                                                            </div>
-                                                            <div className="amount-input mt-1">
-                                                                <label className="fw-bold">Maximum Price</label>
-                                                                <input type="text" ref={inputMaxRef}
-                                                                       className="form-control"/>
-                                                            </div>
-                                                        </div>
-                                                        <div ref={sliderRef} className="slider-range"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card">
-                                            <div className="rating-block">
-                                                <div className="filter-title">
-                                                    <a className="title" data-bs-toggle="collapse" href="#rating"
-                                                       role="button" aria-expanded="false">Select Rating</a>
-                                                </div>
-                                                <div className="collapse show" id="rating">
-                                                    <div className="filter-rating">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="rating-check">
-                                                                    <input type="checkbox" id="rating-5"/>
-                                                                    <label htmlFor="rating-5"><span/>
-                                                                    </label>
-                                                                    <p>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="rating-check">
-                                                                    <input type="checkbox" id="rating-4"/>
-                                                                    <label htmlFor="rating-4"><span/></label>
-                                                                    <p>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="rating-check">
-                                                                    <input type="checkbox" id="rating-3"/>
-                                                                    <label htmlFor="rating-3"><span/></label>
-                                                                    <p>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="rating-check">
-                                                                    <input type="checkbox" id="rating-2"/>
-                                                                    <label htmlFor="rating-2"><span/></label>
-                                                                    <p>
-                                                                        <i className="icofont-star"/>
-                                                                        <i className="icofont-star"/>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="rating-check">
-                                                                    <input type="checkbox" id="rating-1"/>
-                                                                    <label htmlFor="rating-1"><span/></label>
-                                                                    <p>
-                                                                        <i className="icofont-star"/>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div className="col-md-12 col-lg-8 col-xl-8 col-xxl-9">
+
                                     <div className="card mb-3 bg-transparent p-2">
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch1"
-                                                       defaultChecked/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch1">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-1.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Oculus
-                                                        VR <span className="text-muted small fw-light d-block">Reference 1204</span>
-                                                    </h6></a>
+
+                                        {products.map(product => (
+                                            <div className="col-md-12" key={product.productId}>
+                                                <div className="card border-0 mb-1">
                                                     <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
+                                                        className="card-body d-flex align-items-center flex-column flex-md-row">
+                                                        <a href={`product-detail/${product.productId}`}>
+                                                            <img className="w120 rounded img-fluid"
+                                                                 src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
+                                                                 alt={product.productName}/>
+                                                        </a>
+                                                        <div
+                                                            className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
+                                                            <a href={`product-detail/${product.productId}`}><h6
+                                                                className="mb-3 fw-bold">{product.productName}
+                                                                <span className="text-muted small fw-light d-block">Loại sản phẩm: {product.categoryName}</span>
+                                                            </h6></a>
+                                                            <div
+                                                                className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
+                                                                <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                    <div className="text-muted small">Giá</div>
+                                                                    <strong>${product.price} VNĐ</strong>
+                                                                </div>
+                                                                <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                    <div className="text-muted small">Số lượng</div>
+                                                                    <strong>{product.stockQuantity}</strong>
+                                                                </div>
+                                                                <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                    <div className="text-muted small">Ngày tạo</div>
+                                                                    <strong>{new Date(product.createdAt).toLocaleDateString()} {new Date(product.createdAt).toLocaleTimeString()}</strong>
+                                                                </div>
+                                                                <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                    <div className="text-muted small">Trạng thái</div>
+                                                                    <strong>{product.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}</strong>
+                                                                </div>
+                                                            </div>
+                                                            <div className="d-flex align-items-center">
+                                                                <button className="btn p-0 me-2" title="Sửa">
+                                                                    <i className="fa fa-pencil fa-lg text-primary"></i>
+                                                                </button>
+                                                                <button className="btn p-0" title="Xóa">
+                                                                    <i className="fa fa-trash fa-lg text-danger"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$149</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(145)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch2"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch2">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-2.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Wall
-                                                        Clock <span className="text-muted small fw-light d-block">Reference 1004</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$399</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>3.5 <span
-                                                                className="text-muted">(77)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch3"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch3">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-3.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Note
-                                                        Diaries <span className="text-muted small fw-light d-block">Reference 1224</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$49</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>3.5 <span
-                                                                className="text-muted">(98)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch4"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch4">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-4.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Flower
-                                                        Port <span className="text-muted small fw-light d-block">Reference 1414</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>18h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$199</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(1455)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch5"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch5">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-5.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">School
-                                                        Bag <span className="text-muted small fw-light d-block">Reference 1000</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>03h:30m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$99</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(145)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch6"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch6">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-6.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Rado
-                                                        Watch <span className="text-muted small fw-light d-block">Reference 9204</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$594</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(1245)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch7"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch7">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-7.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Traveling
-                                                        Bag <span className="text-muted small fw-light d-block">Reference 1155</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$49</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(1045)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch8"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch8">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-4.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Flower
-                                                        Port <span className="text-muted small fw-light d-block">Reference 1414</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>18h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$109</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(1455)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch9"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch9">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-2.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Wall
-                                                        Clock <span className="text-muted small fw-light d-block">Reference 1004</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$144</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(77)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox" id="Eaten-switch10"
-                                                       defaultChecked/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch10">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-1.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Oculus
-                                                        VR <span className="text-muted small fw-light d-block">Reference 1204</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$149</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(145)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox"
-                                                       id="Eaten-switch11"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch11">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-2.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Wall
-                                                        Clock <span className="text-muted small fw-light d-block">Reference 1004</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$149</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(77)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0 mb-1">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox"
-                                                       id="Eaten-switch12"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch12">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-3.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Note
-                                                        Diaries <span className="text-muted small fw-light d-block">Reference 1224</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>20h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$149</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(98)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card border-0">
-                                            <div
-                                                className="form-check form-switch position-absolute top-0 end-0 py-3 px-3 d-none d-md-block">
-                                                <input className="form-check-input" type="checkbox"
-                                                       id="Eaten-switch13"/>
-                                                <label className="form-check-label" htmlFor="Eaten-switch13">Add to
-                                                    Cart</label>
-                                            </div>
-                                            <div
-                                                className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                <a href="product-detail">
-                                                    <img className="w120 rounded img-fluid"
-                                                         src="assets/images/product/product-4.jpg" alt=""/>
-                                                </a>
-                                                <div
-                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                    <a href="product-detail"><h6 className="mb-3 fw-bold">Flower
-                                                        Port <span className="text-muted small fw-light d-block">Reference 1414</span>
-                                                    </h6></a>
-                                                    <div
-                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Special priceends</div>
-                                                            <strong>18h:46m:30s</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Offer</div>
-                                                            <strong>Bank Offer</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Price</div>
-                                                            <strong>$149</strong>
-                                                        </div>
-                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                            <div className="text-muted small">Ratings</div>
-                                                            <strong><i className="icofont-star text-warning"/>4.5 <span
-                                                                className="text-muted">(1455)</span></strong>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2 d-inline-flex d-md-none">
-                                                        <button type="button" className="btn btn-primary">Add Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
+
+                                        {/*Repeat similar structure for other products*/}
+
                                     </div>
 
-                                    <Pagination/>
+                                    <Pagination2 onPageChange={handlePageClick} pageCount={pageCount}
+                                    />
 
                                 </div>
                             </div>
+
                             {/* Row end  */}
                         </div>
                     </div>

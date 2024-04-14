@@ -28,6 +28,9 @@ const ProductAdd = () => {
     const [stockQuantity, setStockQuantity] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
 
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+
     const categories = useSelector((state) => state.category.categories);
 
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -70,7 +73,17 @@ const ProductAdd = () => {
             const responseData = await addProduct(formData);
             console.log('Product added successfully:', responseData);
 
-            // After submission logic here: clear form, navigate, show message, etc.
+            // hiển thị thông báo
+            setNotificationMessage('Sản phẩm đã được thêm thành công!');
+            setShowNotification(true);
+
+            // Làm sạch form
+            setProductName('');
+            setDescription('');
+            setPrice('');
+            setStockQuantity('');
+            setSelectedCategory('');
+            setSelectedFiles([]);
 
         } catch (error) {
             console.error('Failed to add product:', error);
@@ -83,6 +96,9 @@ const ProductAdd = () => {
         setDescription(editor.getHTML());
     };
 
+    const handleNotificationClose = () => {
+        setShowNotification(false);
+    };
 
     const handleFileSelect = (event) => {
         const newFiles = Array.from(event.target.files).map(file => ({
@@ -451,6 +467,15 @@ const ProductAdd = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Notification */}
+                {showNotification && (
+                    <div className="alert alert-success alert-dismissible fade show" role="alert">
+                        {notificationMessage}
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={handleNotificationClose}></button>
+                    </div>
+                )}
+
             </div>
         </div>
     </div>);

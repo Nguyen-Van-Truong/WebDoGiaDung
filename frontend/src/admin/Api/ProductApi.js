@@ -8,3 +8,16 @@ export const addProduct = async (formData) => {
         throw error;
     }
 };
+
+
+export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy }) => {
+    try {
+        const response = await axios.get(`/api/products/admin/products`, {
+            params: { categoryId, page, size, sortOrder, sortBy }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        throw error;
+    }
+};
