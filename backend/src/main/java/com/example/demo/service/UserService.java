@@ -25,34 +25,13 @@ public class UserService implements User_impl {
 
 	}
 
-	// Fetch all users from the database
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	// tim kiem dang nhap user theo email và mât khẩu
+	public Optional<User> login(String email, String password) {
+		return userRepository.login(email, md5.hash(password));
 	}
-
-	// Find a single user by ID
-	public Optional<User> getUserById(int userId) {
-		return userRepository.findById(userId);
-	}
-
-	// Save a new user to the database
-	public User saveUser(User newUser) {
-		return userRepository.save(newUser);
-	}
-
-	// Update an existing user
-	public Optional<User> updateUser(int userId, User updatedUser) {
-		return userRepository.findById(userId).map(user -> {
-			user.setUsername(updatedUser.getUsername());
-			user.setPassword(updatedUser.getPassword()); // Consider using a password encoder
-			user.setEmail(updatedUser.getEmail());
-			user.setFull_name(updatedUser.getFull_name());
-			user.setAddress(updatedUser.getAddress());
-			user.setIs_admin(updatedUser.isIs_admin());
-			return userRepository.save(user);
-		});
-	}
-
+ /**
+  * phân đăng kí
+  */
 	@Override
 	public void save(UserDTO userDto) {
 		// TODO Auto-generated method stub
