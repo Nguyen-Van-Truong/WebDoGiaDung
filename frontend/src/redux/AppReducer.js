@@ -1,14 +1,15 @@
 import {
+  EMAIL,
   ERROR,
   IS_ALL, IS_SEARCH,
-  IS_TOP_SELLING, NEW_PRODUCTS, SET_ALL,
-  SET_CATEGORY, SET_ERROR,
+  IS_TOP_SELLING, NEW_PRODUCTS, PASSWORD_LOGIN, RESET_REGISTRATION_MESSAGE, SET_ALL,
+  SET_CATEGORY, SET_EMAIL, SET_ERROR,
   SET_IS_CART,
-  SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_TOP_SELLING,
+  SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART,
   TOGGLE_MENU_OPEN,
-  TOOGLE_CATEGORY, UPDATE_FORM
+  TOOGLE_CATEGORY,
 } from "./Action";
 
 
@@ -39,7 +40,12 @@ const initialState = {
   registrationMessage: null,
   errorsMessage :null,
   userInfo: null,
-  errors : ''
+  errors : '',
+  password_login :'',
+  email_login :'',
+  userData: null,
+  isAdmin: false,
+  isStatus :false,
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -53,6 +59,7 @@ const initialState = {
           ...state ,
           errors: action.payload
         }
+
       case TOGGLE_MENU_OPEN:
         return {
           ...state,
@@ -129,8 +136,32 @@ const initialState = {
           ...state,
           isSearch: action.payload
         }
-
-      case 'SET_FORM_DATA':
+      case RESET_REGISTRATION_MESSAGE :
+        return {
+          ...state,
+          registrationMessage: ''
+        };
+      case EMAIL :
+        return  {
+          ...state ,
+          email_login: action.payload
+        }
+      case SET_EMAIL :
+        return {
+          ...state,
+          email_login:  action.payload,
+        }
+      case  PASSWORD_LOGIN :
+        return {
+          ...state,
+          password_login: action.payload
+        }
+      case SET_PASSWORD_LOGIN :
+        return  {
+          ...state ,
+          password_login: action.payload,
+        }
+       case 'SET_FORM_DATA':
         return {
           ...state,
           formData: {
@@ -228,9 +259,25 @@ const initialState = {
           errorsMessage :action.payload,
           errors: '',
         }
+      case 'LOGIN_SUCCESS':
+
+        return {
+          ...state,
+          userData : action.payload,
+          isAdmin: action.payload,
+          isStatus : !state.isStatus,
+        };
+      case 'LOGOUT':
+        return {
+          ...state,
+          userData: null,
+          isAdmin: false,
+          isStatus: false,
+        };
       default:
         return state;
     }
+
   };
 
  export  default  appReducer;
