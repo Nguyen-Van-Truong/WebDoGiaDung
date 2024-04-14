@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.ProductListAdminDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.*;
 import com.example.demo.repository.CategoryRepository;
@@ -9,6 +10,7 @@ import com.example.demo.repository.MediaRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,13 +22,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProductService {
-    private final ProductRepository repo;
+    private final ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -36,9 +36,10 @@ public class ProductService {
 
     @Value("${upload.dir}")
     private String uploadDir;
+
     @Autowired
-    public ProductService(ProductRepository repo) {
-        this.repo = repo;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<ProductMediaInfo> getProducts(int count, String sortOrder) {
@@ -49,11 +50,11 @@ public class ProductService {
             sort.descending();
         }
 
-        return repo.findProductsWithMedia(PageRequest.of(0, count, sort));
+        return productRepository.findProductsWithMedia(PageRequest.of(0, count, sort));
     }
 
     public List<ProductMediaInfo> getTopSellingProducts(int limit) {
-        List<Products> products = repo.findTopSellingProducts(PageRequest.of(0, limit));
+        List<Products> products = productRepository.findTopSellingProducts(PageRequest.of(0, limit));
         List<ProductMediaInfo> info = new ArrayList<>();
         for (Products p : products) {
             String fileUrl = null;
@@ -68,7 +69,7 @@ public class ProductService {
     }
 
     public List<ProductMediaInfo> getNew(int limit) {
-        List<ProductMediaInfo> originalProductMediaInfos = repo.findGetNew(PageRequest.of(0, limit));
+        List<ProductMediaInfo> originalProductMediaInfos = productRepository.findGetNew(PageRequest.of(0, limit));
         List<ProductMediaInfo> modifiedProductMediaInfos = new ArrayList<>();
         for (ProductMediaInfo p : originalProductMediaInfos) {
             modifiedProductMediaInfos.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
@@ -88,7 +89,7 @@ public class ProductService {
         Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElse(null);
         product.setCategory(category);
         // Lưu sản phẩm vao database
-        Products savedProduct = repo.save(product);
+        Products savedProduct = productRepository.save(product);
 
         // Lưu ảnh vào database
         List<String> mediaUrls = new ArrayList<>();
@@ -98,7 +99,7 @@ public class ProductService {
                     try {
                         String fileName = storeFile(file);
                         Medias media = new Medias();
-                        media.setFile_url("/api/images/"+fileName);
+                        media.setFile_url("/api/images/" + fileName);
                         media.setUploaded_at(new Timestamp(System.currentTimeMillis()));
                         media.setProducts(savedProduct);
                         mediaRepository.save(media);
@@ -117,7 +118,7 @@ public class ProductService {
         transaction.setProductId(savedProduct.getProduct_id());
         int initialQuantity = productDTO.getStockQuantity();
         transaction.setQuantity(initialQuantity);
-        transaction.setTransactionType(InventoryTransactionType.PURCHASE);
+        transaction.setTransactionType("mua");
         transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
         transaction.setNotes("Khởi tạo sản phẩm mới");
 
@@ -126,17 +127,18 @@ public class ProductService {
 
         return productDTO;
     }
- /*
-  * tim kiem san phan theo chu cai dau
-  */
-    public List<ProductMediaInfo> seachProduct(String productName){
-    	  List<ProductMediaInfo> seachList = repo.searchProduct(productName);
-    	  List<ProductMediaInfo> save = new ArrayList<>();
-    	  for (ProductMediaInfo p : seachList) {
-    		  save.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
+
+    /*
+     * tim kiem san phan theo chu cai dau
+     */
+    public List<ProductMediaInfo> seachProduct(String productName) {
+        List<ProductMediaInfo> seachList = productRepository.searchProduct(productName);
+        List<ProductMediaInfo> save = new ArrayList<>();
+        for (ProductMediaInfo p : seachList) {
+            save.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
                     p.getStockQuantity(), p.getFileUrl()));
-    	  }
-		return save;
+        }
+        return save;
     }
 
     public String storeFile(MultipartFile file) throws IOException {
@@ -156,5 +158,60 @@ public class ProductService {
 
         return uniqueFileName;
     }
+
+    public Page<ProductListAdminDTO> listAdminProducts(Integer categoryId, int page, int size, String sortDirection, String sortBy) {
+        Sort sort = Sort.by(sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+        Set<Integer> categoryIds = getAllSubCategoryIds(categoryId);
+
+        // Modify the query to filter by multiple category IDs
+        Page<Products> productPage;
+        if (categoryIds.isEmpty()) {
+            productPage = productRepository.findByCategory(categoryId, PageRequest.of(page, size, sort));
+        } else {
+            productPage = productRepository.findByCategoriesIn(categoryIds, PageRequest.of(page, size, sort));
+        }
+
+        return productPage.map(this::convertToDto);
+    }
+
+
+    private ProductListAdminDTO convertToDto(Products product) {
+        String categoryName = product.getCategory() != null ? product.getCategory().getCategoryName() : "";
+        String imageUrl = product.getMedias().isEmpty() ? null : product.getMedias().iterator().next().getFile_url();
+        return new ProductListAdminDTO(
+                product.getProduct_id(),
+                product.getProduct_name(),
+                categoryName,
+                product.getPrice(),
+                product.getStock_quantity(),
+                product.getCreated_at(),
+                product.getStock_quantity() > 0 ? "Còn hàng" : "Hết hàng",
+                imageUrl
+        );
+    }
+
+    private Set<Integer> getAllSubCategoryIds(Integer categoryId) {
+        Set<Integer> categoryIds = new HashSet<>();
+        if (categoryId == null) {
+            return categoryIds; // Return empty set if categoryId is null
+        }
+        Stack<Categories> stack = new Stack<>();
+        Categories rootCategory = categoryRepository.findById(categoryId).orElse(null);
+        if (rootCategory == null) {
+            return categoryIds; // Return empty if root category does not exist
+        }
+        stack.push(rootCategory);
+
+        while (!stack.isEmpty()) {
+            Categories current = stack.pop();
+            categoryIds.add(current.getCategoryId());
+            Set<Categories> subcategories = current.getSubCategories();
+            if (subcategories != null) {
+                stack.addAll(subcategories);
+            }
+        }
+        return categoryIds;
+    }
+
 
 }

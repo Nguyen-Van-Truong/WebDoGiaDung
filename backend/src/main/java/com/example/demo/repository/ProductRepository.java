@@ -2,12 +2,14 @@ package com.example.demo.repository;
 
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.Products;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProductRepository extends JpaRepository<Products, Integer> {
 
@@ -16,6 +18,11 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             + "GROUP BY p.product_id")
     List<ProductMediaInfo> findProductsWithMedia(Pageable pageable);
 
+    @Query("SELECT p FROM Products p WHERE (:categories IS NULL OR p.category.categoryId IN :categories)")
+    Page<Products> findByCategoriesIn(@Param("categories") Set<Integer> categories, Pageable pageable);
+
+    @Query("SELECT p FROM Products p WHERE (:category is null or p.category.categoryId = :category)")
+    Page<Products> findByCategory(@Param("category") Integer categoryId, Pageable pageable);
 
     @Query("SELECT p FROM Products p JOIN OrderDetails od ON p.product_id = od.product.product_id "
             + "GROUP BY p.product_id ORDER BY SUM(od.quantity) DESC")
