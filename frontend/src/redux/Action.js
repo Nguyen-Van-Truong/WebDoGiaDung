@@ -19,6 +19,9 @@ export  const NEW_PRODUCTS = 'NEW_PRODUCTS';
 export  const SET_NEW_PRODUCTS = 'SET_NEW_PRODUCTS';
 export const  IS_SEARCH = 'IS_SEACH';
 export  const  SET_IS_SEACH ='SET_IS_SEACH';
+export const UPDATE_FORM = 'UPDATE_FORM'
+export  const  ERROR ='ERROR';
+export  const  SET_ERROR ='SET_ERROR';
 
 
 
@@ -26,7 +29,27 @@ export  const  SET_IS_SEACH ='SET_IS_SEACH';
 export const  tabTopSelling = () =>({
     type : IS_TOP_SELLING
 })
+export  const  error = () => ({
+    type : ERROR
+})
+export const setError = (errorMessage) => {
+    return {
+        type: SET_ERROR,
+        payload: errorMessage
+    };
+};
+export const setFormData = (name, value) => {
+    console.log("Setting form data:", name, value);
+    return {
+        type: 'SET_FORM_DATA',
+        payload: { name, value }
+    };
+};
 
+export const updateForm = (name, value) => ({
+    type: UPDATE_FORM,
+    payload: { name, value }
+});
 export const  setTabTopSelling = () => ({
     type : SET_TOP_SELLING
 });
