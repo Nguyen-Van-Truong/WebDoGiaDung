@@ -3,7 +3,8 @@ import profile from "../assets/images/profile_av.jpg";
 import $ from 'jquery';
 
 const Header = () => {
-
+    const username = sessionStorage.getItem('username');
+    const email = sessionStorage.getItem('email');
     useEffect(() => {
         // Example of safely using jQuery inside a React component
         // Always ensure any direct DOM manipulation does not conflict with React
@@ -169,7 +170,7 @@ const Header = () => {
                             className="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                             <div className="u-info me-2">
                                 <p className="mb-0 text-end line-height-sm "><span
-                                    className="font-weight-bold">John Quinn</span></p>
+                                    className="font-weight-bold">{username}</span></p>
                                 <small>Admin Profile</small>
                             </div>
                             <a className="nav-link dropdown-toggle pulse p-0" href="#" role="button"
@@ -179,16 +180,16 @@ const Header = () => {
                             </a>
                             <div
                                 className="  mt-300 dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
-                                <div className="card border-0 w280">
+                                <div className="card border-0 w-[295px]">
                                     <div className="card-body pb-0">
                                         <div className="d-flex py-1">
                                             <img className="avatar rounded-circle"
                                                  src={profile} alt="profile"/>
                                             <div className="flex-fill ms-3">
                                                 <p className="mb-0"><span
-                                                    className="font-weight-bold">John	Quinn</span>
+                                                    className="font-weight-bold">{username}</span>
                                                 </p>
-                                                <small className>Johnquinn@gmail.com</small>
+                                                <small className>{email}</small>
                                             </div>
                                         </div>
                                         <div>

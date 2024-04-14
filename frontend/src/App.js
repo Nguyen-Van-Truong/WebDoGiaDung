@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, useNavigate} from 'react-router-dom';
 import Home from "./user/Home";
 import SignIn from "./user/Sign-in";
 import Register from "./user/Register";
@@ -31,6 +31,7 @@ import FileUpload from "./admin/demo/DemoUploadImage";
 
 
 const App = () => {
+
     return (
         <Router>
             <Routes>

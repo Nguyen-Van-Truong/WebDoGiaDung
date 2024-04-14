@@ -1,12 +1,13 @@
 import {useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    logout,
 
-    setCategory,
+    setCategory, setEmail,
     setIsCart,
-    setIsMenu,
+    setIsMenu, setPassword,
     setUserMin, tabIsSeach,
     toggleMenuOpen
 } from "../../redux/Action";
@@ -20,6 +21,9 @@ const Header_Menu = () => {
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
 
     const isCategory = useSelector((state) => state.appUser.isCategory);
+    const  isStatus = sessionStorage.getItem("isStatus");
+    const navigate = useNavigate();
+
 
     const userOpen = () => {
 
@@ -43,6 +47,13 @@ const Header_Menu = () => {
         dispatch(setIsMenu(!isMenu));
         dispatch(setUserMin(isUserMin));
         dispatch((setCategory(isCategory)));
+    }
+    const  log_out =()=>{
+         dispatch(logout());
+       sessionStorage.removeItem("isStatus");
+        navigate('/login')
+        dispatch(setPassword(''));
+        dispatch(setEmail(''));
     }
     return (
         <div className="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
@@ -228,6 +239,47 @@ const Header_Menu = () => {
                                 </button>
                                 {isMenu && (
                                     <div className="profile-content">
+                                        {isStatus  ? (
+                                            <ul className="py-3"
+                                                style={{display: isMenu ? 'block' : 'none'}}>
+
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    <li>
+                                                        <Link to={"/forget-password"} onClick={clickAll}>Quên mật
+                                                            khẩu</Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
+                                                            hàng</Link>
+                                                    </li>
+                                                </div>
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    <li>
+                                                        <Link to={"/change-password"} onClick={clickAll}>Đổi mật khẩu</Link>
+
+                                                    </li>
+                                                    <li>
+                                                        <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
+
+                                                    </li>
+                                                </div>
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    <li>
+                                                        <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
+                                                            khoản</Link>
+
+                                                    </li>
+
+                                                </div>
+                                                <div className="px-3_t">
+                                                    <li>
+                                                        <a onClick={log_out}>Đăng xuất</a>
+
+
+                                                    </li>
+                                                </div>
+                                            </ul>
+                                        ):(
                                         <ul className="py-3"
                                             style={{display: isMenu ? 'block' : 'none'}}>
                                             <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
@@ -243,35 +295,15 @@ const Header_Menu = () => {
                                                     <Link to={"/forget-password"} onClick={clickAll}>Quên mật
                                                         khẩu</Link>
                                                 </li>
-                                                <li>
-                                                    <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
-                                                        hàng</Link>
-                                                </li>
-                                            </div>
-                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                <li>
-                                                    <Link to={"/change-password"} onClick={clickAll}>Đổi mật khẩu</Link>
-
-                                                </li>
-                                                <li>
-                                                    <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
-
-                                                </li>
-                                            </div>
-                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                <li>
-                                                    <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
-                                                        khoản</Link>
-
-                                                </li>
 
                                             </div>
-                                            <div className="px-3_t">
-                                                <li>
-                                                    <a href="#">Đăng xuất</a>
-                                                </li>
-                                            </div>
+
+
                                         </ul>
+
+                                        )}
+
+
                                     </div>
                                 )}
 

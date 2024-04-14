@@ -1,9 +1,7 @@
-import $ from 'jquery';
-import Swiper from "swiper";
 import 'select2/dist/js/select2';
-import mixitup from 'mixitup';
+
 import React, {useState, useEffect, useRef} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
@@ -14,27 +12,65 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../api/Api";
+import {setEmail, setPassword} from "../redux/Action";
+
 const SignIn = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
-    const [isMenu, setIsMenu] = useState(false);
-
-
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
+    const handleEmailChange = (e) => {
+        const emailValue = e.target.value;
+        console.log('New email value:', emailValue);
+        dispatch(setEmail(emailValue));
     };
 
-    useEffect(() => {
+    const dispatch = useDispatch();
+    const email = useSelector(state => state.appUser.email_login);
+    const password = useSelector(state => state.appUser.password_login);
+    const userData = useSelector(state => state.appUser.userData);
+    const  isStatus= useSelector(state => state.appUser.isStatus);
+    const navigate = useNavigate();
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log('Email:', email); // Thêm dòng này
+        console.log('Password:', password); // Thêm dòng này
+        dispatch(login(email, password))
+
+    }
+    const handlePasswordChange = (e) => {
+        const passwordValue = e.target.value;
+        console.log('New password value:', passwordValue);
+        dispatch(setPassword(passwordValue));
+
+    };
+
+
+    useEffect(() => {
+        /**
+         * chuyen trang
+         */
+
+
+        sessionStorage.setItem('isStatus',isStatus);
+        if (userData !== null) {
+            console.log(userData );
+            const isAdmin = userData.is_admin;
+
+            if (isAdmin) {
+                sessionStorage.setItem('username',  userData.username);
+                sessionStorage.setItem('email',  userData.email);
+                navigate('/index-admin')
+            } else {
+                sessionStorage.setItem('username',  userData.username);
+                navigate('/')
+            }
+        }
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -49,7 +85,7 @@ const SignIn = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [userData]);
     return (
         <div>
             <header className="font-display">
@@ -108,16 +144,18 @@ const SignIn = () => {
                         <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng
                             nhập</h2>
                         <div className="form">
-                            <form action="" className="">
+                            <form onSubmit={handleSubmit} action="" className="">
+
                                 <div className="mb-4">
                                     <input type="email" placeholder="Email"
-                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                           className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                           value={email} onChange={handleEmailChange}/>
                                 </div>
 
                                 <div className="relative">
-                                    <input type={showPassword ? "text" : "password"} id="myInput" placeholder="Password"
+                                    <input type={showPassword ? "text" : "password"} placeholder="Password"
                                            className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                           name="password"/>
+                                           value={password} onChange={handlePasswordChange}/>
                                     <span className="absolute top-[17px] right-5 cursor-pointer ">
                             <svg id="icon-show" onClick={togglePasswordVisibility} width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -154,7 +192,7 @@ const SignIn = () => {
                                        className="text-dark-accents text-[14px] font-medium line-height-[110%]">Quên mật
                                         khẩu</a>
                                 </div>
-                                <button className="form_btn w-full">
+                                <button type={"submit"} className="form_btn w-full">
                                     Đăng nhập
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
@@ -170,12 +208,13 @@ const SignIn = () => {
                             <div
                                 className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">Bạn
                                 chưa
-                                có tài khoản? <Link className="text-dark-accents font-display font-medium text-[14px] leading-[110%]" to={"/register"}>Đăng kí</Link></div>
+                                có tài khoản? <Link
+                                    className="text-dark-accents font-display font-medium text-[14px] leading-[110%]"
+                                    to={"/register"}>Đăng kí</Link></div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
 
             {/*footer*/}
