@@ -24,7 +24,6 @@ import CouponsList from "./admin/CouponsList";
 import CouponAdd from "./admin/CouponAdd";
 import Chat from "./admin/Chat";
 import AdminProfile from "./admin/AdminProfile";
-import FileUpload from "./admin/demo/DemoUploadImage";
 
 
 
@@ -59,7 +58,6 @@ const App = () => {
                 <Route path="/coupon-add" element={<CouponAdd />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/admin-profile" element={<AdminProfile />} />
-                <Route path="/fileupload" element={<FileUpload />} />
             </Routes>
         </Router>
     );
