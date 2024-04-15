@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -80,6 +81,8 @@ public class ProductService {
     }
 
     public ProductDTO addProduct(ProductDTO productDTO, MultipartFile[] imageFiles) throws IOException {
+        validateProductDTO(productDTO); // Validate cho product DTO
+
         Products product = new Products();
         product.setProduct_name(productDTO.getProductName());
         product.setDescription(productDTO.getDescription());
@@ -139,6 +142,27 @@ public class ProductService {
                     p.getStockQuantity(), p.getFileUrl()));
         }
         return save;
+    }
+
+    private void validateProductDTO(ProductDTO productDTO) {
+        List<String> errors = new ArrayList<>();
+
+        if (productDTO.getProductName() == null || productDTO.getProductName().trim().isEmpty()) {
+            errors.add("Product name is required.");
+        }
+        if (productDTO.getPrice() == null || productDTO.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            errors.add("Price is required and must be non-negative.");
+        }
+        if (productDTO.getStockQuantity() < 0) {
+            errors.add("Stock quantity must be non-negative.");
+        }
+        if (productDTO.getCategoryId() <= 0) {
+            errors.add("Valid category ID is required.");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new IllegalArgumentException("Validation error: " + String.join(", ", errors));
+        }
     }
 
     public String storeFile(MultipartFile file) throws IOException {
