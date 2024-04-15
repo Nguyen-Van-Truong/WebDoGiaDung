@@ -32,9 +32,6 @@ const ProductAdd = () => {
         const [stockQuantity, setStockQuantity] = useState('');
         const [selectedCategory, setSelectedCategory] = useState('');
 
-        const [successNotification, setSuccessNotification] = useState({show: false, message: ''});
-        const [errorNotification, setErrorNotification] = useState({show: false, message: ''});
-
         const categories = useSelector((state) => state.category.categories);
 
         const [selectedFiles, setSelectedFiles] = useState([]);
@@ -99,7 +96,6 @@ const ProductAdd = () => {
 
                 // hiển thị thông báo
                 dispatch(showNotification('Sản phẩm đã được thêm thành công!', 'success'));
-                setErrorNotification({show: false, message: ''});
 
 
                 // Làm sạch form
@@ -113,7 +109,6 @@ const ProductAdd = () => {
             } catch (error) {
                 console.error('Failed to add product:', error);
                 dispatch(showNotification('Failed to add product: ' + error.message, 'error'));
-                setSuccessNotification({show: false, message: ''});
 
             }
         };
@@ -492,21 +487,6 @@ const ProductAdd = () => {
                         </div>
                     </div>
 
-                    {/* Notification */}
-                    {/*{errorNotification.show && (*/}
-                    {/*    <div className="alert alert-danger alert-dismissible fade show" role="alert">*/}
-                    {/*        <img src={notificationIconUrl} alt="Error" style={{ width: '24px', marginRight: '8px' }} />*/}
-                    {/*        {errorNotification.message}*/}
-                    {/*        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setErrorNotification({ show: false, message: '' })}></button>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-
-                    {/*{successNotification.show && (*/}
-                    {/*    <div className="alert alert-success alert-dismissible fade show" role="alert">*/}
-                    {/*        {successNotification.message}*/}
-                    {/*        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setSuccessNotification({ show: false, message: '' })}></button>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
                     <Notification/>
 
 
