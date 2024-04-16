@@ -218,8 +218,8 @@ const ProductEdit = () => {
                                         <h6 className="mb-0 fw-bold ">Hình ảnh</h6>
                                     </div>
                                     <div className="card-body">
-                                        <ImageUploader onSelect={handleFileSelect} selectedFiles={selectedFiles}
-                                                       onRemove={handleRemoveFile}/>
+                                        <ImageUploader handleFileSelect={handleFileSelect} selectedFiles={selectedFiles}
+                                                       handleRemoveFile={handleRemoveFile}/>
                                     </div>
                                 </div>
                             </div>

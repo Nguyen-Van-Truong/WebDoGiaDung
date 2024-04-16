@@ -1,4 +1,4 @@
-
+// frontend/src/admin/redux/reducers/RootReducer.js
 
 import {combineReducers} from "redux";
 import appReducer from "../../../redux/AppReducer";

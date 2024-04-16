@@ -1,7 +1,8 @@
+// frontend/src/admin/ProductAdd.js
+
 import React, {useEffect, useRef, useState} from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import Cropper from 'cropperjs';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
@@ -60,56 +61,54 @@ const ProductAdd = () => {
         // Xử lý tạo sản phẩm
         const handleSubmit = async (e) => {
             e.preventDefault();
-
-            let errors = [];
-
-            if (!productName.trim()) errors.push('Tên sản phẩm là bắt buộc.');
-            if (!price) errors.push('Giá sản phẩm là bắt buộc.');
-            if (stockQuantity === '' || stockQuantity < 0) errors.push('Số lượng sản phẩm là bắt buộc và phải là số dương.');
-            if (!selectedCategory) errors.push('Bạn phải chọn một danh mục.');
-            if (!selectedFiles.length) errors.push('Ít nhất một hình ảnh sản phẩm là bắt buộc.');
-
+            let errors = validateForm(productName, price, stockQuantity, selectedCategory, selectedFiles);
             if (errors.length > 0) {
                 dispatch(showNotification(errors.join(' '), 'warning'));
                 return;
             }
 
-            const productData = JSON.stringify({
+            const productData = {
                 productName,
                 description,
                 price: parseFloat(price),
                 stockQuantity: parseInt(stockQuantity, 10),
                 categoryId: parseInt(selectedCategory, 10),
-            });
-
-            const formData = new FormData();
-            formData.append("product", new Blob([productData], {type: "application/json"}));
-
-            selectedFiles.forEach(file => {
-                formData.append("files", file.file);
-            });
+            };
 
             try {
+                const formData = buildFormData(productData, selectedFiles);
                 const responseData = await addProduct(formData);
-                console.log('Product added successfully:', responseData);
-
-                // hiển thị thông báo
                 dispatch(showNotification('Sản phẩm đã được thêm thành công!', 'success'));
-
-
-                // Làm sạch form
-                setProductName('');
-                setDescription('');
-                setPrice('');
-                setStockQuantity('');
-                // setSelectedCategory('');
-                setSelectedFiles([]);
-
+                clearForm();
             } catch (error) {
                 console.error('Failed to add product:', error);
-                dispatch(showNotification('Failed to add product: ' + error.message, 'error'));
-
+                dispatch(showNotification(`Failed to add product: ${error.message}`, 'error'));
             }
+        };
+
+        const clearForm = () => {
+            setProductName('');
+            setDescription('');
+            setPrice('');
+            setStockQuantity('');
+            setSelectedFiles([]);
+        };
+
+        const validateForm = (productName, price, stockQuantity, selectedCategory, selectedFiles) => {
+            let errors = [];
+            if (!productName.trim()) errors.push('Tên sản phẩm là bắt buộc.');
+            if (!price) errors.push('Giá sản phẩm là bắt buộc.');
+            if (stockQuantity === '' || stockQuantity < 0) errors.push('Số lượng sản phẩm là bắt buộc và phải là số dương.');
+            if (!selectedCategory) errors.push('Bạn phải chọn một danh mục.');
+            if (!selectedFiles.length) errors.push('Ít nhất một hình ảnh sản phẩm là bắt buộc.');
+            return errors;
+        };
+
+        const buildFormData = (productData, selectedFiles) => {
+            const formData = new FormData();
+            formData.append("product", new Blob([JSON.stringify(productData)], {type: "application/json"}));
+            selectedFiles.forEach(file => formData.append("files", file.file));
+            return formData;
         };
 
 

@@ -1,3 +1,4 @@
+// frontend/src/admin/ProductList.js
 import React, {useEffect, useRef, useState} from 'react';
 import noUiSlider from 'nouislider';
 import './assets/plugin/nouislider/nouislider.min.css';
