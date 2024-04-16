@@ -5,14 +5,15 @@ import appReducer from "../../../redux/AppReducer";
 import productReducer from "./ProductReducer";
 import categoryReducer from "./CategoryReducer";
 import notificationReducer from "./NotificationsReducer";
+import currentPageReducer from "./CurrentPageReducer";
 
 
 const rootReducer = combineReducers({
     appUser: appReducer,
     productAdmin: productReducer,
     category: categoryReducer,
+    page : currentPageReducer,
     notifications: notificationReducer,
-
 });
 
 export default rootReducer;

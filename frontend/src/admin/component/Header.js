@@ -1,10 +1,22 @@
 import React, {useEffect} from 'react';
 import profile from "../assets/images/profile_av.jpg";
 import $ from 'jquery';
+import {logout, setEmail, setPassword} from "../../redux/Action";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
     const username = sessionStorage.getItem('username');
     const email = sessionStorage.getItem('email');
+    const dispatch = useDispatch();
+    const   navigate = useNavigate();
+    const  log_out =()=>{
+        dispatch(logout());
+        sessionStorage.removeItem("isStatus");
+        navigate('/login')
+        dispatch(setPassword(''));
+        dispatch(setEmail(''));
+    }
     useEffect(() => {
         // Example of safely using jQuery inside a React component
         // Always ensure any direct DOM manipulation does not conflict with React
@@ -203,7 +215,7 @@ const Header = () => {
                                         <a href="order-invoices"
                                            className="list-group-item list-group-item-action border-0 "><i
                                             className="icofont-file-text fs-5 me-3"/>Order Invoices</a>
-                                        <a href="ui-elements/auth-signin"
+                                        <a onClick={log_out}
                                            className="list-group-item list-group-item-action border-0 "><i
                                             className="icofont-logout fs-5 me-3"/>Signout</a>
                                     </div>
