@@ -1,3 +1,4 @@
+// frontend/src/admin/redux/actions/ProductActions.js
 // Correct placement of import statements
 import { addProduct as addProductApi } from '../../Api/ProductApi';
 

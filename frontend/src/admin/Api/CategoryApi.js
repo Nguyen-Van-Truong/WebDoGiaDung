@@ -1,3 +1,4 @@
+// frontend/src/admin/Api/CategoryApi.js
 import axios from "axios";
 import {FETCH_CATEGORIES_ERROR, FETCH_CATEGORIES_SUCCESS} from "../redux/actions/CategoryActions";
 

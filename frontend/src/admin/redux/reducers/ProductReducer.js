@@ -1,3 +1,4 @@
+// frontend/src/admin/redux/reducers/ProductReducer.js
 import {
     ADD_PRODUCT_ERROR,
     ADD_PRODUCT_SUCCESS,

@@ -13,7 +13,6 @@ import Checkout_Shopping from "./user/Checkout-Shopping";
 import Order_Details from "./user/Order-Details";
 import Index from "./admin/Index";
 import ProductList from "./admin/ProductList";
-import ProductGrid from "./admin/ProductGrid";
 import ProductEdit from "./admin/ProductEdit";
 import ProductAdd from "./admin/ProductAdd";
 import OrderList from "./admin/OrderList";
@@ -51,7 +50,6 @@ const App = () => {
                 <Route path="/checkout-shopping" element={<Checkout_Shopping/>}/>
                 <Route path="/index-admin" element={<Index />} />
                 <Route path="/product-list" element={<ProductList />} />
-                <Route path="/product-grid" element={<ProductGrid />} />
                 <Route path="/product-edit" element={<ProductEdit />} />
                 <Route path="/product-add" element={<ProductAdd />} />
                 <Route path="/order-list" element={<OrderList />} />

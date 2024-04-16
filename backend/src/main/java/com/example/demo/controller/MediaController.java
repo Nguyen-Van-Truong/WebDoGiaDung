@@ -24,7 +24,7 @@ public class MediaController {
     //api này dùng để xem ảnh trong thư mục UPLOAD_DIR nơi lưu trữ ảnh đã upload
     @GetMapping("/api/images/{imageName:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
-        System.out.println("uploadDir:" + uploadDir);
+//        System.out.println("uploadDir:" + uploadDir);
         try {
             Path filePath = Paths.get(uploadDir, imageName);
             if (!Files.exists(filePath) || !Files.isReadable(filePath)) {

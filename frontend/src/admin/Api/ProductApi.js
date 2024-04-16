@@ -1,3 +1,4 @@
+// frontend/src/admin/Api/ProductApi.js
 import axios from 'axios';
 
 export const addProduct = async (formData) => {
