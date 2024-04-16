@@ -31,10 +31,6 @@ const Home = () => {
 
     // Refs for the password inputs and icons
     const containerRef = useRef(null);
-
-
-
-
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const  products = useSelector((state) => state.appUser.products);
     const   isTopSelling = useSelector ((state) => state.appUser.isTopSelling);

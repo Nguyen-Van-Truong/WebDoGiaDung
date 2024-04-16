@@ -12,8 +12,8 @@ import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
-import {register} from "../api/Api";
-import {setError, setFormData} from "../redux/Action";
+import {otp, register} from "../api/Api";
+import {resetRegistrationMessage, setError, setFormData} from "../redux/Action";
 import {bindActionCreators} from "redux";
 
 const Register = () => {
@@ -29,10 +29,11 @@ const Register = () => {
     /**
      *  goi hàm  action
      */
-    const {registerAction} = bindActionCreators({registerAction: register}, dispatch);
+    const {otpAction} = bindActionCreators({otpAction: otp}, dispatch);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     const toggleConfirmPasswordVisibility = () => {
         setConfirmPass(!isConfirmPassWord);
     };
@@ -44,19 +45,32 @@ const Register = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.password === formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
+            console.log("mat khau khong trung khop")
+            dispatch(setError('Mật khẩu không trùng khớp'));
+        } else {
+            /**
+             * tao ngau nhien otp
+             * @type {{password, email: *, username: *}}
+             */
             const userData = {
                 username: formData.username,
                 email: formData.email,
                 password: formData.password,
 
             };
+            const min = 100000;
+            const max = 999999;
+            const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
 
-            registerAction(userData, () => navigate('/login'));
+            otpAction(userData.email, randomNum, () => navigate('/send-otp'));
+            sessionStorage.setItem('username', formData.username);
+            sessionStorage.setItem('password', formData.password);
+            sessionStorage.setItem( 'email' , formData.email);
+            sessionStorage.setItem('code', randomNum);
+            console.log(randomNum);
+            console.log(userData);
             dispatch(setError(''));
-        } else {
-            console.log("mat khau khong trung khop")
-            dispatch(setError('Mật khẩu không trùng khớp'));
         }
     }
     useEffect(() => {
@@ -135,9 +149,7 @@ const Register = () => {
                             kí</h2>
                         <div className="form">
                             <form onSubmit={handleSubmit} className="">
-                                {registerReponse && <div className="alert alert-success p-lg-1">{registerReponse}</div>}
                                 {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
-                                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
                                 <div className="mb-4">
                                     <input type="text" placeholder="Username" name="username"

@@ -18,25 +18,9 @@ import Footer from "./footer/Footer";
 
 const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-
-    const [isMenu, setIsMenu] = useState(false);
-
-
-
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
-
-
+   const email = sessionStorage.getItem('email');
+   const password = sessionStorage.getItem('password');
     useEffect(() => {
-      
-
-
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -45,7 +29,6 @@ const Information_Profile = () => {
                 setHeaderSticky(true);
             }
         };
-
         window.addEventListener('scroll', handleScroll);
 
         return () => {
@@ -127,11 +110,9 @@ const Information_Profile = () => {
                                                     </div>
 
                                                     <div className="w-full mb-5">
-                                                        <input type="text" placeholder="kevin.gilbert@gmail.com" className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                                        <input type="email" value={email}   className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                                     </div>
-                                                    <div className="w-full mb-5">
-                                                        <input type="text" placeholder="+8801497 548244" className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
-                                                    </div>
+
                                                     <button type="submit" className="btn-primary">Lưu thay đổi</button>
                                                 </div>
                                             </div>
@@ -148,7 +129,7 @@ const Information_Profile = () => {
                                                         <div className="relative">
 
 
-                                                            <input type="password" placeholder="Mật khẩu hiện tại" className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out" id="CurrentPasswordInput" name="password"/>
+                                                            <input type="password"  value={password} className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"  name="password"/>
                                                        <span className="absolute top-[17px] right-5 cursor-pointer ">
 
                                                 <svg id="current-icon-show" onClick="currentPasswordIcon()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

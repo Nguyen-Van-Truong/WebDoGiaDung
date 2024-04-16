@@ -26,6 +26,8 @@ import CouponAdd from "./admin/CouponAdd";
 import Chat from "./admin/Chat";
 import AdminProfile from "./admin/AdminProfile";
 import FileUpload from "./admin/demo/DemoUploadImage";
+import SendOtp from "./user/SendOtp";
+
 
 
 
@@ -62,6 +64,8 @@ const App = () => {
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/admin-profile" element={<AdminProfile />} />
                 <Route path="/fileupload" element={<FileUpload />} />
+                 <Route  path="/send-otp" element={<SendOtp/>}/>
+
             </Routes>
         </Router>
     );

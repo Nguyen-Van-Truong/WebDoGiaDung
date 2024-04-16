@@ -30,9 +30,17 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
 	    String email = credentials.get("email");
 	    String password = credentials.get("password");
+		if(email.isEmpty() && password.isEmpty() ){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email và mật khẩu không được để trống");
+		}
+		if(email.isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email không được để trống");
+		}
+		if(password.isEmpty()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mật khẩu không được để trống");
+		}
 
 	    boolean emailExists = userService.checkEmail(email);
-
 	    if (!emailExists) {
 	        Optional<User> user = userService.login(email, password);
 	        if (user.isPresent()) {

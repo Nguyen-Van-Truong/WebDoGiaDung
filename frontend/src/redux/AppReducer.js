@@ -46,6 +46,7 @@ const initialState = {
   userData: null,
   isAdmin: false,
   isStatus :false,
+  errorLogin :'',
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -57,7 +58,8 @@ const initialState = {
       case  SET_ERROR :
         return {
           ...state ,
-          errors: action.payload
+          errors: action.payload,
+          errorLogin: '',
         }
 
       case TOGGLE_MENU_OPEN:
@@ -266,6 +268,7 @@ const initialState = {
           userData : action.payload,
           isAdmin: action.payload,
           isStatus : !state.isStatus,
+          errorLogin :'',
         };
       case 'LOGOUT':
         return {
@@ -274,6 +277,25 @@ const initialState = {
           isAdmin: false,
           isStatus: false,
         };
+      case 'LOGIN_ERROR' :
+        return {
+          ...state,
+          userData: null,
+          isStatus: false,
+          errorLogin :action.payload
+        }
+      case  'OTP_SUCCESS' :
+        return {
+          ...state,
+          registrationMessage:action.payload,
+          errorsMessage :'',
+        }
+      case  'OTP_ERROR' :
+        return {
+          ...state,
+          registrationMessage:'',
+          errorsMessage :action.payload,
+        }
       default:
         return state;
     }
