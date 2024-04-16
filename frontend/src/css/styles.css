@@ -9,9 +9,11 @@
   --off-white: #F0F2F3;
   --warning: #F5813F;
   --success: #01AD5A;
-  
 }
-
+.pagination-centered {
+    display: flex;
+    justify-content: center;
+}
 .f_20 {
     font-size: 15px;
 }

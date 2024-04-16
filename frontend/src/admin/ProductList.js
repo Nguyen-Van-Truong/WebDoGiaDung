@@ -12,9 +12,11 @@ import Pagination2 from "./component/Index/Pagination2";
 import {setProducts, setViewMode} from "./redux/actions/ProductActions";
 import {setSelectedCategory} from "./redux/actions/CategoryActions";
 import {setCurrentPage, setPageCount} from "./redux/actions/CurrentPageAction";
+import {formatPrice} from "../format/FormatMoney";
 
 const ProductList = () => {
     const dispatch = useDispatch();
+
     const categories = useSelector(state => state.category.categories);
     const products = useSelector(state => state.productAdmin.products);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
@@ -172,7 +174,7 @@ const ProductList = () => {
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Giá</div>
-                                                                            <strong>{product.price} VNĐ</strong>
+                                                                            <strong>{formatPrice(product.price)} VNĐ</strong>
                                                                         </div>
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
@@ -240,7 +242,7 @@ const ProductList = () => {
                                                                     <p className="text-muted">Loại sản
                                                                         phẩm: {product.categoryName}</p>
                                                                     <span
-                                                                        className="d-block fw-bold fs-5 text-secondary">${product.price} VNĐ</span>
+                                                                        className="d-block fw-bold fs-5 text-secondary">${formatPrice(product.price)} VNĐ</span>
                                                                     <div className="d-flex align-items-center">
                                                                         <button className="btn p-0 me-2" title="Sửa">
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>

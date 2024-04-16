@@ -91,8 +91,15 @@ export const register = (userData  , onSuccess) => {
              */
             setTimeout(() => {
                 if (onSuccess) onSuccess(); // Gọi hàm onSuccess nếu được truyền vào
+                /**
+                 * xét giá trị cho việc thông báo lại là chuỗi ''
+                 */
                    dispatch(resetRegistrationMessage());
-            }, 4000);
+                /**
+                 * xoá mã code ra khỏi session
+                 */
+                sessionStorage.removeItem('code');
+            }, 3000);
 
 
         } catch (error) {

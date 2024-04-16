@@ -23,7 +23,7 @@ const Register = () => {
     const dispatch = useDispatch();
     const formData = useSelector(state => state.appUser.formData);
     const errors = useSelector(state => state.appUser.errors);
-    const registerReponse = useSelector(state => state.appUser.registrationMessage);
+
     const errorMessage = useSelector(state => state.appUser.errorsMessage);
     const navigate = useNavigate();
     /**
@@ -37,12 +37,20 @@ const Register = () => {
     const toggleConfirmPasswordVisibility = () => {
         setConfirmPass(!isConfirmPassWord);
     };
+    /**
+     * ham thay đổi onchange khi nhâp  thông tin form
+     * @param event
+     */
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         console.log("Input changed:", name, value);
         dispatch(setFormData(name, value));
         console.log("Updated formData:", formData);
     };
+    /**
+     * ham xử lý from khi submit
+     * @param e
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
@@ -74,8 +82,6 @@ const Register = () => {
         }
     }
     useEffect(() => {
-
-
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {

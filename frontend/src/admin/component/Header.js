@@ -13,6 +13,9 @@ const Header = () => {
     const  log_out =()=>{
         dispatch(logout());
         sessionStorage.removeItem("isStatus");
+        sessionStorage.removeItem("username")
+       sessionStorage.removeItem("email");
+        sessionStorage.removeItem("password");
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));
