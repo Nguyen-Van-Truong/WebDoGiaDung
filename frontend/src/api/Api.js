@@ -105,7 +105,7 @@ export const register = (userData  , onSuccess) => {
         }
     }
 }
-export const login = (email, password) => {
+export const login = (email, password  ) => {
     return async dispatch => {
         try {
             const response = await axios.post('/api/users/login', { email, password });
@@ -121,3 +121,21 @@ export const login = (email, password) => {
         }
     };
 };
+export const otp = (email, code , onSuccess) => {
+    return async dispatch => {
+        try {
+            const response = await axios.post('/sendOtp', { email, code});
+            const data = response.data;
+            console.log(data);
+            dispatch({ type: 'OTP_SUCCESS', payload: data });
+            setTimeout(() => {
+                if (onSuccess) onSuccess();
+                dispatch(resetRegistrationMessage());
+            }, 1000);
+        } catch (error) {
+            const errorMessage = error.response.data;
+            dispatch({type: 'OTP_ERROR', payload: errorMessage});
+
+        }
+    };
+}

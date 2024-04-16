@@ -6,10 +6,10 @@ import {setCategory, setIsMenu, setUserMin, toggleMenuOpen} from "../../redux/Ac
 
 const Menu_Response = () => {
     const dispatch = useDispatch();
-    const menuOpen = useSelector((state) => state.menuOpen);
-    const isUserMin = useSelector((state) => state.isUserMin);
-    const isMenu = useSelector((state) => state.isMenu);
-    const isCategory = useSelector((state) => state.isCategory);
+    const menuOpen = useSelector((state) => state.appUser.menuOpen);
+    const isUserMin = useSelector((state) => state.appUser.isUserMin);
+    const isMenu = useSelector((state) => state.appUser.isMenu);
+    const isCategory = useSelector((state) => state.appUser.isCategory);
     const handClickUserMin = () => {
         dispatch(setUserMin(!isUserMin))
     }

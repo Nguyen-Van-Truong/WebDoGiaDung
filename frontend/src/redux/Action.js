@@ -29,6 +29,7 @@ export const RESET_REGISTRATION_MESSAGE = 'RESET_REGISTRATION_MESSAGE';
  * thiet lap cac thuoc tinh cho email
  * @returns {{type: string}}
  */
+
 export  const  EMAIL = 'EMAIL';
 export  const  SET_EMAIL ='SET_EMAIL';
  export const  PASSWORD_LOGIN = 'PASSWORD_LOGIN';
@@ -152,8 +153,4 @@ export const setIsCart =(isCart) => ({
     type :SET_IS_CART ,
     payload : isCart
 })
-/**
- * login lay user nguoi dung
- * @param userData
- * @returns {{payload, type: string}}
- */
+

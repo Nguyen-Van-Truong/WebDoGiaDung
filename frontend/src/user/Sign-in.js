@@ -14,7 +14,7 @@ import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../api/Api";
-import {setEmail, setPassword} from "../redux/Action";
+import {SET_ERROR, setEmail, setError, setPassword} from "../redux/Action";
 
 const SignIn = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -34,6 +34,7 @@ const SignIn = () => {
     const password = useSelector(state => state.appUser.password_login);
     const userData = useSelector(state => state.appUser.userData);
     const  isStatus= useSelector(state => state.appUser.isStatus);
+    const  error = useSelector(state => state.appUser.errorLogin);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -47,10 +48,11 @@ const SignIn = () => {
         const passwordValue = e.target.value;
         console.log('New password value:', passwordValue);
         dispatch(setPassword(passwordValue));
-
     };
-
-
+    const  handClickRecieveRegister = () =>{
+        navigate('/register');
+        dispatch(setError(''));
+    }
     useEffect(() => {
         /**
          * chuyen trang
@@ -65,9 +67,12 @@ const SignIn = () => {
             if (isAdmin) {
                 sessionStorage.setItem('username',  userData.username);
                 sessionStorage.setItem('email',  userData.email);
+                sessionStorage.setItem('password', userData.password);
                 navigate('/index-admin')
             } else {
+                sessionStorage.setItem('email',  userData.email);
                 sessionStorage.setItem('username',  userData.username);
+                sessionStorage.setItem('password', userData.password);
                 navigate('/')
             }
         }
@@ -143,9 +148,11 @@ const SignIn = () => {
                     <div className="sign_in ">
                         <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng
                             nhập</h2>
+                        {/*form dang nhap*/}
                         <div className="form">
                             <form onSubmit={handleSubmit} action="" className="">
-
+                                {/*bao loi*/}
+                                {error && <div className="alert alert-danger p-lg-1">{error}</div>}
                                 <div className="mb-4">
                                     <input type="email" placeholder="Email"
                                            className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
@@ -208,9 +215,9 @@ const SignIn = () => {
                             <div
                                 className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">Bạn
                                 chưa
-                                có tài khoản? <Link
+                                có tài khoản? <a
                                     className="text-dark-accents font-display font-medium text-[14px] leading-[110%]"
-                                    to={"/register"}>Đăng kí</Link></div>
+                                    onClick={handClickRecieveRegister}>Đăng kí</a></div>
                         </div>
                     </div>
                 </div>
