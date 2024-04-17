@@ -1,8 +1,14 @@
-import { FETCH_CATEGORIES_SUCCESS, FETCH_CATEGORIES_ERROR } from '../actions/CategoryActions';
+import {
+    FETCH_CATEGORIES_SUCCESS,
+    FETCH_CATEGORIES_ERROR,
+    SELECTED_CATEGORY,
+    SET_SELECTED_CATEGORY
+} from '../actions/CategoryActions';
 
 const initialState = {
     categories: [],
     error: null,
+    selectedCategory: ''
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -17,6 +23,16 @@ const categoryReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload,
             };
+        case  SELECTED_CATEGORY :
+            return {
+                ...state,
+                selectedCategory: state.selectedCategory
+            }
+        case SET_SELECTED_CATEGORY :
+            return {
+                ...state,
+                selectedCategory: action.payload,
+            }
         default:
             return state;
     }

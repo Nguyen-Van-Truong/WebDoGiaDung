@@ -13,7 +13,6 @@ import Checkout_Shopping from "./user/Checkout-Shopping";
 import Order_Details from "./user/Order-Details";
 import Index from "./admin/Index";
 import ProductList from "./admin/ProductList";
-import ProductGrid from "./admin/ProductGrid";
 import ProductEdit from "./admin/ProductEdit";
 import ProductAdd from "./admin/ProductAdd";
 import OrderList from "./admin/OrderList";
@@ -25,7 +24,7 @@ import CouponsList from "./admin/CouponsList";
 import CouponAdd from "./admin/CouponAdd";
 import Chat from "./admin/Chat";
 import AdminProfile from "./admin/AdminProfile";
-import FileUpload from "./admin/demo/DemoUploadImage";
+
 import SendOtp from "./user/SendOtp";
 
 
@@ -51,7 +50,6 @@ const App = () => {
                 <Route path="/checkout-shopping" element={<Checkout_Shopping/>}/>
                 <Route path="/index-admin" element={<Index />} />
                 <Route path="/product-list" element={<ProductList />} />
-                <Route path="/product-grid" element={<ProductGrid />} />
                 <Route path="/product-edit" element={<ProductEdit />} />
                 <Route path="/product-add" element={<ProductAdd />} />
                 <Route path="/order-list" element={<OrderList />} />
@@ -63,7 +61,6 @@ const App = () => {
                 <Route path="/coupon-add" element={<CouponAdd />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/admin-profile" element={<AdminProfile />} />
-                <Route path="/fileupload" element={<FileUpload />} />
                  <Route  path="/send-otp" element={<SendOtp/>}/>
 
             </Routes>

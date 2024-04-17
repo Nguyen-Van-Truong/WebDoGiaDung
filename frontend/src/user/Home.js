@@ -25,6 +25,7 @@ import Footer from "./footer/Footer";
 import {fetchProducts, products_new, top_selling} from "../api/Api";
 import {useDispatch, useSelector} from "react-redux";
 import {setTabAll, setTabNewProducts, setTabTopSelling, tabAll, tabNewProducts, tabTopSelling} from "../redux/Action";
+import {formatPrice} from "../format/FormatMoney";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -60,27 +61,7 @@ const Home = () => {
     };
 
 
-    const formatPrice = (price) => {
-        let priceStr = price.toString();
 
-
-        if (priceStr.match(/0000000/)) {
-
-            priceStr = priceStr.replace(/0000000/, '0.000.000');
-        } else if(priceStr.match(/000000/)){
-            priceStr = priceStr.replace(/000000/, '.000.000');
-
-        }else if(priceStr.match(/00000/)) {
-            priceStr = priceStr.replace(/00000/, '0.0000');
-
-        }
-        else if(priceStr.match(/0000/)) {
-            priceStr = priceStr.replace(/0000/, '.0000');
-
-        }
-
-        return priceStr;
-    };
 
     useEffect(() => {
 

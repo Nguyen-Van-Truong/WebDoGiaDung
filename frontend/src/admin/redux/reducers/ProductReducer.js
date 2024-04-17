@@ -1,16 +1,23 @@
+// frontend/src/admin/redux/reducers/ProductReducer.js
 import {
     ADD_PRODUCT_ERROR,
-    ADD_PRODUCT_SUCCESS,
-    QUANTITY,
+    ADD_PRODUCT_SUCCESS, PRODUCTS,
+    QUANTITY, SET_PRODUCTS,
     SET_QUANTITY,
-    SET_TOTAL_QUANTITY,
-    TOTAL_QUANTITY
+    SET_TOTAL_QUANTITY, SET_VIEW_MODE,
+    TOTAL_QUANTITY, VIEW_MODE
 } from '../actions/ProductActions';
 
 
 const initialState = {
     quantity: 0,
     totalQuantity: 100,
+    products :[],
+    viewMode : 'list',
+    sortOrder :'desc',
+    sortBy : 'created_at',
+
+
 };
 
 
@@ -47,9 +54,28 @@ const productReducer = (state = initialState, action) => {
                 ...state,
                 totalQuantity: action.payload,
             };
+        case  PRODUCTS :
+            return {
+                ...state,
+                products: action.payload
+            }
+        case SET_PRODUCTS :
+            return {
+                ...state,
+                products: action.payload,
+            }
+        case  VIEW_MODE :
+            return {
+                ...state,
+                viewMode: state.viewMode
+            }
+        case  SET_VIEW_MODE :
+            return  {
+                ...state,
+                viewMode: action.payload
+            }
         default:
             return state;
     }
 };
-
 export default productReducer;

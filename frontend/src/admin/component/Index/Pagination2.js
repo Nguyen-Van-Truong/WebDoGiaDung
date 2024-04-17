@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 function Pagination2({ onPageChange, pageCount }) {
     return (
         <ReactPaginate
+
             nextLabel="Trang sau>"
             onPageChange={onPageChange}
             pageRangeDisplayed={3}
@@ -19,7 +20,7 @@ function Pagination2({ onPageChange, pageCount }) {
             breakLabel="..."
             breakClassName="page-item"
             breakLinkClassName="page-link"
-            containerClassName="pagination"
+            containerClassName="pagination pagination-centered"
             activeClassName="active"
             renderOnZeroPageCount={null}
         />
