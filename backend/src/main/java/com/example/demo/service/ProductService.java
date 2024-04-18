@@ -62,7 +62,7 @@ public class ProductService {
             if (!p.getMedias().isEmpty()) {
                 fileUrl = p.getMedias().iterator().next().getFile_url();
             }
-            ProductMediaInfo productMediaInfo = new ProductMediaInfo(p.getProduct_name(), p.getDescription(),
+            ProductMediaInfo productMediaInfo = new ProductMediaInfo(p.getProduct_id() ,p.getProduct_name(), p.getDescription(),
                     p.getPrice(), p.getStock_quantity(), fileUrl);
             info.add(productMediaInfo);
         }
@@ -73,7 +73,7 @@ public class ProductService {
         List<ProductMediaInfo> originalProductMediaInfos = productRepository.findGetNew(PageRequest.of(0, limit));
         List<ProductMediaInfo> modifiedProductMediaInfos = new ArrayList<>();
         for (ProductMediaInfo p : originalProductMediaInfos) {
-            modifiedProductMediaInfos.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
+            modifiedProductMediaInfos.add(new ProductMediaInfo( p.getProductId(), p.getProductName(), p.getDescription(), p.getPrice(),
                     p.getStockQuantity(), p.getFileUrl()));
         }
 
@@ -138,7 +138,7 @@ public class ProductService {
         List<ProductMediaInfo> seachList = productRepository.searchProduct(productName);
         List<ProductMediaInfo> save = new ArrayList<>();
         for (ProductMediaInfo p : seachList) {
-            save.add(new ProductMediaInfo(p.getProductName(), p.getDescription(), p.getPrice(),
+            save.add(new ProductMediaInfo(p.getProductId(), p.getProductName(), p.getDescription(), p.getPrice(),
                     p.getStockQuantity(), p.getFileUrl()));
         }
         return save;
@@ -235,6 +235,10 @@ public class ProductService {
             }
         }
         return categoryIds;
+    }
+    public Products  products(int id) {
+        Products products = productRepository.details_products(id);
+        return products;
     }
 
 

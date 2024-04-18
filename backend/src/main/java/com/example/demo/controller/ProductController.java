@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductListAdminDTO;
 import com.example.demo.dto.ProductMediaInfo;
+import com.example.demo.model.Products;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,6 +64,11 @@ public class ProductController {
             @RequestPart("product") ProductDTO productDTO,
             @RequestPart("files") MultipartFile[] files) throws IOException {
         return productService.addProduct(productDTO, files);
+    }
+
+    @GetMapping("/product-detail")
+    public Products products (@RequestParam(value = "id") int id){
+        return productService.products(id);
     }
 
 

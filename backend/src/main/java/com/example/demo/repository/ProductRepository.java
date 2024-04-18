@@ -13,7 +13,7 @@ import java.util.Set;
 
 public interface ProductRepository extends JpaRepository<Products, Integer> {
 
-    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
+    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id,p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
             + "FROM Products p JOIN p.medias m "
             + "GROUP BY p.product_id")
     List<ProductMediaInfo> findProductsWithMedia(Pageable pageable);
@@ -28,7 +28,10 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             + "GROUP BY p.product_id ORDER BY SUM(od.quantity) DESC")
     List<Products> findTopSellingProducts(Pageable pageable);
 
-    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
+    @Query("SELECT p FROM Products p JOIN Medias od ON p.product_id = od.products.product_id " +"where p.product_id = :product_id")
+    Products details_products(@Param("product_id") int id);
+
+    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id,p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
             + "FROM Products p JOIN p.medias m "
             + "WHERE YEAR(p.created_at) = YEAR(CURRENT_DATE) "
             + "AND MONTH(p.created_at) = MONTH(CURRENT_DATE) "
@@ -37,7 +40,7 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
     List<ProductMediaInfo> findGetNew(Pageable pageable);
 
 
-    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
+    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id,p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
             + "FROM Products p JOIN p.medias m WHERE p.product_name LIKE CONCAT('%',:productName, '%')"
             + "GROUP BY p.product_id")
     List<ProductMediaInfo> searchProduct(@Param("productName") String productName);

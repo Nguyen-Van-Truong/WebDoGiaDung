@@ -20,18 +20,23 @@ import {fetchCategories} from "./Api/CategoryApi";
 import {showNotification} from "./redux/actions/NotificationsActions";
 import Notification from "./component/Notification";
 import ImageUploader from "./component/ImageUploader";
+import {
+    setDescription,
+    setPrice,
+    setProductName,
+    setSelectedCategory,
+    setStockQuantity
+} from "./redux/actions/ProductActions";
 
 
 const ProductAdd = () => {
         // dispatch action
         const dispatch = useDispatch();
-
-        const [productName, setProductName] = useState('');
-        const [description, setDescription] = useState('');
-        const [price, setPrice] = useState('');
-        const [stockQuantity, setStockQuantity] = useState('');
-        const [selectedCategory, setSelectedCategory] = useState('');
-
+        const productName = useSelector(state => state.productAdmin.productName);
+        const description = useSelector(state => state.productAdmin.description);
+        const price = useSelector(state => state.productAdmin.price_reducer);
+        const stockQuantity = useSelector(state => state.productAdmin.stockQuantity);
+        const selectedCategory = useSelector(state => state.productAdmin.selectedCategory);
         const categories = useSelector((state) => state.category.categories);
 
         const [selectedFiles, setSelectedFiles] = useState([]);
@@ -43,7 +48,7 @@ const ProductAdd = () => {
         // Đặt danh mục được chọn ban đầu khi danh mục được tải
         useEffect(() => {
                 if (categories.length > 0) {
-                    setSelectedCategory(categories[0].categoryId);
+                    dispatch(setSelectedCategory(categories[0].categoryId))
                 }
             }, [categories]
         );
@@ -87,10 +92,10 @@ const ProductAdd = () => {
         };
 
         const clearForm = () => {
-            setProductName('');
-            setDescription('');
-            setPrice('');
-            setStockQuantity('');
+            dispatch(setProductName(''));
+            dispatch(setDescription(''));
+            dispatch(setPrice(''));
+            dispatch(setStockQuantity(''));
             setSelectedFiles([]);
         };
 
@@ -114,7 +119,7 @@ const ProductAdd = () => {
 
 // dùng thư viện react-quill để tạo trình soạn thảo
         const handleDescriptionChange = (content, delta, source, editor) => {
-            setDescription(editor.getHTML());
+            dispatch(setDescription(editor.getHTML()));
         };
 
         const handleFileSelect = (event) => {
@@ -174,7 +179,7 @@ const ProductAdd = () => {
                                                         <div className="col-md-12">
                                                             <label className="form-label">Giá sản phẩm</label>
                                                             <input type="number" className="form-control" value={price}
-                                                                   onChange={(e) => setPrice(e.target.value)}/>
+                                                                   onChange={(e) => dispatch(setPrice(e.target.value))}/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -191,7 +196,7 @@ const ProductAdd = () => {
                                                         size={7}
                                                         aria-label="size 3 select example"
                                                         value={selectedCategory}
-                                                        onChange={e => setSelectedCategory(e.target.value)}
+                                                        onChange={e => dispatch(setSelectedCategory(e.target.value))}
                                                     >
                                                         {buildOptions(categories)}
                                                     </select>
@@ -211,14 +216,14 @@ const ProductAdd = () => {
                                                         <div className="col-md-6">
                                                             <label className="form-label">Tên</label>
                                                             <input type="text" className="form-control" value={productName}
-                                                                   onChange={(e) => setProductName(e.target.value)}/>
+                                                                   onChange={(e) => dispatch(setProductName(e.target.value))}/>
 
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="form-label">Số lượng</label>
                                                             <input type="number" className="form-control" min="0"
                                                                    value={stockQuantity}
-                                                                   onChange={(e) => setStockQuantity(e.target.value)}/>
+                                                                   onChange={(e) => dispatch(setStockQuantity(e.target.value))}/>
 
                                                         </div>
                                                         <div className="col-md-12">
