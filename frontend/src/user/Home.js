@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
@@ -22,10 +22,20 @@ import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
-import {fetchProducts, products_new, top_selling} from "../api/Api";
+import {
+    fetchProducts,
+    fetchProductsDebounced,
+    otp,
+    product_details,
+    products_new, productsNewsDebounced, throttledFetchProducts, throttledProductsNew, throttledTop_selling,
+    top_selling,
+    top_sellingDebounced
+} from "../api/Api";
 import {useDispatch, useSelector} from "react-redux";
 import {setTabAll, setTabNewProducts, setTabTopSelling, tabAll, tabNewProducts, tabTopSelling} from "../redux/Action";
 import {formatPrice} from "../format/FormatMoney";
+import {bindActionCreators} from "redux";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -33,42 +43,64 @@ const Home = () => {
     // Refs for the password inputs and icons
     const containerRef = useRef(null);
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const  products = useSelector((state) => state.appUser.products);
-    const   isTopSelling = useSelector ((state) => state.appUser.isTopSelling);
-    const  top_selling_array = useSelector((state) => state.appUser.top_selling);
+    const products = useSelector((state) => state.appUser.products);
+    const isTopSelling = useSelector((state) => state.appUser.isTopSelling);
+    const top_selling_array = useSelector((state) => state.appUser.top_selling);
     const isAll = useSelector((state) => state.appUser.isAll);
-    const is_new  = useSelector((state) => state.appUser.is_new);
-    const products_new_array = useSelector((state)=> state.appUser.products_new);
-
-
-    const handClickTopSelling = () =>{
+    const is_new = useSelector((state) => state.appUser.is_new);
+    const products_new_array = useSelector((state) => state.appUser.products_new);
+    const navigate = useNavigate();
+    const {productDetailsAction} = bindActionCreators({productDetailsAction: product_details}, dispatch);
+    const handClickTopSelling = () => {
         dispatch(tabTopSelling());
         dispatch(setTabAll(false));
         dispatch(setTabNewProducts(false));
     };
     const handClickNew = () => {
-        dispatch( tabNewProducts());
+        dispatch(tabNewProducts());
         dispatch(setTabAll(false));
         dispatch(setTabTopSelling(false));
 
     }
-    const handClickAll = () =>{
+    const handClickAll = () => {
         dispatch(tabAll());
         dispatch(setTabNewProducts(false));
         dispatch(setTabTopSelling(false));
         console.log(!is_new)
 
     };
-
-
-
+    const handleProductDetail = (id) => {
+        productDetailsAction(id, () => navigate(`/product-detail?id=${id}`));
+    };
+    const throttledFetch = useCallback(() => {
+        throttledFetchProducts(dispatch);
+    }, [dispatch])
+    /**
+     * cho muc top-selling
+     * @type {(function(): void)|*}
+     */
+    const throttledTop = useCallback(() => {
+        throttledTop_selling(dispatch);
+    }, [dispatch])
+    const throttledNew = useCallback(() => {
+        throttledProductsNew(dispatch);
+    }, [dispatch])
 
     useEffect(() => {
 
         console.log(products);
-        dispatch(fetchProducts());
-        dispatch(top_selling());
-        dispatch(products_new());
+
+        throttledFetch();
+
+
+        if (is_new) {
+            throttledNew();
+        }
+        if (isTopSelling) {
+            throttledTop();
+        }
+
+
         // Initialize Swiper instances
         const swiperBanner = new Swiper('.bannerSwiper', {
             cssMode: true,
@@ -142,13 +174,14 @@ const Home = () => {
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            fetchProductsDebounced.cancel();
+            top_sellingDebounced.cancel();
+            productsNewsDebounced.cancel();
         };
 
-    }, [dispatch, products]);
+    }, [dispatch, products, isAll, isTopSelling, is_new, throttledFetch, throttledTop, throttledNew]);
     return (
         <div className="font-display">
-
-
             <header className="font-display">
                 <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
                     <div className="top-header bg-secondary">
@@ -162,12 +195,12 @@ const Home = () => {
                         </div>
                     </div>
                     {/*Header*/}
-                  <Header_Menu/>
+                    <Header_Menu/>
                 </div>
                 {/*bottom-header*/}
-            <Header_Bottom/>
+                <Header_Bottom/>
 
-              <Menu_Response/>
+                <Menu_Response/>
             </header>
 
             <section
@@ -450,12 +483,12 @@ const Home = () => {
                             </button>
                         </div>
                     </div>
-                    <div  className="portfoliolist justify-center mx-auto">
+                    <div className="portfoliolist justify-center mx-auto">
 
                         {products.map((product) => (
                             <div className="mix all featured" data-cat="featured">
                                 <div className="product-card">
-                                    <a href="/product-detail">
+                                    <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
                                             <img src={product.fileUrl}/>
                                             <span className="badge new"></span>
@@ -471,7 +504,8 @@ const Home = () => {
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
-                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                         <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
                                                               stroke-width="1.5" stroke-linecap="round"
@@ -615,25 +649,25 @@ const Home = () => {
                         <li>
                             <button onClick={handClickNew}
                                     className={is_new ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active ' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
-                                data-filter=".newest">Mới nhất
+                                    data-filter=".newest">Mới nhất
                             </button>
                         </li>
                         <li>
                             <button onClick={handClickTopSelling}
-                                    className={isTopSelling ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active' :'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
+                                    className={isTopSelling ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
                                     data-filter=".best-sellers">Bán chạy
                             </button>
                         </li>
                     </ul>
-    {/*hiển thị danh sach san pham thong qua map api*/}
-                    <div id="portfoliolist"  className={isAll ? 'portfoliolis justify-center mx-auto display-none':'portfoliolist justify-center mx-auto'}>
-
+                    {/*hiển thị danh sach san pham thong qua map api*/}
+                    <div id="portfoliolist"
+                         className={isAll ? 'portfoliolis justify-center mx-auto display-none' : 'portfoliolist justify-center mx-auto'}>
 
 
                         {products.map((product) => (
                             <div className="mix all featured" data-cat="featured">
                                 <div className="product-card">
-                                    <a href="/product-detail">
+                                    <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
                                             <img src={product.fileUrl}/>
                                             <span className="badge new"></span>
@@ -649,7 +683,8 @@ const Home = () => {
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
-                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                         <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
                                                               stroke-width="1.5" stroke-linecap="round"
@@ -681,12 +716,13 @@ const Home = () => {
                         ))}
 
                     </div>
-                    <div id="portfoliolist"  className={isTopSelling ? 'portfoliolist justify-center mx-auto ':'portfoliolist justify-center mx-auto display-none'}>
+                    <div id="portfoliolist"
+                         className={isTopSelling ? 'portfoliolist justify-center mx-auto ' : 'portfoliolist justify-center mx-auto display-none'}>
 
                         {top_selling_array.map((topSelling) => (
                             <div className="mix all featured" data-cat="featured">
                                 <div className="product-card">
-                                    <a href="/product-detail">
+                                    <a onClick={() => handleProductDetail(topSelling.productId)}>
                                         <div className="product-thumb">
                                             <img src={topSelling.fileUrl}/>
                                             <span className="badge new"></span>
@@ -702,7 +738,8 @@ const Home = () => {
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
-                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                         <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
                                                               stroke-width="1.5" stroke-linecap="round"
@@ -734,12 +771,13 @@ const Home = () => {
                         ))}
 
                     </div>
-                    <div id="portfoliolist"  className={is_new ? 'portfoliolist justify-center mx-auto ':'portfoliolist justify-center mx-auto display-none'}>
+                    <div id="portfoliolist"
+                         className={is_new ? 'portfoliolist justify-center mx-auto ' : 'portfoliolist justify-center mx-auto display-none'}>
 
                         {products_new_array.map((produtsList) => (
                             <div className="mix all featured" data-cat="featured">
                                 <div className="product-card">
-                                    <a href="/product-detail">
+                                    <a onClick={() => handleProductDetail(produtsList.productId)}>
                                         <div className="product-thumb">
                                             <img src={produtsList.fileUrl}/>
                                             <span className="badge new"></span>
@@ -755,7 +793,8 @@ const Home = () => {
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
-                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                         <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
                                                               stroke-width="1.5" stroke-linecap="round"
@@ -792,15 +831,16 @@ const Home = () => {
 
             <section className="lg:py-20 sm:py-8 py-6" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
-                    <h2 className=" m-b-30 text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Sản Phẩm Mới Nhất</h2>
+                    <h2 className=" m-b-30 text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Sản
+                        Phẩm Mới Nhất</h2>
 
 
-                    <div  className="portfoliolist justify-center mx-auto">
+                    <div className="portfoliolist justify-center mx-auto">
 
                         {products.map((product) => (
                             <div className="mix all featured" data-cat="featured">
                                 <div className="product-card">
-                                    <a href="/product-detail">
+                                    <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
                                             <img src={product.fileUrl}/>
                                             <span className="badge new"></span>
@@ -816,7 +856,8 @@ const Home = () => {
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M2.52081 2.97913L4.42748 3.30913L5.31023 13.826C5.34414 14.2399 5.53284 14.6257 5.83867 14.9066C6.14451 15.1875 6.545 15.3427 6.96023 15.3413H16.9611C17.3586 15.3417 17.743 15.1986 18.0435 14.9382C18.344 14.6778 18.5403 14.3177 18.5964 13.9241L19.4672 7.91263C19.4904 7.75275 19.4819 7.58987 19.4421 7.43329C19.4023 7.27671 19.3321 7.12951 19.2354 7.00011C19.1387 6.8707 19.0174 6.76163 18.8785 6.67913C18.7396 6.59663 18.5858 6.54231 18.4259 6.51929C18.3672 6.51288 4.73365 6.50829 4.73365 6.50829"
-                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                         <path d="M12.9479 9.89539H15.4898" stroke="currentColor"
                                                               stroke-width="1.5" stroke-linecap="round"
@@ -850,8 +891,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
- {/*footer*/}
-      <Footer/>
+            {/*footer*/}
+            <Footer/>
             <MiniChat/>
             {/*<ChatUser/>*/}
 
