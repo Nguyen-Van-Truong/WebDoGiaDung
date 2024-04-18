@@ -17,34 +17,33 @@ import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import Pagination from "./page/Pagination";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories} from "../admin/Api/CategoryApi";
+import {fetchProducts} from "../admin/Api/ProductApi";
+import {setProducts} from "../admin/redux/actions/ProductActions";
+import {setCurrentPage, setPageCount} from "../admin/redux/actions/CurrentPageAction";
+import {formatPrice} from "../format/FormatMoney";
 
 const  Products = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
+    const dispatch = useDispatch();
 
 
-
-    const[products , setProduct] = useState([]);
-
-
+    const categories = useSelector(state => state.category.categories);
+    const products = useSelector(state => state.productAdmin.products);
+    const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const currentPage = useSelector(state => state.page.currentPage);
+    const pageCount = useSelector(state => state.page.pageCount);
+    const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
+    const  sortBy = useSelector(state => state.productAdmin.sortBy)
+    const handlePageClick = (data) => {
+        dispatch(setCurrentPage(data.selected));
+    };
     useEffect(() => {
-
-        const fetchProducts = async () => {
-            try {
-                // Sử dụng axios.get  thực hiện yêu cầu GET
-                const response = await axios.get("/api/products/allproducts");
-
-                // Dữ liệu trả về từ axios nằm trong property `data` của response
-                const data = response.data;
-                setProduct(data);
-                console.log(data);
-            } catch (error) {
-
-                console.error( error.response || error.request || error.message);
-            }
-        };
-
-        fetchProducts();
+        dispatch(fetchCategories());
+        loadProducts();
 
         // Initialize mixitup
         if (containerRef.current) {
@@ -62,7 +61,6 @@ const  Products = () => {
         }
 
 
-        $('.custom-select').select2();
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -77,7 +75,19 @@ const  Products = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy]);
+    const loadProducts = async () => {
+        const data = await fetchProducts({
+            categoryId: selectedCategory || undefined,
+            page: currentPage,
+            size: 12,
+            sortOrder,
+            sortBy
+        });
+        dispatch(setProducts(data.content));
+        dispatch(setPageCount(data.totalPages));
+
+    };
     return (
 
         <div>
@@ -136,48 +146,7 @@ const  Products = () => {
                                         </svg>
                                     </label>
                             </div>
-                            <div className="product-filter-menu">
-                                <div className="w-full">
-                                    <ul className="flex flex-col md:flex-row justify-center gap-6 items-center">
-                                        <li className="inline-flex items-center justify-center category">
-                                            <select className="custom-select2 relative" name="category">
-                                                <option value="" disabled selected>Danh mục</option>
-                                                <option value="">Tât cả <span>(7234)</span></option>
-                                                <option value="">Bàn ghế<span>(143)</span></option>
-                                                <option value="">Bếp điện từ <span>(143)</span></option>
-                                                <option value="">Nồi cơm <span>(143)</span></option>
-                                                <option value="">Tủ lạnh <span>(143)</span></option>
-                                                <option value="">Quạt <span>(143)</span></option>
-                                            </select>
-                                        </li>
 
-                                        <li className="inline-flex items-center justify-center price">
-                                            <select className="custom-select3" name="prices">
-                                                <option value="" disabled selected>Giá</option>
-                                                <option value="">Tất cả</option>
-                                                <option value="">0VNĐ-150VNĐ</option>
-                                                <option value="">100VNĐ - 300VNĐ</option>
-                                                <option value="">300VNĐ - 500VNĐ</option>
-                                                <option value="">500VNĐ - 700VNĐ</option>
-                                                <option value="">700VNĐ - 900VNĐ</option>
-                                                <option value="">900VNĐ - 1,000VNĐ</option>
-                                                <option value="">Max 1,000VNĐ</option>
-                                                <option value="">Min 1,000VNĐ</option>
-                                            </select>
-                                        </li>
-
-
-
-
-                                        <li className="latest font-display">
-                                            <select className="custom-select6" name="latest">
-                                                <option value="" selected>Mới nhất</option>
-                                                <option value="">Phổ biến</option>
-                                            </select>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,13 +176,13 @@ const  Products = () => {
                             <div className="product-card">
                                 <a href="/product-detail">
                                     <div className="product-thumb">
-                                        <img src={product.fileUrl}/>
+                                        <img src={product.imageUrl}/>
                                         <span className="badge new"></span>
                                     </div>
                                     <div className="product-info">
                                         <div>
                                             <h2 className="product-name">{product.productName}</h2>
-                                            <h3 className="product-price">{product.price} VNĐ</h3>
+                                            <h3 className="product-price">{formatPrice(product.price)} VNĐ</h3>
                                         </div>
                                         <div>
                                             <button className="cart-icon">
@@ -255,7 +224,7 @@ const  Products = () => {
                 </div>
 
             </section>
-
+                                  <Pagination onPageChange={handlePageClick} pageCount={pageCount}/>
 
 
 

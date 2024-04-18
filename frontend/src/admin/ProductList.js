@@ -9,17 +9,24 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "./Api/CategoryApi";
 import {fetchProducts} from "./Api/ProductApi";
 import Pagination2 from "./component/Index/Pagination2";
+import {setProducts, setViewMode} from "./redux/actions/ProductActions";
+import {setSelectedCategory} from "./redux/actions/CategoryActions";
+import {setCurrentPage, setPageCount} from "./redux/actions/CurrentPageAction";
+import {formatPrice} from "../format/FormatMoney";
 
 const ProductList = () => {
     const dispatch = useDispatch();
+
     const categories = useSelector(state => state.category.categories);
-    const [products, setProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [currentPage, setCurrentPage] = useState(0);
-    const [pageCount, setPageCount] = useState(0);
-    const [sortOrder, setSortOrder] = useState('desc');
-    const [sortBy, setSortBy] = useState('created_at');
-    const [viewMode, setViewMode] = useState('list'); // State for view mode
+    const products = useSelector(state => state.productAdmin.products);
+    const selectedCategory = useSelector(state => state.category.selectedCategory);
+    const currentPage = useSelector(state => state.page.currentPage);
+    const pageCount = useSelector(state => state.page.pageCount);
+     const  viewMode = useSelector(state => state.productAdmin.viewMode);
+     const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
+     const  sortBy = useSelector(state => state.productAdmin.sortBy);
+
+
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -34,12 +41,13 @@ const ProductList = () => {
             sortOrder,
             sortBy
         });
-        setProducts(data.content);
-        setPageCount(data.totalPages);
+        dispatch(setProducts(data.content));
+        dispatch(setPageCount(data.totalPages));
+
     };
 
     const handlePageClick = (data) => {
-        setCurrentPage(data.selected);
+        dispatch(setCurrentPage(data.selected));
     };
 
     const buildOptions = (categories, parentId = null, prefix = '') => {
@@ -54,7 +62,7 @@ const ProductList = () => {
     };
 
     const toggleViewMode = (mode) => {
-        setViewMode(mode);
+        dispatch(setViewMode(mode));
     };
 
     return (
@@ -125,7 +133,7 @@ const ProductList = () => {
                                                     aria-label="size 3 select example"
                                                     value={selectedCategory}
                                                     onChange={e => {
-                                                        setSelectedCategory(e.target.value);
+                                                        dispatch(setSelectedCategory(e.target.value));
                                                         handlePageClick({selected: 0})
                                                     }}>
                                                     <option value="">Tất cả</option>
@@ -166,7 +174,7 @@ const ProductList = () => {
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Giá</div>
-                                                                            <strong>${product.price} VNĐ</strong>
+                                                                            <strong>{formatPrice(product.price)} VNĐ</strong>
                                                                         </div>
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
@@ -234,7 +242,7 @@ const ProductList = () => {
                                                                     <p className="text-muted">Loại sản
                                                                         phẩm: {product.categoryName}</p>
                                                                     <span
-                                                                        className="d-block fw-bold fs-5 text-secondary">${product.price} VNĐ</span>
+                                                                        className="d-block fw-bold fs-5 text-secondary">${formatPrice(product.price)} VNĐ</span>
                                                                     <div className="d-flex align-items-center">
                                                                         <button className="btn p-0 me-2" title="Sửa">
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>

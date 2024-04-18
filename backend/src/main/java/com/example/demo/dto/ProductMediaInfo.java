@@ -3,18 +3,28 @@ package com.example.demo.dto;
 import java.math.BigDecimal;
 
 public class ProductMediaInfo {
+    private int productId;
     private String productName;
     private String description;
     private BigDecimal price;
     private int stockQuantity;
     private String fileUrl;
 
-    public ProductMediaInfo(String productName, String description, BigDecimal price, int stockQuantity, String fileUrl) {
+    public ProductMediaInfo(int productId, String productName, String description, BigDecimal price, int stockQuantity, String fileUrl) {
+        this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.fileUrl = fileUrl;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
