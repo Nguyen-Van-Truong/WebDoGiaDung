@@ -28,7 +28,7 @@ export const fetchProductsDebounced = debounce(dispatch => {
 }, 5000);
 export const throttledFetchProducts = throttle((dispatch) => {
     fetchProducts()(dispatch);
-}, 3000, { leading: true });
+}, 3000, {leading: true});
 
 export const top_selling = () => {
     return async dispatch => {
@@ -47,7 +47,7 @@ export const top_sellingDebounced = debounce(dispatch => {
 }, 5000);
 export const throttledTop_selling = throttle((dispatch) => {
     top_selling()(dispatch);
-}, 3000, { leading: true });
+}, 3000, {leading: true});
 export const products_new = () => {
     return async dispatch => {
         try {
@@ -68,8 +68,12 @@ export const productsNewsDebounced = debounce(dispatch => {
 }, 5000);
 export const throttledProductsNew = throttle((dispatch) => {
     products_new()(dispatch);
-}, 3000, { leading: true });
+}, 3000, {leading: true});
 
+/**
+ * api tỉnh thành
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const province = () => {
     return async dispatch => {
         try {
@@ -82,6 +86,11 @@ export const province = () => {
     }
 }
 
+/**
+ * api quan
+ * @param province_id
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const dis_tricts = (province_id) => {
     return async dispatch => {
         try {
@@ -95,6 +104,11 @@ export const dis_tricts = (province_id) => {
         }
     };
 };
+/**
+ * api xã
+ * @param districtId
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const commune = (districtId) => {
     return async dispatch => {
         try {
@@ -108,14 +122,20 @@ export const commune = (districtId) => {
         }
     };
 };
-export const register = (userData  , onSuccess) => {
+/**
+ * api dang ki
+ * @param userData
+ * @param onSuccess
+ * @returns {(function(*, *): Promise<void>)|*}
+ */
+export const register = (userData, onSuccess) => {
 
     return async (dispatch, getState) => {
         try {
 
             const response = await axios.post("/api/users/register", userData);
             const data = response.data;
-            dispatch({type: 'REGISTER_SUCCESS', payload: data.message  || data});
+            dispatch({type: 'REGISTER_SUCCESS', payload: data.message || data});
             console.log(data.message);
             /**
              * tu dong chuyen trang khi dang ki thah cong mac dinh 4s
@@ -125,7 +145,7 @@ export const register = (userData  , onSuccess) => {
                 /**
                  * xét giá trị cho việc thông báo lại là chuỗi ''
                  */
-                   dispatch(resetRegistrationMessage());
+                dispatch(resetRegistrationMessage());
                 /**
                  * xoá mã code ra khỏi session
                  */
@@ -143,12 +163,18 @@ export const register = (userData  , onSuccess) => {
         }
     }
 }
-export const login = (email, password  ) => {
+/**
+ * api dang nhap
+ * @param email
+ * @param password
+ * @returns {(function(*): Promise<void>)|*}
+ */
+export const login = (email, password) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/api/users/login', { email, password });
+            const response = await axios.post('/api/users/login', {email, password});
             const data = response.data;
-            dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+            dispatch({type: 'LOGIN_SUCCESS', payload: data});
             const is_admin = response.data.is_admin;
             console.log(is_admin);
 
@@ -159,13 +185,20 @@ export const login = (email, password  ) => {
         }
     };
 };
-export const otp = (email, code , onSuccess) => {
+/**
+ * api gui ma otp
+ * @param email
+ * @param code
+ * @param onSuccess
+ * @returns {(function(*): Promise<void>)|*}
+ */
+export const otp = (email, code, onSuccess) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/sendOtp', { email, code});
+            const response = await axios.post('/sendOtp', {email, code});
             const data = response.data;
             console.log(data);
-            dispatch({ type: 'OTP_SUCCESS', payload: data });
+            dispatch({type: 'OTP_SUCCESS', payload: data});
             setTimeout(() => {
                 if (onSuccess) onSuccess();
                 dispatch(resetRegistrationMessage());
@@ -177,6 +210,12 @@ export const otp = (email, code , onSuccess) => {
         }
     };
 }
+/**
+ * api chi tiet san pham
+ * @param id
+ * @param onSuccess
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const product_details = (id, onSuccess) => {
     return async dispatch => {
         try {
@@ -197,3 +236,47 @@ export const product_details = (id, onSuccess) => {
         }
     };
 };
+/**
+ * api cap nhap password
+ * @param id
+ * @param oldPassword
+ * @param newPassword
+ * @returns {(function(*): Promise<void>)|*}
+ */
+export const updatePassword = (id, oldPassword, newPassword) => {
+    return async dispatch => {
+        const numericId = Number(id);
+        try {
+
+            const response = await axios.get(`/api/users/updatePassword?id=${numericId}&oldPassword=${oldPassword}&newPassword=${newPassword}`);
+            const data = response.data;
+            console.log(data);
+            dispatch({type: 'UPDATE_PASSWORD_SUCCESS', payload: data});
+        } catch (error) {
+            const errorMessage = error.response.data;
+            dispatch({type: 'UPDATE_PASSWORD_ERROR', payload: errorMessage});
+
+        }
+    };
+}
+/**
+ * api them thong bao
+ * @param id
+ * @param message
+ * @returns {(function(*): Promise<void>)|*}
+ */
+export const notification = (id, message) => {
+    return async dispatch => {
+        const numericId = Number(id);
+        try {
+            const response = await axios.get(`/addNotification?id=${numericId}&message=${message}`);
+            const data = response.data;
+            console.log(data);
+            dispatch({type: 'NOTIFICATION_SUCCESS', payload: data});
+        } catch (error) {
+            const errorMessage = error.response.data;
+            dispatch({type: 'NOTIFICATION_ERROR', payload: errorMessage});
+
+        }
+    };
+}

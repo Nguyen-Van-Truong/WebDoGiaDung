@@ -17,18 +17,7 @@ import Footer from "./footer/Footer";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isMenu, setIsMenu] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
-
     useEffect(() => {
-
-
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -37,9 +26,7 @@ const Forget_Password = () => {
                 setHeaderSticky(true);
             }
         };
-
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };

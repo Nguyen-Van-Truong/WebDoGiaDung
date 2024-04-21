@@ -31,6 +31,7 @@ import SendOtp from "./user/SendOtp";
 
 
 
+
 const App = () => {
 
     return (
@@ -62,6 +63,8 @@ const App = () => {
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/admin-profile" element={<AdminProfile />} />
                  <Route  path="/send-otp" element={<SendOtp/>}/>
+
+
 
             </Routes>
         </Router>
