@@ -1,10 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     logout,
-
     setCategory, setEmail,
     setIsCart,
     setIsMenu, setPassword,
@@ -12,33 +11,56 @@ import {
     toggleMenuOpen
 } from "../../redux/Action";
 
+import {getNotification, updateIsRead} from "../../api/NotificationApi";
+import {timeSince} from '../convertDateTime/Convert'
+import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
+
 const Header_Menu = () => {
     const dispatch = useDispatch();
 
     const isCart = useSelector((state) => state.appUser.isCart);
     const isMenu = useSelector((state) => state.appUser.isMenu);
-   const  isSeach = useSelector((state) => state.appUser.isSearch);
+    const isSeach = useSelector((state) => state.appUser.isSearch);
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
-
+    const [webSocket, setWebSocket] = useState(null);
     const isCategory = useSelector((state) => state.appUser.isCategory);
-    const  isStatus = sessionStorage.getItem("isStatus");
+    const isNotification = useSelector(state => state.notification.isNotification);
+    const user_id = localStorage.getItem('user_id');
     const navigate = useNavigate();
-
+    const userData = sessionStorage.getItem("userData");
+    const lisData = useSelector(state => state.notification.listNotification);
+    const notificationCount = useSelector(state => state.notification.notificationCount);
+    /**
+     *
+     * sap xep theo thoi gian giam dan
+     * @type {[]|*}
+     */
+    const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     const userOpen = () => {
-
+        dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
     }
     const clickSeach = () => {
         dispatch(tabIsSeach());
-
+        dispatch(setIsNotification(false));
+        dispatch(setIsMenu(false));
+        dispatch(setIsCart(false));
+    }
+    const clickNotification = () => {
+        dispatch(setIsNotification(!isNotification));
+        dispatch(setIsMenu(false));
+        dispatch(setIsCart(false));
+        if (user_id !== null && isNotification === false) {
+            dispatch(updateIsRead(user_id));
+        }
     }
     const cartOpen = () => {
         dispatch(setIsCart(!isCart));
+        dispatch(setIsNotification(false));
     }
     const handleMenuClick = () => {
         dispatch(toggleMenuOpen());
-
         dispatch(setIsMenu(!isMenu));
         dispatch(setUserMin(isUserMin));
         dispatch(setCategory(isCategory));
@@ -48,13 +70,69 @@ const Header_Menu = () => {
         dispatch(setUserMin(isUserMin));
         dispatch((setCategory(isCategory)));
     }
-    const  log_out =()=>{
-         dispatch(logout());
-       sessionStorage.removeItem("isStatus");
+    const log_out = () => {
+        dispatch(logout());
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem('password');
+        localStorage.removeItem('user_id');
+        sessionStorage.removeItem("userData");
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));
     }
+
+
+    useEffect(() => {
+        if (user_id !== null) {
+            dispatch(getNotification(user_id));
+        }
+        const socket = new WebSocket('ws://localhost:8080/countNotification?user_id=?');
+        socket.addEventListener('open', function (event) {
+            console.log('Connected to WS Server');
+            const messageInterval = setInterval(() => {
+                socket.send(user_id);
+            }, 500);
+
+            socket.addEventListener('close', function (event) {
+                clearInterval(messageInterval);
+            });
+        });
+
+        socket.addEventListener('message', function (event) {
+            dispatch(setNotificationCount(event.data));
+        });
+
+
+        // Handle any errors that occur.
+        socket.addEventListener('error', function (error) {
+            console.error('WebSocket Error: ' + error);
+        });
+
+
+        setWebSocket(socket);
+
+
+        const handleBeforeUnload = (event) => {
+
+            console.log("nay la" + userData)
+
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            socket.close();
+        };
+
+    }, [notificationCount]);
+    const sendMessage = (message) => {
+        if (webSocket) {
+            webSocket.send(message);
+        }
+    };
     return (
         <div className="main-header bg-grayscales-500 lg:border-none border-b border-grayscales-700">
             <div className="container px-3_t md:px-5 xl:px-0">
@@ -67,7 +145,7 @@ const Header_Menu = () => {
                     </div>
                     <div className="lg:max-w-[413px] lg:block hidden w-full">
                         <div className="relative">
-                            <input    type="text" id="search" placeholder="search here..."
+                            <input type="text" id="search" placeholder="search here..."
                                    className="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
                             <label onClick={clickSeach} for="search" className="absolute right-4 top-3">
                                 <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
@@ -88,7 +166,7 @@ const Header_Menu = () => {
                                     style={{display: isSeach ? 'block' : 'none'}}>
                                     <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                         <li>
-                                            <Link to="/login" >không có sản phẩm nào</Link>
+                                            <Link to="/login">không có sản phẩm nào</Link>
                                         </li>
 
                                     </div>
@@ -209,17 +287,56 @@ const Header_Menu = () => {
 
                                 </div>
                             </li>
-                            <li className="inline-flex items-center justify-center">
-                                <a href="#"
-                                   className="bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="feather feather-bell">
-                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                                    </svg>
+                            <li className={"relative"}>
+                                <div className={" "} onClick={clickNotification}>
+                                    <a className={"bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]"}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24"
+                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                             stroke-linejoin="round" className="feather feather-bell">
+                                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                                        </svg>
 
-                                </a>
+                                    </a>
+                                    <span id="notification-icon"
+
+                                          className=" re_p_l bg_red text-white rounded-full py-[6px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">{notificationCount}</span>
+                                    {isNotification && (
+                                        <div className="notification-content">
+                                            <ul className="py-3"
+                                                style={{display: isNotification ? 'block' : 'none'}}>
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    {user_id !==null &&
+                                                        <li>
+                                                            {sortList.map(notification => (
+                                                                <div>
+                                                                    <a className="notifi-ml"
+                                                                       key={notification.notification_id}>{notification.message}</a>
+                                                                    <p>{timeSince(new Date(notification.created_at))} trước</p>
+                                                                </div>
+                                                            ))}
+
+                                                        </li>
+                                                    }
+                                                    {user_id ==null &&
+                                                        <li>
+
+                                                            <div>
+                                                                <p className="notification_not_userid">Không có thông báo nào</p>
+
+                                                            </div>
+
+                                                        </li>
+                                                    }
+
+                                                </div>
+
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+
                             </li>
                             <li className="relative">
                                 <button
@@ -239,7 +356,7 @@ const Header_Menu = () => {
                                 </button>
                                 {isMenu && (
                                     <div className="profile-content">
-                                        {isStatus  ? (
+                                        {userData !== null &&
                                             <ul className="py-3"
                                                 style={{display: isMenu ? 'block' : 'none'}}>
 
@@ -255,7 +372,8 @@ const Header_Menu = () => {
                                                 </div>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to={"/change-password"} onClick={clickAll}>Đổi mật khẩu</Link>
+                                                        <Link to={"/change-password"} onClick={clickAll}>Đổi mật
+                                                            khẩu</Link>
 
                                                     </li>
                                                     <li>
@@ -279,29 +397,30 @@ const Header_Menu = () => {
                                                     </li>
                                                 </div>
                                             </ul>
-                                        ):(
-                                        <ul className="py-3"
-                                            style={{display: isMenu ? 'block' : 'none'}}>
-                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                <li>
-                                                    <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
-                                                </li>
-                                                <li>
-                                                    <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
-                                                </li>
-                                            </div>
-                                            <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                <li>
-                                                    <Link to={"/forget-password"} onClick={clickAll}>Quên mật
-                                                        khẩu</Link>
-                                                </li>
+                                        }
+                                        {userData === null &&
+                                            <ul className="py-3"
+                                                style={{display: isMenu ? 'block' : 'none'}}>
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    <li>
+                                                        <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
+                                                    </li>
+                                                </div>
+                                                <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+                                                    <li>
+                                                        <Link to={"/forget-password"} onClick={clickAll}>Quên mật
+                                                            khẩu</Link>
+                                                    </li>
 
-                                            </div>
+                                                </div>
 
 
-                                        </ul>
+                                            </ul>
 
-                                        )}
+                                        }
 
 
                                     </div>
