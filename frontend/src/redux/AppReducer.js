@@ -11,6 +11,7 @@ import {
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY,
 } from "./Action";
+import {SET_RELOAD_STATUS} from "./ReloadAction";
 
 
 // khởi tạo trạng thái ban đầu
@@ -75,7 +76,9 @@ const initialState = {
       case SET_IS_MENU:
         return {
           ...state,
-          isMenu: action.payload
+          isMenu: action.payload,
+          isCart :false,
+          isSearch: false
         };
       case SET_USER_MIN:
         return {
@@ -95,7 +98,10 @@ const initialState = {
       case SET_IS_CART :
         return {
           ...state ,
-          isCart : action.payload
+          isCart : action.payload,
+          isMenu: false,
+          isSearch:false
+
         }
       case  IS_TOP_SELLING :
         return {
@@ -271,12 +277,16 @@ const initialState = {
           errorLogin :'',
         };
       case 'LOGOUT':
+
         return {
           ...state,
           userData: null,
           isAdmin: false,
-          isStatus: false,
+          isStatus:false,
+          isMenu: false
+
         };
+
       case 'LOGIN_ERROR' :
         return {
           ...state,
@@ -295,6 +305,11 @@ const initialState = {
           ...state,
           registrationMessage:'',
           errorsMessage :action.payload,
+        }
+      case SET_RELOAD_STATUS :
+        return {
+          ...state,
+          isStatus: action.payload
         }
       default:
         return state;

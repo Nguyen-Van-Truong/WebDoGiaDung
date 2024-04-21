@@ -43,13 +43,10 @@ const ProductList = () => {
         });
         dispatch(setProducts(data.content));
         dispatch(setPageCount(data.totalPages));
-
     };
-
     const handlePageClick = (data) => {
         dispatch(setCurrentPage(data.selected));
     };
-
     const buildOptions = (categories, parentId = null, prefix = '') => {
         return categories
             .filter(category => category.parentId === parentId)

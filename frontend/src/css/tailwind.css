@@ -1377,6 +1377,10 @@ video {
   padding-top: 3px;
   padding-bottom: 3px;
 }
+.py-\[6px\] {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
 
 .px-\[9px\] {
   padding-left: 9px;

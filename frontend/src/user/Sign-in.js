@@ -14,7 +14,7 @@ import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../api/Api";
-import {SET_ERROR, setEmail, setError, setPassword} from "../redux/Action";
+import { setEmail, setError, setPassword} from "../redux/Action";
 
 const SignIn = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -34,6 +34,7 @@ const SignIn = () => {
     const password = useSelector(state => state.appUser.password_login);
     const userData = useSelector(state => state.appUser.userData);
     const  isStatus= useSelector(state => state.appUser.isStatus);
+
     const  error = useSelector(state => state.appUser.errorLogin);
     const navigate = useNavigate();
 
@@ -59,17 +60,22 @@ const SignIn = () => {
          */
 
 
-        sessionStorage.setItem('isStatus',isStatus);
+
         if (userData !== null) {
             console.log(userData );
             const isAdmin = userData.is_admin;
+            const user_id = userData.user_id ;
+            sessionStorage.setItem("userData", userData);
 
             if (isAdmin) {
+                console.log('id'+user_id);
                 sessionStorage.setItem('username',  userData.username);
                 sessionStorage.setItem('email',  userData.email);
                 sessionStorage.setItem('password', userData.password);
+                localStorage.setItem('user_id' ,user_id );
                 navigate('/index-admin')
             } else {
+                localStorage.setItem('user_id' ,user_id );
                 sessionStorage.setItem('email',  userData.email);
                 sessionStorage.setItem('username',  userData.username);
                 sessionStorage.setItem('password', userData.password);
