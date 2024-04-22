@@ -1,17 +1,31 @@
 // frontend/src/admin/redux/reducers/ProductReducer.js
 import {
     ADD_PRODUCT_ERROR,
-    ADD_PRODUCT_SUCCESS, DESCRIPTION, PRICE, PRODUCT_NAME, PRODUCTS,
-    QUANTITY, SELECTED_CATEGORY_PRODUCT, SET_DESCRIPTION, SET_PRICE, SET_PRODUCT_NAME, SET_PRODUCTS,
-    SET_QUANTITY, SET_SELECTED_CATEGORY_PRODUCT, SET_STOCK_QUANTITY,
-    SET_TOTAL_QUANTITY, SET_VIEW_MODE, STOCK_QUANTITY,
-    TOTAL_QUANTITY, VIEW_MODE
+    ADD_PRODUCT_SUCCESS,
+    DESCRIPTION,
+    PRICE,
+    PRODUCT_NAME,
+    PRODUCTS,
+    QUANTITY,
+    SELECTED_CATEGORY_PRODUCT,
+    SET_DESCRIPTION,
+    SET_PRICE,
+    SET_PRODUCT_DETAILS,
+    SET_PRODUCT_NAME,
+    SET_PRODUCTS,
+    SET_QUANTITY,
+    SET_SELECTED_CATEGORY_PRODUCT,
+    SET_STOCK_QUANTITY,
+    SET_TOTAL_QUANTITY,
+    SET_VIEW_MODE,
+    STOCK_QUANTITY,
+    TOTAL_QUANTITY,
+    VIEW_MODE
 } from '../actions/ProductActions';
 
 
 const initialState = {
-    quantity: 0,
-    totalQuantity: 100,
+    totalQuantity: 0,
     products :[],
     viewMode : 'list',
     sortOrder :'desc',
@@ -20,13 +34,25 @@ const initialState = {
     description :'',
     price_reducer :'',
     stockQuantity :'',
-    selectedCategory :''
-
+    selectedCategory :'',
+    mediaUrls: [],
 };
 
 
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_PRODUCT_DETAILS:
+            return {
+                ...state,
+                productName: action.payload.product_name,
+                description: action.payload.description,
+                price_reducer: action.payload.price,
+                stockQuantity: 0,
+                totalQuantity: action.payload.stock_quantity,
+                selectedCategory: action.payload.category.categoryId,
+                mediaUrls: action.payload.mediaUrls || [],
+                // You can add more fields as per the structure of your data
+            };
         case ADD_PRODUCT_SUCCESS:
             return {
                 ...state,
@@ -38,20 +64,10 @@ const productReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload,
             };
-        case QUANTITY:
-            return {
-                ...state,
-                quantity: state.quantity,
-            };
         case TOTAL_QUANTITY:
             return {
                 ...state,
                 totalQuantity: state.totalQuantity,
-            };
-        case SET_QUANTITY:
-            return {
-                ...state,
-                quantity: action.payload,
             };
         case SET_TOTAL_QUANTITY:
             return {

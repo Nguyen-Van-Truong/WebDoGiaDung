@@ -22,3 +22,13 @@ export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy 
         throw error;
     }
 };
+
+export const fetchProductDetails = async (productId) => {
+    try {
+        const response = await axios.get(`/api/products/product-detail?id=${productId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch product details:', error);
+        throw error;
+    }
+};
