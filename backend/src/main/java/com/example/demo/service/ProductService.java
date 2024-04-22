@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -241,5 +242,53 @@ public class ProductService {
         return products;
     }
 
+    public ProductDTO updateProduct(int productId, ProductDTO productDTO, MultipartFile[] files, List<String> filesToDelete) throws IOException {
+        Products product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        // Update product details
+        product.setProduct_name(productDTO.getProductName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setStock_quantity(productDTO.getStockQuantity());
+        Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        product.setCategory(category);
+
+        // Save the product
+        Products updatedProduct = productRepository.save(product);
+
+        // Handle new media files
+        if (files != null) {
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    String fileName = storeFile(file);
+                    Medias media = new Medias();
+                    media.setFile_url("/api/images/" + fileName);
+                    media.setUploaded_at(new Timestamp(System.currentTimeMillis()));
+                    media.setProducts(updatedProduct);
+                    mediaRepository.save(media);
+                }
+            }
+        }
+
+        // Handle deletions
+        if (filesToDelete != null) {
+            for (String fileName : filesToDelete) {
+                mediaRepository.deleteByFileUrl(fileName);
+            }
+        }
+
+        return convertToDTO(updatedProduct);
+    }
+
+    private ProductDTO convertToDTO(Products product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setProductName(product.getProduct_name());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setStockQuantity(product.getStock_quantity());
+        dto.setCategoryId(product.getCategory().getCategoryId());
+        dto.setMediaUrls(product.getMedias().stream().map(Medias::getFile_url).collect(Collectors.toList()));
+        return dto;
+    }
 
 }

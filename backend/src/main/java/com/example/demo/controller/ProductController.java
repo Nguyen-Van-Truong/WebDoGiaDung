@@ -66,6 +66,18 @@ public class ProductController {
         return productService.addProduct(productDTO, files);
     }
 
+    // Update an existing product
+    @PutMapping("/update/{productId}")
+    public ProductDTO updateProduct(
+            @PathVariable("productId") int productId,
+            @RequestPart("product") ProductDTO productDTO,
+            @RequestPart(value = "files", required = false) MultipartFile[] files,
+            @RequestParam(value = "filesToDelete", required = false) List<String> filesToDelete) throws IOException {
+
+        return productService.updateProduct(productId, productDTO, files, filesToDelete);
+    }
+
+
     @GetMapping("/product-detail")
     public Products products (@RequestParam(value = "id") int id){
         return productService.products(id);

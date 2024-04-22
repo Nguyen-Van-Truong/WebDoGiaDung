@@ -121,7 +121,6 @@ const ProductEdit = () => {
         return formData;
     };
 
-
     const logFormData = (formData) => {
         for (let [key, value] of formData.entries()) {
             if (value instanceof Blob) {
