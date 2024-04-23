@@ -23,7 +23,7 @@ import {fetchCategories} from "./Api/CategoryApi";
 import {showNotification} from "./redux/actions/NotificationsActions";
 import Notification from "./component/Notification";
 import ImageUploader from "./component/ImageUploader";
-import {addProduct, fetchProductDetails} from "./Api/ProductApi";
+import {addProduct, fetchProductDetails, updateProduct} from "./Api/ProductApi";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
@@ -140,32 +140,23 @@ const ProductEdit = () => {
         }
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = prepareFormData();
-        logFormData(formData);
-        await submitProductUpdate(formData);
-    };
+        // logFormData(formData);
 
-    const submitProductUpdate = async (formData) => {
-        const config = {
-            headers: {'Content-Type': 'multipart/form-data'}
-        };
-
+        setLoading(true);  // Set loading before the async operation
         try {
-            setLoading(true);
-            const response = await axios.put(`/api/products/update/${productId}`, formData, config);
+            const result = await updateProduct(productId, formData);  // Call the new API function
             dispatch(showNotification('Sản phẩm đã cập nhật thành công', 'success'));
-
-
+            // Optional: clear form and navigate after success
             // clearForm();
-            // navigate('/product-list'); // Navigate to product list page
+            // navigate('/product-list');
         } catch (error) {
             console.error('Failed to update product:', error);
             dispatch(showNotification(`Failed to update product: ${error.response?.data?.message || error.message}`, 'error'));
         } finally {
-            setLoading(false);
+            setLoading(false);  // Ensure loading is false after operation completes
         }
     };
 

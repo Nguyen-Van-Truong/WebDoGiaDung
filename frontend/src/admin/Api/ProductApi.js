@@ -32,3 +32,16 @@ export const fetchProductDetails = async (productId) => {
         throw error;
     }
 };
+
+export const updateProduct = async (productId, formData) => {
+    const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+    };
+    try {
+        const response = await axios.put(`/api/products/update/${productId}`, formData, config);
+        return response.data;  // Return data for success handling in the component
+    } catch (error) {
+        console.error('Failed to update product:', error);
+        throw error;  // Rethrow to handle in the component
+    }
+};
