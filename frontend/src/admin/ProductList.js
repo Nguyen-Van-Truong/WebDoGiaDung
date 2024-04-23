@@ -13,19 +13,20 @@ import {setProducts, setViewMode} from "./redux/actions/ProductActions";
 import {setSelectedCategory} from "./redux/actions/CategoryActions";
 import {setCurrentPage, setPageCount} from "./redux/actions/CurrentPageAction";
 import {formatPrice} from "../format/FormatMoney";
+import {useNavigate} from "react-router-dom";
 
 const ProductList = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const categories = useSelector(state => state.category.categories);
     const products = useSelector(state => state.productAdmin.products);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const currentPage = useSelector(state => state.page.currentPage);
     const pageCount = useSelector(state => state.page.pageCount);
-     const  viewMode = useSelector(state => state.productAdmin.viewMode);
-     const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
-     const  sortBy = useSelector(state => state.productAdmin.sortBy);
-
+    const viewMode = useSelector(state => state.productAdmin.viewMode);
+    const sortOrder = useSelector(state => state.productAdmin.sortOrder);
+    const sortBy = useSelector(state => state.productAdmin.sortBy);
 
 
     useEffect(() => {
@@ -60,6 +61,10 @@ const ProductList = () => {
 
     const toggleViewMode = (mode) => {
         dispatch(setViewMode(mode));
+    };
+
+    const handleNavigateToEdit = (productId) => {
+        navigate(`/product-edit/${productId}`);
     };
 
     return (
@@ -153,14 +158,14 @@ const ProductList = () => {
                                                         <div className="card border-0 mb-1">
                                                             <div
                                                                 className="card-body d-flex align-items-center flex-column flex-md-row">
-                                                                <a href={`product-detail/${product.productId}`}>
+                                                                <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                     <img className="w120 rounded img-fluid"
                                                                          src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
                                                                          alt={product.productName}/>
                                                                 </a>
                                                                 <div
                                                                     className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                                                    <a href={`product-detail/${product.productId}`}>
+                                                                    <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                         <h6 className="mb-3 fw-bold">{product.productName}
                                                                             <span
                                                                                 className="text-muted small fw-light d-block">Loại sản phẩm: {product.categoryName}</span>
@@ -194,7 +199,8 @@ const ProductList = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="d-flex align-items-center">
-                                                                        <button className="btn p-0 me-2" title="Sửa">
+                                                                        <button className="btn p-0 me-2" title="Sửa"
+                                                                                onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>
                                                                         </button>
                                                                         <button className="btn p-0" title="Xóa">
@@ -218,14 +224,22 @@ const ProductList = () => {
                                                         <div className="card">
                                                             <div className="product">
                                                                 <div className="product-image">
-                                                                    <div className="product-item active">
-                                                                        <img
-                                                                            src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
-                                                                            alt="product" className="img-fluid w-100"
-                                                                            style={{
-                                                                                maxWidth: '100%',
-                                                                                maxHeight: '200px'
-                                                                            }}/>
+                                                                    <div className="product-item active" style={{
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        height: '200px'
+                                                                    }}>
+                                                                        <a onClick={() => handleNavigateToEdit(product.productId)}>
+                                                                            <img
+                                                                                src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
+                                                                                alt="product"
+                                                                                className="img-fluid w-100"
+                                                                                style={{
+                                                                                    maxWidth: '100%',
+                                                                                    maxHeight: '220px'
+                                                                                }}/>
+                                                                        </a>
                                                                     </div>
                                                                     <a className="add-wishlist" href="#">
                                                                         <i className="bi bi-heart-fill text-danger"></i>
@@ -234,14 +248,15 @@ const ProductList = () => {
                                                                 <div className="product-content p-3">
                             <span className="rating mb-2 d-block"><i
                                 className="icofont-star text-warning"></i> 4.5 (145)</span>
-                                                                    <a href={`product-detail/${product.productId}`}
+                                                                    <a onClick={() => handleNavigateToEdit(product.productId)}
                                                                        className="fw-bold">{product.productName}</a>
                                                                     <p className="text-muted">Loại sản
                                                                         phẩm: {product.categoryName}</p>
                                                                     <span
                                                                         className="d-block fw-bold fs-5 text-secondary">${formatPrice(product.price)} VNĐ</span>
                                                                     <div className="d-flex align-items-center">
-                                                                        <button className="btn p-0 me-2" title="Sửa">
+                                                                        <button className="btn p-0 me-2" title="Sửa"
+                                                                                onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>
                                                                         </button>
                                                                         <button className="btn p-0" title="Xóa">

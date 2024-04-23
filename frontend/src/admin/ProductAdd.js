@@ -44,6 +44,7 @@ const ProductAdd = () => {
 
         useEffect(() => {
             dispatch(fetchCategories());
+            clearForm();
         }, [dispatch]);
         // Đặt danh mục được chọn ban đầu khi danh mục được tải
         useEffect(() => {
