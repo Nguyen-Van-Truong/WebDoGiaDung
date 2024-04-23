@@ -35,7 +35,6 @@ const ProductEdit = () => {
 
     const totalQuantity = useSelector((state) => state.productAdmin.totalQuantity);
     const [baseQuantity, setBaseQuantity] = useState(0);
-    //dùng useselector để lấy giá trị của quantity từ store
 
     const productName = useSelector(state => state.productAdmin.productName);
     const description = useSelector(state => state.productAdmin.description);
@@ -50,7 +49,6 @@ const ProductEdit = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [filesToDelete, setFilesToDelete] = useState([]);
 
-    // Add loading and error state hooks
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -62,10 +60,9 @@ const ProductEdit = () => {
             setBaseQuantity(productDetails.stock_quantity);//luu so luong san pham co san trong kho
 
             if (productDetails.mediaUrls) {
-                // Convert URLs to File-like objects for the ImageUploader
                 const initialImages = productDetails.mediaUrls.map(url => ({
                     id: url,
-                    url: `http://localhost:8080${url}`, // Adjust the URL prefix as necessary
+                    url: url,
                 }));
                 setSelectedFiles(initialImages);
             }
@@ -101,7 +98,7 @@ const ProductEdit = () => {
             productName,
             description,
             price: newPrice ? parseFloat(newPrice) : parseFloat(price),
-            stockQuantity: parseInt(stockQuantity, 10),
+            stockQuantity: parseInt(totalQuantity, 10),
             categoryId: parseInt(selectedCategory, 10),
         };
 
@@ -115,7 +112,9 @@ const ProductEdit = () => {
         });
 
         if (filesToDelete.length > 0) {
-            formData.append('filesToDelete', JSON.stringify(filesToDelete));
+            filesToDelete.forEach(file => {
+                formData.append('filesToDelete', file);
+            });
         }
 
         return formData;
@@ -156,11 +155,12 @@ const ProductEdit = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post(`/api/products-update/${productId}`, formData, config);
+            const response = await axios.put(`/api/products/update/${productId}`, formData, config);
             dispatch(showNotification('Sản phẩm đã cập nhật thành công', 'success'));
 
-            clearForm();
-            navigate('/product-list'); // Navigate to product list page
+
+            // clearForm();
+            // navigate('/product-list'); // Navigate to product list page
         } catch (error) {
             console.error('Failed to update product:', error);
             dispatch(showNotification(`Failed to update product: ${error.response?.data?.message || error.message}`, 'error'));
@@ -338,8 +338,8 @@ const ProductEdit = () => {
 
                                                         </div>
                                                         <div className="col-md-6">
-                                                            <label className="form-label">Số lượng</label>
-                                                            <input type="number" className="form-control" min="0"
+                                                            <label className="form-label">Số lượng thay đổi</label>
+                                                            <input type="number" className="form-control"
                                                                    value={stockQuantity}
                                                                    onChange={handleQuantityChange}/>
 

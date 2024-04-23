@@ -51,7 +51,6 @@ const productReducer = (state = initialState, action) => {
                 totalQuantity: action.payload.stock_quantity,
                 selectedCategory: action.payload.category.categoryId,
                 mediaUrls: action.payload.mediaUrls || [],
-                // You can add more fields as per the structure of your data
             };
         case ADD_PRODUCT_SUCCESS:
             return {

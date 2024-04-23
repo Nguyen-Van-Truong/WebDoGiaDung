@@ -1,6 +1,5 @@
 // frontend/src/admin/redux/actions/ProductActions.js
 // Correct placement of import statements
-import {addProduct as addProductApi} from '../../Api/ProductApi';
 
 // Action type declarations
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';

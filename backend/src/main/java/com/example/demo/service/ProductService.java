@@ -63,7 +63,7 @@ public class ProductService {
             if (!p.getMedias().isEmpty()) {
                 fileUrl = p.getMedias().iterator().next().getFile_url();
             }
-            ProductMediaInfo productMediaInfo = new ProductMediaInfo(p.getProduct_id() ,p.getProduct_name(), p.getDescription(),
+            ProductMediaInfo productMediaInfo = new ProductMediaInfo(p.getProduct_id(), p.getProduct_name(), p.getDescription(),
                     p.getPrice(), p.getStock_quantity(), fileUrl);
             info.add(productMediaInfo);
         }
@@ -74,7 +74,7 @@ public class ProductService {
         List<ProductMediaInfo> originalProductMediaInfos = productRepository.findGetNew(PageRequest.of(0, limit));
         List<ProductMediaInfo> modifiedProductMediaInfos = new ArrayList<>();
         for (ProductMediaInfo p : originalProductMediaInfos) {
-            modifiedProductMediaInfos.add(new ProductMediaInfo( p.getProductId(), p.getProductName(), p.getDescription(), p.getPrice(),
+            modifiedProductMediaInfos.add(new ProductMediaInfo(p.getProductId(), p.getProductName(), p.getDescription(), p.getPrice(),
                     p.getStockQuantity(), p.getFileUrl()));
         }
 
@@ -101,6 +101,7 @@ public class ProductService {
             for (MultipartFile file : imageFiles) {
                 if (!file.isEmpty()) {
                     try {
+                        // Lưu file anh vào thư mục
                         String fileName = storeFile(file);
                         Medias media = new Medias();
                         media.setFile_url("/api/images/" + fileName);
@@ -109,7 +110,6 @@ public class ProductService {
                         mediaRepository.save(media);
                         mediaUrls.add(fileName);
                     } catch (IOException e) {
-                        // Handle possible I/O errors
                         e.printStackTrace();
                     }
                 }
@@ -237,7 +237,8 @@ public class ProductService {
         }
         return categoryIds;
     }
-    public Products  products(int id) {
+
+    public Products products(int id) {
         Products products = productRepository.details_products(id);
         return products;
     }
@@ -245,7 +246,6 @@ public class ProductService {
     public ProductDTO updateProduct(int productId, ProductDTO productDTO, MultipartFile[] files, List<String> filesToDelete) throws IOException {
         Products product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        // Update product details
         product.setProduct_name(productDTO.getProductName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
@@ -253,14 +253,14 @@ public class ProductService {
         Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("Category not found"));
         product.setCategory(category);
 
-        // Save the product
+        // Cap nhat thong tin san pham
         Products updatedProduct = productRepository.save(product);
 
-        // Handle new media files
+        // them anh moi
         if (files != null) {
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
-                    String fileName = storeFile(file);
+                    String fileName = storeFile(file); // luu file anh vao thu muc trong server
                     Medias media = new Medias();
                     media.setFile_url("/api/images/" + fileName);
                     media.setUploaded_at(new Timestamp(System.currentTimeMillis()));
@@ -270,7 +270,8 @@ public class ProductService {
             }
         }
 
-        // Handle deletions
+        System.out.println("filesToDelete:" + filesToDelete);
+        // Xoa anh cu
         if (filesToDelete != null) {
             for (String fileName : filesToDelete) {
                 mediaRepository.deleteByFileUrl(fileName);

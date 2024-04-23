@@ -3,13 +3,13 @@ import React from 'react';
 const ImageUploader = ({selectedFiles, handleFileSelect, handleRemoveFile, removeExistingFile}) => {
     return (
         <div>
-            <label className="form-label">Upload Product Images</label>
+            <label className="form-label">Tải lên hình ảnh sản phẩm</label>
             <small className="d-block text-muted mb-2">
-                Drag and drop or click to select images
+                Kéo và thả hoặc nhấp để chọn hình ảnh
             </small>
             <input type="file" multiple accept="image/*" onChange={handleFileSelect}/>
             <div className="mt-2">
-                <p className="mb-1">Selected Images:</p>
+                <p className="mb-1">Các ảnh đã chọn:</p>
                 <div className="d-flex flex-wrap">
                     {selectedFiles.map((file) => (
                         <div key={file.id} className="image-container">
