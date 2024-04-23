@@ -42,7 +42,7 @@ export const SidebarMenu = () => {
             icon: "icofont-truck-loaded",
             subItems: [
                 { title: "Danh sách sản phẩm", link: "/product-list" },
-                { title: "Chỉnh sửa sản phẩm", link: "/product-edit" },
+                // { title: "Chỉnh sửa sản phẩm", link: "/product-edit" },
                 { title: "Thêm sản phẩm", link: "/product-add" }
             ]
         },
