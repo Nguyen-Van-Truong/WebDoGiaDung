@@ -213,7 +213,7 @@ public class ProductService {
                 product.getPrice(),
                 product.getStock_quantity(),
                 product.getCreated_at(),
-                product.getStock_quantity() > 0 ? "Còn hàng" : "Hết hàng",
+                product.getStatus(),
                 imageUrl
         );
     }
