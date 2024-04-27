@@ -12,11 +12,13 @@ import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
-import {otp, register} from "../api/Api";
+import {checkEmail, otp, } from "../api/Api";
 import {resetRegistrationMessage, setError, setFormData} from "../redux/Action";
 import {bindActionCreators} from "redux";
+import {Cookies, useCookies} from "react-cookie";
 
 const Register = () => {
+    const [cookies, setCookie] = useCookies(['otp']);
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [isConfirmPassWord, setConfirmPass] = useState(false);
@@ -45,17 +47,27 @@ const Register = () => {
         const {name, value} = event.target;
         console.log("Input changed:", name, value);
         dispatch(setFormData(name, value));
-        console.log("Updated formData:", formData);
+
+        if (name === 'email') {
+            dispatch(checkEmail(value));
+        }
+
     };
     /**
      * ham xử lý from khi submit
      * @param e
      */
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             console.log("mat khau khong trung khop")
             dispatch(setError('Mật khẩu không trùng khớp'));
+        } else if (formData.username === '' && formData.email === '' && formData.password === '') {
+            dispatch(setError('Vui lòng điền đầy đủ các thông tin'));
+
+        } else if (formData.email === '') {
+            dispatch(setError('Mail Không được để trống'));
         } else {
             /**
              * tao ngau nhien otp
@@ -70,14 +82,10 @@ const Register = () => {
             const min = 100000;
             const max = 999999;
             const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-
-            otpAction(userData.email, randomNum, () => navigate('/send-otp'));
+            otpAction(userData.email, randomNum, (code) => navigate('/send-otp', {state: {code, randomNum}}));
             sessionStorage.setItem('username', formData.username);
             sessionStorage.setItem('password', formData.password);
-            sessionStorage.setItem( 'email' , formData.email);
-            sessionStorage.setItem('code', randomNum);
-            console.log(randomNum);
-            console.log(userData);
+            sessionStorage.setItem('email', formData.email);
             dispatch(setError(''));
         }
     }
@@ -155,8 +163,8 @@ const Register = () => {
                             kí</h2>
                         <div className="form">
                             <form onSubmit={handleSubmit} className="">
+                                {errorMessage && <div className="alert alert-danger p-lg-1">{errorMessage}</div>}
                                 {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
-
                                 <div className="mb-4">
                                     <input type="text" placeholder="Username" name="username"
                                            className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"

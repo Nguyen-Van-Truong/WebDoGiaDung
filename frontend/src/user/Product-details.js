@@ -93,7 +93,7 @@ const Product_details = () => {
             </header>
 
 
-            <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>>
+            <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="flex items-center gap-1 py-[1.5px]">
                         <a href="index.html" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang
@@ -117,7 +117,7 @@ const Product_details = () => {
                 </div>
             </div>
 
-            <div className="" style={{backgroundColor: "var(--bg-breadcum)"}}> >
+            <div className="" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="product-details-wrap pt-10">
                         <div className="left-side xl:w-7/12 w-full">
@@ -193,35 +193,7 @@ const Product_details = () => {
                                 As you run your fingers across the surface of this golden oak colored vanity set, you’ll
                                 understand why it stands out from the rest; from the table to the legs.
                             </p>
-                            <div className="mb-6">
-                                <h2 className="text-[#9A9CAA] text-sm font-medium mb-3">Color</h2>
-                                <ul className="flex gap-[30px] items-center p-0_t m-0_t">
-                                    <li>
-                                        <label htmlFor="black"
-                                               className="inline-flex gap-2 items-center custom-radio cursor-pointer">
-                                            <input type="radio" id="black" checked name="color" className="hidden"/>
-                                            <span className="bg-[#1E1E1E] w-8 h-8 rounded-full custom-bg m-1"></span>
-                                            <span className="text-base text-[#636270]">Black</span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label htmlFor="brown"
-                                               className="inline-flex gap-2 items-center custom-radio cursor-pointer">
-                                            <input type="radio" id="brown" name="color" className="hidden"/>
-                                            <span className="bg-[#B26F3F] w-8 h-8 rounded-full custom-bg m-1"></span>
-                                            <span className="text-base text-[#636270]">Brown</span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label htmlFor="orange"
-                                               className="inline-flex gap-2 items-center custom-radio cursor-pointer">
-                                            <input type="radio" id="orange" name="color" className="hidden"/>
-                                            <span className="bg-[#F7AD94] w-8 h-8 rounded-full custom-bg m-1"></span>
-                                            <span className="text-base text-[#636270]">Peach</span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
+
                             <div className="mb-6">
                                 <ul className="p-0 m-0">
                                     <li>

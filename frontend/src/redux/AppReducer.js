@@ -48,6 +48,8 @@ const initialState = {
   isAdmin: false,
   isStatus :false,
   errorLogin :'',
+  code : '',
+  isRegister :false
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -299,6 +301,8 @@ const initialState = {
           ...state,
           registrationMessage:action.payload,
           errorsMessage :'',
+          isRegister : !state.isRegister
+
         }
       case  'OTP_ERROR' :
         return {
@@ -310,6 +314,17 @@ const initialState = {
         return {
           ...state,
           isStatus: action.payload
+        }
+      case 'CHECK_EMAIL_ERROR' :
+        return {
+          ...state,
+          registrationMessage:'',
+          errorsMessage :action.payload,
+        }
+      case 'CHECK_EMAIL_SUCCESS' :
+        return {
+          ...state,
+          errorsMessage :'',
         }
       default:
         return state;

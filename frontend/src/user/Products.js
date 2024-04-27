@@ -115,7 +115,7 @@ const  Products = () => {
             </header>
             
 
-            <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>>
+            <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
                         <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>

@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,12 +56,16 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody UserDTO dto) {
         String email = dto.getEmail();
         String password = dto.getPassword();
+        String username =dto.getUsername();
         System.out.println("name" + dto.getUsername());
         System.out.println("email" + dto.getEmail());
         System.out.println("pass" + dto.getPassword());
         System.out.println("confirm" + dto.getConfirmPassword());
-        if (password.isEmpty()) {
-            return ResponseEntity.badRequest().body("Mật khẩu trống");
+        if(username.isEmpty()){
+            return ResponseEntity.badRequest().body("Tên người dùng không được để trống");
+        }
+        if(email.isEmpty()){
+            return ResponseEntity.badRequest().body("Email người dùng không được để trống");
         }
         if (userService.checkEmail(email) && userService.CheckPassWordUser(email, password)) {
             userService.save(dto);
@@ -71,6 +74,8 @@ public class UserController {
             return ResponseEntity.badRequest().body("Email này đã tồn tại");
         }
     }
+
+
 
     @GetMapping("/updatePassword")
     public ResponseEntity<?> updateUser(@RequestParam(value = "id") int id, @RequestParam(value = "oldPassword") String oldPassword, @RequestParam(value = "newPassword") String newPassword) {
@@ -84,6 +89,35 @@ public class UserController {
         }
 
     }
+    @GetMapping("/getpassword")
+    public ResponseEntity<?> getPasswordUser(@RequestParam(value = "id") int id) {
+        String password = userService.getPassword(id);
+        if(password == null || password.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Người dùng không tồn tại");
+        } else {
+            return ResponseEntity.ok(password);
+        }
+    }
+    @GetMapping("/getUserId")
+    public ResponseEntity<?> getUserId(@RequestParam (value = "email") String email){
+        int id = userService.getIdUser(email);
+        if(id != 0){
+            return ResponseEntity.ok(id);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không thể tìm thấy id người dùng");
+    }
+    /**
+     * cap nhpa mat khau nguoi dung khi quen mạt khau
+     */
+    @PostMapping("/updateForgetPassword/{id}")
+    public ResponseEntity<?> update_forget_password(@PathVariable int id , @RequestBody String password) {
 
+             boolean result = userService.updatePassword(id, password);
+            if(result  ){
+                return ResponseEntity.ok("Mật khẩu mới đã được cập nhập");
+            }else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không thể tìm thấy id người dùng");
+            }
+    }
 
 }
