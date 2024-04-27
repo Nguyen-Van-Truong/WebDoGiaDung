@@ -8,6 +8,7 @@ import notificationReducer from "./NotificationsReducer";
 import currentPageReducer from "./CurrentPageReducer";
 import profileReducer from "../../../redux/ProfileReducer";
 import notifiCationReducer from "../../../redux/NotificationReducer";
+import forgetPasswordReducer from "../../../redux/ForgetPasswordRedux";
 
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     page : currentPageReducer,
     notifications: notificationReducer,
     profile : profileReducer,
-    notification: notifiCationReducer
+    notification: notifiCationReducer,
+    forget :forgetPasswordReducer
 });
 
 export default rootReducer;

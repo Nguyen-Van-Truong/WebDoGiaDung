@@ -1,7 +1,7 @@
 import 'select2/dist/js/select2';
 
 import React, {useState, useEffect, useRef} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
@@ -16,8 +16,10 @@ import {useDispatch, useSelector} from "react-redux";
 import { register} from "../api/Api";
 import {resetRegistrationMessage, setError} from "../redux/Action";
 import {bindActionCreators} from "redux";
+import {Cookies, useCookies} from "react-cookie";
 
 const SendOtp = () => {
+
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,6 +28,14 @@ const SendOtp = () => {
     const registerResponse = useSelector(state => state.appUser.registrationMessage);
     const errorMessage = useSelector(state => state.appUser.errorsMessage);
     const errors = useSelector(state => state.appUser.errors);
+    const isForget = useSelector(state => state.forget.isForget);
+    const  isRegister =useSelector(state => state.appUser.isRegister);
+    const location = useLocation();
+
+    const randomNum = location.state && location.state.randomNum;
+
+
+    console.log(randomNum +"num");
     const handleOtpChange = (e) => {
         setOtp(e.target.value);
     };
@@ -46,27 +56,41 @@ const SendOtp = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const code = sessionStorage.getItem('code');
-
         const username = sessionStorage.getItem('username');
         const  email = sessionStorage.getItem('email');
         const password = sessionStorage.getItem('password');
-        console.log(username);
-        console.log("code" + code);
-        if(otp === code){
-            const userData = {
-                username: username,
-                email: email,
-                password: password,
-            };
-            registerAction(userData, () => navigate('/login'));
-            dispatch(setError(''));
-        }else{
-            dispatch(setError('Mã otp không trùng khớp'));
-            dispatch(resetRegistrationMessage());
-        }
+
+
+       if(isRegister === true){
+           if(otp === randomNum.toString()){
+               const userData = {
+                   username: username,
+                   email: email,
+                   password: password,
+               };
+               registerAction(userData, () => navigate('/login'));
+               dispatch(setError(''));
+           }else{
+               dispatch(setError('Mã otp không trùng khớp'));
+               dispatch(resetRegistrationMessage());
+           }
+       }
+       if(isForget ===true){
+           if(otp === randomNum.toString()){
+               dispatch(setError(''));
+
+               navigate("/change-password")
+           }
+           else{
+               dispatch(setError('Mã otp không trùng khớp'));
+           }
+       }
+
     }
     return (
         <div>

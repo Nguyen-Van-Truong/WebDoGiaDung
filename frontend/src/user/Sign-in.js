@@ -126,7 +126,7 @@ const SignIn = () => {
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+                        <a href="/" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
@@ -149,7 +149,7 @@ const SignIn = () => {
             </div>
 
             <div className=" " style={{backgroundColor: "var(--bg-breadcum)"}}>
-                <div className="container py-20">
+                <div className="container py-10">
 
                     <div className="sign_in ">
                         <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng
@@ -201,7 +201,7 @@ const SignIn = () => {
                                                className="cursor-pointer" type="checkbox" value="yes"/>
                                         <label htmlFor="wp-comment-cookies-consent">Remember me</label>
                                     </div>
-                                    <a href="forget-password.html"
+                                    <a href="/forget-password"
                                        className="text-dark-accents text-[14px] font-medium line-height-[110%]">Quên mật
                                         khẩu</a>
                                 </div>

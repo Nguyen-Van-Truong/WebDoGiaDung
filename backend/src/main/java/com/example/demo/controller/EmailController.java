@@ -33,4 +33,36 @@ public class EmailController {
             return ResponseEntity.ok("Vui lòng nhập otp xác nhận: " );
         }
     }
+    @PostMapping("/checkEmail")
+    public ResponseEntity<?> checkEmail(@RequestBody Map<String, String> send) {
+        String email = send.get("email");
+
+        boolean emailExists = userService.checkEmail(email);
+        if (!emailExists) {
+            return ResponseEntity.badRequest().body("Email này đã tồn tại");
+        } else {
+            return ResponseEntity.ok(true);
+        }
+    }
+    @PostMapping("/checkEmailForgetPassword")
+    public ResponseEntity<?> checkEmailForgetPassword(@RequestBody Map<String, String> send) {
+        String email = send.get("email");
+
+        boolean emailExists = userService.checkEmail(email);
+        if (emailExists) {
+            return ResponseEntity.badRequest().body("Email này không tồn tại");
+        } else {
+            return ResponseEntity.ok(true);
+        }
+    }
+    @PostMapping("/sendOtpForgetPassword")
+    public ResponseEntity<String> sendOtpForgetPassword(@RequestBody Map<String, String> send) {
+        String email = send.get("email");
+        String code = send.get("code");
+        emailService.sendOtpEmail(email, code);
+        return ResponseEntity.ok("Vui lòng nhập otp xác nhận: " );
+
+    }
+
+
 }

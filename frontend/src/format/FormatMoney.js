@@ -2,10 +2,16 @@ export const formatPrice = (price) => {
     let priceStr = price.toString();
     let result = '';
 
-    if (priceStr.length <= 6 ) {
-        result = priceStr.slice(0, 1) + '.' + priceStr.slice(1)  ;
+    if (priceStr.length <= 5) {
+        result = priceStr.slice(0, 1) + '.' + priceStr.slice(1);
+    }
+    else
 
-    } else {
+            if (priceStr.length === 6) {
+                result = priceStr.slice(0, 1) + '.' + priceStr.slice(2);
+            }
+
+     else {
 
         // Lặp qua chuỗi số và chèn dấu chấm sau mỗi ba số
         while (priceStr.length > 3) {
@@ -21,7 +27,6 @@ export const formatPrice = (price) => {
 
 
     }
-
 
 
     return result;

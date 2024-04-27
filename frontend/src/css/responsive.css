@@ -38,7 +38,16 @@
     text-align: center;
     text-transform: capitalize;
   }
+  .notification-content ul {
+    min-width: 200px !important;
+    height: 200px;
 
+
+  }
+  .notification_not_userid{
+
+    margin-left: -25px;
+  }
   .error_wrapper p {
     color: var(--gray-black);
     font-weight: 700;
@@ -103,7 +112,7 @@
 
 @media (min-width: 767px) {
   .portfoliolist {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 18px;
   }
 
@@ -112,7 +121,7 @@
 
 @media (min-width: 1024px) {
   .portfoliolist {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
 
