@@ -11,7 +11,7 @@ public class AdminUserResponse {
     private String address;
     private boolean is_admin;
     private Timestamp created_at;
-
+    private int total_orders;
     public AdminUserResponse(int user_id, String email, String full_name, String address, boolean is_admin, Timestamp created_at) {
         this.user_id = user_id;
         this.email = email;
@@ -21,14 +21,24 @@ public class AdminUserResponse {
         this.created_at = created_at;
     }
 
-    public AdminUserResponse(User user) {
+    public AdminUserResponse(User user, Integer total_orders) {
         this.user_id = user.getUser_id();
         this.email = user.getEmail();
         this.full_name = user.getFull_name();
         this.address = user.getAddress();
         this.is_admin = user.isIs_admin();
         this.created_at = user.getCreated_at();
+        this.total_orders = total_orders;
     }
+
+    public int getTotal_orders() {
+        return total_orders;
+    }
+
+    public void setTotal_orders(int total_orders) {
+        this.total_orders = total_orders;
+    }
+
     public int getUser_id() {
         return user_id;
     }

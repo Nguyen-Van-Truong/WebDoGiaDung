@@ -87,5 +87,6 @@ public class ProductController {
     public List<String> getProductStatuses() {
         return productService.getAllProductStatuses();
     }
+    
 
 }
