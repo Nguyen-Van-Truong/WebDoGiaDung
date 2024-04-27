@@ -13,6 +13,7 @@ import './assets/plugin/datatables/responsive.dataTables.min.css';
 import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
 import {useDispatch, useSelector} from "react-redux";
 import {
+    fetchProductStatuses,
     setDescription, setPrice, setProductDetails,
     setProductName,
     setQuantity,
@@ -52,12 +53,20 @@ const ProductEdit = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const statuses = useSelector(state => state.productAdmin.statuses);
+    const [selectedStatus, setSelectedStatus] = useState('');
+
+    const handleStatusChange = (event) => {
+        setSelectedStatus(event.target.value);
+    };
     useEffect(() => {
         setLoading(true);
         dispatch(fetchCategories());
+        dispatch(fetchProductStatuses());
         fetchProductDetails(productId).then(productDetails => {
             dispatch(setProductDetails(productDetails));
             setBaseQuantity(productDetails.stock_quantity);//luu so luong san pham co san trong kho
+            setSelectedStatus(productDetails.status);
 
             if (productDetails.mediaUrls) {
                 const initialImages = productDetails.mediaUrls.map(url => ({
@@ -100,6 +109,7 @@ const ProductEdit = () => {
             price: newPrice ? parseFloat(newPrice) : parseFloat(price),
             stockQuantity: parseInt(totalQuantity, 10),
             categoryId: parseInt(selectedCategory, 10),
+            status: selectedStatus,
         };
 
         const formData = new FormData();
@@ -169,7 +179,6 @@ const ProductEdit = () => {
         setSelectedFiles([]);
         setFilesToDelete([]);
     };
-
 
 
     const validateForm = (productName, price, stockQuantity, selectedCategory, selectedFiles) => {
@@ -289,6 +298,27 @@ const ProductEdit = () => {
                                                     >
                                                         {buildOptions(categories)}
                                                     </select>
+                                                </div>
+                                            </div>
+
+                                            <div className="card mb-3">
+                                                <div
+                                                    className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                                                    <h6 className="m-0 fw-bold">Trạng thái hiển thị</h6>
+                                                </div>
+                                                <div className="card-body">
+                                                    {statuses.length > 0 ? statuses.map((status, index) => (
+                                                        <div className="form-check" key={index}>
+                                                            <input className="form-check-input" type="radio"
+                                                                   name="productStatus" id={`status-${index}`}
+                                                                   value={status} checked={selectedStatus === status}
+                                                                   onChange={handleStatusChange}/>
+                                                            <label className="form-check-label"
+                                                                   htmlFor={`status-${index}`}>
+                                                                {status}
+                                                            </label>
+                                                        </div>
+                                                    )) : <p>Loading statuses...</p>}
                                                 </div>
                                             </div>
 

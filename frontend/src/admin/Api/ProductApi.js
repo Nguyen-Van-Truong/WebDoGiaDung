@@ -45,3 +45,13 @@ export const updateProduct = async (productId, formData) => {
         throw error;  // Rethrow to handle in the component
     }
 };
+
+export const fetchStatusesApi = async () => {
+    try {
+        const response = await axios.get('/api/products/statuses');
+        return response.data; // Return the statuses directly
+    } catch (error) {
+        console.error('Failed to fetch statuses:', error);
+        throw error; // Rethrow the error to be handled by the caller
+    }
+};
