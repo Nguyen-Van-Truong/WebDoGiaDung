@@ -1,6 +1,5 @@
 // frontend/src/admin/redux/actions/ProductActions.js
 // Correct placement of import statements
-import {addProduct as addProductApi} from '../../Api/ProductApi';
 
 // Action type declarations
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';
@@ -24,6 +23,14 @@ export const STOCK_QUANTITY = 'STOCK_QUANTITY'
 export const SET_STOCK_QUANTITY = 'SET_STOCK_QUANTITY_PRODUCT'
 export  const  SELECTED_CATEGORY_PRODUCT ='SELECTED_CATEGORY_PRODUCT';
 export  const  SET_SELECTED_CATEGORY_PRODUCT ='SET_SELECTED_CATEGORY__PRODUCT';
+
+export const SET_PRODUCT_DETAILS = 'SET_PRODUCT_DETAILS';
+
+export const setProductDetails = (productDetails) => ({
+    type: SET_PRODUCT_DETAILS,
+    payload: productDetails
+});
+
 export const quantity = () => ({
     type: QUANTITY,
 });

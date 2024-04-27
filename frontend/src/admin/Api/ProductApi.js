@@ -22,3 +22,26 @@ export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy 
         throw error;
     }
 };
+
+export const fetchProductDetails = async (productId) => {
+    try {
+        const response = await axios.get(`/api/products/product-detail?id=${productId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch product details:', error);
+        throw error;
+    }
+};
+
+export const updateProduct = async (productId, formData) => {
+    const config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+    };
+    try {
+        const response = await axios.put(`/api/products/update/${productId}`, formData, config);
+        return response.data;  // Return data for success handling in the component
+    } catch (error) {
+        console.error('Failed to update product:', error);
+        throw error;  // Rethrow to handle in the component
+    }
+};

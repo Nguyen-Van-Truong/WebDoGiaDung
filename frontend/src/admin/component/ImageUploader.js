@@ -1,37 +1,30 @@
 import React from 'react';
 
-const ImageUploader = ({ selectedFiles, handleFileSelect, handleRemoveFile }) => {
+const ImageUploader = ({selectedFiles, handleFileSelect, handleRemoveFile, removeExistingFile}) => {
     return (
         <div>
             <label className="form-label">Tải lên hình ảnh sản phẩm</label>
             <small className="d-block text-muted mb-2">
-                Kéo và thả hoặc nhấn để chọn ảnh
+                Kéo và thả hoặc nhấp để chọn hình ảnh
             </small>
-            <input type="file" multiple accept="image/*" onChange={handleFileSelect} />
+            <input type="file" multiple accept="image/*" onChange={handleFileSelect}/>
             <div className="mt-2">
-                <p className="mb-1">Các bức ảnh đã chọn:</p>
+                <p className="mb-1">Các ảnh đã chọn:</p>
                 <div className="d-flex flex-wrap">
-                    {selectedFiles.map(({file, id}) => (
-                        <div key={id} className="m-1">
+                    {selectedFiles.map((file) => (
+                        <div key={file.id} className="image-container">
                             <img
-                                src={URL.createObjectURL(file)}
-                                alt={file.name}
-                                style={{
-                                    width: '100px',
-                                    height: '100px',
-                                    objectFit: 'cover'
-                                }}
+                                src={file.url || URL.createObjectURL(file.file)}
+                                alt="Product"
+                                style={{width: 100, height: 100, objectFit: 'cover'}}
                             />
-                            <button
-                                className="btn btn-sm btn-danger mt-1"
-                                onClick={() => handleRemoveFile(id)}
-                            >
-                                Xóa
+                            <button className="btn btn-sm btn-danger mt-1"
+                                    onClick={() => file.url ? removeExistingFile(file.id) : handleRemoveFile(file.id)}>
+                                Remove
                             </button>
                         </div>
                     ))}
                 </div>
-
             </div>
         </div>
     );
