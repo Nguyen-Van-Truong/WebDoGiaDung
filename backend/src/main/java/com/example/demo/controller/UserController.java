@@ -1,9 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AdminUserResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import until.MD5;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,4 +124,11 @@ public class UserController {
             }
     }
 
+    @GetMapping("/admin/getAllUsers")
+    public Page<AdminUserResponse> getUsers(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AdminUserResponse> userPage = userService.getAllUsers(pageable);
+        return userPage;
+    }
 }

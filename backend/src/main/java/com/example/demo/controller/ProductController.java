@@ -83,5 +83,10 @@ public class ProductController {
         return productService.products(id);
     }
 
+    @GetMapping("/statuses")
+    public List<String> getProductStatuses() {
+        return productService.getAllProductStatuses();
+    }
+    
 
 }

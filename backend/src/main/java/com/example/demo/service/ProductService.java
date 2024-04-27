@@ -39,10 +39,13 @@ public class ProductService {
     @Value("${upload.dir}")
     private String uploadDir;
 
+    @Value("${databaseName}")
+    private String databaseName;
     @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
 
     public List<ProductMediaInfo> getProducts(int count, String sortOrder) {
         Sort sort = Sort.by("created_at");
@@ -250,6 +253,7 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setStock_quantity(productDTO.getStockQuantity());
+        product.setStatus(productDTO.getStatus());
         Categories category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("Category not found"));
         product.setCategory(category);
 
@@ -288,8 +292,20 @@ public class ProductService {
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStock_quantity());
         dto.setCategoryId(product.getCategory().getCategoryId());
+        dto.setStatus(product.getStatus());
         dto.setMediaUrls(product.getMedias().stream().map(Medias::getFile_url).collect(Collectors.toList()));
         return dto;
     }
 
+    public List<String> getAllProductStatuses() {
+        String enumString = productRepository.findStatusEnumType(databaseName);
+        // Example enumString format: "enum('có sẵn','hết hàng','ngưng sản xuất','ẩn')"
+        List<String> statuses = Arrays.stream(enumString.split("'"))
+                .filter(ProductService::filterGetEnum)
+                .collect(Collectors.toList());
+        return statuses;
+    }
+    private static boolean filterGetEnum(String str) {
+        return !str.matches("enum\\(|\\)|,");
+    }
 }

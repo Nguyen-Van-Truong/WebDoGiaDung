@@ -2,6 +2,9 @@
 // Correct placement of import statements
 
 // Action type declarations
+import axios from "axios";
+import {fetchStatusesApi} from "../../Api/ProductApi";
+
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';
 export const ADD_PRODUCT_ERROR = 'ADD_PRODUCT_ERROR';
 export const SET_QUANTITY = 'SET_QUANTITY';
@@ -21,10 +24,32 @@ export const PRICE = 'PRICE';
 export const SET_PRICE = 'SET_PRICE'
 export const STOCK_QUANTITY = 'STOCK_QUANTITY'
 export const SET_STOCK_QUANTITY = 'SET_STOCK_QUANTITY_PRODUCT'
-export  const  SELECTED_CATEGORY_PRODUCT ='SELECTED_CATEGORY_PRODUCT';
-export  const  SET_SELECTED_CATEGORY_PRODUCT ='SET_SELECTED_CATEGORY__PRODUCT';
+export const SELECTED_CATEGORY_PRODUCT = 'SELECTED_CATEGORY_PRODUCT';
+export const SET_SELECTED_CATEGORY_PRODUCT = 'SET_SELECTED_CATEGORY__PRODUCT';
 
 export const SET_PRODUCT_DETAILS = 'SET_PRODUCT_DETAILS';
+
+// Action Types
+export const FETCH_PRODUCT_STATUSES_SUCCESS = 'FETCH_PRODUCT_STATUSES_SUCCESS';
+
+// Action Creators
+export const fetchProductStatusesSuccess = (statuses) => ({
+    type: FETCH_PRODUCT_STATUSES_SUCCESS,
+    payload: statuses,
+});
+
+// Thunk action to fetch statuses
+export const fetchProductStatuses = () => {
+    return async (dispatch) => {
+        try {
+            const statuses = await fetchStatusesApi(); // Using the API function from ProductApi.js
+            dispatch(fetchProductStatusesSuccess(statuses));
+        } catch (error) {
+            console.error('Failed to fetch statuses:', error);
+        }
+    };
+};
+
 
 export const setProductDetails = (productDetails) => ({
     type: SET_PRODUCT_DETAILS,
@@ -96,10 +121,10 @@ export const setStockQuantity = (stockQuantity) => ({
     type: SET_STOCK_QUANTITY,
     payload: stockQuantity
 })
-export  const selectedCategory = () =>({
- type : SELECTED_CATEGORY_PRODUCT
+export const selectedCategory = () => ({
+    type: SELECTED_CATEGORY_PRODUCT
 })
-export  const setSelectedCategory = (selectedCategory) => ({
-    type :SET_SELECTED_CATEGORY_PRODUCT,
-    payload : selectedCategory
+export const setSelectedCategory = (selectedCategory) => ({
+    type: SET_SELECTED_CATEGORY_PRODUCT,
+    payload: selectedCategory
 })

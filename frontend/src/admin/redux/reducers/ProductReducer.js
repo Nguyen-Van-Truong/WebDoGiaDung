@@ -2,7 +2,7 @@
 import {
     ADD_PRODUCT_ERROR,
     ADD_PRODUCT_SUCCESS,
-    DESCRIPTION,
+    DESCRIPTION, FETCH_PRODUCT_STATUSES_SUCCESS,
     PRICE,
     PRODUCT_NAME,
     PRODUCTS,
@@ -36,6 +36,8 @@ const initialState = {
     stockQuantity :'',
     selectedCategory :'',
     mediaUrls: [],
+    statuses: [],
+    selectedStatus: '',
 };
 
 
@@ -51,6 +53,7 @@ const productReducer = (state = initialState, action) => {
                 totalQuantity: action.payload.stock_quantity,
                 selectedCategory: action.payload.category.categoryId,
                 mediaUrls: action.payload.mediaUrls || [],
+                selectedStatus: action.payload.status,
             };
         case ADD_PRODUCT_SUCCESS:
             return {
@@ -143,7 +146,11 @@ const productReducer = (state = initialState, action) => {
                 ...state,
                 selectedCategory:  action.payload
             }
-
+        case FETCH_PRODUCT_STATUSES_SUCCESS:
+            return {
+                ...state,
+                statuses: action.payload,
+            };
         default:
             return state;
     }

@@ -203,9 +203,9 @@ const ProductList = () => {
                                                                                 onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>
                                                                         </button>
-                                                                        <button className="btn p-0" title="Xóa">
-                                                                            <i className="fa fa-trash fa-lg text-danger"></i>
-                                                                        </button>
+                                                                        {/*<button className="btn p-0" title="Xóa">*/}
+                                                                        {/*    <i className="fa fa-trash fa-lg text-danger"></i>*/}
+                                                                        {/*</button>*/}
                                                                     </div>
                                                                 </div>
                                                             </div>
