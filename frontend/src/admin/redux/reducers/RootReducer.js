@@ -9,6 +9,7 @@ import currentPageReducer from "./CurrentPageReducer";
 import profileReducer from "../../../redux/ProfileReducer";
 import notifiCationReducer from "../../../redux/NotificationReducer";
 import customerReducer from "./CustomerReducer";
+import forgetPasswordReducer from "../../../redux/ForgetPasswordRedux";
 
 
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     profile : profileReducer,
     notification: notifiCationReducer,
     customer: customerReducer,
+    forget :forgetPasswordReducer
 });
 
 export default rootReducer;

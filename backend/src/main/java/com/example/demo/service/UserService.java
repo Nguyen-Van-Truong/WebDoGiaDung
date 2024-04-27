@@ -110,4 +110,36 @@ public class UserService implements User_impl {
         int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
         return new AdminUserResponse(user, totalOrders);
     }
+    /**
+     * cap nhap mật khẩu người dùng
+     */
+    public boolean updatePassword(int id, String newPassword){
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User u = user.get();
+            u.setPassword(md5.hash(newPassword));
+            userRepository.save(u);
+            return true;
+        }else{
+            return  false;
+        }
+    }
+    /**
+     *
+     * lây mat khau nguoi dung
+     */
+    public  String getPassword(int id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            User u = user.get();
+          return u.getPassword();
+        }
+        return null;
+    }
+    /**
+     * lay id nguoi dung theo email
+     */
+    public int getIdUser(String email){
+       return  userRepository.findBy(email);
+    }
 }

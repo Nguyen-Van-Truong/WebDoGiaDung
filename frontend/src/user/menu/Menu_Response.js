@@ -1,7 +1,19 @@
-import {Link} from "react-router-dom";
-import React from "react";
+import {Link, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory, setIsMenu, setUserMin, toggleMenuOpen} from "../../redux/Action";
+import {
+    logout,
+    setCategory,
+    setEmail,
+    setIsCart,
+    setIsMenu,
+    setPassword,
+    setUserMin,
+    toggleMenuOpen
+} from "../../redux/Action";
+import {timeSince} from "../convertDateTime/Convert";
+import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
+import {getNotification, updateIsRead} from "../../api/NotificationApi";
 
 
 const Menu_Response = () => {
@@ -10,18 +22,29 @@ const Menu_Response = () => {
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
     const isMenu = useSelector((state) => state.appUser.isMenu);
     const isCategory = useSelector((state) => state.appUser.isCategory);
+    const user_id = localStorage.getItem('user_id');
+    const [webSocket, setWebSocket] = useState(null);
+    const isNotification = useSelector(state => state.notification.isNotification);
+    const navigate = useNavigate();
+    const userData = sessionStorage.getItem("userData");
+    const lisData = useSelector(state => state.notification.listNotification);
+    const notificationCount = useSelector(state => state.notification.notificationCount);
+    const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const handClickUserMin = () => {
         dispatch(setUserMin(!isUserMin))
+        dispatch(setIsNotification(false));
     }
     const handleCloseClick = () => {
         dispatch(toggleMenuOpen());
-        dispatch(setIsMenu(!isMenu));
+        dispatch(setIsMenu(false));
+        dispatch((setCategory(false)));
     };
     const handClickMenu = () => {
         dispatch(setIsMenu(!isMenu));
         dispatch(setUserMin(isUserMin));
         dispatch((setCategory(!isCategory)));
         console.log("trang thai" + !isCategory)
+
     };
     const handCategory = () => {
         dispatch(setIsMenu(!isMenu));
@@ -29,11 +52,37 @@ const Menu_Response = () => {
         console.log("trang thai 1" + !isCategory)
     };
     const clickAll = () => {
-
+        dispatch(toggleMenuOpen());
         dispatch(setIsMenu(!isMenu));
-        dispatch(setUserMin(isUserMin));
-        dispatch((setCategory(!isCategory)));
+        dispatch(setUserMin(false));
+        dispatch((setCategory(false)));
     }
+    const clickNotification = () => {
+        dispatch(setIsNotification(!isNotification));
+        dispatch(setUserMin(false));
+
+        if (user_id !== null && isNotification === false) {
+            dispatch(updateIsRead(user_id));
+        }
+    }
+    /**
+     * đăng xuất
+     */
+    const log_out = () => {
+
+        dispatch(logout());
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem('password');
+        localStorage.removeItem('user_id');
+        sessionStorage.removeItem("userData");
+        navigate('/login')
+        dispatch(setPassword(''));
+        dispatch(setEmail(''));
+        dispatch(setUserMin(!isUserMin));
+        dispatch(setIsMenu(true));
+    }
+
     return (
         <div>
             <div className={menuOpen ? 'nav-menu open' : 'nav-menu'}>
@@ -70,17 +119,55 @@ const Menu_Response = () => {
                                         className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#"
-                                   className="bg-white text-gray-black flex hover:text-[#007580] rounded-lg p-[11px]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="feather feather-bell">
-                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                                    </svg>
+                            <li className={"relative"}>
+                                <div className={" "} onClick={clickNotification}>
+                                    <a className={"bg-white text-gray-black hover:text-[#007580] rounded-lg p-[11px]"}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24"
+                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                             stroke-linejoin="round" className="feather feather-bell">
+                                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                                        </svg>
 
-                                </a>
+                                    </a>
+                                    <span id="notification-icon"
+
+                                          className=" re_p_l bg_red text-white rounded-full py-[6px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">{notificationCount}</span>
+                                    {isNotification && (
+                                        <div className="notification-content">
+                                            <ul className="py-3"
+                                                style={{display: isNotification ? 'block' : 'none'}}>
+                                                <div className="px-3_t">
+                                                    {user_id !==null &&
+                                                        <li>
+                                                            {sortList.map(notification => (
+                                                                <div>
+                                                                    <a className="notifi-ml"
+                                                                       key={notification.notification_id}>{notification.message}</a>
+                                                                    <p>{timeSince(new Date(notification.created_at))} trước</p>
+                                                                </div>
+                                                            ))}
+
+                                                        </li>
+                                                    }
+                                                    {user_id ==null &&
+                                                        <li>
+
+
+                                                                <p className="notification_not_userid">Không có thông báo nào</p>
+
+
+                                                        </li>
+                                                    }
+
+                                                </div>
+
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+
                             </li>
                             <li className="relative">
                                 <button
@@ -100,7 +187,7 @@ const Menu_Response = () => {
                                 </button>
                                 <div className="profile-content">
 
-                                    {(isUserMin &&
+                                    {userData === null &&
                                         <ul style={{display: isUserMin ? 'block' : 'none'}}>
                                             <li>
                                                 <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
@@ -108,10 +195,39 @@ const Menu_Response = () => {
                                             <li>
                                                 <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
                                             </li>
-
+                                            <li>
+                                                <Link to={"/forget-password"} onClick={clickAll}>Quên mật
+                                                    khẩu</Link>
+                                            </li>
                                         </ul>
-                                    )}
+                                    }
+                                    {userData !== null &&
+                                        <ul style={{display: isUserMin ? 'block' : 'none'}}>
 
+                                            <li>
+                                                <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
+                                                    hàng</Link>
+                                            </li>
+                                            <li>
+                                                <Link to={"/change-password"} onClick={clickAll}>Đổi mật
+                                                    khẩu</Link>
+
+                                            </li>
+                                            <li>
+                                                <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
+
+                                            </li>
+                                            <li>
+                                                <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
+                                                    khoản</Link>
+
+                                            </li>
+                                            <li>
+                                                <a onClick={log_out}>Đăng xuất</a>
+
+                                            </li>
+                                        </ul>
+                                    }
                                 </div>
                             </li>
                             <li>
@@ -168,14 +284,12 @@ const Menu_Response = () => {
                         <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
                             <ul className="flex flex-col items-center">
                                 <li className="w-full block">
-                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
+                                    <a href="/" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
                                 </li>
                                 <li className="w-full block">
-                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>
+                                    <a href="/products" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>
                                 </li>
-                                <li className="w-full block">
-                                    <a href="" className="border-b border-[#029FAE] block px-3 py-2">Sản phẩm</a>
-                                </li>
+
 
                             </ul>
                         </div>

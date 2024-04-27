@@ -669,7 +669,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
-                                            <img src={product.fileUrl}/>
+                                            <img src={product.file_url}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">

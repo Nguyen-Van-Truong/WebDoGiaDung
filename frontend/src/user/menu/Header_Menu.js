@@ -36,7 +36,6 @@ const Header_Menu = () => {
      * @type {[]|*}
      */
     const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
     const userOpen = () => {
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
@@ -87,7 +86,7 @@ const Header_Menu = () => {
         if (user_id !== null) {
             dispatch(getNotification(user_id));
         }
-        const socket = new WebSocket('ws://localhost:8080/countNotification?user_id=?');
+        const socket = new WebSocket(`ws://localhost:8080/countNotification?user_id=${user_id}`);
         socket.addEventListener('open', function (event) {
             console.log('Connected to WS Server');
             const messageInterval = setInterval(() => {
@@ -95,15 +94,13 @@ const Header_Menu = () => {
             }, 500);
 
             socket.addEventListener('close', function (event) {
-                clearInterval(messageInterval);
+
             });
         });
 
         socket.addEventListener('message', function (event) {
             dispatch(setNotificationCount(event.data));
         });
-
-
         // Handle any errors that occur.
         socket.addEventListener('error', function (error) {
             console.error('WebSocket Error: ' + error);
@@ -112,13 +109,12 @@ const Header_Menu = () => {
 
         setWebSocket(socket);
 
-
         const handleBeforeUnload = (event) => {
 
             console.log("nay la" + userData)
 
         };
-
+        sendMessage(notificationCount);
         window.addEventListener('beforeunload', handleBeforeUnload);
 
         // Cleanup function
