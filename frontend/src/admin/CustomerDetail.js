@@ -21,7 +21,7 @@ const CustomerDetail = () => {
                             <div className="border-0 mb-4">
                                 <div
                                     className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                                    <h3 className="fw-bold mb-0">Customer Detail</h3>
+                                    <h3 className="fw-bold mb-0">Chi tiết khách hàng</h3>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@ const CustomerDetail = () => {
                                         <div className="card profile-card">
                                             <div
                                                 className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                                <h6 className="mb-0 fw-bold ">Profile</h6>
+                                                <h6 className="mb-0 fw-bold ">Hồ sơ</h6>
                                             </div>
                                             <div className="card-body d-flex profile-fulldeatil flex-column">
                                                 <div className="profile-block text-center w220 mx-auto">

@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.AdminUserResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.User_impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import until.MD5;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements User_impl {
@@ -93,5 +97,15 @@ public class UserService implements User_impl {
             }
         }
         return  false;
+    }
+
+    // lay danh sach user cho admin quan ly
+    public Page<AdminUserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(this::convertToAdminUserResponse);
+    }
+
+    private AdminUserResponse convertToAdminUserResponse(User user) {
+        return new AdminUserResponse(user);
     }
 }
