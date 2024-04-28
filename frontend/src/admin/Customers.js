@@ -2,12 +2,15 @@ import React, {useEffect} from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
 import Pagination2 from "./component/Index/Pagination2"; // Updated import
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomers } from "./redux/actions/CustomerActions";
-import { setCurrentPage } from "./redux/actions/CurrentPageAction"; // Ensure this action exists
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCustomers} from "./redux/actions/CustomerActions";
+import {setCurrentPage} from "./redux/actions/CurrentPageAction";
+import {useNavigate} from "react-router-dom";
 
 const Customers = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const customers = useSelector(state => state.customer.customers);
     const currentPage = useSelector(state => state.page.currentPage);
     const totalPages = useSelector(state => state.customer.totalPages);
@@ -20,6 +23,10 @@ const Customers = () => {
         const selectedPage = data.selected;
         dispatch(setCurrentPage(selectedPage));
     };
+
+    const handleNavigateCustomerDetail = (customerId) => {
+        navigate(`/customer-detail/${customerId}`);
+    }
 
     return (
         <div id="ebazar-layout" className="theme-blue">
@@ -37,12 +44,6 @@ const Customers = () => {
                                 <div
                                     className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                                     <h3 className="fw-bold mb-0">Thông tin khách hàng</h3>
-                                    <div className="col-auto d-flex w-sm-100">
-                                        <button type="button" className="btn btn-primary btn-set-task w-sm-100"
-                                                data-bs-toggle="modal" data-bs-target="#expadd"><i
-                                            className="icofont-plus-circle me-2 fs-6"/>Add Customers
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +71,7 @@ const Customers = () => {
                                                 <tr key={customer.user_id}>
                                                     <td><strong>{customer.user_id}</strong></td>
                                                     <td>
-                                                        <a href={`customer-detail/${customer.user_id}`}>
+                                                        <a onClick={() => handleNavigateCustomerDetail(customer.user_id)}>
                                                             <span
                                                                 className="fw-bold ms-1">{customer.full_name || "Unknown"}</span>
                                                         </a>
@@ -82,7 +83,8 @@ const Customers = () => {
                                                     <td>
                                                         <div className="btn-group" role="group">
                                                             <button type="button" className="btn btn-outline-secondary"
-                                                                    data-bs-toggle="modal" data-bs-target="#expedit">
+                                                                    data-bs-toggle="modal" data-bs-target="#expedit"
+                                                                    onClick={() => handleNavigateCustomerDetail(customer.user_id)}>
                                                                 <i className="icofont-edit text-success"/>
                                                             </button>
                                                         </div>

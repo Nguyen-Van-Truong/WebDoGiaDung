@@ -100,16 +100,7 @@ public class UserService implements User_impl {
         return  false;
     }
 
-    // lay danh sach user cho admin quan ly
-    public Page<AdminUserResponse> getAllUsers(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
-        return users.map(this::convertToAdminUserResponse);
-    }
 
-    private AdminUserResponse convertToAdminUserResponse(User user) {
-        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
-        return new AdminUserResponse(user, totalOrders);
-    }
     /**
      * cap nhap mật khẩu người dùng
      */
@@ -141,5 +132,26 @@ public class UserService implements User_impl {
      */
     public int getIdUser(String email){
        return  userRepository.findBy(email);
+    }
+
+    // lay danh sach user cho admin quan ly
+    public Page<AdminUserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(this::convertToAdminUserResponse);
+    }
+
+    private AdminUserResponse convertToAdminUserResponse(User user) {
+        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
+        return new AdminUserResponse(user, totalOrders);
+    }
+
+    // lay ra thong tin chi tiet cua 1 tai khoan
+    public AdminUserResponse getUser(int id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
+        return new AdminUserResponse(user, totalOrders);
     }
 }
