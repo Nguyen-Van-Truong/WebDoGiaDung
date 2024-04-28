@@ -31,7 +31,7 @@ const  Products = () => {
     const dispatch = useDispatch();
 
 
-    const categories = useSelector(state => state.category.categories);
+
     const products = useSelector(state => state.productAdmin.products);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const currentPage = useSelector(state => state.page.currentPage);

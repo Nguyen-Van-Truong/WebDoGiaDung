@@ -18,14 +18,21 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useSelector} from "react-redux";
+import {formatPrice} from "../format/FormatMoney";
+import ReactQuill from "react-quill";
 
 const Product_details = () => {
-    const containerRef = useRef(null);
+
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const [count, setCount] = useState(1);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-;
-    const [isMenu, setIsMenu] = useState(false);
+
+    const productDetails = useSelector(state => state.details.array_product_details);
+
+    /**
+     * lấy img  đầu tiên
+     */
+    const firstImageUrl = productDetails.mediaUrls[0];
 
 
     const handleMinusClick = () => {
@@ -36,15 +43,10 @@ const Product_details = () => {
     const handlePlusClick = () => {
         setCount(count + 1);
     };
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
 
 
     useEffect(() => {
 
-        // Initialize mixitup
 
         const handleScroll = () => {
             const scroll = window.scrollY;
@@ -60,8 +62,6 @@ const Product_details = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-
-
 
 
     }, []);
@@ -108,8 +108,11 @@ const Product_details = () => {
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
+
                         <span
-                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Isolate Sofa Chair</span>
+                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block product_details_name mt_8"> {productDetails.product_name}</span>
+
+
                     </div>
 
                     <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Chi tiết sản
@@ -126,101 +129,29 @@ const Product_details = () => {
                                 <div className="swiper-container gallery-main">
                                     <div className="swiper-wrapper">
                                         <div className="swiper-slide">
-                                            <img src={product1} alt="Slide 01"/>
+
+                                            {firstImageUrl &&
+                                                <img src={firstImageUrl} alt={productDetails.product_name}/>}
                                         </div>
-                                        <div className="swiper-slide">
-                                            <img src={product2} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product3} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={f_product_4} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product2} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product3} alt="Slide 01"/>
-                                        </div>
+
                                     </div>
                                 </div>
 
                             </div>
                             <div className="single-product-desc">
-                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Product Descriptions</h2>
-                                <p className="text-[#636270] text-base mb-3">Super Stretchy form fit fabric: This super
-                                    stretchable sofa slipcover will ensure your three-seater sofa is completely covered.
-                                    Our slipcovers are designed and ready-made to fit a variety of sofa sizes, stretches
-                                    to 66” with seat width up to 90”</p>
-
-                                <p className="text-[#636270] text-base mb-3">Transform your old sofa or protect your new
-                                    one: PureFit sofa furniture protectors not only protects your sofa furniture daily
-                                    wears and tears, kids, scratches from pets, dogs or accidental spills, it also
-                                    transforms an old, worn out couch into the stunning centerpiece of your room</p>
-
-                                <p className="text-[#636270] text-base mb-3">The sofa cover that stays in place:
-                                    Featuring non skid elastic bottom and premium non slip foam anchors, our sofa
-                                    furniture slipcovers are among the only ones in the market to guarantee they will
-                                    stay tight with no snag, no wrinkling, shifting or slipping even after sitting or
-                                    taking a nap on it</p>
-
-                                <p className="text-[#636270] text-base mb-3">Easy to install/put on: You'll be done in
-                                    no time! Just slip it on, Tuck any extra fabric and insert the non slip foam anchors
-                                    into the gap/crease between the back and sitting cushions for a seamless look and
-                                    VOILA! Use our picture guidelines to ensure a good fit (Installation Instructions
-                                    Included)</p>
-
-                                <p className="text-[#636270] text-base">Easy care & 6 month warranty: Machine Washable
-                                    Slipcover, wash at or below 30 degrees Celsius, do not bleach, do not iron. We stand
-                                    behind all of our high quality products so we offer a 6 months No Question Asked on
-                                    all our sofa covers. Please contact us (through Amazon if past the standard return
-                                    window) and we will be pleased to assist you.</p>
+                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Chi tiết sản phẩm</h2>
+                                <ReactQuill readOnly={true}  className="text-[#636270] text-base mb-3 NoBorderQuill"  value={productDetails.description} />
                             </div>
                         </div>
                         <div className="right-side xl:px-8 px-0_t xl:w-5/12 w-full">
-                            <h2 className="text-[#272343] pro-title font-semibold mb-3 capitalize">isolate sofa
-                                Chair</h2>
+                            <h2 className="text-[#272343] pro-title font-semibold mb-3 capitalize">{productDetails.product_name}</h2>
                             <div className="flex items-center gap-2.5 mb-6">
                                 <p className="flex gap-1.5 items-center">
-                                    <span className="text-[#272343] text-2xl">$250</span>
-                                    <span className="text-[#272343] opacity-30 text-xl line-through">$500</span>
-                                </p>
-                                <span
-                                    className="bg-[#F5813F] px-2.5 py-1.5 rounded-[4px] text-white text-sm">50% Off</span>
-                            </div>
-                            <p className="text-[#636270] text-base mb-6">
-                                As you run your fingers across the surface of this golden oak colored vanity set, you’ll
-                                understand why it stands out from the rest; from the table to the legs.
-                            </p>
+                                    <span
+                                        className="text-[#272343] text-2xl">{formatPrice(productDetails.price)} VNĐ</span>
 
-                            <div className="mb-6">
-                                <ul className="p-0 m-0">
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Material:</span><span
-                                            className="text-[#636270] font-medium">Polyester, Fabric</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Brand:</span><span
-                                            className="text-[#636270] font-medium">Purefit</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Category:</span><span
-                                            className="text-[#636270] font-medium">Wing Chair</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Tag:</span><span
-                                            className="text-[#636270] font-medium">minimalistic, Sofa, Living room</span>
-                                        </p>
-                                    </li>
-                                </ul>
+                                </p>
+
                             </div>
                             <div className="flex flex-wrap-tw lg:flex-nowrap items-center gap-3 mb-6">
                                 <div
@@ -279,42 +210,11 @@ const Product_details = () => {
                                 </div>
                             </div>
 
-                            <div className="single-product-desc2">
-                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Product Descriptions</h2>
-                                <p className="text-[#636270] text-base mb-3">Super Stretchy form fit fabric: This super
-                                    stretchable sofa slipcover will ensure your three-seater sofa is completely covered.
-                                    Our slipcovers are designed and ready-made to fit a variety of sofa sizes, stretches
-                                    to 66” with seat width up to 90”</p>
 
-                                <p className="text-[#636270] text-base mb-3">Transform your old sofa or protect your new
-                                    one: PureFit sofa furniture protectors not only protects your sofa furniture daily
-                                    wears and tears, kids, scratches from pets, dogs or accidental spills, it also
-                                    transforms an old, worn out couch into the stunning centerpiece of your room</p>
-
-                                <p className="text-[#636270] text-base mb-3">The sofa cover that stays in place:
-                                    Featuring non skid elastic bottom and premium non slip foam anchors, our sofa
-                                    furniture slipcovers are among the only ones in the market to guarantee they will
-                                    stay tight with no snag, no wrinkling, shifting or slipping even after sitting or
-                                    taking a nap on it</p>
-
-                                <p className="text-[#636270] text-base mb-3">Easy to install/put on: You'll be done in
-                                    no time! Just slip it on, Tuck any extra fabric and insert the non slip foam anchors
-                                    into the gap/crease between the back and sitting cushions for a seamless look and
-                                    VOILA! Use our picture guidelines to ensure a good fit (Installation Instructions
-                                    Included)</p>
-
-                                <p className="text-[#636270] text-base">Easy care & 6 month warranty: Machine Washable
-                                    Slipcover, wash at or below 30 degrees Celsius, do not bleach, do not iron. We stand
-                                    behind all of our high quality products so we offer a 6 months No Question Asked on
-                                    all our sofa covers. Please contact us (through Amazon if past the standard return
-                                    window) and we will be pleased to assist you.</p>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
 
 
             {/*footer*/}
