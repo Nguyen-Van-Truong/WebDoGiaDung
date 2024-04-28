@@ -1,8 +1,15 @@
 import axios from 'axios';
+
 export const FETCH_CUSTOMERS_SUCCESS = 'FETCH_CUSTOMERS_SUCCESS';
+export const FETCH_DETAIL_CUSTOMER_SUCCESS = 'FETCH_DETAIL_CUSTOMER_SUCCESS';
 
 const fetchCustomersSuccess = (data) => ({
     type: FETCH_CUSTOMERS_SUCCESS,
+    payload: data
+});
+
+const fetchDetailCustomerSuccess = (data) => ({
+    type: FETCH_DETAIL_CUSTOMER_SUCCESS,
     payload: data
 });
 
@@ -19,5 +26,23 @@ export const fetchCustomers = (page, size) => {
             });
     };
 
-
 };
+
+export const fetchDetailCustomer = (userId) => {
+    return (dispatch) => {
+        axios.get(`/api/users/admin/getUser/${userId}`)
+            .then(response => {
+                // console.log('API Response:', response);
+                if (response.data) {
+                    dispatch(fetchDetailCustomerSuccess(response.data));
+                } else {
+                    console.log('No data received:', response);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching detail customer:', error);
+                console.log('Error details:', error.response ? error.response : error);
+            });
+
+    };
+}

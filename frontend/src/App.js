@@ -28,18 +28,14 @@ import AdminProfile from "./admin/AdminProfile";
 import SendOtp from "./user/SendOtp";
 
 
-
-
-
-
 const App = () => {
 
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<SignIn />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<SignIn/>}/>
+                <Route path="/register" element={<Register/>}/>
                 <Route path="/products" element={<Products/>}/>
                 <Route path="/product-detail" element={<Product_details/>}/>
                 <Route path="/cart" element={<Cart/>}/>
@@ -49,21 +45,20 @@ const App = () => {
                 <Route path="/account-setting" element={<Information_Profile/>}/>
                 <Route path="/order-details" element={<Order_Details/>}/>
                 <Route path="/checkout-shopping" element={<Checkout_Shopping/>}/>
-                <Route path="/index-admin" element={<Index />} />
-                <Route path="/product-list" element={<ProductList />} />
-                <Route path="/product-edit/:productId" element={<ProductEdit />} />
-                <Route path="/product-add" element={<ProductAdd />} />
-                <Route path="/order-list" element={<OrderList />} />
-                <Route path="/order-invoices" element={<OrderInvoices />} />
-                <Route path="/order-details-admin" element={<OrderDetails />} />
-                <Route path="/customers" element={<Customers />} />
-                <Route path="/customer-detail" element={<CustomerDetail />} />
-                <Route path="/coupons-list" element={<CouponsList />} />
-                <Route path="/coupon-add" element={<CouponAdd />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/admin-profile" element={<AdminProfile />} />
-                 <Route  path="/send-otp" element={<SendOtp/>}/>
-
+                <Route path="/index-admin" element={<Index/>}/>
+                <Route path="/product-list" element={<ProductList/>}/>
+                <Route path="/product-edit/:productId" element={<ProductEdit/>}/>
+                <Route path="/product-add" element={<ProductAdd/>}/>
+                <Route path="/order-list" element={<OrderList/>}/>
+                <Route path="/order-invoices" element={<OrderInvoices/>}/>
+                <Route path="/order-details-admin" element={<OrderDetails/>}/>
+                <Route path="/customers" element={<Customers/>}/>
+                <Route path="/customer-detail/:customerId" element={<CustomerDetail />} />
+                <Route path="/coupons-list" element={<CouponsList/>}/>
+                <Route path="/coupon-add" element={<CouponAdd/>}/>
+                <Route path="/chat" element={<Chat/>}/>
+                <Route path="/admin-profile" element={<AdminProfile/>}/>
+                <Route path="/send-otp" element={<SendOtp/>}/>
 
 
             </Routes>
