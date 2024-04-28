@@ -108,7 +108,7 @@ const initialState = {
       case  IS_TOP_SELLING :
         return {
           ...state ,
-          isTopSelling: !state.isTopSelling
+          isTopSelling: true
         }
       case SET_TOP_SELLING :
         return {
@@ -118,7 +118,7 @@ const initialState = {
       case IS_ALL :
         return  {
           ...state,
-          isAll: !state.isAll
+          isAll: false
         }
 
       case SET_ALL:

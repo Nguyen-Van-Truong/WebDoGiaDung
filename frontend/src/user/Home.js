@@ -26,7 +26,7 @@ import {
     fetchProducts,
     fetchProductsDebounced,
     otp,
-    product_details,
+
     products_new, productsNewsDebounced, throttledFetchProducts, throttledProductsNew, throttledTop_selling,
     top_selling,
     top_sellingDebounced
@@ -36,6 +36,10 @@ import {setTabAll, setTabNewProducts, setTabTopSelling, tabAll, tabNewProducts, 
 import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {useNavigate} from "react-router-dom";
+import {product_details} from "../api/Product_Details_Api";
+
+
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -51,6 +55,7 @@ const Home = () => {
     const products_new_array = useSelector((state) => state.appUser.products_new);
     const navigate = useNavigate();
     const {productDetailsAction} = bindActionCreators({productDetailsAction: product_details}, dispatch);
+
     const handClickTopSelling = () => {
         dispatch(tabTopSelling());
         dispatch(setTabAll(false));
@@ -71,6 +76,7 @@ const Home = () => {
     };
     const handleProductDetail = (id) => {
         productDetailsAction(id, () => navigate(`/product-detail?id=${id}`));
+
     };
     const throttledFetch = useCallback(() => {
         throttledFetchProducts(dispatch);
