@@ -60,6 +60,15 @@ public class User {
 		this.created_at = created_at;
 	}
 
+	public User(int user_id, String email, String full_name, String address, boolean is_admin, Timestamp created_at) {
+		this.user_id = user_id;
+		this.email = email;
+		this.full_name = full_name;
+		this.address = address;
+		this.is_admin = is_admin;
+		this.created_at = created_at;
+	}
+
 	public int getUser_id() {
 		return user_id;
 	}

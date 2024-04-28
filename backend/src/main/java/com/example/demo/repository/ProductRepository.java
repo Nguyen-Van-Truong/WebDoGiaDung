@@ -28,7 +28,7 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             + "GROUP BY p.product_id ORDER BY SUM(od.quantity) DESC")
     List<Products> findTopSellingProducts(Pageable pageable);
 
-    @Query("SELECT p FROM Products p JOIN Medias od ON p.product_id = od.products.product_id " +"where p.product_id = :product_id")
+    @Query("SELECT p FROM Products p JOIN Medias od ON p.product_id = od.products.product_id " + "where p.product_id = :product_id")
     Products details_products(@Param("product_id") int id);
 
     @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id,p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
@@ -44,5 +44,12 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             + "FROM Products p JOIN p.medias m WHERE p.product_name LIKE CONCAT('%',:productName, '%')"
             + "GROUP BY p.product_id")
     List<ProductMediaInfo> searchProduct(@Param("productName") String productName);
+
+    @Query(value = "SELECT DISTINCT COLUMN_TYPE " +
+            "FROM information_schema.COLUMNS " +
+            "WHERE TABLE_SCHEMA = :databaseName " +
+            "AND TABLE_NAME = 'products' " +
+            "AND COLUMN_NAME = 'status';", nativeQuery = true)
+    String findStatusEnumType(@Param("databaseName") String databaseName);
 
 }

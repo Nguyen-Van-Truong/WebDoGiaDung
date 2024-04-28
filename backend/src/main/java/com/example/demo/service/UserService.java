@@ -1,10 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.AdminUserResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
+import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.User_impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import until.MD5;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +17,18 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements User_impl {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private MD5 md5 = new MD5();
-
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
-
+        this.orderRepository = orderRepository;
     }
 
     // tim kiem dang nhap user theo email và mât khẩu
@@ -94,6 +99,8 @@ public class UserService implements User_impl {
         }
         return  false;
     }
+
+
     /**
      * cap nhap mật khẩu người dùng
      */
@@ -125,5 +132,26 @@ public class UserService implements User_impl {
      */
     public int getIdUser(String email){
        return  userRepository.findBy(email);
+    }
+
+    // lay danh sach user cho admin quan ly
+    public Page<AdminUserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(this::convertToAdminUserResponse);
+    }
+
+    private AdminUserResponse convertToAdminUserResponse(User user) {
+        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
+        return new AdminUserResponse(user, totalOrders);
+    }
+
+    // lay ra thong tin chi tiet cua 1 tai khoan
+    public AdminUserResponse getUser(int id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
+        return new AdminUserResponse(user, totalOrders);
     }
 }

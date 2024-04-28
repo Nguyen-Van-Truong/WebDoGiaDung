@@ -10,10 +10,19 @@ public class ProductDTO {
     private BigDecimal price;
     private int stockQuantity;
     private int categoryId;
+    private String status;
     private List<String> mediaUrls;
 
 
     public ProductDTO() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<String> getMediaUrls() {

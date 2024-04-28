@@ -34,6 +34,8 @@ public class Products {
     private BigDecimal price;
     @Column(name = "stock_quantity")
     private int stock_quantity;
+    @Column(name = "status", columnDefinition = "ENUM('có sẵn', 'hết hàng', 'ngưng sản xuất', 'ẩn')")
+    private String status;
 
     @Column(name = "created_at")
     private Timestamp created_at;
@@ -87,6 +89,14 @@ public class Products {
 
     public void setStock_quantity(int stock_quantity) {
         this.stock_quantity = stock_quantity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Timestamp getCreated_at() {
