@@ -23,18 +23,13 @@ import {formatPrice} from "../format/FormatMoney";
 import ReactQuill from "react-quill";
 
 const Product_details = () => {
-
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const [count, setCount] = useState(1);
-
     const productDetails = useSelector(state => state.details.array_product_details);
-
     /**
      * lấy img  đầu tiên
      */
     const firstImageUrl = productDetails.mediaUrls[0];
-
-
     const handleMinusClick = () => {
         const newCount = count - 1 < 1 ? 1 : count - 1;
         setCount(newCount);
@@ -91,8 +86,6 @@ const Product_details = () => {
                 {/*menu response*/}
                 <Menu_Response/>
             </header>
-
-
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="flex items-center gap-1 py-[1.5px]">
@@ -111,15 +104,12 @@ const Product_details = () => {
 
                         <span
                             className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block product_details_name mt_8"> {productDetails.product_name}</span>
-
-
                     </div>
-
                     <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Chi tiết sản
                         phẩm</h2>
                 </div>
             </div>
-
+ {/*thông tin sản phẩm*/}
             <div className="" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="product-details-wrap pt-10">
@@ -215,8 +205,6 @@ const Product_details = () => {
                     </div>
                 </div>
             </div>
-
-
             {/*footer*/}
             <Footer/>
             <MiniChat/>

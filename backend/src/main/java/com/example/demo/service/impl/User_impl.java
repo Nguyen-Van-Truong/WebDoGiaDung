@@ -18,7 +18,7 @@ public interface User_impl {
 	 * kiêm tra password
 	 * 
 	 * @param email
-	 * @param password
+	 *
 	 * @return
 	 */
 	public boolean CheckPassWordUser(String email, String newPassword);

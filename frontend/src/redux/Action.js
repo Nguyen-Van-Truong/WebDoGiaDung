@@ -121,7 +121,7 @@ export const toggleMenuOpen = () => ({
 export const toggleUserMin = () => ({
     type : TOOGLE_USER_MIN
 })
-export const toggleCatogory =() => ({
+export const toggleCategory =() => ({
     type : TOOGLE_CATEGORY
 })
 export const toggleIsMenu =() => ({

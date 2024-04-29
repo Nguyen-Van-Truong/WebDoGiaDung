@@ -585,6 +585,21 @@ a {
     position: relative;
 }
 
+
+.cart-summary {
+    position: absolute;
+    right: 17px;
+    background: #fff;
+    z-index: 9999;
+    /* bottom: 6px; */
+    top: 169px;
+    width: 383px;
+}
+.p_10{
+    padding: 10px;
+}
+
+
 .seach-content {
     position: relative;
 }
@@ -662,22 +677,28 @@ a {
 
 }
 .cart-content ul {
-position: absolute;
-right: 0px;
-top: 14px;
-display: none;
-list-style: none;
-min-width: 400px;
-background: white;
-z-index: 9999;
-border-radius: 8px;
-box-shadow: 0px 0px 30px rgba(39, 35, 67, 0.12);
-webkit-transition: all 0.3s ease-out 0s;
--moz-transition: all 0.3s ease-out 0s;
--ms-transition: all 0.3s ease-out 0s;
--o-transition: all 0.3s ease-out 0s;
-transition: all 0.3s ease-out 0s;
+    position: absolute;
+    right: 0px;
+    top: 14px;
+    display: none;
+    list-style: none;
+    min-width: 400px;
+    max-height: 220px; /* Adjust this value as needed */
+    background: white;
+    z-index: 9999;
+    border-radius: 8px;
+    box-shadow: 0px 0px 30px rgba(39, 35, 67, 0.12);
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    -ms-transition: all 0.3s ease-out 0s;
+    -o-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+    overflow-y: auto; /* Enables vertical scrollbar when content overflows */
 }
+.m_l9{
+    margin-left: 9px;
+}
+
 .notification-content ul li a{
 padding: 12px 16px;
 width: 100%;
@@ -1595,7 +1616,7 @@ tbody tr {
 }
 
 .pro-title {
-    font-size: 40px;
+    font-size: 24px;
 }
 
 @media (max-width: 767px) {
