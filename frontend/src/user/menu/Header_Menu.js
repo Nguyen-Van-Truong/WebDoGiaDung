@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,6 +14,7 @@ import {
 import {getNotification, updateIsRead} from "../../api/NotificationApi";
 import {timeSince} from '../convertDateTime/Convert'
 import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
+import {getListCart} from "../../api/CartApi";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -25,11 +26,20 @@ const Header_Menu = () => {
     const [webSocket, setWebSocket] = useState(null);
     const isCategory = useSelector((state) => state.appUser.isCategory);
     const isNotification = useSelector(state => state.notification.isNotification);
-    const user_id = localStorage.getItem('user_id');
+
     const navigate = useNavigate();
-    const userData = sessionStorage.getItem("userData");
+    const userData = useSelector(state => state.appUser.userData);
     const lisData = useSelector(state => state.notification.listNotification);
     const notificationCount = useSelector(state => state.notification.notificationCount);
+    const  cartList = useSelector(state => state.cart.ListCart);
+    /**
+     * lay id nguoi dung
+     */
+    const  user_id =useSelector(state => state.appUser.user_id);
+    /**
+     * lay trang thai
+     */
+    const  isStatus =useSelector(state => state.appUser.isStatus);
     /**
      *
      * sap xep theo thoi gian giam dan
@@ -46,6 +56,7 @@ const Header_Menu = () => {
         dispatch(setIsMenu(false));
         dispatch(setIsCart(false));
     }
+
     const clickNotification = () => {
         dispatch(setIsNotification(!isNotification));
         dispatch(setIsMenu(false));
@@ -60,7 +71,7 @@ const Header_Menu = () => {
     }
     const handleMenuClick = () => {
         dispatch(toggleMenuOpen());
-        dispatch(setIsMenu(!isMenu));
+        dispatch(setIsMenu(true));
         dispatch(setUserMin(isUserMin));
         dispatch(setCategory(isCategory));
     };
@@ -73,9 +84,6 @@ const Header_Menu = () => {
         dispatch(logout());
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("username");
-        sessionStorage.removeItem('password');
-        localStorage.removeItem('user_id');
-        sessionStorage.removeItem("userData");
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));
@@ -83,6 +91,9 @@ const Header_Menu = () => {
 
 
     useEffect(() => {
+        if(isStatus== true){
+            dispatch(getListCart(user_id));
+        }
         if (user_id !== null) {
             dispatch(getNotification(user_id));
         }
@@ -120,12 +131,12 @@ const Header_Menu = () => {
         // Cleanup function
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
-            socket.close();
+
         };
 
     }, [notificationCount]);
     const sendMessage = (message) => {
-        if (webSocket) {
+        if (webSocket && webSocket.readyState === WebSocket.OPEN) {
             webSocket.send(message);
         }
     };
@@ -198,90 +209,65 @@ const Header_Menu = () => {
                                     <span
                                         className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
                                 </a>
+                                {isCart && isStatus ===true &&
                                 <div className="cart-content">
-                                    {isCart && (
+
                                         <ul className="p-6-t"
                                             style={{display: isCart ? 'block' : 'none'}}>
-
+                                            {cartList.map((cart) => (
                                             <li className="pb-4">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-1">
                                                         <div>
-                                                            <img src={cart1} alt=""/>
+                                                            <img src={cart.url} alt=""/>
                                                         </div>
                                                         <div className="px-2-t">
-                                                            <h2 style={{fontSize: "19px"}}
+                                                            <h5 style={{fontSize: "15px"}}
                                                                 className="text-gray-black ">
-                                                                <span>Isolate Sofa Chair</span>
-                                                                <span className="text-[#636270]">x5</span>
-                                                            </h2>
-                                                            <p className="text-gray-black font-semibold mb-0">$150.00</p>
+                                                                <span>{cart.name}</span>
+                                                                <span className="text-[#636270]">x {cart.quantity}</span>
+                                                            </h5>
+                                                            <p className="text-gray-black font-semibold mb-0">{cart.price} VNĐ</p>
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <button
-                                                            className="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
-                                                            <svg width="28" height="28" viewBox="0 0 28 28"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M10 10L14 14M14 14L18 10M14 14L10 18M14 14L18 18"
-                                                                    stroke="currentColor" stroke-width="1.5"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"/>
-                                                            </svg>
-                                                        </button>
+                                                        <button type="button m_l9"
+                                                                className="btn btn-outline-secondary deleterow"><i
+                                                            className="icofont-ui-delete text-danger"/></button>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className="py-4">
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-1">
-                                                        <div>
-                                                            <img src={cart1} alt=""/>
-                                                        </div>
-                                                        <div className="px-2-t">
-                                                            <h2 style={{fontSize: "19px"}}
-                                                                className="text-gray-black ">
-                                                                <span>Isolate Sofa Chair</span>
-                                                                <span className="text-[#636270]">x5</span>
-                                                            </h2>
-                                                            <p className="text-gray-black font-semibold mb-0">$150.00</p>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <button
-                                                            className="hover:bg-[#F0F2F3] bg-transparent p-2 hover:text-gray-black rounded-full text-[#9A9CAA] transition-all duration-500">
-                                                            <svg width="28" height="28" viewBox="0 0 28 28"
-                                                                 fill="none"
-                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M10 10L14 14M14 14L18 10M14 14L10 18M14 14L18 18"
-                                                                    stroke="currentColor" stroke-width="1.5"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"/>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <div className="flex justify-between items-center py-2 mb-4">
-                                                <p className="text-[#636270] text-lg">2 Products</p>
-                                                <p className="text-gray-black text-xl font-medium">$250.00</p>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <a href="shopping-cart.html" className="btn-transparent">View
-                                                    Cart</a>
-                                                <Link className="btn-primary" to={"/checkout-shopping"}
-                                                      onClick={clickAll}>Thanh
-                                                    toán</Link>
-
-                                            </div>
-
+                                            ))}
                                         </ul>
-                                    )}
+
+                                    <div className={"cart-summary"}>
+
+                                        <div className="flex justify-between items-center p_10">
+                                            <a href="/cart" className="btn-transparent">Xem giỏ hàng</a>
+                                            <Link className="btn-primary" to={"/checkout-shopping"}
+                                                  onClick={clickAll}>Thanh
+                                                toán</Link>
+
+                                        </div>
+                                    </div>
+
 
                                 </div>
+                                }
+                                {isCart && isStatus === false &&
+                                    <div className="cart-content">
+                                    <ul className="p-6-t"
+                                        style={{display: isCart ? 'block' : 'none'}}>
+
+                                        <li className="pb-4 ">
+                                            <img className={"img_product"} src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f4.png" alt=""/>
+                                            <p className={"text-center"}>Chưa có sản phẩm nào</p>
+                                        </li>
+
+
+                                    </ul>
+                                    </div>
+                                }
                             </li>
                             <li className={"relative"}>
                                 <div className={" "} onClick={clickNotification}>
@@ -315,7 +301,7 @@ const Header_Menu = () => {
 
                                                         </li>
                                                     }
-                                                    {user_id ==null &&
+                                                    {user_id === 0 &&
                                                         <li>
 
                                                             <div>

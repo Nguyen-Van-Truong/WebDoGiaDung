@@ -22,11 +22,11 @@ const Menu_Response = () => {
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
     const isMenu = useSelector((state) => state.appUser.isMenu);
     const isCategory = useSelector((state) => state.appUser.isCategory);
-    const user_id = localStorage.getItem('user_id');
+    const  user_id =useSelector(state => state.appUser.user_id);
     const [webSocket, setWebSocket] = useState(null);
     const isNotification = useSelector(state => state.notification.isNotification);
     const navigate = useNavigate();
-    const userData = sessionStorage.getItem("userData");
+    const userData = useSelector(state => state.appUser.userData);
     const lisData = useSelector(state => state.notification.listNotification);
     const notificationCount = useSelector(state => state.notification.notificationCount);
     const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -36,26 +36,25 @@ const Menu_Response = () => {
     }
     const handleCloseClick = () => {
         dispatch(toggleMenuOpen());
-        dispatch(setIsMenu(false));
+        dispatch(setIsMenu(true));
         dispatch((setCategory(false)));
     };
     const handClickMenu = () => {
-        dispatch(setIsMenu(!isMenu));
+        dispatch(setIsMenu(true));
         dispatch(setUserMin(isUserMin));
-        dispatch((setCategory(!isCategory)));
+        dispatch((setCategory(false)));
         console.log("trang thai" + !isCategory)
 
     };
     const handCategory = () => {
-        dispatch(setIsMenu(!isMenu));
-        dispatch((setCategory(!isCategory)));
+        dispatch(setIsMenu(false));
+        dispatch((setCategory(true)));
         console.log("trang thai 1" + !isCategory)
     };
     const clickAll = () => {
         dispatch(toggleMenuOpen());
-        dispatch(setIsMenu(!isMenu));
-        dispatch(setUserMin(false));
-        dispatch((setCategory(false)));
+        dispatch(setIsMenu(false));
+
     }
     const clickNotification = () => {
         dispatch(setIsNotification(!isNotification));
@@ -73,9 +72,6 @@ const Menu_Response = () => {
         dispatch(logout());
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("username");
-        sessionStorage.removeItem('password');
-        localStorage.removeItem('user_id');
-        sessionStorage.removeItem("userData");
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));

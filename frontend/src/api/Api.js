@@ -175,8 +175,7 @@ export const login = (email, password) => {
             const response = await axios.post('/api/users/login', {email, password});
             const data = response.data;
             dispatch({type: 'LOGIN_SUCCESS', payload: data});
-            const is_admin = response.data.is_admin;
-            console.log(is_admin);
+
 
         } catch (error) {
             const errorMessage = error.response.data;

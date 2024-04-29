@@ -23,13 +23,14 @@ const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const dispatch = useDispatch();
     const email = sessionStorage.getItem('email');
-    const password =sessionStorage.getItem('password');
-    const user_id = localStorage.getItem('user_id');
+    const password =useSelector(state => state.appUser.password);
+    const  user_id =useSelector(state => state.appUser.user_id);
     const newPassword = useSelector(state => state.profile.newPassword);
     const confirmPassword = useSelector(state => state.profile.confirmPassword);
     const errors = useSelector(state => state.profile.error);
     const success = useSelector(state => state.profile.success);
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [isConfirmPassWord, setConfirmPass] = useState(false);
 
     /**
      * phuong thuc thay doi newpass va confirm pass khi nhap
@@ -40,6 +41,9 @@ const Information_Profile = () => {
     const handConfirmPassword = (e) => {
         dispatch(setConfirmPassword(e.target.value));
     }
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     const handClick = async (event) => {
         event.preventDefault();
         if (newPassword !== confirmPassword) {
@@ -166,13 +170,13 @@ const Information_Profile = () => {
                                                         {success && <div className="alert alert-success p-lg-1">{success }</div>}
                                                         {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
                                                         <div className="relative">
-                                                            <input type="password" value={password}
+                                                            <input type={showPassword ? "text" : "password"} value={password}
                                                                    className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
                                                                    name="password"/>
                                                             <span
                                                                 className="absolute top-[17px] right-5 cursor-pointer ">
 
-                                                <svg id="current-icon-show" onClick="currentPasswordIcon()" width="24"
+                                                <svg id="current-icon-show" onClick={togglePasswordVisibility}  width="24"
                                                      height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ProductRepository extends JpaRepository<Products, Integer> {
@@ -52,4 +53,6 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             "AND COLUMN_NAME = 'status';", nativeQuery = true)
     String findStatusEnumType(@Param("databaseName") String databaseName);
 
+
+    Optional<Products> findById(int id);
 }

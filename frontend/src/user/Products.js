@@ -3,7 +3,7 @@ import Swiper from "swiper";
 import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
@@ -24,22 +24,28 @@ import {fetchProducts} from "../admin/Api/ProductApi";
 import {setProducts} from "../admin/redux/actions/ProductActions";
 import {setCurrentPage, setPageCount} from "../admin/redux/actions/CurrentPageAction";
 import {formatPrice} from "../format/FormatMoney";
+import {bindActionCreators} from "redux";
+import {product_details} from "../api/Product_Details_Api";
 
 const  Products = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
     const dispatch = useDispatch();
-
-
-
     const products = useSelector(state => state.productAdmin.products);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const currentPage = useSelector(state => state.page.currentPage);
     const pageCount = useSelector(state => state.page.pageCount);
     const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
-    const  sortBy = useSelector(state => state.productAdmin.sortBy)
+    const  sortBy = useSelector(state => state.productAdmin.sortBy);
+    const navigate = useNavigate();
     const handlePageClick = (data) => {
         dispatch(setCurrentPage(data.selected));
+    };
+
+    const {productDetailsAction} = bindActionCreators({productDetailsAction: product_details}, dispatch);
+    const handleProductDetail = (id) => {
+        productDetailsAction(id, () => navigate(`/product-detail?id=${id}`));
+
     };
     useEffect(() => {
         dispatch(fetchCategories());
@@ -174,7 +180,7 @@ const  Products = () => {
                     {products.map((product) => (
                         <div className="mix all featured" data-cat="featured">
                             <div className="product-card">
-                                <a href="/product-detail">
+                                <a onClick={() => handleProductDetail(product.productId)}>
                                     <div className="product-thumb">
                                         <img src={product.imageUrl}/>
                                         <span className="badge new"></span>
@@ -208,15 +214,7 @@ const  Products = () => {
                                         </div>
                                     </div>
                                 </a>
-                                <a href="wishlist.html" className="heart-icon">
-                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                              d="M2.63268 10.6315C1.64909 7.56068 2.79768 4.05077 6.02251 3.01218C6.85874 2.74461 7.74682 2.68088 8.61268 2.8263C9.47855 2.97173 10.2971 3.3221 11 3.84818C12.3338 2.81693 14.2743 2.4686 15.9683 3.01218C19.1923 4.05077 20.3491 7.56068 19.3664 10.6315C17.8356 15.499 11 19.2482 11 19.2482C11 19.2482 4.21484 15.5558 2.63268 10.6315V10.6315Z"
-                                              stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                    </svg>
-                                </a>
+
                             </div>
                         </div>
                     ))}
@@ -224,10 +222,8 @@ const  Products = () => {
                 </div>
 
             </section>
+            {/*phan trang*/}
                                   <Pagination onPageChange={handlePageClick} pageCount={pageCount}/>
-
-
-
             {/*footer*/}
             <Footer/>
             <MiniChat/>
