@@ -30,4 +30,8 @@ public class CartController {
     public List<CartDTO> getListCart(@RequestParam(value = "user_id") int user_id){
         return   cartItemService.list(user_id);
     }
+    @GetMapping("/countCart")
+    public int countCart(@RequestParam(value = "user_id") int user_id){
+        return  cartItemService.count(user_id);
+    }
 }

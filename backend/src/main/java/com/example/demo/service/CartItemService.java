@@ -42,4 +42,7 @@ public class CartItemService {
         List<CartDTO> cartDTOS = cartItemRepository.getCartItemsBy(id);
         return cartDTOS;
     }
+    public int count(int id){
+        return  cartItemRepository.countCart(id);
+    }
 }
