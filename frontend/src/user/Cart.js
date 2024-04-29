@@ -88,7 +88,7 @@ const  Cart = () => {
 
                     <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap-tw items-start gap-6-t">
 
-                        <div class="shopping-cart lg:w-2/3 w-full">
+                        <div class="shopping-cart lg:w-2/3 w-full ">
                             <div class="px-6 py-6 overflow-x-auto">
 
                                 <table class="w-[824px] leading-normal">
@@ -207,32 +207,10 @@ const  Cart = () => {
                                 <div class="coupon-wrap p-6-t">
                                     <input type="text" name="" id="" class="px-5-tw py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
                                         <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
-                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
+                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Đặt hàng</button>
                                 </div>
                         </div>
-                        <div class="cart-total p-8 lg:w-1/3 w-full">
-                            <div class="subtotal-info">
-                                <div class="flex justify-between items-center">
-                                    <p class="common-hedding">Tổng tiền</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">$1,435.00</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Mã giảm giá</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">26%</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Phí vận chuyển </p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">Free</p>
-                                </div>
-                                <hr/>
-                                    <div class="flex justify-between items-center">
-                                        <p class="common-hedding">Tổng:</p>
-                                        <p class="text-gray-black text-[22px] leading-[120%] font-display font-semibold">$1026.23</p>
-                                    </div>
-                                    <button class="mt-6 bg-accents hover:bg-[#272343] transition-all duration-300 py-[19px] rounded-lg text-[18px] font-bold font-display leading-[110%] text-gray-white text-center w-full">Thanh toán</button>
 
-                            </div>
-                        </div>
 
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 const initialState = {
     ListCart: [],
+    countCart :0
 
 }
 
@@ -10,6 +11,11 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ListCart: action.payload
+            }
+        case 'COUNT_CART_SUCCESS':
+            return {
+                ...state,
+                countCart: action.payload
             }
         default :
             return state;

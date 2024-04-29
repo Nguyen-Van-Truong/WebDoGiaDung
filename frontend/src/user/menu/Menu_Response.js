@@ -30,6 +30,8 @@ const Menu_Response = () => {
     const lisData = useSelector(state => state.notification.listNotification);
     const notificationCount = useSelector(state => state.notification.notificationCount);
     const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const  countCart = useSelector(state => state.cart.countCart);
+    const  isStatus =useSelector(state => state.appUser.isStatus);
     const handClickUserMin = () => {
         dispatch(setUserMin(!isUserMin))
         dispatch(setIsNotification(false));
@@ -111,8 +113,15 @@ const Menu_Response = () => {
                                           stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                                    <span
-                                        className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
+                                    {/*dem so luong sản pham*/}
+                                    {isStatus === true &&
+                                        <span
+                                            className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">{countCart}</span>
+                                    }
+                                    {isStatus === false &&
+                                        <span
+                                            className="bg-dark-accents absolute -top-1 right-0 text-white rounded-full px-2 py-1.5 inline-flex justify-center items-center text-[10px] leading-[100%]">0</span>
+                                    }
                                 </a>
                             </li>
                             <li className={"relative"}>

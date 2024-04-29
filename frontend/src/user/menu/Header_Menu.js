@@ -14,7 +14,7 @@ import {
 import {getNotification, updateIsRead} from "../../api/NotificationApi";
 import {timeSince} from '../convertDateTime/Convert'
 import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
-import {getListCart} from "../../api/CartApi";
+import {count, getListCart} from "../../api/CartApi";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -46,6 +46,10 @@ const Header_Menu = () => {
      * @type {[]|*}
      */
     const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    /**
+     * đếm só luong sản phẩm
+     */
+    const  countCart = useSelector(state => state.cart.countCart);
     const userOpen = () => {
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
@@ -93,6 +97,7 @@ const Header_Menu = () => {
     useEffect(() => {
         if(isStatus== true){
             dispatch(getListCart(user_id));
+            dispatch(count(user_id))
         }
         if (user_id !== null) {
             dispatch(getNotification(user_id));
@@ -206,8 +211,10 @@ const Header_Menu = () => {
                                             </svg>
                                         </span>
                                     <span>Cart</span>
-                                    <span
-                                        className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">2</span>
+                                    {isStatus==true &&  <span
+                                        className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">{countCart}</span>}
+                                    {isStatus==false &&  <span
+                                        className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">0</span>}
                                 </a>
                                 {isCart && isStatus ===true &&
                                 <div className="cart-content">
