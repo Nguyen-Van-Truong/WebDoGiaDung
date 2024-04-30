@@ -57,7 +57,7 @@ const Product_details = () => {
             /**
              * gọi lại api
              */
-            dispatch(count(countCart));
+            dispatch(count(user_id));
             dispatch(getListCart(user_id));
         }
     }

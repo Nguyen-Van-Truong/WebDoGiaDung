@@ -12,6 +12,7 @@ import customerReducer from "./CustomerReducer";
 import forgetPasswordReducer from "../../../redux/ForgetPasswordRedux";
 import product_Details_Reducer from "../../../redux/Product_Details_Reducer";
 import cartReducer from "../../../redux/CartReducer";
+import cartHistoryReducer from "../../../redux/HistoryCartReducer";
 
 
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     forget: forgetPasswordReducer,
     details: product_Details_Reducer,
     cart : cartReducer,
+    history :cartHistoryReducer
 });
 
 export default rootReducer;

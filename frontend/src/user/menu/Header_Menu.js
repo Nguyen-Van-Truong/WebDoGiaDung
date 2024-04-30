@@ -17,6 +17,7 @@ import {setIsNotification, setNotificationCount} from "../../redux/NotificationA
 import {count, getListCart, throttledCountCart} from "../../api/CartApi";
 import {throttledTop_selling} from "../../api/Api";
 import {formatPrice} from "../../format/FormatMoney";
+import {deleteCart} from "../../api/HistoryCartApi";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -90,6 +91,9 @@ const Header_Menu = () => {
         dispatch(setUserMin(isUserMin));
         dispatch((setCategory(isCategory)));
     }
+    /**
+     * đăng xuất
+     */
     const log_out = () => {
         dispatch(logout());
         sessionStorage.removeItem("email");
@@ -97,6 +101,12 @@ const Header_Menu = () => {
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));
+    }
+    /*
+    xoa san pham
+     */
+    const  delete_Cart  =(id)=>{
+        dispatch(deleteCart(id));
     }
 
     const throttledCountCallback = useCallback(() => {
@@ -247,11 +257,7 @@ const Header_Menu = () => {
                                                             <p className="text-gray-black font-semibold mb-0">{formatPrice(cart.price)} VNĐ</p>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <button type="button m_l9"
-                                                                className="btn btn-outline-secondary deleterow"><i
-                                                            className="icofont-ui-delete text-danger"/></button>
-                                                    </div>
+
                                                 </div>
                                             </li>
                                             ))}

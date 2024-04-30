@@ -38,5 +38,14 @@ public class CartService {
             throw new IllegalArgumentException("No user found with id: " + user_id);
         }
     }
+    public void delete(int id){
+        Optional<Cart> carts = cartRepository.findById( id);
+        if(carts.isPresent()){
+            Cart cart = carts.get();
+            cart.setStatus(CartStatus.INACTIVE);
+            cartRepository.save(cart);
+        }
+
+    }
 
 }

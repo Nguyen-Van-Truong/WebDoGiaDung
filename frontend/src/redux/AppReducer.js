@@ -286,6 +286,8 @@ const initialState = {
           isAdmin: action.payload,
           isStatus : !state.isStatus,
           errorLogin :'',
+          errorsMessage: '',
+          errors :'',
           user_id: userData.user_id,
           password: userData.password
         };
