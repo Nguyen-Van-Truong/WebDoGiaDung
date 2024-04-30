@@ -39,9 +39,11 @@ public class CartService {
         }
     }
     public void delete(int id){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Optional<Cart> carts = cartRepository.findById( id);
         if(carts.isPresent()){
             Cart cart = carts.get();
+            cart.setUpdated_at(timestamp);
             cart.setStatus(CartStatus.INACTIVE);
             cartRepository.save(cart);
         }
