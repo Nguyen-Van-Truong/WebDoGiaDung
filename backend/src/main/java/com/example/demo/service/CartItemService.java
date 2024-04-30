@@ -45,4 +45,14 @@ public class CartItemService {
     public int count(int id){
         return  cartItemRepository.countCart(id);
     }
+    public  void updateCart(int id, int quantity, BigDecimal price){
+        Optional<CartItems> cartItems = cartItemRepository.findById(id);
+      if(cartItems.isPresent()){
+          CartItems item= cartItems.get();
+          item.setQuantity(quantity);
+          item.setPrice(price);
+          cartItemRepository.save(item);
+
+      }
+    }
 }

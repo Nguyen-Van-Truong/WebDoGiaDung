@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,7 +14,9 @@ import {
 import {getNotification, updateIsRead} from "../../api/NotificationApi";
 import {timeSince} from '../convertDateTime/Convert'
 import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
-import {count, getListCart} from "../../api/CartApi";
+import {count, getListCart, throttledCountCart} from "../../api/CartApi";
+import {throttledTop_selling} from "../../api/Api";
+import {formatPrice} from "../../format/FormatMoney";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -50,6 +52,10 @@ const Header_Menu = () => {
      * đếm só luong sản phẩm
      */
     const  countCart = useSelector(state => state.cart.countCart);
+    /**
+     * lấy img
+     */
+
     const userOpen = () => {
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
@@ -93,11 +99,15 @@ const Header_Menu = () => {
         dispatch(setEmail(''));
     }
 
+    const throttledCountCallback = useCallback(() => {
+        throttledCountCart(user_id, dispatch);
+    }, [user_id, dispatch]);
+
 
     useEffect(() => {
         if(isStatus== true){
             dispatch(getListCart(user_id));
-            dispatch(count(user_id))
+            throttledCountCallback();
         }
         if (user_id !== null) {
             dispatch(getNotification(user_id));
@@ -139,7 +149,7 @@ const Header_Menu = () => {
 
         };
 
-    }, [notificationCount]);
+    }, [notificationCount,countCart, throttledCountCallback]);
     const sendMessage = (message) => {
         if (webSocket && webSocket.readyState === WebSocket.OPEN) {
             webSocket.send(message);
@@ -234,7 +244,7 @@ const Header_Menu = () => {
                                                                 <span>{cart.name}</span>
                                                                 <span className="text-[#636270]">x {cart.quantity}</span>
                                                             </h5>
-                                                            <p className="text-gray-black font-semibold mb-0">{cart.price} VNĐ</p>
+                                                            <p className="text-gray-black font-semibold mb-0">{formatPrice(cart.price)} VNĐ</p>
                                                         </div>
                                                     </div>
                                                     <div>

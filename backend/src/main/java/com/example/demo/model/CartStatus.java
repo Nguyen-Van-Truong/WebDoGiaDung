@@ -9,7 +9,14 @@ public enum CartStatus {
     CartStatus(String status) {
         this.status = status;
     }
-
+    public static CartStatus fromString(String status) {
+        for (CartStatus cs : CartStatus.values()) {
+            if (cs.status.equalsIgnoreCase(status)) {
+                return cs;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + status + " found");
+    }
     @Override
     public String toString() {
         return this.status;
