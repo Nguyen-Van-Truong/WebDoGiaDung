@@ -22,16 +22,23 @@ public class CartController {
     }
 
     @GetMapping("/addCart")
-    public void addCart(@RequestParam(value = "user_id") int user_id, @RequestParam(value = "product_id") int product_id, @RequestParam(value = "quantity") int quantity, @RequestParam(value="price") BigDecimal price) {
+    public void addCart(@RequestParam(value = "user_id") int user_id, @RequestParam(value = "product_id") int product_id, @RequestParam(value = "quantity") int quantity, @RequestParam(value = "price") BigDecimal price) {
         int cartId = cartService.addCart(user_id);
-        cartItemService.addCartItems(cartId, product_id,quantity,price );
+        cartItemService.addCartItems(cartId, product_id, quantity, price);
     }
+
     @GetMapping("/getListCart")
-    public List<CartDTO> getListCart(@RequestParam(value = "user_id") int user_id){
-        return   cartItemService.list(user_id);
+    public List<CartDTO> getListCart(@RequestParam(value = "user_id") int user_id) {
+        return cartItemService.list(user_id);
     }
+
     @GetMapping("/countCart")
-    public int countCart(@RequestParam(value = "user_id") int user_id){
-        return  cartItemService.count(user_id);
+    public int countCart(@RequestParam(value = "user_id") int user_id) {
+        return cartItemService.count(user_id);
+    }
+
+    @GetMapping("/updateCart")
+    public void updateCart(@RequestParam(value = "cart_item_id") int cart_item_id, @RequestParam(value = "quantity") int quantity,@RequestParam(value = "price")  BigDecimal price) {
+        cartItemService.updateCart(cart_item_id, quantity, price);
     }
 }

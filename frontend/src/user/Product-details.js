@@ -18,26 +18,50 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {formatPrice} from "../format/FormatMoney";
 import ReactQuill from "react-quill";
+import {addCart, count, getListCart} from "../api/CartApi";
 
 const Product_details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const [count, setCount] = useState(1);
+    const [countProduct, setCount] = useState(1);
     const productDetails = useSelector(state => state.details.array_product_details);
+    const  countCart = useSelector(state => state.cart.countCart);
     /**
      * lấy img  đầu tiên
      */
+    const dispatch = useDispatch();
     const firstImageUrl = productDetails.mediaUrls[0];
+    /**
+     * lay id nguoi dung
+     */
+    const  user_id =useSelector(state => state.appUser.user_id);
+
+    /**
+     * lay trang thai
+     */
+    const  isStatus =useSelector(state => state.appUser.isStatus);
     const handleMinusClick = () => {
-        const newCount = count - 1 < 1 ? 1 : count - 1;
+        const newCount =countProduct - 1 < 1 ? 1 :countProduct - 1;
         setCount(newCount);
     };
 
     const handlePlusClick = () => {
-        setCount(count + 1);
+        setCount(countProduct + 1);
     };
+    const handAddCart =()=>{
+
+        if(isStatus === true){
+            dispatch(addCart(user_id,productDetails.product_id,countProduct,productDetails.price*countProduct  ));
+            /**
+             * gọi lại api
+             */
+            dispatch(count(countCart));
+            dispatch(getListCart(user_id));
+        }
+    }
+
 
 
     useEffect(() => {
@@ -150,14 +174,14 @@ const Product_details = () => {
                                         className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus"
                                         id="minus" onClick={handleMinusClick}>-</span>
                                     <input type="text" className="text-[#272343] text-base plus_mines_input select-none"
-                                           value={count}/>
+                                           value={countProduct}/>
                                     <span
                                         className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus "
                                         id="plus" onClick={handlePlusClick}>+</span>
                                 </div>
                                 <div className="flex gap-3 w-full">
                                     <div className="xl:w-[343px] add-to-cart-btn">
-                                        <button
+                                        <button onClick={handAddCart}
                                             className="inline-flex gap-3 py-3.5 bg-[#029FAE] hover:bg-[#272343] transition-all duration-300 rounded-lg px-4 xl:w-[343px] w-full items-center justify-center">
                                     <span className="text-white text-base">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -182,20 +206,7 @@ const Product_details = () => {
                                         </button>
                                     </div>
                                     <div>
-                                        <button
-                                            className="h-[52px] w-[52px] border border-[#D6D9DD] rounded-lg inline-flex justify-center items-center">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                      d="M2.87199 11.598C1.79899 8.24799 3.05199 4.419 6.56999 3.286C7.48224 2.9941 8.45106 2.92457 9.39563 3.08322C10.3402 3.24187 11.2332 3.62409 12 4.198C13.455 3.073 15.572 2.693 17.42 3.286C20.937 4.419 22.199 8.24799 21.127 11.598C19.457 16.908 12 20.998 12 20.998C12 20.998 4.59799 16.97 2.87199 11.598V11.598Z"
-                                                      stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                                      stroke-linejoin="round"/>
-                                                <path
-                                                    d="M16 6.70001C16.5232 6.86903 16.9845 7.18931 17.3257 7.62039C17.6669 8.05148 17.8727 8.57403 17.917 9.12201"
-                                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round"/>
-                                            </svg>
-                                        </button>
+
                                     </div>
                                 </div>
                             </div>

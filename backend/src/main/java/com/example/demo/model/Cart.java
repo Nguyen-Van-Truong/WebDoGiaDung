@@ -21,7 +21,8 @@ public class Cart {
     private Timestamp created_at;
     @Column(name = "updated_at")
     private Timestamp updated_at;
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = CartStatusConverter.class)
+    @Column(name = "status")
     private CartStatus status;
 
     public CartStatus getStatus() {

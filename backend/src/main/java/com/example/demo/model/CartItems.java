@@ -32,7 +32,10 @@ public class CartItems {
         this.products = products;
         this.quantity = quantity;
         this.price = price;
+
     }
+
+
 
     public int getCart_item_id() {
         return cart_item_id;

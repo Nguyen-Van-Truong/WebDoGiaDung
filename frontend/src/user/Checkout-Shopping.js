@@ -17,6 +17,7 @@ import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {commune, dis_tricts, province} from "../api/Api";
+import {formatPrice} from "../format/FormatMoney";
 
 
 const Checkout_Shopping = () => {
@@ -31,6 +32,12 @@ const Checkout_Shopping = () => {
     const [selectedDistrictName, setSelectedDistrictName] = useState('');
     const [selectedCommuneName, setSelectedCommuneName] = useState('');
     const [address, setAddress] = useState('');
+    const  cartList = useSelector(state => state.cart.ListCart);
+    /*8
+ TONG TIEN
+     */const totalPrice = cartList.reduce((sum, item) => sum + item.price, 0);
+
+
     const handleProvinceChange = (e) => {
         const provinceId = e.target.value;
         setSelectedProvinceId(provinceId);
@@ -217,53 +224,25 @@ const Checkout_Shopping = () => {
 
                             <div className="cart-total p-8 h-auto lg:w-1/3 w-full">
 
-                                <div className="flex justify-between items-center pb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <img src={product} alt=""/>
+
+
+                                {cartList.map((cart) => (
+                                    <div className="flex justify-between items-center pb-4">
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <img src={cart.url} alt=""/>
+                                            </div>
+                                            <div className="flex gap-[6px]">
+                                                <p>{cart.name}</p>
+                                                <span>X</span>
+                                                <p>{cart.quantity}</p>
+                                            </div>
+
                                         </div>
-                                        <div className="flex gap-[6px]">
-                                            <p>Isolate Sofa Chair</p>
-                                            <span>X</span>
-                                            <p>1</p>
-                                        </div>
+                                        <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">{formatPrice(cart.price)} VNĐ</p>
 
                                     </div>
-                                    <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">$145.00</p>
-
-                                </div>
-
-                                <div className="flex justify-between items-center pb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <img src={product} alt=""/>
-                                        </div>
-                                        <div className="flex gap-[6px]">
-                                            <p>Isolate Sofa Chair</p>
-                                            <span>X</span>
-                                            <p>1</p>
-                                        </div>
-
-                                    </div>
-                                    <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">$145.00</p>
-
-                                </div>
-
-                                <div className="flex justify-between items-center pb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <img src={product} alt=""/>
-                                        </div>
-                                        <div className="flex gap-[6px]">
-                                            <p>Isolate Sofa Chair</p>
-                                            <span>X</span>
-                                            <p>1</p>
-                                        </div>
-
-                                    </div>
-                                    <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">$145.00</p>
-
-                                </div>
+                                ))}
 
 
                                 <hr/>
@@ -273,7 +252,7 @@ const Checkout_Shopping = () => {
 
                                     <div className="flex justify-between items-center">
                                         <p className="common-hedding">Tổng tiền</p>
-                                        <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">$1,435.00</p>
+                                        <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">{formatPrice(totalPrice)} VNĐ</p>
                                     </div>
                                     <div className="flex justify-between items-center pt-4">
                                         <p className="common-hedding">Giảm giá</p>
@@ -286,7 +265,7 @@ const Checkout_Shopping = () => {
                                     <hr/>
                                     <div className="flex justify-between items-center">
                                         <p className="common-hedding">Tổng:</p>
-                                        <p className="text-gray-black text-[22px] leading-[120%] font-display font-semibold">$1026.23</p>
+                                        <p className="text-gray-black text-[22px] leading-[120%] font-display font-semibold">{formatPrice(totalPrice)} VNĐ</p>
                                     </div>
 
 
