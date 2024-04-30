@@ -41,4 +41,12 @@ public class CartController {
     public void updateCart(@RequestParam(value = "cart_item_id") int cart_item_id, @RequestParam(value = "quantity") int quantity,@RequestParam(value = "price")  BigDecimal price) {
         cartItemService.updateCart(cart_item_id, quantity, price);
     }
+    @GetMapping("/getListHistory")
+    public List<CartDTO> getListHistory(@RequestParam(value = "user_id") int user_id) {
+        return cartItemService.listHistory(user_id);
+    }
+    @GetMapping("/deleteCart")
+    public void delete(@RequestParam(value ="cart_id") int cart_id){
+        cartService.delete(cart_id);
+    }
 }

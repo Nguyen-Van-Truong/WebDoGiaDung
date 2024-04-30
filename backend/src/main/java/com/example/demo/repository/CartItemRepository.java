@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface CartItemRepository extends JpaRepository<CartItems, Integer> {
 
 
-    @Query("SELECT new com.example.demo.dto.CartDTO(i.cart_item_id,m.file_url, p.product_name, i.price, i.quantity) " +
+    @Query("SELECT new com.example.demo.dto.CartDTO(c.cart_id ,i.cart_item_id,m.file_url, p.product_name, i.price, i.quantity) " +
             "FROM User u " +
             "JOIN Cart c ON u.user_id = c.user.user_id " +
             "JOIN CartItems i ON c.cart_id = i.cart.cart_id " +
@@ -31,4 +31,15 @@ public interface CartItemRepository extends JpaRepository<CartItems, Integer> {
 
 
     Optional<CartItems> findById(int id);
+    /**
+     * lich su don hàng
+     */
+    @Query("SELECT new com.example.demo.dto.CartDTO(c.cart_id, m.file_url, p.product_name, i.price, i.quantity, c.created_at, c.status) " +
+            "FROM User u " +
+            "JOIN Cart c ON u.user_id = c.user.user_id " +
+            "JOIN CartItems i ON c.cart_id = i.cart.cart_id " +
+            "JOIN Products p ON i.products.product_id = p.product_id " +
+            "JOIN Medias m ON p.product_id = m.products.product_id " +
+            "WHERE c.status = 'active' and u.user_id=:user_id or c.status = 'inactive' and u.user_id=:user_id  or c.status = 'checked_out' and u.user_id=:user_id  " + " group by i.cart.cart_id")
+    List<CartDTO>history(@Param("user_id") int user_id);
 }

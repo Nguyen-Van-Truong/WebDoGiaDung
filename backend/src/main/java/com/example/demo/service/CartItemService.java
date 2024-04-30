@@ -42,6 +42,10 @@ public class CartItemService {
         List<CartDTO> cartDTOS = cartItemRepository.getCartItemsBy(id);
         return cartDTOS;
     }
+    public  List<CartDTO> listHistory(int id){
+        List<CartDTO> cartDTOS = cartItemRepository.history(id);
+        return cartDTOS;
+    }
     public int count(int id){
         return  cartItemRepository.countCart(id);
     }

@@ -14,28 +14,30 @@ import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {history} from "../api/HistoryCartApi";
+import {formatPrice} from "../format/FormatMoney";
 
 const Order_History= () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [isUserOpen, setIsUserOpen] = useState(false);
-    const [isMenu, setIsMenu] = useState(false);
-    const [isCategory, setCategory] = useState(false);
-    const [isUserMin, setIUserMin] = useState(false);
-    const [isConfirmPassWord, setConfirmPass] =useState(false);
+   const  list =useSelector(state => state.history.ListHistoryCart);
+    const  user_id =useSelector(state => state.appUser.user_id);
+    const dispatch = useDispatch();
 
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
-
+    /**
+     * chuyen doi ngay gio
+     */
+    function formatDateTime(dateString) {
+        const date = new Date(dateString);
+        const options = {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        };
+        return new Intl.DateTimeFormat('vi-VN', options).format(date);
+    }
     useEffect(() => {
 
-
+     dispatch(history(user_id));
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -89,6 +91,9 @@ const Order_History= () => {
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[160px]">
                                         Mã đơn hàng
                                         </th>
+                                        <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[160px]">
+                                           Ảnh sản phẩm
+                                        </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[200px]">
                                             Ngày
                                         </th>
@@ -104,91 +109,42 @@ const Order_History= () => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td className="py-6 text-sm">
-                                            <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#2485</span>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p className="mb-0">02 April, 2021</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>05</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>$265.00</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <button className="btn-warning px-3 py-2 text-[#F5813F] text-[14px] leading-[120%] font-display">Pending</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="py-6 text-sm">
-                                            <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#8901</span>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p className="mb-0">29 May, 2021</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>01</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>$265.00</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <button className="btn-success2 px-3 py-2 text-[#01AD5A] text-[14px] leading-[120%] font-display">Completed</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="py-6 text-sm">
-                                            <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#2597</span>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p className="mb-0">16 May, 2021</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>01</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>$265.00</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <button className="btn-success2 px-3 py-2 text-[#01AD5A] text-[14px] leading-[120%] font-display">Completed</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="py-6 text-sm">
-                                            <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#2485</span>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p className="mb-0">21 February, 2021</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>02</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>$265.00</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <button className="btn-success2 px-3 py-2 text-[#01AD5A] text-[14px] leading-[120%] font-display">Completed</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="py-6 text-sm">
-                                            <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#2485</span>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p className="mb-0">15 January, 2021</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>01</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <p>$265.00</p>
-                                        </td>
-                                        <td className="py-6 text-sm">
-                                            <button className="btn-success2 px-3 py-2 text-[#01AD5A] text-[14px] leading-[120%] font-display">Completed</button>
-                                        </td>
-                                    </tr>
+
+                                    {list.map((history) => (
+                                        <tr>
+                                            <td className="py-6 text-sm">
+                                                <span className="text-dark-accent stext-[14px] font-display leading-[120%] ">#{history.id_cart}</span>
+                                            </td>
+                                            <td>
+                                                <div className="w-[70px] h-[70px]">
+                                                    <img className="w-full h-full rounded-lg" src={history.url} alt="" />
+                                                </div>
+
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <p className="mb-0">{formatDateTime(history.date)}</p>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <p>{history.quantity}</p>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <p>{formatPrice(history.price)} VNĐ</p>
+                                            </td>
+                                            { history.status === "ACTIVE" &&
+                                                <td className="py-6 text-sm">
+                                                    <button className="btn-warning px-3 py-2 text-[#F5813F] text-[14px] leading-[120%] font-display">Đang xử lí</button>
+                                                </td>
+
+                                            }
+                                            { history.status === "INACTIVE" &&
+                                                <td className="py-6 text-sm">
+                                                    <button className="btn-danger px-3 py-2 text-[#636270]] text-[14px] leading-[120%] font-display">Đã huỷ </button>
+                                                </td>
+
+                                            }
+
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>

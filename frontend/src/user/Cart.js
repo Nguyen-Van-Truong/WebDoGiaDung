@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {formatPrice} from "../format/FormatMoney";
 import {setUpdateCart} from "../redux/CartAction";
 import {count, getListCart, updateCart} from "../api/CartApi";
+import {deleteCart} from "../api/HistoryCartApi";
 const  Cart = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const  cartList = useSelector(state => state.cart.ListCart);
@@ -26,24 +27,41 @@ const  Cart = () => {
     const  countCart = useSelector(state => state.cart.countCart);
     const dispatch = useDispatch();
     // const totalQuantity = cartList.reduce((sum, item) => sum + item.quantity, 0);
+    /**
+     * giam san pham
+     * @param cart
+     * @returns {(function(): void)|*}
+     */
     const handleMinusClick = (cart) => () => {
         const newQuantity = cart.quantity - 1 > 0 ? cart.quantity - 1 : 1; // Giữ số lượng tối thiểu là 1
         dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
         dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
-        dispatch(count(countCart));
+        dispatch(count(user_id));
         dispatch(getListCart(user_id));
 
     };
-
+    /**
+     * tang san pham
+     * @param cart
+     * @returns {(function(): void)|*}
+     */
     const handlePlusClick = (cart) => () => {
         const newQuantity = cart.quantity + 1;
         dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
         dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
-        dispatch(count(countCart));
+        dispatch(count(user_id));
         dispatch(getListCart(user_id));
     };
+    /**
+     * xoa sp
+     * @param id
+     */
 
-
+    const  delete_Cart  =(id)=>{
+        dispatch(deleteCart(id));
+        dispatch(getListCart(user_id));
+        dispatch(count(user_id));
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -160,7 +178,7 @@ const  Cart = () => {
                                                 <p>{formatPrice(cart.price)} VNĐ</p>
                                             </td>
                                             <td className="py-6 text-sm">
-                                                <button type="button m_l9"
+                                                <button type="button m_l9" onClick={() => delete_Cart(cart.id_cart)}
                                                         className="btn btn-outline-secondary deleterow"><i
                                                     className="icofont-ui-delete text-danger"/></button>
                                             </td>
