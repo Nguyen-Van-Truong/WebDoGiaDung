@@ -18,25 +18,27 @@ import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {commune, dis_tricts, province} from "../api/Api";
 import {formatPrice} from "../format/FormatMoney";
+import {processPayment} from "../redux/paymentActions";
 
 
 const Checkout_Shopping = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const dispatch = useDispatch();
-    const provinces = useSelector((state)=> state.appUser.provinces);
-    const  districts =useSelector((state)=> state.appUser.districts);
-    const communes =useSelector((state)=> state.appUser.communes);
+    const provinces = useSelector((state) => state.appUser.provinces);
+    const districts = useSelector((state) => state.appUser.districts);
+    const communes = useSelector((state) => state.appUser.communes);
     const [selectedProvinceId, setSelectedProvinceId] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedProvinceName, setSelectedProvinceName] = useState('');
     const [selectedDistrictName, setSelectedDistrictName] = useState('');
     const [selectedCommuneName, setSelectedCommuneName] = useState('');
     const [address, setAddress] = useState('');
-    const  cartList = useSelector(state => state.cart.ListCart);
+    const cartList = useSelector(state => state.cart.ListCart);
+
     /*8
  TONG TIEN
-     */const totalPrice = cartList.reduce((sum, item) => sum + item.price, 0);
-
+     */
+    const totalPrice = cartList.reduce((sum, item) => sum + item.price, 0);
 
     const handleProvinceChange = (e) => {
         const provinceId = e.target.value;
@@ -76,7 +78,7 @@ const Checkout_Shopping = () => {
             dispatch(commune(selectedDistrict));
 
         }
-        setAddress(`${selectedCommuneName ?  selectedCommuneName  +' - ' : ''  }${selectedDistrictName} -${selectedProvinceName}  `);
+        setAddress(`${selectedCommuneName ? selectedCommuneName + ' - ' : ''}${selectedDistrictName} -${selectedProvinceName}  `);
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -91,7 +93,13 @@ const Checkout_Shopping = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [dispatch, selectedProvinceId,selectedDistrict, selectedProvinceName, selectedDistrictName, selectedCommuneName]);
+    }, [dispatch, selectedProvinceId, selectedDistrict, selectedProvinceName, selectedDistrictName, selectedCommuneName]);
+
+    const handlePayment = () => {
+        const paymentData = { amount: totalPrice, bankCode: 'NCB', orderInfo: 'Payment for order xyz' };
+        dispatch(processPayment(paymentData));
+    };
+
     return (
         <div>
 
@@ -141,7 +149,8 @@ const Checkout_Shopping = () => {
                         <div className="flex flex-wrap-tw lg:flex-nowrap items-start gap-6-t">
 
                             <div className="cart-total lg:w-2/3 w-full p-8">
-                                <h2 className="text-start text-2xl text-[#272343] font-semibold mb-6 font-display">Thông tin thanh toán hoá đơn</h2>
+                                <h2 className="text-start text-2xl text-[#272343] font-semibold mb-6 font-display">Thông
+                                    tin thanh toán hoá đơn</h2>
                                 <div>
                                     <form action="" className="">
                                         <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">
@@ -160,31 +169,37 @@ const Checkout_Shopping = () => {
 
                                             <div className=" w-full">
                                                 <li className="inline-flex items-center justify-center address">
-                                                    <select className="custom-select2 relative" onChange={handleProvinceChange} name="category">
+                                                    <select className="custom-select2 relative"
+                                                            onChange={handleProvinceChange} name="category">
                                                         <option value="" disabled selected>Chọn tỉnh</option>
                                                         {provinces.map((province) => (
-                                                            <option key={province.id} value={province.id}>{province.name}</option>
+                                                            <option key={province.id}
+                                                                    value={province.id}>{province.name}</option>
                                                         ))}
 
                                                     </select>
                                                 </li>
                                             </div>
                                             <div className=" w-full">
-                                                <li className="inline-flex items-center justify-center address "  onChange={handleDistrictChange}>
-                                                    <select className="custom-select2 relative" >
+                                                <li className="inline-flex items-center justify-center address "
+                                                    onChange={handleDistrictChange}>
+                                                    <select className="custom-select2 relative">
                                                         <option value="" disabled selected>Chọn huyện</option>
                                                         {districts.map((district) => (
-                                                            <option key={district.id} value={district.id}>{district.name}</option>
+                                                            <option key={district.id}
+                                                                    value={district.id}>{district.name}</option>
                                                         ))}
                                                     </select>
                                                 </li>
                                             </div>
                                             <div className=" w-full">
                                                 <li className="inline-flex items-center justify-center address">
-                                                    <select className="custom-select2 relative" onChange={handleCommuneChange} >
+                                                    <select className="custom-select2 relative"
+                                                            onChange={handleCommuneChange}>
                                                         <option value="" disabled selected>Chọn xã</option>
                                                         {communes.map((commune) => (
-                                                            <option key={commune.id} value={commune.id}>{commune.name}</option>
+                                                            <option key={commune.id}
+                                                                    value={commune.id}>{commune.name}</option>
                                                         ))}
                                                     </select>
                                                 </li>
@@ -223,7 +238,6 @@ const Checkout_Shopping = () => {
                             </div>
 
                             <div className="cart-total p-8 h-auto lg:w-1/3 w-full">
-
 
 
                                 {cartList.map((cart) => (
@@ -269,18 +283,21 @@ const Checkout_Shopping = () => {
                                     </div>
 
 
-
                                     <button
-                                        class="w-full flex gap-3 items-center justify-center mt-5 bg-accents hover:bg-[#272343] rounded-lg transition-all duration-300 py-[16px] text-[18px] font-bold font-display leading-[110%] text-gray-white  ">
-                                         Thanh toán
+                                        className="w-full flex gap-3 items-center justify-center mt-5 bg-accents hover:bg-[#272343] rounded-lg transition-all duration-300 py-[16px] text-[18px] font-bold font-display leading-[110%] text-gray-white"
+                                        onClick={handlePayment}
+                                    >
+                                        Thanh toán
                                         <span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.5 7.5L20 12M20 12L15.5 16.5M20 12H4" stroke="white" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.5 7.5L20 12M20 12L15.5 16.5M20 12H4" stroke="white" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </span>
                                     </button>
+
+
                                 </div>
                             </div>
                         </div>
