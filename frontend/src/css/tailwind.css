@@ -1323,7 +1323,10 @@ video {
 .p-6-t {
   padding: 1.5rem;
 }
-
+.img_product {
+  width: 90px;
+  margin-left: 40%;
+}
 .p-2 {
   padding: 0.5rem;
 }
@@ -1681,7 +1684,7 @@ video {
 }
 
 .font-semibold {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .font-medium {

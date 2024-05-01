@@ -18,33 +18,54 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {formatPrice} from "../format/FormatMoney";
+import ReactQuill from "react-quill";
+import {addCart, count, getListCart} from "../api/CartApi";
 
 const Product_details = () => {
-    const containerRef = useRef(null);
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const [count, setCount] = useState(1);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-;
-    const [isMenu, setIsMenu] = useState(false);
+    const [countProduct, setCount] = useState(1);
+    const productDetails = useSelector(state => state.details.array_product_details);
+    const  countCart = useSelector(state => state.cart.countCart);
+    /**
+     * lấy img  đầu tiên
+     */
+    const dispatch = useDispatch();
+    const firstImageUrl = productDetails.mediaUrls[0];
+    /**
+     * lay id nguoi dung
+     */
+    const  user_id =useSelector(state => state.appUser.user_id);
 
-
+    /**
+     * lay trang thai
+     */
+    const  isStatus =useSelector(state => state.appUser.isStatus);
     const handleMinusClick = () => {
-        const newCount = count - 1 < 1 ? 1 : count - 1;
+        const newCount =countProduct - 1 < 1 ? 1 :countProduct - 1;
         setCount(newCount);
     };
 
     const handlePlusClick = () => {
-        setCount(count + 1);
+        setCount(countProduct + 1);
     };
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
-    };
+    const handAddCart =()=>{
+
+        if(isStatus === true){
+            dispatch(addCart(user_id,productDetails.product_id,countProduct,productDetails.price*countProduct  ));
+            /**
+             * gọi lại api
+             */
+            dispatch(count(user_id));
+            dispatch(getListCart(user_id));
+        }
+    }
+
 
 
     useEffect(() => {
 
-        // Initialize mixitup
 
         const handleScroll = () => {
             const scroll = window.scrollY;
@@ -60,8 +81,6 @@ const Product_details = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-
-
 
 
     }, []);
@@ -91,8 +110,6 @@ const Product_details = () => {
                 {/*menu response*/}
                 <Menu_Response/>
             </header>
-
-
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="flex items-center gap-1 py-[1.5px]">
@@ -108,15 +125,15 @@ const Product_details = () => {
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
-                        <span
-                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Isolate Sofa Chair</span>
-                    </div>
 
+                        <span
+                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block product_details_name mt_8"> {productDetails.product_name}</span>
+                    </div>
                     <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Chi tiết sản
                         phẩm</h2>
                 </div>
             </div>
-
+ {/*thông tin sản phẩm*/}
             <div className="" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="product-details-wrap pt-10">
@@ -126,101 +143,29 @@ const Product_details = () => {
                                 <div className="swiper-container gallery-main">
                                     <div className="swiper-wrapper">
                                         <div className="swiper-slide">
-                                            <img src={product1} alt="Slide 01"/>
+
+                                            {firstImageUrl &&
+                                                <img src={firstImageUrl} alt={productDetails.product_name}/>}
                                         </div>
-                                        <div className="swiper-slide">
-                                            <img src={product2} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product3} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={f_product_4} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product2} alt="Slide 01"/>
-                                        </div>
-                                        <div className="swiper-slide">
-                                            <img src={product3} alt="Slide 01"/>
-                                        </div>
+
                                     </div>
                                 </div>
 
                             </div>
                             <div className="single-product-desc">
-                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Product Descriptions</h2>
-                                <p className="text-[#636270] text-base mb-3">Super Stretchy form fit fabric: This super
-                                    stretchable sofa slipcover will ensure your three-seater sofa is completely covered.
-                                    Our slipcovers are designed and ready-made to fit a variety of sofa sizes, stretches
-                                    to 66” with seat width up to 90”</p>
-
-                                <p className="text-[#636270] text-base mb-3">Transform your old sofa or protect your new
-                                    one: PureFit sofa furniture protectors not only protects your sofa furniture daily
-                                    wears and tears, kids, scratches from pets, dogs or accidental spills, it also
-                                    transforms an old, worn out couch into the stunning centerpiece of your room</p>
-
-                                <p className="text-[#636270] text-base mb-3">The sofa cover that stays in place:
-                                    Featuring non skid elastic bottom and premium non slip foam anchors, our sofa
-                                    furniture slipcovers are among the only ones in the market to guarantee they will
-                                    stay tight with no snag, no wrinkling, shifting or slipping even after sitting or
-                                    taking a nap on it</p>
-
-                                <p className="text-[#636270] text-base mb-3">Easy to install/put on: You'll be done in
-                                    no time! Just slip it on, Tuck any extra fabric and insert the non slip foam anchors
-                                    into the gap/crease between the back and sitting cushions for a seamless look and
-                                    VOILA! Use our picture guidelines to ensure a good fit (Installation Instructions
-                                    Included)</p>
-
-                                <p className="text-[#636270] text-base">Easy care & 6 month warranty: Machine Washable
-                                    Slipcover, wash at or below 30 degrees Celsius, do not bleach, do not iron. We stand
-                                    behind all of our high quality products so we offer a 6 months No Question Asked on
-                                    all our sofa covers. Please contact us (through Amazon if past the standard return
-                                    window) and we will be pleased to assist you.</p>
+                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Chi tiết sản phẩm</h2>
+                                <ReactQuill readOnly={true}  className="text-[#636270] text-base mb-3 NoBorderQuill"  value={productDetails.description} />
                             </div>
                         </div>
                         <div className="right-side xl:px-8 px-0_t xl:w-5/12 w-full">
-                            <h2 className="text-[#272343] pro-title font-semibold mb-3 capitalize">isolate sofa
-                                Chair</h2>
+                            <h2 className="text-[#272343] pro-title font-semibold mb-3 capitalize">{productDetails.product_name}</h2>
                             <div className="flex items-center gap-2.5 mb-6">
                                 <p className="flex gap-1.5 items-center">
-                                    <span className="text-[#272343] text-2xl">$250</span>
-                                    <span className="text-[#272343] opacity-30 text-xl line-through">$500</span>
-                                </p>
-                                <span
-                                    className="bg-[#F5813F] px-2.5 py-1.5 rounded-[4px] text-white text-sm">50% Off</span>
-                            </div>
-                            <p className="text-[#636270] text-base mb-6">
-                                As you run your fingers across the surface of this golden oak colored vanity set, you’ll
-                                understand why it stands out from the rest; from the table to the legs.
-                            </p>
+                                    <span
+                                        className="text-[#272343] text-2xl">{formatPrice(productDetails.price)} VNĐ</span>
 
-                            <div className="mb-6">
-                                <ul className="p-0 m-0">
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Material:</span><span
-                                            className="text-[#636270] font-medium">Polyester, Fabric</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Brand:</span><span
-                                            className="text-[#636270] font-medium">Purefit</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Category:</span><span
-                                            className="text-[#636270] font-medium">Wing Chair</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p className="text-[15px] inline-flex gap-2 items-center">
-                                            <span className="text-[#9A9CAA]">Tag:</span><span
-                                            className="text-[#636270] font-medium">minimalistic, Sofa, Living room</span>
-                                        </p>
-                                    </li>
-                                </ul>
+                                </p>
+
                             </div>
                             <div className="flex flex-wrap-tw lg:flex-nowrap items-center gap-3 mb-6">
                                 <div
@@ -229,14 +174,14 @@ const Product_details = () => {
                                         className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus"
                                         id="minus" onClick={handleMinusClick}>-</span>
                                     <input type="text" className="text-[#272343] text-base plus_mines_input select-none"
-                                           value={count}/>
+                                           value={countProduct}/>
                                     <span
                                         className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus "
                                         id="plus" onClick={handlePlusClick}>+</span>
                                 </div>
                                 <div className="flex gap-3 w-full">
                                     <div className="xl:w-[343px] add-to-cart-btn">
-                                        <button
+                                        <button onClick={handAddCart}
                                             className="inline-flex gap-3 py-3.5 bg-[#029FAE] hover:bg-[#272343] transition-all duration-300 rounded-lg px-4 xl:w-[343px] w-full items-center justify-center">
                                     <span className="text-white text-base">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -261,62 +206,16 @@ const Product_details = () => {
                                         </button>
                                     </div>
                                     <div>
-                                        <button
-                                            className="h-[52px] w-[52px] border border-[#D6D9DD] rounded-lg inline-flex justify-center items-center">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                      d="M2.87199 11.598C1.79899 8.24799 3.05199 4.419 6.56999 3.286C7.48224 2.9941 8.45106 2.92457 9.39563 3.08322C10.3402 3.24187 11.2332 3.62409 12 4.198C13.455 3.073 15.572 2.693 17.42 3.286C20.937 4.419 22.199 8.24799 21.127 11.598C19.457 16.908 12 20.998 12 20.998C12 20.998 4.59799 16.97 2.87199 11.598V11.598Z"
-                                                      stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                                      stroke-linejoin="round"/>
-                                                <path
-                                                    d="M16 6.70001C16.5232 6.86903 16.9845 7.18931 17.3257 7.62039C17.6669 8.05148 17.8727 8.57403 17.917 9.12201"
-                                                    stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round"/>
-                                            </svg>
-                                        </button>
+
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="single-product-desc2">
-                                <h2 className="text-[#272343] text-2xl font-semibold mb-3.5">Product Descriptions</h2>
-                                <p className="text-[#636270] text-base mb-3">Super Stretchy form fit fabric: This super
-                                    stretchable sofa slipcover will ensure your three-seater sofa is completely covered.
-                                    Our slipcovers are designed and ready-made to fit a variety of sofa sizes, stretches
-                                    to 66” with seat width up to 90”</p>
 
-                                <p className="text-[#636270] text-base mb-3">Transform your old sofa or protect your new
-                                    one: PureFit sofa furniture protectors not only protects your sofa furniture daily
-                                    wears and tears, kids, scratches from pets, dogs or accidental spills, it also
-                                    transforms an old, worn out couch into the stunning centerpiece of your room</p>
-
-                                <p className="text-[#636270] text-base mb-3">The sofa cover that stays in place:
-                                    Featuring non skid elastic bottom and premium non slip foam anchors, our sofa
-                                    furniture slipcovers are among the only ones in the market to guarantee they will
-                                    stay tight with no snag, no wrinkling, shifting or slipping even after sitting or
-                                    taking a nap on it</p>
-
-                                <p className="text-[#636270] text-base mb-3">Easy to install/put on: You'll be done in
-                                    no time! Just slip it on, Tuck any extra fabric and insert the non slip foam anchors
-                                    into the gap/crease between the back and sitting cushions for a seamless look and
-                                    VOILA! Use our picture guidelines to ensure a good fit (Installation Instructions
-                                    Included)</p>
-
-                                <p className="text-[#636270] text-base">Easy care & 6 month warranty: Machine Washable
-                                    Slipcover, wash at or below 30 degrees Celsius, do not bleach, do not iron. We stand
-                                    behind all of our high quality products so we offer a 6 months No Question Asked on
-                                    all our sofa covers. Please contact us (through Amazon if past the standard return
-                                    window) and we will be pleased to assist you.</p>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
             {/*footer*/}
             <Footer/>
             <MiniChat/>

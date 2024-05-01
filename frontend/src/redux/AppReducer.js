@@ -7,7 +7,7 @@ import {
   SET_IS_CART,
   SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
   SET_USER_MIN,
-  TOGGLE_IS_CART,
+  TOGGLE_IS_CART, TOGGLE_IS_MENU,
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY,
 } from "./Action";
@@ -49,7 +49,9 @@ const initialState = {
   isStatus :false,
   errorLogin :'',
   code : '',
-  isRegister :false
+  isRegister :false,
+  user_id :0,
+  password :''
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -68,13 +70,21 @@ const initialState = {
       case TOGGLE_MENU_OPEN:
         return {
           ...state,
-          menuOpen: !state.menuOpen
+          menuOpen: !state.menuOpen,
+
         };
         case TOOGLE_CATEGORY:
         return {
           ...state,
-          isCategory: !state.menuOpen
+          isCategory: true,
+          isMenu: true,
         };
+      case TOGGLE_IS_MENU :
+        return {
+          ...state,
+          isMenu: false,
+          isCategory: false
+        }
       case SET_IS_MENU:
         return {
           ...state,
@@ -108,7 +118,7 @@ const initialState = {
       case  IS_TOP_SELLING :
         return {
           ...state ,
-          isTopSelling: !state.isTopSelling
+          isTopSelling: true
         }
       case SET_TOP_SELLING :
         return {
@@ -118,9 +128,8 @@ const initialState = {
       case IS_ALL :
         return  {
           ...state,
-          isAll: !state.isAll
+          isAll: false
         }
-
       case SET_ALL:
         return  {
           ...state ,
@@ -270,13 +279,17 @@ const initialState = {
           errors: '',
         }
       case 'LOGIN_SUCCESS':
-
+        const userData = action.payload;
         return {
           ...state,
-          userData : action.payload,
+          userData : userData,
           isAdmin: action.payload,
           isStatus : !state.isStatus,
           errorLogin :'',
+          errorsMessage: '',
+          errors :'',
+          user_id: userData.user_id,
+          password: userData.password
         };
       case 'LOGOUT':
 
@@ -285,8 +298,9 @@ const initialState = {
           userData: null,
           isAdmin: false,
           isStatus:false,
-          isMenu: false
-
+          isMenu: false,
+          user_id: 0,
+          password: ''
         };
 
       case 'LOGIN_ERROR' :

@@ -175,8 +175,7 @@ export const login = (email, password) => {
             const response = await axios.post('/api/users/login', {email, password});
             const data = response.data;
             dispatch({type: 'LOGIN_SUCCESS', payload: data});
-            const is_admin = response.data.is_admin;
-            console.log(is_admin);
+
 
         } catch (error) {
             const errorMessage = error.response.data;
@@ -224,32 +223,7 @@ export const checkEmail = (email) => {
         }
     };
 }
-/**
- * api chi tiet san pham
- * @param id
- * @param onSuccess
- * @returns {(function(*): Promise<void>)|*}
- */
-export const product_details = (id, onSuccess) => {
-    return async dispatch => {
-        try {
-            const numericId = Number(id);
-            const response = await axios.get(`/api/products/product-detail?id=${numericId}`);
-            const data = response.data;
 
-            // Use JSON.stringify to convert the object to a string for logging
-            console.log("du lieu la", JSON.stringify(data, null, 2));
-
-            // Or, log the object directly without concatenation for an interactive view
-            console.log("du lieu la", data);
-
-            dispatch({type: 'DETAILS_SUCCESS', payload: data});
-            if (onSuccess) onSuccess();
-        } catch (error) {
-            dispatch({type: 'DETAILS_ERROR', payload: error.message});
-        }
-    };
-};
 /**
  * api cap nhap password
  * @param id

@@ -15,20 +15,53 @@ import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import {useDispatch, useSelector} from "react-redux";
+import {formatPrice} from "../format/FormatMoney";
+import {setUpdateCart} from "../redux/CartAction";
+import {count, getListCart, updateCart} from "../api/CartApi";
+import {deleteCart} from "../api/HistoryCartApi";
 const  Cart = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
-    const containerRef = useRef(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const  cartList = useSelector(state => state.cart.ListCart);
+    const  user_id =useSelector(state => state.appUser.user_id);
+    const  countCart = useSelector(state => state.cart.countCart);
+    const dispatch = useDispatch();
+    // const totalQuantity = cartList.reduce((sum, item) => sum + item.quantity, 0);
+    /**
+     * giam san pham
+     * @param cart
+     * @returns {(function(): void)|*}
+     */
+    const handleMinusClick = (cart) => () => {
+        const newQuantity = cart.quantity - 1 > 0 ? cart.quantity - 1 : 1; // Giữ số lượng tối thiểu là 1
+        dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
+        dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
+        dispatch(count(user_id));
+        dispatch(getListCart(user_id));
 
-    const [isMenu, setIsMenu] = useState(false);
-
-
-
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-        setIsMenu(!isMenu);
     };
+    /**
+     * tang san pham
+     * @param cart
+     * @returns {(function(): void)|*}
+     */
+    const handlePlusClick = (cart) => () => {
+        const newQuantity = cart.quantity + 1;
+        dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
+        dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
+        dispatch(count(user_id));
+        dispatch(getListCart(user_id));
+    };
+    /**
+     * xoa sp
+     * @param id
+     */
+
+    const  delete_Cart  =(id)=>{
+        dispatch(deleteCart(id));
+        dispatch(getListCart(user_id));
+        dispatch(count(user_id));
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -88,7 +121,7 @@ const  Cart = () => {
 
                     <div class="shopping-cart-wrapper pt-10 pb-20 flex lg:flex-nowrap flex-wrap-tw items-start gap-6-t">
 
-                        <div class="shopping-cart lg:w-2/3 w-full">
+                        <div class="shopping-cart lg:w-2/3 w-full ">
                             <div class="px-6 py-6 overflow-x-auto">
 
                                 <table class="w-[824px] leading-normal">
@@ -96,6 +129,9 @@ const  Cart = () => {
                                     <tr>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[240px]">
                                             Sản phẩm
+                                        </th>
+                                        <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[240px]">
+                                           Tên Sản phẩm
                                         </th>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[104px]">
                                             Giá
@@ -106,100 +142,50 @@ const  Cart = () => {
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[96px]">
                                             Tổng tiền
                                         </th>
+                                        <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[96px]">
+
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="cart-item">
-                                        <td class="py-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
+                                    {cartList.map((cart) => (
+                                        <tr className="cart-item">
+                                            <td className="py-6 text-sm">
+                                                <div className="flex gap-2 items-center">
+                                                    <div className="w-[70px] h-[70px]">
+                                                        <img className="w-full h-full rounded-lg" src={cart.url} alt="" />
+                                                    </div>
 
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
                                                 </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <div className="ml-1">
+                                                    <p className="mb-0 text-[#272343] text-sm">{cart.name}</p>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input select-none" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart-item">
-                                        <td class="pb-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
+
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <p className="mb-0">{formatPrice(cart.price)} VNĐ</p>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <div className="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
+                                                    <span className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus" onClick={handleMinusClick(cart)}>-</span>
+                                                    <input type="text" className="text-[#272343] text-base plus_mines_input select-none" value={cart.quantity}/>
+                                                    <span className="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus"  onClick={handlePlusClick(cart)}>+</span>
                                                 </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart-item">
-                                        <td class="pb-6 text-sm">
-                                            <div class="flex gap-2 items-center">
-                                                <button class="del">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M2 2L6.00003 6M6.00003 6L10 2M6.00003 6L2 10M6.00003 6L10 10" stroke="#9A9CAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </button>
-                                                <div class="w-[70px] h-[70px]">
-                                                    <img class="w-full h-full rounded-lg" src={shop_cart} alt="" />
-                                                </div>
-                                                <div class="ml-1">
-                                                    <p class="mb-0 text-[#272343] text-sm">Sofa for Living Room</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p class="mb-0">$250.00</p>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <div class="border inline-flex justify-around items-center h-[52px] w-[140px] border-[#D6D9DD] rounded-lg">
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pl-[14px] select-none minus" id="minus">-</span>
-                                                <input type="text" class="text-[#272343] text-base plus_mines_input" value="01"/>
-                                                <span class="w-5 h-5 inline-flex justify-center items-center text-[#9A9CAA] pr-[14px] select-none plus" id="plus">+</span>
-                                            </div>
-                                        </td>
-                                        <td class="pb-6 text-sm">
-                                            <p>$250.00</p>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <p>{formatPrice(cart.price)} VNĐ</p>
+                                            </td>
+                                            <td className="py-6 text-sm">
+                                                <button type="button m_l9" onClick={() => delete_Cart(cart.id_cart)}
+                                                        className="btn btn-outline-secondary deleterow"><i
+                                                    className="icofont-ui-delete text-danger"/></button>
+                                            </td>
+                                        </tr>
+                                    ))}
+
+
                                     </tbody>
                                 </table>
                             </div>
@@ -207,32 +193,10 @@ const  Cart = () => {
                                 <div class="coupon-wrap p-6-t">
                                     <input type="text" name="" id="" class="px-5-tw py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
                                         <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
-                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg">Cập Nhật Giỏ Hàng</button>
+                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg"><a href={"/checkout-shopping"}>Đặt hàng</a></button>
                                 </div>
                         </div>
-                        <div class="cart-total p-8 lg:w-1/3 w-full">
-                            <div class="subtotal-info">
-                                <div class="flex justify-between items-center">
-                                    <p class="common-hedding">Tổng tiền</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">$1,435.00</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Mã giảm giá</p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">26%</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4">
-                                    <p class="common-hedding">Phí vận chuyển </p>
-                                    <p class="text-gray-black text-[16px] leading-[120%] font-display font-medium">Free</p>
-                                </div>
-                                <hr/>
-                                    <div class="flex justify-between items-center">
-                                        <p class="common-hedding">Tổng:</p>
-                                        <p class="text-gray-black text-[22px] leading-[120%] font-display font-semibold">$1026.23</p>
-                                    </div>
-                                    <button class="mt-6 bg-accents hover:bg-[#272343] transition-all duration-300 py-[19px] rounded-lg text-[18px] font-bold font-display leading-[110%] text-gray-white text-center w-full">Thanh toán</button>
 
-                            </div>
-                        </div>
 
                     </div>
                 </div>

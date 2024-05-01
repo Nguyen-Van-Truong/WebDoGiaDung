@@ -64,21 +64,21 @@ const SignIn = () => {
         if (userData !== null) {
             console.log(userData );
             const isAdmin = userData.is_admin;
-            const user_id = userData.user_id ;
-            sessionStorage.setItem("userData", userData);
+
+
 
             if (isAdmin) {
-                console.log('id'+user_id);
+
                 sessionStorage.setItem('username',  userData.username);
                 sessionStorage.setItem('email',  userData.email);
-                sessionStorage.setItem('password', userData.password);
-                localStorage.setItem('user_id' ,user_id );
+
+
                 navigate('/index-admin')
             } else {
-                localStorage.setItem('user_id' ,user_id );
+
                 sessionStorage.setItem('email',  userData.email);
                 sessionStorage.setItem('username',  userData.username);
-                sessionStorage.setItem('password', userData.password);
+
                 navigate('/')
             }
         }

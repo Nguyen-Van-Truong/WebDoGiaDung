@@ -10,18 +10,24 @@ import profileReducer from "../../../redux/ProfileReducer";
 import notifiCationReducer from "../../../redux/NotificationReducer";
 import customerReducer from "./CustomerReducer";
 import forgetPasswordReducer from "../../../redux/ForgetPasswordRedux";
+import product_Details_Reducer from "../../../redux/Product_Details_Reducer";
+import cartReducer from "../../../redux/CartReducer";
+import cartHistoryReducer from "../../../redux/HistoryCartReducer";
 
 
 const rootReducer = combineReducers({
     appUser: appReducer,
     productAdmin: productReducer,
     category: categoryReducer,
-    page : currentPageReducer,
+    page: currentPageReducer,
     notifications: notificationReducer,
-    profile : profileReducer,
+    profile: profileReducer,
     notification: notifiCationReducer,
     customer: customerReducer,
-    forget :forgetPasswordReducer
+    forget: forgetPasswordReducer,
+    details: product_Details_Reducer,
+    cart : cartReducer,
+    history :cartHistoryReducer
 });
 
 export default rootReducer;
