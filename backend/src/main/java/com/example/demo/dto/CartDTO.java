@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class CartDTO {
+    private  int id_user;
     private int id_cart;
     private int cart_item_id;
     private  String url;
@@ -15,8 +16,9 @@ public class CartDTO {
     private Timestamp date;
     private CartStatus status;
 
-    public CartDTO(int id_cart,int cart_item_id ,String url, String name, BigDecimal price, int quantity) {
-         this.id_cart = id_cart;
+    public CartDTO(int id_user ,int id_cart,int cart_item_id ,String url, String name, BigDecimal price, int quantity) {
+         this.id_user = id_user;
+        this.id_cart = id_cart;
       this.cart_item_id = cart_item_id;
         this.url = url;
         this.name = name;
@@ -31,6 +33,18 @@ public class CartDTO {
         this.price = price;
         this.quantity = quantity;
         this.date = date;
+        this.status = status;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    public void setStatus(CartStatus status) {
         this.status = status;
     }
 

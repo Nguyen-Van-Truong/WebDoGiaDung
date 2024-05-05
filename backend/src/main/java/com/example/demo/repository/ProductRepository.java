@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.CartDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.Products;
 import org.springframework.data.domain.Page;
@@ -55,4 +56,15 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
 
 
     Optional<Products> findById(int id);
+
+    @Query("SELECT p " +
+            "FROM Products p " +
+            "JOIN CartItems i ON p.product_id = i.products.product_id " +
+            "JOIN i.cart c " +
+            "JOIN c.user u " +
+            "WHERE c.status = 'active' AND u.user_id = :user_id AND p.status = 'có sẵn'")
+    List<Products> getProductsBy(@Param("user_id") int user_id);
+
+
+
 }

@@ -4,6 +4,9 @@ import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ProductListAdminDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.Products;
+import com.example.demo.repository.OrderDetailsRepository;
+import com.example.demo.service.OrderDetailService;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,15 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
     private final ProductService productService;
 
+
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
+
     }
 
     // lấy tất cả sản phẩm có thể chọn số lượng và thứ tự sắp xếp
@@ -87,6 +93,7 @@ public class ProductController {
     public List<String> getProductStatuses() {
         return productService.getAllProductStatuses();
     }
-    
+
+
 
 }

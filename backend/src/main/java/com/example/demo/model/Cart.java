@@ -25,16 +25,13 @@ public class Cart {
     @Column(name = "status")
     private CartStatus status;
 
-    public CartStatus getStatus() {
-        return status;
-    }
 
-    public void setStatus(CartStatus status) {
-        this.status = status;
-    }
+
 
     public Cart() {
     }
+
+
 
     public Cart(User user, Timestamp created_at, Timestamp updated_at, CartStatus status) {
         this.user = user;
@@ -74,4 +71,14 @@ public class Cart {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    public CartStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CartStatus status) {
+        this.status = status;
+    }
+
+
 }

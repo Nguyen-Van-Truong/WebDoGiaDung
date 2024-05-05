@@ -26,6 +26,7 @@ import Chat from "./admin/Chat";
 import AdminProfile from "./admin/AdminProfile";
 
 import SendOtp from "./user/SendOtp";
+import PaymentResponse from "./user/PaymentResponse";
 
 
 const App = () => {
@@ -59,7 +60,7 @@ const App = () => {
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/admin-profile" element={<AdminProfile/>}/>
                 <Route path="/send-otp" element={<SendOtp/>}/>
-
+                <Route path={"payment-response"} element={<PaymentResponse/>}/>
 
             </Routes>
         </Router>
