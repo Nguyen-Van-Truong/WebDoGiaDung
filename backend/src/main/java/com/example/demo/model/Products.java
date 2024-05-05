@@ -44,6 +44,22 @@ public class Products {
     @JsonManagedReference
     private Set<Medias> medias;
 
+    public Products(int product_id) {
+        this.product_id = product_id;
+    }
+    public  Products(){
+
+    }
+
+    public Products(String product_name, String description, BigDecimal price, int stock_quantity, String status, Timestamp created_at) {
+        this.product_name = product_name;
+        this.description = description;
+        this.price = price;
+        this.stock_quantity = stock_quantity;
+        this.status = status;
+        this.created_at = created_at;
+    }
+
     public Categories getCategory() {
         return category;
     }

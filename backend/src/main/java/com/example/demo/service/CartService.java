@@ -49,5 +49,14 @@ public class CartService {
         }
 
     }
-
+    public void updateCheckOut(int id){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Optional<Cart> carts = cartRepository.findById(id);
+        if(carts.isPresent()){
+            Cart cart = carts.get();
+            cart.setUpdated_at(timestamp);
+            cart.setStatus(CartStatus.CHECKED_OUT);
+            cartRepository.save(cart);
+        }
+    }
 }

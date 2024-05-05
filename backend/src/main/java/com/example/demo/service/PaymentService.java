@@ -1,5 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.VNPayDTO;
+import com.example.demo.model.Orders;
+import com.example.demo.model.PaymentStatus;
+import com.example.demo.model.Payments;
+import com.example.demo.repository.OrderRepository;
+import com.example.demo.repository.PaymentRepository;
+import org.hibernate.query.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -12,13 +20,30 @@ import java.util.*;
 
 @Service
 public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+
+    private  OrderService orderService;
+
+    private  OrderDetailService orderDetailService;
+
+    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository, OrderService orderService, OrderDetailService orderDetailService) {
+        this.paymentRepository = paymentRepository;
+        this.orderRepository = orderRepository;
+        this.orderService = orderService;
+        this.orderDetailService = orderDetailService;
+    }
     // Configuration parameters
+
     private static final String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private static final String vnp_ReturnUrl = "http://localhost:3000/cart";
+    private static final String vnp_ReturnUrl = "http://localhost:3000/payment-response";
     private static final String vnp_TmnCode = "PE06A6XP";
     private static final String secretKey = "EOTGWPZGFBLDNOQNAHNUEPDCAXGNATEZ";
 
-    public String generatePaymentUrl(double amount, String bankCode, String orderInfo, String language) {
+    public String generatePaymentUrl(int user_id, String shippingAddress, String code ,double amount, String bankCode, String orderInfo, String language) {
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", "2.1.0");
         vnp_Params.put("vnp_Command", "pay");
@@ -26,8 +51,8 @@ public class PaymentService {
         vnp_Params.put("vnp_Amount", String.valueOf((long) amount * 100));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", bankCode);
-        vnp_Params.put("vnp_TxnRef", getRandomNumber(8));
-        vnp_Params.put("vnp_OrderInfo", orderInfo);
+        vnp_Params.put("vnp_TxnRef", code);
+        vnp_Params.put("vnp_OrderInfo", orderInfo + user_id + shippingAddress);
         vnp_Params.put("vnp_OrderType", "other");
         vnp_Params.put("vnp_Locale", language != null ? language : "vn");
         vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
@@ -38,7 +63,7 @@ public class PaymentService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         vnp_Params.put("vnp_CreateDate", formatter.format(cal.getTime()));
 
-        cal.add(Calendar.MINUTE, 15);
+        cal.add(Calendar.MINUTE, 20);
         vnp_Params.put("vnp_ExpireDate", formatter.format(cal.getTime()));
 
         // Generating the secure hash
@@ -49,7 +74,9 @@ public class PaymentService {
             throw new RuntimeException(e);
         }
         String vnp_SecureHash = hmacSHA512(secretKey, queryUrl);
-        return vnp_PayUrl + "?" + queryUrl + "&vnp_SecureHash=" + vnp_SecureHash;
+       String url =  vnp_PayUrl + "?" + queryUrl + "&vnp_SecureHash=" + vnp_SecureHash;
+
+       return url;
     }
 
     private String buildQuery(Map<String, String> data) throws UnsupportedEncodingException {
@@ -93,5 +120,29 @@ public class PaymentService {
             sb.append(rnd.nextInt(10));
         }
         return sb.toString();
+    }
+    /**
+     * tjem vao payment sau khi thanh toan
+     */
+    public int addPayment(int id_order, String transactionId, String paymentMethod, PaymentStatus paymentStatus, double paymentAmount, String currency){
+        Optional<Orders> orders = orderRepository.findById(id_order);
+        if(orders.isPresent()){
+            Orders o = orders.get();
+            Payments  payments = new Payments(o, transactionId, paymentMethod, paymentStatus, paymentAmount,currency );
+            Payments  p=      paymentRepository.save(payments);
+            return  p.getPayment_id();
+        } else {
+            throw new IllegalArgumentException("No  found with id: " );
+        }
+    }
+    public void updatePayMethod(int id){
+        Optional<Payments> payments = paymentRepository.findById(id);
+        if(payments.isPresent()){
+            Payments p = payments.get();
+            p.setPaymentStatus(PaymentStatus.COMPLETED);
+            paymentRepository.save(p);
+        } else {
+            System.out.println("Payment with ID " + id + " not found."); // Or use a logger
+        }
     }
 }

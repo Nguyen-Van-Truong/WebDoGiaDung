@@ -32,6 +32,13 @@ public class OrderDetails {
         this.price = price;
     }
 
+    public OrderDetails(Orders order, Products product, int quantity, Double price) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public OrderDetails() {
 
     }

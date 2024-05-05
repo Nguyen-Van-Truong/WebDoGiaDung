@@ -3,6 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -132,4 +134,6 @@ public class User {
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
+
+
 }
