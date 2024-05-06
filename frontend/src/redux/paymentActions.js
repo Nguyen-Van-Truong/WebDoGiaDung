@@ -24,8 +24,11 @@ export const processPayment = ({ user_id, shippingAddress, code, amount, bankCod
         const { paymentUrl, idPayment } = await createPayment({ user_id, shippingAddress, code, amount, bankCode, orderInfo });
 
         if (paymentUrl !== "" && idPayment) {
+            /**
+             * lưu duong dan va id nguoi dung bang redũ
+             */
 
-            dispatch(paymentSuccess(paymentUrl, idPayment));  // Update this if you change the paymentSuccess action structure
+            dispatch(paymentSuccess(paymentUrl, idPayment));
             window.location.href = paymentUrl;
         } else {
             dispatch(paymentFailure('Invalid payment data'));

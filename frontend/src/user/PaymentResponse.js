@@ -15,6 +15,7 @@ import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
 import {updatePaymentMethod} from "../api/paymentApi";
+import {updateCheckout} from "../api/CartApi";
 
 
 const PaymentResponse = () => {
@@ -27,7 +28,7 @@ const PaymentResponse = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const id_payment =useSelector(state => state.paymentReducer.paymentId);
-
+    const  user_id =useSelector(state => state.appUser.user_id);
     useEffect(() => {
 
         const query = new URLSearchParams(location.search);
@@ -46,6 +47,7 @@ const PaymentResponse = () => {
                 setPaymentStatus(data);
                 if(data === "00"){
                     dispatch(updatePaymentMethod(id_payment))
+                    dispatch(updateCheckout(user_id));
                 }
             } catch (error) {
                 console.error('Error fetching payment status:', error);

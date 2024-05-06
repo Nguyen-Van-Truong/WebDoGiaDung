@@ -142,6 +142,12 @@ const Order_History= () => {
                                                 </td>
 
                                             }
+                                            { history.status === "CHECKED_OUT" &&
+                                                <td className="py-6 text-sm">
+                                                    <button className="btn-primary px-3 py-2 text-[#636270]] text-[14px] leading-[120%] font-display"> Đơn hàng đã thanh toán </button>
+                                                </td>
+
+                                            }
 
                                         </tr>
                                     ))}
