@@ -25,9 +25,8 @@ public interface CartItemRepository extends JpaRepository<CartItems, Integer> {
             "FROM User u " +
             "JOIN Cart c ON u.user_id = c.user.user_id " +
             "JOIN CartItems i ON c.cart_id = i.cart.cart_id " +
-            "WHERE c.status = 'active' and u.user_id=:user_id" )
-
-    int countCart(@Param("user_id") int user_id);
+            "WHERE c.status = 'active' and u.user_id=:user_id")
+    Integer countCart(@Param("user_id") int user_id);
 
 
     Optional<CartItems> findById(int id);
@@ -42,5 +41,8 @@ public interface CartItemRepository extends JpaRepository<CartItems, Integer> {
             "JOIN Medias m ON p.product_id = m.products.product_id " +
             "WHERE c.status = 'active' and u.user_id=:user_id or c.status = 'inactive' and u.user_id=:user_id  or c.status = 'checked_out' and u.user_id=:user_id  " + " group by i.cart.cart_id")
     List<CartDTO>history(@Param("user_id") int user_id);
+
+
+
 
 }

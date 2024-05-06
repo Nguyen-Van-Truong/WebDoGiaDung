@@ -4,6 +4,8 @@ import com.example.demo.dto.CartDTO;
 import com.example.demo.service.CartItemService;
 import com.example.demo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +50,15 @@ public class CartController {
     @GetMapping("/deleteCart")
     public void delete(@RequestParam(value ="cart_id") int cart_id){
         cartService.delete(cart_id);
+    }
+    @GetMapping(value = "/updateCartCheckOut")
+    public ResponseEntity<?> updatePaymentMethod(@RequestParam(value = "user_id") int user_id) {
+        try {
+           cartService.updateCheckOut(user_id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception to analyze it
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating cart check out");
+        }
     }
 }
