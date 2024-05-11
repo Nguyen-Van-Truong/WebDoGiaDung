@@ -47,7 +47,8 @@ public class CartItemService {
         return cartDTOS;
     }
     public int count(int id){
-        return  cartItemRepository.countCart(id);
+        Integer result = cartItemRepository.countCart(id);
+        return (result != null) ? result : 0; // Return 0 if the result is null
     }
     public  void updateCart(int id, int quantity, BigDecimal price){
         Optional<CartItems> cartItems = cartItemRepository.findById(id);

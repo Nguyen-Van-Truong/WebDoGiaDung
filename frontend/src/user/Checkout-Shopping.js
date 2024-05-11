@@ -34,7 +34,7 @@ const Checkout_Shopping = () => {
     const [selectedCommuneName, setSelectedCommuneName] = useState('');
     const [address, setAddress] = useState('');
     const cartList = useSelector(state => state.cart.ListCart);
-
+    const  user_id =useSelector(state => state.appUser.user_id);
     /*8
  TONG TIEN
      */
@@ -66,6 +66,16 @@ const Checkout_Shopping = () => {
 
         setAddress(event.target.value);
     };
+    /**
+     * tạo mã ngau nhiem
+     */
+    function getRandomNumber(len) {
+        let result = '';
+        for (let i = 0; i < len; i++) {
+            result += Math.floor(Math.random() * 10); // Random digit from 0 to 9
+        }
+        return result;
+    }
     useEffect(() => {
 
         dispatch(province());
@@ -96,13 +106,20 @@ const Checkout_Shopping = () => {
     }, [dispatch, selectedProvinceId, selectedDistrict, selectedProvinceName, selectedDistrictName, selectedCommuneName]);
 
     const handlePayment = () => {
-        const paymentData = { amount: totalPrice, bankCode: 'NCB', orderInfo: 'Payment for order xyz' };
+        const paymentData = {
+            user_id: user_id,
+            shippingAddress: address,
+            code: getRandomNumber(8),
+            amount: totalPrice,
+            bankCode: 'NCB',
+            orderInfo: 'Payment for order xyz'
+        };
+
         dispatch(processPayment(paymentData));
     };
 
     return (
         <div>
-
             <header className="font-display">
                 <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
                     <div className="top-header bg-secondary">
@@ -118,13 +135,11 @@ const Checkout_Shopping = () => {
                     {/*Header*/}
                     <Header_Menu/>
                 </div>
-
                 {/*bottom-header*/}
                 <Header_Bottom/>
                 {/*menu response*/}
                 <Menu_Response/>
             </header>
-
             <div>
                 <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                     <div className="container px-3 md:px-5 xl:px-0">
@@ -283,7 +298,7 @@ const Checkout_Shopping = () => {
                                     </div>
 
 
-                                    <button
+                                    <button type={"submit"}
                                         className="w-full flex gap-3 items-center justify-center mt-5 bg-accents hover:bg-[#272343] rounded-lg transition-all duration-300 py-[16px] text-[18px] font-bold font-display leading-[110%] text-gray-white"
                                         onClick={handlePayment}
                                     >

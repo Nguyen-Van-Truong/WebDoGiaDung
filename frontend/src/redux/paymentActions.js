@@ -1,4 +1,4 @@
-import createPayment from "../api/paymentApi";
+import {addPayment, createPayment} from "../api/paymentApi";
 
 export const INITIATE_PAYMENT = 'INITIATE_PAYMENT';
 export const PAYMENT_SUCCESS = 'PAYMENT_SUCCESS';
@@ -8,9 +8,9 @@ export const initiatePayment = () => ({
     type: INITIATE_PAYMENT
 });
 
-export const paymentSuccess = (url) => ({
+export const paymentSuccess = (url, idPayment) => ({
     type: PAYMENT_SUCCESS,
-    payload: url
+    payload: { url, idPayment }
 });
 
 export const paymentFailure = (error) => ({
@@ -18,15 +18,20 @@ export const paymentFailure = (error) => ({
     payload: error
 });
 
-export const processPayment = ({ amount, bankCode, orderInfo }) => async dispatch => {
+export const processPayment = ({ user_id, shippingAddress, code, amount, bankCode, orderInfo }) => async dispatch => {
     dispatch(initiatePayment());
     try {
-        const paymentUrl = await createPayment({ amount, bankCode, orderInfo });
-        if (paymentUrl.startsWith("http")) {
-            dispatch(paymentSuccess(paymentUrl));
+        const { paymentUrl, idPayment } = await createPayment({ user_id, shippingAddress, code, amount, bankCode, orderInfo });
+
+        if (paymentUrl !== "" && idPayment) {
+            /**
+             * lưu duong dan va id nguoi dung bang redũ
+             */
+
+            dispatch(paymentSuccess(paymentUrl, idPayment));
             window.location.href = paymentUrl;
         } else {
-            dispatch(paymentFailure('Invalid payment URL'));
+            dispatch(paymentFailure('Invalid payment data'));
         }
     } catch (error) {
         dispatch(paymentFailure(error));

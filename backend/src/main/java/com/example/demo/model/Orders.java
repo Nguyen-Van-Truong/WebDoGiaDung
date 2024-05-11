@@ -42,9 +42,18 @@ public class Orders {
         this.orderDetails = orderDetails;
     }
 
+    public Orders(User user , Double total, String shippingAddress) {
+        this.user = user;
+        this.total = total;
+        this.shippingAddress = shippingAddress;
+
+    }
+
     public Orders() {
 
     }
+
+
 
     public int getOrderId() {
         return orderId;

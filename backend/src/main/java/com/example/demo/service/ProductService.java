@@ -305,7 +305,12 @@ public class ProductService {
                 .collect(Collectors.toList());
         return statuses;
     }
+    public  List<Products> getListProducts(int id_user){
+        return productRepository.getProductsBy(id_user);
+    }
     private static boolean filterGetEnum(String str) {
         return !str.matches("enum\\(|\\)|,");
     }
+
+
 }
