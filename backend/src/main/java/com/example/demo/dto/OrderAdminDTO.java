@@ -150,6 +150,15 @@ public class OrderAdminDTO {
         private int productId;
         private String productName;
         private Double price;
+        private String imageUrl; // Add this field
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
 
         public int getProductId() {
             return productId;

@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.OrderAdminDTO;
-import com.example.demo.model.OrderDetails;
-import com.example.demo.model.Orders;
-import com.example.demo.model.Products;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.UserRepository;
 import org.hibernate.query.Order;
@@ -92,6 +89,10 @@ public class OrderService {
         dto.setProductId(product.getProduct_id());
         dto.setProductName(product.getProduct_name());
         dto.setPrice(product.getPrice().doubleValue());
+        dto.setImageUrl(product.getMedias().stream()
+                .findFirst() // Get the first media
+                .map(Medias::getFile_url) // Extract the URL
+                .orElse(null)); // Or return null if no media is present
         return dto;
     }
 
