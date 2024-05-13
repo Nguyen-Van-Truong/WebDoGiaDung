@@ -1,12 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {formatCurrency} from "./utils/utils";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchOrderDetails} from "./redux/actions/OrderActions";
 
 const OrderDetails = () => {
-    const location = useLocation();
-    const order = location.state.order;
+    const {orderId} = useParams();
+    const dispatch = useDispatch();
+    const {orderDetails, loading, error} = useSelector(state => state.orderReducer);
+
+    useEffect(() => {
+        dispatch(fetchOrderDetails(orderId));
+    }, [dispatch, orderId]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!orderDetails) return <div>No order found</div>;
+
+    const order = orderDetails; // Assuming the fetched data is directly the order details
+
 
     return (
         <div id="ebazar-layout" className="theme-blue">
@@ -103,32 +117,32 @@ const OrderDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                                <div className="col-xl-12 col-xxl-4">
-                                    <div className="card mb-3">
-                                        <div
-                                            className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                            <h6 className="mb-0 fw-bold ">Trạng thái đơn hàng</h6>
-                                        </div>
-                                        <div className="card-body">
-                                            <form>
-                                                <div className="row g-3 align-items-center">
-                                                    <div className="col-md-12">
-                                                        <label className="form-label">Tình trạng đặt hàng</label>
-                                                        <select className="form-select"
-                                                                aria-label="Default select example">
-                                                            <option value={1}>Progress</option>
-                                                            <option value={2}>Completed</option>
-                                                            <option selected value={3}>Pending</option>
-                                                        </select>
-                                                    </div>
+                            <div className="col-xl-12 col-xxl-4">
+                                <div className="card mb-3">
+                                    <div
+                                        className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                        <h6 className="mb-0 fw-bold ">Trạng thái đơn hàng</h6>
+                                    </div>
+                                    <div className="card-body">
+                                        <form>
+                                            <div className="row g-3 align-items-center">
+                                                <div className="col-md-12">
+                                                    <label className="form-label">Tình trạng đặt hàng</label>
+                                                    <select className="form-select"
+                                                            aria-label="Default select example">
+                                                        <option value={1}>Progress</option>
+                                                        <option value={2}>Completed</option>
+                                                        <option selected value={3}>Pending</option>
+                                                    </select>
                                                 </div>
-                                                <button type="button"
-                                                        className="btn btn-primary mt-4 text-uppercase">Cập nhật
-                                                </button>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <button type="button"
+                                                    className="btn btn-primary mt-4 text-uppercase">Cập nhật
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
+                            </div>
 
                         </div>
                         {/* Row end  */}

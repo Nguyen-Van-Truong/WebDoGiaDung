@@ -136,9 +136,13 @@ public class UserController {
 
     // lay ra thong tin chi tiet cua 1 tai khoan
     @GetMapping("/admin/getUser/{id}")
-    public AdminUserResponse getUser(@PathVariable int id) {
-        System.out.println("id:" + id);
-        System.out.println("user:" + userService.getUser(id));
-        return userService.getUser(id);
+    public Page<AdminUserResponse> getUserWithOrders(
+            @PathVariable int id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection,
+            @RequestParam(defaultValue = "orderDate") String sortBy) {
+        return userService.getUserWithOrders(id, page, size, sortDirection, sortBy);
     }
+
 }

@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     history: cartHistoryReducer,
     paymentReducer: paymentReducer,
-    order: orderReducer,
+    orderReducer: orderReducer,
 
 });
 

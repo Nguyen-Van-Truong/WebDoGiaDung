@@ -12,8 +12,10 @@ import {useNavigate} from "react-router-dom";
 const Orderlist = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {orders, totalPages, loading, error} = useSelector(state => state.order);
-    const currentPage = useSelector(state => state.page.currentPage);  // Assuming currentPage is managed elsewhere in Redux
+
+    const {orders, totalPages, loading, error} = useSelector(state => state.orderReducer);
+
+    const currentPage = useSelector(state => state.page.currentPage);
 
     useEffect(() => {
         dispatch(fetchOrders(currentPage, 5));
@@ -23,9 +25,14 @@ const Orderlist = () => {
         const selectedPage = data.selected;
         dispatch(setCurrentPage(selectedPage));
     };
+
     const handleRowClick = (order) => {
-        navigate(`/order-details-admin/${order.orderId}`, {state: {order}});
+        navigate(`/order-details-admin/${order.orderId}`);
     };
+
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div id="ebazar-layout" className="theme-blue">

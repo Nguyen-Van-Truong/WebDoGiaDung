@@ -88,7 +88,7 @@ public class OrderService {
         OrderAdminDTO.ProductDTO dto = new OrderAdminDTO.ProductDTO();
         dto.setProductId(product.getProduct_id());
         dto.setProductName(product.getProduct_name());
-        dto.setPrice(product.getPrice().doubleValue());
+        dto.setPrice(product.getPrice());
         dto.setImageUrl(product.getMedias().stream()
                 .findFirst() // Get the first media
                 .map(Medias::getFile_url) // Extract the URL

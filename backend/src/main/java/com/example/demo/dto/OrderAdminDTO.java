@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -149,7 +150,7 @@ public class OrderAdminDTO {
     public static class ProductDTO {
         private int productId;
         private String productName;
-        private Double price;
+        private BigDecimal price;
         private String imageUrl; // Add this field
 
         public String getImageUrl() {
@@ -176,11 +177,11 @@ public class OrderAdminDTO {
             this.productName = productName;
         }
 
-        public Double getPrice() {
+        public BigDecimal getPrice() {
             return price;
         }
 
-        public void setPrice(Double price) {
+        public void setPrice(BigDecimal price) {
             this.price = price;
         }
     }
