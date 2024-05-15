@@ -1,20 +1,23 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.AdminUserResponse;
+import com.example.demo.dto.OrderAdminDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.model.Orders;
 import com.example.demo.model.User;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.User_impl;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import until.MD5;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import until.OrderConverter;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,10 +28,13 @@ public class UserService implements User_impl {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private MD5 md5 = new MD5();
+    private final OrderConverter orderConverter;
+
     @Autowired
-    public UserService(UserRepository userRepository, OrderRepository orderRepository) {
+    public UserService(UserRepository userRepository, OrderRepository orderRepository, OrderConverter orderConverter) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.orderConverter = orderConverter;
     }
 
     // tim kiem dang nhap user theo email và mât khẩu
@@ -91,47 +97,48 @@ public class UserService implements User_impl {
         if (user.isPresent()) {
             User u = user.get();
             if (u.getPassword().equals(oldPassword)) {
-               u.setPassword(md5.hash(newPassword));
-               userRepository.save(u);
+                u.setPassword(md5.hash(newPassword));
+                userRepository.save(u);
                 System.out.println(u.getPassword().toString());
                 return true;
             }
         }
-        return  false;
+        return false;
     }
 
 
     /**
      * cap nhap mật khẩu người dùng
      */
-    public boolean updatePassword(int id, String newPassword){
+    public boolean updatePassword(int id, String newPassword) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             User u = user.get();
             u.setPassword(md5.hash(newPassword));
             userRepository.save(u);
             return true;
-        }else{
-            return  false;
+        } else {
+            return false;
         }
     }
+
     /**
-     *
      * lây mat khau nguoi dung
      */
-    public  String getPassword(int id){
+    public String getPassword(int id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             User u = user.get();
-          return u.getPassword();
+            return u.getPassword();
         }
         return null;
     }
+
     /**
      * lay id nguoi dung theo email
      */
-    public int getIdUser(String email){
-       return  userRepository.findBy(email);
+    public int getIdUser(String email) {
+        return userRepository.findBy(email);
     }
 
     // lay danh sach user cho admin quan ly
@@ -146,12 +153,22 @@ public class UserService implements User_impl {
     }
 
     // lay ra thong tin chi tiet cua 1 tai khoan
-    public AdminUserResponse getUser(int id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return null;
-        }
-        int totalOrders = orderRepository.countByUser_Id(user.getUser_id());
-        return new AdminUserResponse(user, totalOrders);
+    public Page<AdminUserResponse> getUserWithOrders(int userId, int page, int size, String sortDirection, String sortBy) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Orders> orderPage = orderRepository.findByUserId(userId, pageable);
+
+        List<AdminUserResponse> responses = orderPage.getContent()
+                .stream()
+                .map(order -> convertToAdminUserResponse(user, order))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(responses, pageable, orderPage.getTotalElements());
+    }
+
+    private AdminUserResponse convertToAdminUserResponse(User user, Orders order) {
+        OrderAdminDTO orderDTO = orderConverter.convertToOrderAdminDTO(order);
+        return new AdminUserResponse(user, Collections.singletonList(orderDTO), orderRepository.countByUser_Id(user.getUser_id()));
     }
 }

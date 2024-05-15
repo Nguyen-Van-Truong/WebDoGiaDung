@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example.demo.service", "websocket" ,"com.example.demo.controller","com.example.demo.repository"})
+@ComponentScan(basePackages = {"com.example.demo.service", "websocket" ,"com.example.demo.controller","com.example.demo.repository","until"})
 public class DemoApplication {
 
 	public static void main(String[] args) {

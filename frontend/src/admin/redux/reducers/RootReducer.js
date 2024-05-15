@@ -14,6 +14,7 @@ import product_Details_Reducer from "../../../redux/Product_Details_Reducer";
 import cartReducer from "../../../redux/CartReducer";
 import cartHistoryReducer from "../../../redux/HistoryCartReducer";
 import paymentReducer from "../../../redux/paymentReducer";
+import orderReducer from "./OrderReducer";
 
 
 const rootReducer = combineReducers({
@@ -29,7 +30,9 @@ const rootReducer = combineReducers({
     details: product_Details_Reducer,
     cart: cartReducer,
     history: cartHistoryReducer,
-    paymentReducer: paymentReducer
+    paymentReducer: paymentReducer,
+    orderReducer: orderReducer,
+
 });
 
 export default rootReducer;

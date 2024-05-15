@@ -28,6 +28,8 @@ const Customers = () => {
         navigate(`/customer-detail/${customerId}`);
     }
 
+
+
     return (
         <div id="ebazar-layout" className="theme-blue">
             {/* sidebar */}

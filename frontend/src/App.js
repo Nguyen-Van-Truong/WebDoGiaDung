@@ -52,9 +52,9 @@ const App = () => {
                 <Route path="/product-add" element={<ProductAdd/>}/>
                 <Route path="/order-list" element={<OrderList/>}/>
                 <Route path="/order-invoices" element={<OrderInvoices/>}/>
-                <Route path="/order-details-admin" element={<OrderDetails/>}/>
+                <Route path="/order-details-admin/:orderId" element={<OrderDetails/>}/>
                 <Route path="/customers" element={<Customers/>}/>
-                <Route path="/customer-detail/:customerId" element={<CustomerDetail />} />
+                <Route path="/customer-detail/:userId" element={<CustomerDetail />} />
                 <Route path="/coupons-list" element={<CouponsList/>}/>
                 <Route path="/coupon-add" element={<CouponAdd/>}/>
                 <Route path="/chat" element={<Chat/>}/>
