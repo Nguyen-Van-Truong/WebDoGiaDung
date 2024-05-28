@@ -22,7 +22,7 @@ const CustomerDetail = () => {
     }, [userId, dispatch]);
 
     if (error) return <div>Error: {error}</div>;
-    if (!orders.length || !detailCustomerData) return <div>Loading...</div>;
+    if (!detailCustomerData) return <div>Loading...</div>;
 
     const handlePageClick = (data) => {
         const selectedPage = data.selected;
