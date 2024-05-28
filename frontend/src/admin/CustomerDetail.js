@@ -2,22 +2,39 @@ import React, {useEffect} from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
 import Pagination from "./component/Index/Pagination";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchDetailCustomer} from "./redux/actions/CustomerActions";
+import {fetchCustomerDetailOrders} from "./redux/actions/CustomerActions";
+import {formatCurrency, shortenProductName} from "./utils/utils";
+import Pagination2 from "./component/Index/Pagination2";
 
 const CustomerDetail = () => {
+    const {userId} = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {customerId} = useParams();
-
-    const customer = useSelector(state => state.customer.detailCustomer);
+    const {detailCustomerData, detailCustomer, error, totalPages} = useSelector(state => state.customer);
+    const orders = detailCustomer.orders || []; // Safe fallback
 
     useEffect(() => {
-        if (customerId) {
-            dispatch(fetchDetailCustomer(customerId));
+        if (userId) {
+            dispatch(fetchCustomerDetailOrders(userId, 0, 5, 'desc', 'orderDate'));
         }
-    }, [customerId, dispatch]);
+    }, [userId, dispatch]);
 
+    if (error) return <div>Error: {error}</div>;
+    if (!orders.length || !detailCustomerData) return <div>Loading...</div>;
+
+    const handlePageClick = (data) => {
+        const selectedPage = data.selected;
+        dispatch(fetchCustomerDetailOrders(userId, selectedPage, 5, 'desc', 'orderDate'));
+    };
+    const handleOrderClick = (order) => {
+        navigate(`/order-details-admin/${order.orderId}`);
+    };
+    console.log(orders);
+    console.log(detailCustomer);
+    if (error) return <div>Error: {error}</div>;
+    if (!orders) return <div>Loading...</div>;
 
     return (
         <div id="ebazar-layout" className="theme-blue">
@@ -39,8 +56,8 @@ const CustomerDetail = () => {
                             </div>
                         </div>
                         {/* Row end  */}
-                        <div className="row g-3 mb-xl-3">
-                            <div className="col-xxl-4 col-xl-12 col-lg-12 col-md-12">
+                        <div className="row g-3 mb-xl-3 justify-content-center">
+                            <div className="col-xxl-6 col-xl-12 col-lg-12 col-md-12">
                                 <div
                                     className="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-1 row-deck g-3">
                                     <div className="col">
@@ -54,25 +71,25 @@ const CustomerDetail = () => {
                                                     <div
                                                         className="about-info d-flex align-items-center mt-3 justify-content-center flex-column">
                                                         <span
-                                                            className="text-muted small">ID : {customer.user_id}</span>
+                                                            className="text-muted small">ID : {detailCustomer.user_id}</span>
                                                     </div>
                                                 </div>
                                                 <div className="profile-info w-100">
-                                                    <h6 className="mb-0 mt-2 fw-bold d-block fs-6 text-center">{customer.full_name}</h6>
+                                                    <h6 className="mb-0 mt-2 fw-bold d-block fs-6 text-center">{detailCustomer.full_name}</h6>
 
                                                     <span
-                                                        className="py-1 fw-bold small-11 mb-0 mt-1 text-muted text-center mx-auto d-block">{customer.is_admin ? "Admin" : "Khách hàng"}</span>
+                                                        className="py-1 fw-bold small-11 mb-0 mt-1 text-muted text-center mx-auto d-block">{detailCustomer.is_admin ? "Admin" : "Khách hàng"}</span>
                                                     <div className="row g-2 pt-2">
                                                         <div className="col-xl-12">
                                                             <div className="d-flex align-items-center">
                                                                 <i className="icofont-email"/>
-                                                                <span className="ms-2">{customer.email}</span>
+                                                                <span className="ms-2">{detailCustomer.email}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-xl-12">
                                                             <div className="d-flex align-items-center">
                                                                 <i className="icofont-address-book"/>
-                                                                <span className="ms-2">{customer.address}</span>
+                                                                <span className="ms-2">{detailCustomer.address}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -82,129 +99,54 @@ const CustomerDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-xxl-8 col-xl-12 col-lg-12 col-md-12">
+                        </div>
+
+                        <div className="row g-3 mb-3">
+                            <div className="col-md-12">
                                 <div className="card">
-                                    <div
-                                        className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                        <h6 className="mb-0 fw-bold ">Customer Order</h6>
-                                    </div>
-                                    <div className="card-body">
-                                        <table id="myProjectTable" className="table table-hover align-middle mb-0"
-                                               style={{width: '100%'}}>
-                                            <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Item</th>
-                                                <th>Payment Info</th>
-                                                <th>Order Date</th>
-                                                <th>Price</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-78414</strong></a></td>
-                                                <td><img src="assets/images/product/product-1.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span> Oculus VR </span>
-                                                </td>
-                                                <td>Credit Card</td>
-                                                <td>June 16, 2021</td>
-                                                <td>
-                                                    $420
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-58414</strong></a></td>
-                                                <td><img src="assets/images/product/product-2.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Wall Clock</span>
-                                                </td>
-                                                <td>Debit Card</td>
-                                                <td>June 16, 2021</td>
-                                                <td>
-                                                    $220
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-48414</strong></a></td>
-                                                <td><img src="assets/images/product/product-3.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Note Diaries</span>
-                                                </td>
-                                                <td>Debit Card</td>
-                                                <td>June 16, 2021</td>
-                                                <td>
-                                                    $250
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-38414</strong></a></td>
-                                                <td><img src="assets/images/product/product-4.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Flower Port</span>
-                                                </td>
-                                                <td>Credit Card</td>
-                                                <td>June 16, 2021</td>
-                                                <td>
-                                                    $320
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-28414</strong></a></td>
-                                                <td><img src="assets/images/product/product-1.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Oculus VR</span>
-                                                </td>
-                                                <td>Debit Card</td>
-                                                <td>June 17, 2021</td>
-                                                <td>
-                                                    $20
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-18414</strong></a></td>
-                                                <td><img src="assets/images/product/product-2.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Wall Clock</span>
-                                                </td>
-                                                <td>Debit Card</td>
-                                                <td>June 18, 2021</td>
-                                                <td>
-                                                    $820
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-11414</strong></a></td>
-                                                <td><img src="assets/images/product/product-3.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Note Diaries</span>
-                                                </td>
-                                                <td>Bank Emi</td>
-                                                <td>March 16, 2021</td>
-                                                <td>
-                                                    $620
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-27414</strong></a></td>
-                                                <td><img src="assets/images/product/product-5.jpg"
-                                                         className="avatar lg rounded me-2"
-                                                         alt="profile-image"/><span>Bag</span></td>
-                                                <td>Debit Card</td>
-                                                <td>June 18, 2021</td>
-                                                <td>
-                                                    $820
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="order-details.html"><strong>#Order-78514</strong></a></td>
-                                                <td><img src="assets/images/product/product-6.jpg"
-                                                         className="avatar lg rounded me-2" alt="profile-image"/><span>Rado Watch</span>
-                                                </td>
-                                                <td>Bank Emi</td>
-                                                <td>March 16, 2021</td>
-                                                <td>
-                                                    $620
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <Pagination/>
-
+                                    <div className="card mt-4">
+                                        <div className="card-body">
+                                            <table className="table table-hover align-middle mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Items</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Order Date</th>
+                                                    <th>Total</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {detailCustomerData.flatMap(customer =>
+                                                    customer.orders.map((order, idx) => (
+                                                        <tr key={order.orderId} onClick={() => handleOrderClick(order)}>
+                                                            <td><a
+                                                                href={`order-details.html?orderId=${order.orderId}`}>{order.orderId}</a>
+                                                            </td>
+                                                            <td>
+                                                                {order.orderDetails.map((item, itemIdx) => (
+                                                                    <div key={itemIdx} className="item-details">
+                                                                        <img src={item.product.imageUrl}
+                                                                             className="avatar lg rounded me-2"
+                                                                             alt="product"/>
+                                                                        <span>{shortenProductName(item.product.productName)} - Số lượng: {item.quantity} - Tổng giá: {formatCurrency(item.price)} VNĐ</span>
+                                                                    </div>
+                                                                ))}
+                                                            </td>
+                                                            <td>{order.user.fullName}</td>
+                                                            <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                                                            <td>{formatCurrency(order.total)}</td>
+                                                            <td><span
+                                                                className="badge bg-warning">{order.status || 'Pending'}</span>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                )}
+                                                </tbody>
+                                            </table>
+                                            <Pagination2 onPageChange={handlePageClick} pageCount={totalPages}/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

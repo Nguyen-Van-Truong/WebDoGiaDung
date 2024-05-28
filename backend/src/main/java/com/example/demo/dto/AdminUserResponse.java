@@ -3,6 +3,7 @@ package com.example.demo.dto;
 import com.example.demo.model.User;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class AdminUserResponse {
     private int user_id;
@@ -12,13 +13,17 @@ public class AdminUserResponse {
     private boolean is_admin;
     private Timestamp created_at;
     private int total_orders;
-    public AdminUserResponse(int user_id, String email, String full_name, String address, boolean is_admin, Timestamp created_at) {
-        this.user_id = user_id;
-        this.email = email;
-        this.full_name = full_name;
-        this.address = address;
-        this.is_admin = is_admin;
-        this.created_at = created_at;
+    private List<OrderAdminDTO> orders;
+    private long totalOrdersCount;
+
+    public AdminUserResponse(User user, List<OrderAdminDTO> orders, long totalOrdersCount) {
+        this.user_id = user.getUser_id();
+        this.email = user.getEmail();
+        this.full_name = user.getFull_name();
+        this.address = user.getAddress();
+        this.is_admin = user.isIs_admin();
+        this.orders = orders;
+        this.totalOrdersCount = totalOrdersCount;
     }
 
     public AdminUserResponse(User user, Integer total_orders) {
@@ -29,6 +34,22 @@ public class AdminUserResponse {
         this.is_admin = user.isIs_admin();
         this.created_at = user.getCreated_at();
         this.total_orders = total_orders;
+    }
+
+    public long getTotalOrdersCount() {
+        return totalOrdersCount;
+    }
+
+    public void setTotalOrdersCount(long totalOrdersCount) {
+        this.totalOrdersCount = totalOrdersCount;
+    }
+
+    public List<OrderAdminDTO> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderAdminDTO> orders) {
+        this.orders = orders;
     }
 
     public int getTotal_orders() {

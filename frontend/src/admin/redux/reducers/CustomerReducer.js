@@ -1,9 +1,17 @@
 // src/redux/reducers/CustomerReducer.js
-import {FETCH_CUSTOMERS_SUCCESS, FETCH_DETAIL_CUSTOMER_SUCCESS} from '../actions/CustomerActions';
+import {
+    FETCH_CUSTOMER_DETAIL_ORDERS_FAILURE,
+    FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS,
+    FETCH_CUSTOMERS_SUCCESS,
+    FETCH_DETAIL_CUSTOMER_SUCCESS
+} from '../actions/CustomerActions';
 
 const initialState = {
     customers: [],
     detailCustomer: {},
+    detailCustomerData: [],
+    error: null,
+    totalPages: 0
 };
 
 const customerReducer = (state = initialState, action) => {
@@ -15,12 +23,20 @@ const customerReducer = (state = initialState, action) => {
                 customers: action.payload.content,
                 totalPages: action.payload.totalPages,
             };
-        case FETCH_DETAIL_CUSTOMER_SUCCESS:
-            // console.log('Fetching detail customerReducer successful:', JSON.stringify(action.payload));
+        case FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS:
+            const detailCustomer = action.payload.content && action.payload.content.length > 0 ? action.payload.content[0] : {};
+            // console.log('Fetching action.payload.content.orders:', action.payload.content.orders);
+            // console.log('Fetching action.payload:', action.payload); // This log is safer now
+            // console.log('Fetching detailCustomer:', detailCustomer); // This log is safer now
             return {
                 ...state,
-                detailCustomer: action.payload,
+                detailCustomer: detailCustomer,
+                detailCustomerData: action.payload.content,
+                totalPages: action.payload.totalPages,
+                error: null
             };
+        case FETCH_CUSTOMER_DETAIL_ORDERS_FAILURE:
+            return {...state, error: action.payload};
         default:
             return state;
     }

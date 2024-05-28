@@ -52,8 +52,6 @@ export const SidebarMenu = () => {
             icon: "icofont-notepad",
             subItems: [
                 { title: "Danh sách đơn hàng", link: "/order-list" },
-                { title: "Chi tiết đơn hàng", link: "/order-details-admin" },
-                { title: "Hoá đơn đặt hàng", link: "/order-invoices" }
             ]
         },
         {
@@ -62,7 +60,6 @@ export const SidebarMenu = () => {
             icon: "icofont-funky-man",
             subItems: [
                 { title: "Danh sách khách hàng", link: "/customers" },
-                { title: "Chi tiết khách hàng", link: "/customer-detail" }
             ]
         },
         {
