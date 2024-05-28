@@ -529,7 +529,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="wishlist.html" className="heart-icon">
+                                    <a  className="heart-icon">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -675,7 +675,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
-                                            <img src={product.file_url}/>
+                                            <img src={product.fileUrl}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">
@@ -708,7 +708,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="wishlist.html" className="heart-icon">
+                                    <a  className="heart-icon">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -763,7 +763,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="wishlist.html" className="heart-icon">
+                                    <a  className="heart-icon">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -818,7 +818,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="wishlist.html" className="heart-icon">
+                                    <a  className="heart-icon">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -881,7 +881,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="wishlist.html" className="heart-icon">
+                                    <a  className="heart-icon">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"

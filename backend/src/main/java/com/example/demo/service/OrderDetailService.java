@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.CartDTO;
+import com.example.demo.dto.CartItemDTO;
 import com.example.demo.dto.CategoryDTO;
 import com.example.demo.model.OrderDetails;
 import com.example.demo.model.Orders;
@@ -36,25 +37,29 @@ public class OrderDetailService {
     public void addOrderItems(int order_id, int user_id) {
         Optional<Orders> orders = orderRepository.findById(order_id);
         List<CartDTO> cartItems = cartItemService.list(user_id);
+        List<CartItemDTO> cartItemDTOS = cartItemService.findByCartItemDTO(user_id);
         Set<Integer> processedProducts = new HashSet<>();
 
         if (orders.isPresent() && !cartItems.isEmpty()) {
             Orders order = orders.get();
-
-            for (CartDTO c : cartItems) {
-                List<Products> products = service.getListProducts(c.getId_user());
-
+            for (CartDTO cartItem : cartItems) {
+                List<Products> products = service.getListProducts(cartItem.getId_user());
                 for (Products product : products) {
-                    if (!processedProducts.contains(product.getProduct_id())) {
-                        processedProducts.add(product.getProduct_id());
-                        BigDecimal bigDecimalValue = product.getPrice();
+                    if (processedProducts.contains(product.getProduct_id())) {
+                        continue;
+                    }
+                    processedProducts.add(product.getProduct_id());
+
+                    for (CartItemDTO cartItemDTO : cartItemDTOS) {
+
+                        BigDecimal bigDecimalValue = cartItemDTO.getDecimal();
                         double doubleValue = bigDecimalValue.doubleValue();
-                        OrderDetails orderDetails = new OrderDetails(order, product, c.getQuantity(), doubleValue);
+                        OrderDetails orderDetails = new OrderDetails(order, product, cartItemDTO.getQuantity(), doubleValue);
                         orderDetailsRepository.save(orderDetails);
+
                     }
                 }
             }
         }
     }
-
 }

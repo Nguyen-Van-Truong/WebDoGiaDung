@@ -5,13 +5,15 @@ import {
   IS_TOP_SELLING, NEW_PRODUCTS, PASSWORD_LOGIN, RESET_REGISTRATION_MESSAGE, SET_ALL,
   SET_CATEGORY, SET_EMAIL, SET_ERROR,
   SET_IS_CART,
-  SET_IS_MENU, SET_IS_SEACH, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
+  SET_IS_MENU, SET_IS_SEACH, SET_IS_SEARCH, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART, TOGGLE_IS_MENU,
   TOGGLE_MENU_OPEN,
   TOOGLE_CATEGORY,
 } from "./Action";
 import {SET_RELOAD_STATUS} from "./ReloadAction";
+import {SET_PASSWORD_PROFILE} from "./ProfileAction";
+import {CHECK_REGISTER} from "./RegisterAction";
 
 
 // khởi tạo trạng thái ban đầu
@@ -42,6 +44,7 @@ const initialState = {
   errorsMessage :null,
   userInfo: null,
   errors : '',
+  errorsOtp:'',
   password_login :'',
   email_login :'',
   userData: null,
@@ -51,7 +54,8 @@ const initialState = {
   code : '',
   isRegister :false,
   user_id :0,
-  password :''
+  password :'',
+  emailSetting :''
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -60,11 +64,18 @@ const initialState = {
           ...state,
           errors:state.errors
         }
+      case SET_PASSWORD_PROFILE :
+        return {
+          ...state,
+          password: action.payload
+        }
       case  SET_ERROR :
         return {
           ...state ,
           errors: action.payload,
+          errorsOtp: action.payload,
           errorLogin: '',
+
         }
 
       case TOGGLE_MENU_OPEN:
@@ -90,7 +101,7 @@ const initialState = {
           ...state,
           isMenu: action.payload,
           isCart :false,
-          isSearch: false
+
         };
       case SET_USER_MIN:
         return {
@@ -111,8 +122,7 @@ const initialState = {
         return {
           ...state ,
           isCart : action.payload,
-          isMenu: false,
-          isSearch:false
+          isMenu: false
 
         }
       case  IS_TOP_SELLING :
@@ -150,7 +160,7 @@ const initialState = {
           ...state ,
           isSearch: !state.isSearch
         }
-      case  SET_IS_SEACH :
+      case  SET_IS_SEARCH :
         return  {
           ...state,
           isSearch: action.payload
@@ -289,7 +299,8 @@ const initialState = {
           errorsMessage: '',
           errors :'',
           user_id: userData.user_id,
-          password: userData.password
+          password: userData.password,
+          emailSetting :userData.email
         };
       case 'LOGOUT':
 
@@ -315,7 +326,7 @@ const initialState = {
           ...state,
           registrationMessage:action.payload,
           errorsMessage :'',
-          isRegister : !state.isRegister
+          isRegister : true
 
         }
       case  'OTP_ERROR' :
@@ -339,6 +350,11 @@ const initialState = {
         return {
           ...state,
           errorsMessage :'',
+        }
+      case CHECK_REGISTER:
+        return {
+          ...state,
+          isRegister: action.payload,
         }
       default:
         return state;

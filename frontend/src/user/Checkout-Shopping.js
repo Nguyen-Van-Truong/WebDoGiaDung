@@ -1,15 +1,13 @@
-import $ from 'jquery';
-import Swiper from "swiper";
 import 'select2/dist/js/select2';
-import mixitup from 'mixitup';
+
 import React, {useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
-import product from '../assets/images/all-img/product1.png'
+
 import MiniChat from "./MiniChat";
 import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
@@ -18,7 +16,19 @@ import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {commune, dis_tricts, province} from "../api/Api";
 import {formatPrice} from "../format/FormatMoney";
-import {processPayment} from "../redux/paymentActions";
+import {
+    processPayment,
+    set_errors_payment,
+    setAddress,
+    setEmailPayment,
+    setFullName,
+    setNumberPhone,
+    setSelectDistrict,
+    setSelectedCommuneName,
+    setSelectedDistrictName,
+    setSelectedProvince,
+    setSelectedProvinceName
+} from "../redux/paymentActions";
 
 
 const Checkout_Shopping = () => {
@@ -27,14 +37,20 @@ const Checkout_Shopping = () => {
     const provinces = useSelector((state) => state.appUser.provinces);
     const districts = useSelector((state) => state.appUser.districts);
     const communes = useSelector((state) => state.appUser.communes);
-    const [selectedProvinceId, setSelectedProvinceId] = useState(null);
-    const [selectedDistrict, setSelectedDistrict] = useState(null);
-    const [selectedProvinceName, setSelectedProvinceName] = useState('');
-    const [selectedDistrictName, setSelectedDistrictName] = useState('');
-    const [selectedCommuneName, setSelectedCommuneName] = useState('');
-    const [address, setAddress] = useState('');
+    const selectedProvinceId = useSelector(state => state.paymentReducer.selectedProvinceId);
+
+    const selectedDistrict = useSelector(state => state.paymentReducer.selectedDistrict);
+    const selectedProvinceName = useSelector(state => state.paymentReducer.selectedProvinceName);
+    const selectedDistrictName = useSelector(state => state.paymentReducer.selectedDistrictName);
+    const selectedCommuneName = useSelector(state => state.paymentReducer.selectedCommuneName);
+    const address = useSelector(state => state.paymentReducer.addressPayment);
     const cartList = useSelector(state => state.cart.ListCart);
-    const  user_id =useSelector(state => state.appUser.user_id);
+    const user_id = useSelector(state => state.appUser.user_id);
+    const errors_payment = useSelector(state => state.paymentReducer.errors_payment);
+    const fullName = useSelector(state => state.paymentReducer.fullName);
+
+    const numberPhone = useSelector(state => state.paymentReducer.numberPhone);
+    const emailPayment = useSelector(state => state.paymentReducer.emailPayment);
     /*8
  TONG TIEN
      */
@@ -42,30 +58,41 @@ const Checkout_Shopping = () => {
 
     const handleProvinceChange = (e) => {
         const provinceId = e.target.value;
-        setSelectedProvinceId(provinceId);
+        dispatch(setSelectedProvince(provinceId));
 
         const province = provinces.find(p => p.id.toString() === provinceId);
-        setSelectedProvinceName(province.name)
+        dispatch(setSelectedProvinceName(province.name))
         console.log(province.name);
         console.log(provinceId);
     };
     const handleDistrictChange = (e) => {
         const districtId = e.target.value;
-        setSelectedDistrict(districtId)
+        dispatch(setSelectDistrict(districtId));
         const district = districts.find(d => d.id.toString() === districtId);
-        setSelectedDistrictName(district.name)
+        dispatch(setSelectedDistrictName(district.name));
         console.log(districtId);
     };
     const handleCommuneChange = (e) => {
         const communeId = e.target.value;
-
         const commune = communes.find(c => c.id.toString() === communeId);
-        setSelectedCommuneName(commune.name);
+        dispatch(setSelectedCommuneName(commune ? commune.name : ''));
     };
-    const handleAddressChange = (event) => {
+    const handleAddressChange = (e) => {
 
-        setAddress(event.target.value);
+        dispatch(setAddress(e.target.value));
     };
+    const handFullNameChange = (e) => {
+        dispatch(setFullName(e.target.value));
+    };
+
+    const handNumberPhoneChange = (e) => {
+        dispatch(setNumberPhone(e.target.value));
+    };
+
+    const handEmailChange = (e) => {
+        dispatch(setEmailPayment(e.target.value));
+    };
+
     /**
      * tạo mã ngau nhiem
      */
@@ -76,19 +103,20 @@ const Checkout_Shopping = () => {
         }
         return result;
     }
-    useEffect(() => {
 
+    useEffect(() => {
         dispatch(province());
 
         if (selectedProvinceId) {
             dispatch(dis_tricts(selectedProvinceId));
-
         }
         if (selectedDistrict) {
             dispatch(commune(selectedDistrict));
-
         }
-        setAddress(`${selectedCommuneName ? selectedCommuneName + ' - ' : ''}${selectedDistrictName} -${selectedProvinceName}  `);
+
+        const updatedAddress = `${selectedCommuneName ? selectedCommuneName + ' - ' : ''}${selectedDistrictName ? selectedDistrictName + ' - ' : ''}${selectedProvinceName || ''}`;
+        dispatch(setAddress(updatedAddress));
+
         const handleScroll = () => {
             const scroll = window.scrollY;
             if (scroll < 500) {
@@ -106,17 +134,36 @@ const Checkout_Shopping = () => {
     }, [dispatch, selectedProvinceId, selectedDistrict, selectedProvinceName, selectedDistrictName, selectedCommuneName]);
 
     const handlePayment = () => {
-        const paymentData = {
-            user_id: user_id,
-            shippingAddress: address,
-            code: getRandomNumber(8),
-            amount: totalPrice,
-            bankCode: 'NCB',
-            orderInfo: 'Payment for order xyz'
-        };
+        const validAddress = address ? address.trim() : '';
+        const validFullName = fullName ? fullName.trim() : '';
+        const validNumberPhone = numberPhone ? numberPhone.trim() : '';
+        const validEmailPayment = emailPayment ? emailPayment.trim() : '';
 
-        dispatch(processPayment(paymentData));
+        // In các giá trị ra console để kiểm tra
+        console.log('Valid Address:', validAddress);
+        console.log('Valid Full Name:', validFullName);
+        console.log('Valid Number Phone:', validNumberPhone);
+        console.log('Valid Email Payment:', validEmailPayment);
+
+        if (validAddress === "" || validFullName === "" || validNumberPhone === "" || validEmailPayment === "") {
+            console.log("Missing information detected");
+            dispatch(set_errors_payment("Vui lòng điền đầy đủ các thông tin"));
+        } else {
+            const paymentData = {
+                user_id: user_id,
+                shippingAddress: validAddress,
+                code: getRandomNumber(8),
+                amount: totalPrice,
+                bankCode: 'NCB',
+                orderInfo: 'Payment for order xyz'
+            };
+
+            console.log('Payment Data:', paymentData);
+
+            dispatch(processPayment(paymentData));
+        }
     };
+
 
     return (
         <div>
@@ -168,17 +215,15 @@ const Checkout_Shopping = () => {
                                     tin thanh toán hoá đơn</h2>
                                 <div>
                                     <form action="" className="">
+                                        {errors_payment && typeof errors_payment === 'string' &&
+                                            <div className="alert alert-danger p-lg-1">{errors_payment}</div>}
                                         <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">
                                             <div className=" w-full">
-                                                <input type="text" placeholder="First Name"
-                                                       className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                                <input type="text" placeholder="Full name"
+                                                       className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                                       value={fullName} onChange={handFullNameChange}/>
                                             </div>
 
-                                            <div className=" w-full">
-
-                                                <input type="text" placeholder="Last Name"
-                                                       className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
-                                            </div>
                                         </div>
                                         <div className="flex flex-col sm:flex-row gap-3 items-center mb-5">
 
@@ -235,13 +280,19 @@ const Checkout_Shopping = () => {
                                         <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">
                                             <div className=" w-full">
                                                 <input type="text" placeholder="Phone"
-                                                       className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                                       className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                                       value={numberPhone} onChange={handNumberPhoneChange}/>
                                             </div>
 
                                             <div className=" w-full">
 
-                                                <input type="text" placeholder="Email"
-                                                       className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
+                                                <input
+                                                    type="email"
+                                                    placeholder="Email" name="email"
+                                                    className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                                    value={emailPayment}
+                                                    onChange={handEmailChange}
+                                                />
                                             </div>
                                         </div>
 
@@ -285,7 +336,7 @@ const Checkout_Shopping = () => {
                                     </div>
                                     <div className="flex justify-between items-center pt-4">
                                         <p className="common-hedding">Giảm giá</p>
-                                        <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">26%</p>
+                                        <p className="text-gray-black text-[16px] leading-[120%] font-display font-medium">0%</p>
                                     </div>
                                     <div className="flex justify-between items-center pt-4">
                                         <p className="common-hedding">Phí vận chuyển</p>
@@ -299,8 +350,8 @@ const Checkout_Shopping = () => {
 
 
                                     <button type={"submit"}
-                                        className="w-full flex gap-3 items-center justify-center mt-5 bg-accents hover:bg-[#272343] rounded-lg transition-all duration-300 py-[16px] text-[18px] font-bold font-display leading-[110%] text-gray-white"
-                                        onClick={handlePayment}
+                                            className="w-full flex gap-3 items-center justify-center mt-5 bg-accents hover:bg-[#272343] rounded-lg transition-all duration-300 py-[16px] text-[18px] font-bold font-display leading-[110%] text-gray-white"
+                                            onClick={handlePayment}
                                     >
                                         Thanh toán
                                         <span>

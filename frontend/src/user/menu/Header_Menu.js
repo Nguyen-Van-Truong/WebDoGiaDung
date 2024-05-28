@@ -6,7 +6,7 @@ import {
     logout,
     setCategory, setEmail,
     setIsCart,
-    setIsMenu, setPassword,
+    setIsMenu, setIsSearch, setPassword,
     setUserMin, tabIsSeach,
     toggleMenuOpen
 } from "../../redux/Action";
@@ -15,16 +15,19 @@ import {getNotification, updateIsRead} from "../../api/NotificationApi";
 import {timeSince} from '../convertDateTime/Convert'
 import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
 import {count, getListCart, throttledCountCart} from "../../api/CartApi";
-import {throttledTop_selling} from "../../api/Api";
+import {login, throttledTop_selling} from "../../api/Api";
 import {formatPrice} from "../../format/FormatMoney";
 import {deleteCart} from "../../api/HistoryCartApi";
+import {click_search_success, set_search_items} from "../../redux/SearchAction";
+import {search} from "../../api/SearchApi";
+import {setFullName, setSuccess} from "../../redux/ProfileAction";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
 
     const isCart = useSelector((state) => state.appUser.isCart);
     const isMenu = useSelector((state) => state.appUser.isMenu);
-    const isSeach = useSelector((state) => state.appUser.isSearch);
+    const isSearch = useSelector((state) => state.appUser.isSearch);
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
     const [webSocket, setWebSocket] = useState(null);
     const isCategory = useSelector((state) => state.appUser.isCategory);
@@ -34,15 +37,19 @@ const Header_Menu = () => {
     const userData = useSelector(state => state.appUser.userData);
     const lisData = useSelector(state => state.notification.listNotification);
     const notificationCount = useSelector(state => state.notification.notificationCount);
-    const  cartList = useSelector(state => state.cart.ListCart);
+    const cartList = useSelector(state => state.cart.ListCart);
+    /**
+     * lay keyword
+     */
+    const keyword = useSelector(state => state.search.keyword);
     /**
      * lay id nguoi dung
      */
-    const  user_id =useSelector(state => state.appUser.user_id);
+    const user_id = useSelector(state => state.appUser.user_id);
     /**
      * lay trang thai
      */
-    const  isStatus =useSelector(state => state.appUser.isStatus);
+    const isStatus = useSelector(state => state.appUser.isStatus);
     /**
      *
      * sap xep theo thoi gian giam dan
@@ -52,21 +59,47 @@ const Header_Menu = () => {
     /**
      * đếm só luong sản phẩm
      */
-    const  countCart = useSelector(state => state.cart.countCart);
+    const countCart = useSelector(state => state.cart.countCart);
     /**
-     * lấy img
+     * lấy danh ach san pham tim kiem
      */
+
+    const lisProduct = useSelector(state => state.search.lisProduct);
+
 
     const userOpen = () => {
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
     }
-    const clickSeach = () => {
-        dispatch(tabIsSeach());
+    const clickSearch = () => {
+        dispatch(setIsSearch(!isSearch));
+
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(false));
         dispatch(setIsCart(false));
     }
+    /**
+     * thay doi key word khi tim kiem
+     */
+
+
+    const handleNavigate = (keyword) => {
+        navigate(`/search?keyword=${keyword}`);
+        dispatch(setIsSearch(false));
+        dispatch(click_search_success());
+    };
+    const handleSearch = (e) => {
+        const keyword = e.target.value.trim();
+        if (keyword.length > 0) {
+            dispatch(search(keyword));
+            dispatch(setIsSearch(true));
+            dispatch(set_search_items(keyword));
+        } else {
+            dispatch(set_search_items(keyword));
+            dispatch(setIsSearch(false));
+        }
+    };
+
 
     const clickNotification = () => {
         dispatch(setIsNotification(!isNotification));
@@ -101,11 +134,11 @@ const Header_Menu = () => {
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));
+        dispatch(setSuccess(''))
+        dispatch(setFullName(''));
     }
-    /*
-    xoa san pham
-     */
-    const  delete_Cart  =(id)=>{
+
+    const delete_Cart = (id) => {
         dispatch(deleteCart(id));
     }
 
@@ -115,7 +148,7 @@ const Header_Menu = () => {
 
 
     useEffect(() => {
-        if(isStatus== true){
+        if (isStatus == true) {
             dispatch(getListCart(user_id));
             throttledCountCallback();
         }
@@ -159,7 +192,7 @@ const Header_Menu = () => {
 
         };
 
-    }, [notificationCount,countCart, throttledCountCallback]);
+    }, [notificationCount, countCart, throttledCountCallback]);
     const sendMessage = (message) => {
         if (webSocket && webSocket.readyState === WebSocket.OPEN) {
             webSocket.send(message);
@@ -176,34 +209,65 @@ const Header_Menu = () => {
                         <span className="logo-text">eTTShop</span>
                     </div>
                     <div className="lg:max-w-[413px] lg:block hidden w-full">
-                        <div className="relative">
-                            <input type="text" id="search" placeholder="search here..."
-                                   className="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
-                            <label onClick={clickSeach} for="search" className="absolute right-4 top-3">
-                                <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M10.5833 17.4167C14.6334 17.4167 17.9167 14.1334 17.9167 10.0833C17.9167 6.03325 14.6334 2.75 10.5833 2.75C6.53325 2.75 3.25 6.03325 3.25 10.0833C3.25 14.1334 6.53325 17.4167 10.5833 17.4167Z"
-                                        stroke="#272343" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round"/>
-                                    <path d="M19.75 19.25L15.7625 15.2625" stroke="#272343"
-                                          stroke-width="1.5" stroke-linecap="round"
-                                          stroke-linejoin="round"/>
-                                </svg>
-                            </label>
-                        </div>
-                        {isSeach && (
-                            <div className="seach-content">
-                                <ul className="py-3"
-                                    style={{display: isSeach ? 'block' : 'none'}}>
-                                    <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                        <li>
-                                            <Link to="/login">không có sản phẩm nào</Link>
-                                        </li>
+                        <form action="">
+                            <div className="relative">
+                                <input type="text" id="search" placeholder="search here..."
+                                       value={keyword} onChange={handleSearch}
+                                       className="block w-full bg-white focus:outline-none border-0 px-4 py-3 rounded-lg focus:ring-2 ring-[#029FAE]"/>
+                                <div>
+                                    <label htmlFor="search" className="absolute right-4 top-3">
+                                        <svg width="23" height="22" viewBox="0 0 23 22" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.5833 17.4167C14.6334 17.4167 17.9167 14.1334 17.9167 10.0833C17.9167 6.03325 14.6334 2.75 10.5833 2.75C6.53325 2.75 3.25 6.03325 3.25 10.0833C3.25 14.1334 6.53325 17.4167 10.5833 17.4167Z"
+                                                stroke="#272343" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"/>
+                                            <path d="M19.75 19.25L15.7625 15.2625" stroke="#272343"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                        </svg>
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                        {/*tim kiem san pham*/}
 
-                                    </div>
+                        {isSearch && (
+                            <div className="search-content">
+                                {lisProduct.length > 0 &&
+                                    <ul className="py-3 ul_search_height"
+                                        style={{display: isSearch ? 'block' : 'none'}}>
+                                        <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
 
-                                </ul>
+                                            <li>
+
+                                                {lisProduct.map((product) => (
+                                                    <p className={"text-shorten"}><a className={"link_search"}
+                                                                                     onClick={() => handleNavigate(keyword)}>{product.productName}</a>
+                                                    </p>
+
+                                                ))}
+                                            </li>
+
+
+                                        </div>
+
+                                    </ul>
+                                }
+                                {lisProduct.length <= 0 &&
+                                    <ul className="py-3 "
+                                        style={{display: isSearch ? 'block' : 'none'}}>
+                                        <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
+
+                                            <li>
+                                                <Link to="" className={"text-center"}>không có sản phẩm nào</Link>
+                                            </li>
+
+                                        </div>
+
+                                    </ul>
+                                }
+
                             </div>
                         )}
                     </div>
@@ -231,64 +295,67 @@ const Header_Menu = () => {
                                             </svg>
                                         </span>
                                     <span>Cart</span>
-                                    {isStatus==true &&  <span
+                                    {isStatus == true && <span
                                         className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">{countCart}</span>}
-                                    {isStatus==false &&  <span
+                                    {isStatus == false && <span
                                         className="bg-dark-accents text-white rounded-full py-[3px] px-[9px] ml-1 inline-flex justify-center items-center text-[10px] leading-[100%]">0</span>}
                                 </a>
-                                {isCart && isStatus ===true &&
-                                <div className="cart-content">
+                                {isCart && isStatus === true &&
+                                    <div className="cart-content">
 
                                         <ul className="p-6-t"
                                             style={{display: isCart ? 'block' : 'none'}}>
                                             {cartList.map((cart) => (
-                                            <li className="pb-4">
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-1">
-                                                        <div>
-                                                            <img src={cart.url} alt=""/>
+                                                <li className="pb-4">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-1">
+                                                            <div>
+                                                                <img src={cart.url} alt=""/>
+                                                            </div>
+                                                            <div className="px-2-t">
+                                                                <h5 style={{fontSize: "15px"}}
+                                                                    className="text-gray-black ">
+                                                                    <span>{cart.name}</span>
+                                                                    <span
+                                                                        className="text-[#636270]">x {cart.quantity}</span>
+                                                                </h5>
+                                                                <p className="text-gray-black font-semibold mb-0">{formatPrice(cart.price)} VNĐ</p>
+                                                            </div>
                                                         </div>
-                                                        <div className="px-2-t">
-                                                            <h5 style={{fontSize: "15px"}}
-                                                                className="text-gray-black ">
-                                                                <span>{cart.name}</span>
-                                                                <span className="text-[#636270]">x {cart.quantity}</span>
-                                                            </h5>
-                                                            <p className="text-gray-black font-semibold mb-0">{formatPrice(cart.price)} VNĐ</p>
-                                                        </div>
-                                                    </div>
 
-                                                </div>
-                                            </li>
+                                                    </div>
+                                                </li>
                                             ))}
                                         </ul>
 
-                                    <div className={"cart-summary"}>
+                                        <div className={"cart-summary"}>
 
-                                        <div className="flex justify-between items-center p_10">
-                                            <a href="/cart" className="btn-transparent">Xem giỏ hàng</a>
-                                            <Link className="btn-primary" to={"/checkout-shopping"}
-                                                  onClick={clickAll}>Thanh
-                                                toán</Link>
+                                            <div className="flex justify-between items-center p_10">
+                                                <a href="/cart" className="btn-transparent">Xem giỏ hàng</a>
+                                                <Link className="btn-primary" to={"/checkout-shopping"}
+                                                      onClick={clickAll}>Thanh
+                                                    toán</Link>
 
+                                            </div>
                                         </div>
+
+
                                     </div>
-
-
-                                </div>
                                 }
                                 {isCart && isStatus === false &&
                                     <div className="cart-content">
-                                    <ul className="p-6-t"
-                                        style={{display: isCart ? 'block' : 'none'}}>
+                                        <ul className="p-6-t"
+                                            style={{display: isCart ? 'block' : 'none'}}>
 
-                                        <li className="pb-4 ">
-                                            <img className={"img_product"} src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f4.png" alt=""/>
-                                            <p className={"text-center"}>Chưa có sản phẩm nào</p>
-                                        </li>
+                                            <li className="pb-4 ">
+                                                <img className={"img_product"}
+                                                     src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f4.png"
+                                                     alt=""/>
+                                                <p className={"text-center"}>Chưa có sản phẩm nào</p>
+                                            </li>
 
 
-                                    </ul>
+                                        </ul>
                                     </div>
                                 }
                             </li>
@@ -312,7 +379,7 @@ const Header_Menu = () => {
                                             <ul className="py-3"
                                                 style={{display: isNotification ? 'block' : 'none'}}>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                    {user_id !==null &&
+                                                    {user_id !== null &&
                                                         <li>
                                                             {sortList.map(notification => (
                                                                 <div>
@@ -328,7 +395,8 @@ const Header_Menu = () => {
                                                         <li>
 
                                                             <div>
-                                                                <p className="notification_not_userid">Không có thông báo nào</p>
+                                                                <p className="notification_not_userid">Không có thông
+                                                                    báo nào</p>
 
                                                             </div>
 
@@ -367,20 +435,12 @@ const Header_Menu = () => {
 
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to={"/forget-password"} onClick={clickAll}>Quên mật
-                                                            khẩu</Link>
-                                                    </li>
-                                                    <li>
                                                         <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
                                                             hàng</Link>
                                                     </li>
                                                 </div>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
-                                                    <li>
-                                                        <Link to={"/change-password"} onClick={clickAll}>Đổi mật
-                                                            khẩu</Link>
 
-                                                    </li>
                                                     <li>
                                                         <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
 
@@ -397,8 +457,6 @@ const Header_Menu = () => {
                                                 <div className="px-3_t">
                                                     <li>
                                                         <a onClick={log_out}>Đăng xuất</a>
-
-
                                                     </li>
                                                 </div>
                                             </ul>

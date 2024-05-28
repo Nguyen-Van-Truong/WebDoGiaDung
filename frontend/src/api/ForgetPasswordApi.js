@@ -51,21 +51,28 @@ export const getId = (email) => {
         }
     }
 }
-export const update_password = (id, password , onSuccess) => {
-    const numericId = Number(id);
+
+export const update_password = (id, password, onSuccess) => {
     return async dispatch => {
         try {
-            const response = await axios.post(`/api/users/updateForgetPassword/${numericId}`, {password});
+            const response = await axios.post(`/api/users/updateForgetPassword/${id}`, null, {
+                params: { password },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             const data = response.data;
-            dispatch({type: 'UPDATE_PASSWORD_FORGET_SUCCESS', payload: data});
+
+            dispatch({ type: 'UPDATE_PASSWORD_FORGET_SUCCESS', payload: data });
+
             setTimeout(() => {
                 if (onSuccess) onSuccess();
-                dispatch(reset(''));
+                dispatch({ type: 'RESET_PASSWORD_STATE' });
             }, 1000);
         } catch (error) {
-            const errorMessage = error.response.data;
-            dispatch({type: 'UPDATE_PASSWORD_FORGET_ERROR', payload: errorMessage});
-
+            const errorMessage = error.response?.data || 'Network Error';
+            console.error('Error from API:', errorMessage);
+            dispatch({ type: 'UPDATE_PASSWORD_FORGET_ERROR', payload: errorMessage });
         }
-    }
-}
+    };
+};

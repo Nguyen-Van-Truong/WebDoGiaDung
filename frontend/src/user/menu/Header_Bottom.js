@@ -47,9 +47,7 @@ const Header_Bottom = () => {
                                 <Link to={"/products"}>Shop</Link>
 
                             </li>
-                            <li>
-                                <Link to={"/product-detail"}>Sản phẩm</Link>
-                            </li>
+
 
                         </ul>
                     </div>

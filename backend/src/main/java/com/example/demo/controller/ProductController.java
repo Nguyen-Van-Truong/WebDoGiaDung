@@ -60,10 +60,10 @@ public class ProductController {
         return productService.getNew(limit);
     }
 
-	@GetMapping("/search")
-	public List<ProductMediaInfo> getSeach(@RequestParam(value = "keyword") String keyword){
-		return productService.seachProduct(keyword);
-	}
+    @PostMapping("/search")
+    public List<ProductMediaInfo> getSeach(@RequestParam(value = "keyword") String keyword){
+        return productService.seachProduct(keyword);
+    }
     // thêm sản phẩm mới
     @PostMapping("/add")
     public ProductDTO addProduct(
