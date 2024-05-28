@@ -159,13 +159,20 @@ public class UserService implements User_impl {
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Orders> orderPage = orderRepository.findByUserId(userId, pageable);
 
-        List<AdminUserResponse> responses = orderPage.getContent()
-                .stream()
-                .map(order -> convertToAdminUserResponse(user, order))
-                .collect(Collectors.toList());
+        List<AdminUserResponse> responses;
+        if (orderPage.hasContent()) {
+            responses = orderPage.getContent()
+                    .stream()
+                    .map(order -> convertToAdminUserResponse(user, order))
+                    .collect(Collectors.toList());
+        } else {
+            AdminUserResponse userResponse = new AdminUserResponse(user, Collections.emptyList(), 0);
+            responses = Collections.singletonList(userResponse);
+        }
 
         return new PageImpl<>(responses, pageable, orderPage.getTotalElements());
     }
+
 
     private AdminUserResponse convertToAdminUserResponse(User user, Orders order) {
         OrderAdminDTO orderDTO = orderConverter.convertToOrderAdminDTO(order);
