@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.CartDTO;
+import com.example.demo.dto.CartItemDTO;
 import com.example.demo.model.Cart;
 import com.example.demo.model.CartItems;
 import com.example.demo.model.Products;
@@ -49,6 +50,10 @@ public class CartItemService {
     public int count(int id){
         Integer result = cartItemRepository.countCart(id);
         return (result != null) ? result : 0; // Return 0 if the result is null
+    }
+    public List<CartItemDTO>findByCartItemDTO(int id){
+        List<CartItemDTO>cartItemDTOS = cartItemRepository.findByCart_item_id(id);
+        return cartItemDTOS;
     }
     public  void updateCart(int id, int quantity, BigDecimal price){
         Optional<CartItems> cartItems = cartItemRepository.findById(id);

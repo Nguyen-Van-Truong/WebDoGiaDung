@@ -116,7 +116,7 @@ public class UserController {
      * cap nhpa mat khau nguoi dung khi quen mạt khau
      */
     @PostMapping("/updateForgetPassword/{id}")
-    public ResponseEntity<?> update_forget_password(@PathVariable int id, @RequestBody String password) {
+    public ResponseEntity<?> update_forget_password(@PathVariable int id, @RequestParam(value = "password") String password) {
 
         boolean result = userService.updatePassword(id, password);
         if (result) {
@@ -143,6 +143,19 @@ public class UserController {
             @RequestParam(defaultValue = "desc") String sortDirection,
             @RequestParam(defaultValue = "orderDate") String sortBy) {
         return userService.getUserWithOrders(id, page, size, sortDirection, sortBy);
+    }
+    /**
+     * cap nhap ten day du nguoi dung
+     */
+
+    @GetMapping("/updateFullName")
+    public ResponseEntity<User> updateFullName(@RequestParam int id, @RequestParam String full_name) {
+        User updatedUser = userService.updateFulName(id, full_name);
+        if (updatedUser != null) {
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

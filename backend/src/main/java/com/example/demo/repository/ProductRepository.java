@@ -42,9 +42,10 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
     List<ProductMediaInfo> findGetNew(Pageable pageable);
 
 
-    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id,p.product_name, p.description, p.price, p.stock_quantity, m.file_url) "
-            + "FROM Products p JOIN p.medias m WHERE p.product_name LIKE CONCAT('%',:productName, '%')"
-            + "GROUP BY p.product_id")
+    @Query("SELECT new com.example.demo.dto.ProductMediaInfo(p.product_id, p.product_name, p.description, p.price, p.stock_quantity, m.file_url) " +
+            "FROM Products p JOIN p.medias m " +
+            "WHERE LOWER(p.product_name) LIKE LOWER(CONCAT('%', :productName, '%')) " +
+            "GROUP BY p.product_id")
     List<ProductMediaInfo> searchProduct(@Param("productName") String productName);
 
     @Query(value = "SELECT DISTINCT COLUMN_TYPE " +

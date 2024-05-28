@@ -20,6 +20,7 @@ import {setError} from "../redux/Action";
 import {bindActionCreators} from "redux";
 import {otp} from "../api/Api";
 import {useNavigate} from "react-router-dom";
+import {check} from "../redux/RegisterAction";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -29,7 +30,7 @@ const Forget_Password = () => {
     const  isPage = useSelector(state => state.forget.isPage);
     const {otpAction} = bindActionCreators({otpAction: otpForget}, dispatch);
     const navigate = useNavigate();
-    const handleEmailChange = (e) => {
+    const handleEmailChange = async  (e) => {
         const emailValue = e.target.value;
         console.log('New email value:', emailValue);
         dispatch(setEmail(emailValue));
@@ -38,7 +39,7 @@ const Forget_Password = () => {
          */
         dispatch(checkEmailForget(emailValue));
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === '') {
             dispatch(setErrorForget('Email không được để trống'))
@@ -47,6 +48,7 @@ const Forget_Password = () => {
             const max = 999999;
             const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
             if(isPage === true){
+                dispatch(check(false));
                 otpAction(email, randomNum, (code) => navigate('/send-otp', {state: {code, randomNum}}));
                 dispatch(getId(email));
             }
@@ -130,7 +132,7 @@ const Forget_Password = () => {
                             <form onSubmit={handleSubmit} action="" class="">
                                 {errorsMessage && <div className="alert alert-danger p-lg-1">{errorsMessage}</div>}
                                 <div>
-                                    <input type="text" placeholder="Email"
+                                    <input type="email" placeholder="Email" name="email"
                                            class="pl-5 py-[17px] w-full bg-[#F0F2F3] rounded-lg focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out pr-5"
                                            onChange={handleEmailChange} value={email}/>
                                 </div>
@@ -147,7 +149,7 @@ const Forget_Password = () => {
                             </form>
                             <div
                                 class="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">
-                                <a href="sign-in.html"
+                                <a href="/login"
                                    class="text-dark-accents font-display font-medium text-[14px] leading-[110%]"> Đăng
                                     nhập</a></div>
                         </div>

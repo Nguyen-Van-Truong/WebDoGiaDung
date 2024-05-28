@@ -17,8 +17,8 @@ export  const  IS_ALL = 'IS_ALL';
 export  const  SET_ALL = 'SET_IS_ALL';
 export  const NEW_PRODUCTS = 'NEW_PRODUCTS';
 export  const SET_NEW_PRODUCTS = 'SET_NEW_PRODUCTS';
-export const  IS_SEARCH = 'IS_SEACH';
-export  const  SET_IS_SEACH ='SET_IS_SEACH';
+export const  IS_SEARCH = 'IS_SEARCH';
+export  const  SET_IS_SEARCH ='SET_IS_SEARCH';
 export const UPDATE_FORM = 'UPDATE_FORM'
 export  const  ERROR ='ERROR';
 export  const  SET_ERROR ='SET_ERROR';
@@ -98,10 +98,13 @@ export const  setTabTopSelling = () => ({
     type : SET_TOP_SELLING
 });
 export  const  tabIsSeach = () => ({
-    type : IS_SEARCH
+    type : IS_SEARCH,
+
 });
-export  const  setIsSeach = () => ({
-    type : SET_IS_SEACH
+export  const  setIsSearch = (isSearch) => ({
+    type : SET_IS_SEARCH,
+    payload: isSearch
+
 })
 export  const  tabNewProducts = () => ({
     type:NEW_PRODUCTS

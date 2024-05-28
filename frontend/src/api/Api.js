@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {loginSuccess, resetRegistrationMessage} from "../redux/Action";
 import {debounce, throttle} from "lodash";
+import {check_success} from "../redux/RegisterAction";
 
 
 export const fetchProducts = () => {
@@ -77,48 +78,48 @@ export const throttledProductsNew = throttle((dispatch) => {
 export const province = () => {
     return async dispatch => {
         try {
-            const reponse = await axios.get("https://vnprovinces.pythonanywhere.com/api/provinces/?basic=true&limit=100");
-            const data = reponse.data
-            dispatch({type: 'PROVINCE_SUCCESS', payload: data.results});
+            const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
+            const data = response.data;
+            const provinces = data.map(province => ({
+                id: province.Id,
+                name: province.Name
+            }));
+            dispatch({ type: 'PROVINCE_SUCCESS', payload: provinces });
         } catch (error) {
-            dispatch({type: 'PROVINCE_ERROR', payload: error.message});
+            dispatch({ type: 'PROVINCE_ERROR', payload: error.message });
         }
     }
 }
 
-/**
- * api quan
- * @param province_id
- * @returns {(function(*): Promise<void>)|*}
- */
-export const dis_tricts = (province_id) => {
+export const dis_tricts = (provinceId) => {
     return async dispatch => {
         try {
-            const numericDistrictId = Number(province_id);
-            const response = await axios.get(`https://vnprovinces.pythonanywhere.com/api/districts/?province_id=${numericDistrictId}&basic=true&limit=100`);
+            const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
             const data = response.data;
-            dispatch({type: 'DISTRICT_SUCCESS', payload: data.results});
+            const districts = data.find(province => province.Id === provinceId).Districts.map(district => ({
+                id: district.Id,
+                name: district.Name
+            }));
+            dispatch({ type: 'DISTRICT_SUCCESS', payload: districts });
         } catch (error) {
-            dispatch({type: 'DISTRICT_ERROR', payload: error.message});
-
+            dispatch({ type: 'DISTRICT_ERROR', payload: error.message });
         }
     };
 };
-/**
- * api xã
- * @param districtId
- * @returns {(function(*): Promise<void>)|*}
- */
+
 export const commune = (districtId) => {
     return async dispatch => {
         try {
-            const numericDistrictId = Number(districtId);
-            const response = await axios.get(`https://vnprovinces.pythonanywhere.com/api/wards/?district_id=${numericDistrictId}&basic=true&limit=100`);
+            const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
             const data = response.data;
-            dispatch({type: 'COMMUNE_SUCCESS', payload: data.results});
+            const communes = data.flatMap(province => province.Districts)
+                .find(district => district.Id === districtId).Wards.map(commune => ({
+                    id: commune.Id,
+                    name: commune.Name
+                }));
+            dispatch({ type: 'COMMUNE_SUCCESS', payload: communes });
         } catch (error) {
-            dispatch({type: 'COMMUNE_ERROR', payload: error.message});
-
+            dispatch({ type: 'COMMUNE_ERROR', payload: error.message });
         }
     };
 };
@@ -146,6 +147,7 @@ export const register = (userData, onSuccess) => {
                  * xét giá trị cho việc thông báo lại là chuỗi ''
                  */
                 dispatch(resetRegistrationMessage());
+                dispatch(check_success(''));
                 /**
                  * xoá mã code ra khỏi session
                  */
@@ -199,6 +201,7 @@ export const otp = (email, code, onSuccess) => {
             dispatch({type: 'OTP_SUCCESS', payload: data});
             setTimeout(() => {
                 if (onSuccess) onSuccess(code);
+                dispatch(check_success(data));
                 dispatch(resetRegistrationMessage());
             }, 1000);
         } catch (error) {

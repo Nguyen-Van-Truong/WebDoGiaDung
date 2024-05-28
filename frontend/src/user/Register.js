@@ -16,6 +16,7 @@ import {checkEmail, otp, } from "../api/Api";
 import {resetRegistrationMessage, setError, setFormData} from "../redux/Action";
 import {bindActionCreators} from "redux";
 import {Cookies, useCookies} from "react-cookie";
+import {check} from "../redux/RegisterAction";
 
 const Register = () => {
     const [cookies, setCookie] = useCookies(['otp']);
@@ -61,7 +62,7 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            console.log("mat khau khong trung khop")
+
             dispatch(setError('Mật khẩu không trùng khớp'));
         } else if (formData.username === '' && formData.email === '' && formData.password === '') {
             dispatch(setError('Vui lòng điền đầy đủ các thông tin'));
@@ -82,6 +83,7 @@ const Register = () => {
             const min = 100000;
             const max = 999999;
             const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            dispatch(check(true));
             otpAction(userData.email, randomNum, (code) => navigate('/send-otp', {state: {code, randomNum}}));
             sessionStorage.setItem('username', formData.username);
             sessionStorage.setItem('password', formData.password);

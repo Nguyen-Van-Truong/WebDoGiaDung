@@ -15,7 +15,7 @@ import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
-import {set_confirm_password, set_new_password, setErrorForget} from "../redux/ForgetPasswordAction";
+import {reset, set_confirm_password, set_new_password, setErrorForget} from "../redux/ForgetPasswordAction";
 import {update_password} from "../api/ForgetPasswordApi";
 import {bindActionCreators} from "redux";
 import {register} from "../api/Api";
@@ -25,14 +25,22 @@ const Change_Password = () => {
     const dispatch = useDispatch();
     const new_password = useSelector(state => state.forget.new_password);
     const confirm_password = useSelector(state => state.forget.confirm_password);
-    const  errorsMessage =useSelector(state => state.forget.errorsMessage);
+    const errorsMessage = useSelector(state => state.forget.errorsMessage);
     const success = useSelector(state => state.forget.success);
     const navigate = useNavigate();
     const {forgetAction} = bindActionCreators({forgetAction: update_password}, dispatch);
+    const [isPassWordNew, setPassWordNew] = useState(false);
+    const [isConfirmPassWord, setConfirmPass] = useState(false);
+    const togglePasswordNewVisibility = () => {
+        setPassWordNew(!isPassWordNew);
+    };
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPass(!isConfirmPassWord);
+    };
     /*
 lay id nguoiw dung
  */
-    const  idUser = useSelector(state => state.forget.idUser);
+    const idUser = useSelector(state => state.forget.idUser);
     const handNewPassword = (e) => {
         dispatch(set_new_password(e.target.value));
     }
@@ -42,7 +50,7 @@ lay id nguoiw dung
     }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (new_password === '' || confirm_password === '') {
@@ -50,99 +58,99 @@ lay id nguoiw dung
         } else if (new_password !== confirm_password) {
             dispatch(setErrorForget('Mật khẩu không trùng khớp'));
         } else {
-            // Gọi hàm dispatch để gọi API update_password với idUser và new_password
 
-            forgetAction(idUser, new_password ,() => navigate('/login'));
+            dispatch(reset(''));
+            forgetAction(idUser, new_password, () => navigate('/login'));
+            dispatch(set_new_password(''));
+            dispatch(set_confirm_password(''));
         }
     }
-
-
 
 
     useEffect(() => {
 
 
-    const handleScroll = () => {
-        const scroll = window.scrollY;
-        if (scroll < 500) {
-            setHeaderSticky(false);
-        } else {
-            setHeaderSticky(true);
-        }
-    };
+        const handleScroll = () => {
+            const scroll = window.scrollY;
+            if (scroll < 500) {
+                setHeaderSticky(false);
+            } else {
+                setHeaderSticky(true);
+            }
+        };
 
-    window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll);
 
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-    };
-}, []);
-return (
-    <div>
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+    return (
+        <div>
 
-        <header class="font-display">
-            <div id="header-sticky" class="">
-                <div className="top-header bg-secondary">
-                    <div className="container px-3 md:px-5 xl:px-0">
-                        <div className="py-3.5 flex justify-center sm:justify-between">
+            <header class="font-display">
+                <div id="header-sticky" class="">
+                    <div className="top-header bg-secondary">
+                        <div className="container px-3 md:px-5 xl:px-0">
+                            <div className="py-3.5 flex justify-center sm:justify-between">
 
-                            <div>
+                                <div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {/*Header*/}
-                <Header_Menu/>
-            </div>
-
-            {/*bottom-header*/}
-            <Header_Bottom/>
-            {/*menu response*/}
-            <Menu_Response/>
-        </header>
-
-        <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
-            <div class="container">
-                <div class="flex items-center gap-1 py-[1.5px]">
-                    <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
-
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-
-                    <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
-
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-
-                    <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Quên mật khẩu</span>
+                    {/*Header*/}
+                    <Header_Menu/>
                 </div>
 
+                {/*bottom-header*/}
+                <Header_Bottom/>
+                {/*menu response*/}
+                <Menu_Response/>
+            </header>
 
+            <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
+                <div class="container">
+                    <div class="flex items-center gap-1 py-[1.5px]">
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+
+                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Quên mật khẩu</span>
+                    </div>
+
+
+                </div>
             </div>
-        </div>
 
-        <div style={{backgroundColor: "var(--bg-breadcum)"}}>
-            <div className="container py-20">
-                <div className="sign_in">
-                    <h2 class="text-center text-gray-black  xl:text-[32px] text-[20px] font-semibold font-display">Đổi
-                        mật khẩu</h2>
-                    <div className="form">
-                        <form  onSubmit={handleSubmit} className="">
-                            {success && <div className="alert alert-success p-lg-1">{success}</div>}
-                            {errorsMessage && <div className="alert alert-danger p-lg-1">{errorsMessage}</div>}
-                            <div className=" relative">
-                                <input type="password" placeholder="Mật khẩu mới"
-                                       className="form_password focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                       name="password" value={new_password} onChange={handNewPassword}/>
+            <div style={{backgroundColor: "var(--bg-breadcum)"}}>
+                <div className="container py-20">
+                    <div className="sign_in">
+                        <h2 class="text-center text-gray-black  xl:text-[32px] text-[20px] font-semibold font-display">Đổi
+                            mật khẩu</h2>
+                        <div className="form">
+                            <form onSubmit={handleSubmit} className="">
+                                {success && <div className="alert alert-success p-lg-1">{success}</div>}
+                                {errorsMessage && <div className="alert alert-danger p-lg-1">{errorsMessage}</div>}
+                                <div className=" relative">
+                                    <input type={isPassWordNew ? "text" : "password"} placeholder="Mật khẩu mới"
+                                           className="form_password focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                           name="password" value={new_password} onChange={handNewPassword}/>
 
-                                <span className="absolute top-[17px] right-5 cursor-pointer ">
+                                    <span className="absolute top-[17px] right-5 cursor-pointer ">
 
-                            <svg id="create-icon-show" onclick="CreatePasswordIcon()" width="24" height="24"
+                            <svg id="create-icon-show" onClick={togglePasswordNewVisibility} width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M12 4.24902C4.5 4.24902 1.5 11.9999 1.5 11.9999C1.5 11.9999 4.5 19.749 12 19.749C19.5 19.749 22.5 11.9999 22.5 11.9999C22.5 11.9999 19.5 4.24902 12 4.24902V4.24902Z"
@@ -169,16 +177,18 @@ return (
 
                         </span>
 
-                            </div>
+                                </div>
 
-                            <div className="relative">
-                                <input type="password" placeholder="Xác nhận mật khẩu"
-                                       className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
-                                       name="password" value={confirm_password} onChange={handConFirmPassword}/>
+                                <div className="relative">
+                                    <input type={isConfirmPassWord ? "text" : "password"}
+                                           placeholder="Xác nhận mật khẩu"
+                                           className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
+                                           name="password" value={confirm_password} onChange={handConFirmPassword}/>
 
-                                <span className="absolute top-[17px] right-5 cursor-pointer ">
+                                    <span className="absolute top-[17px] right-5 cursor-pointer ">
 
-                            <svg id="icon-show" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            <svg id="icon-show" width="24" onClick={toggleConfirmPasswordVisibility} height="24"
+                                 viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M12 4.24902C4.5 4.24902 1.5 11.9999 1.5 11.9999C1.5 11.9999 4.5 19.749 12 19.749C19.5 19.749 22.5 11.9999 22.5 11.9999C22.5 11.9999 19.5 4.24902 12 4.24902V4.24902Z"
@@ -205,28 +215,28 @@ return (
 
                         </span>
 
-                            </div>
+                                </div>
 
-                            <button type={"submit"} className="form_btn w-full">
-                                Đổi mật khẩu
-                                <span>
+                                <button type={"submit"} className="form_btn w-full">
+                                    Đổi mật khẩu
+                                    <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16 7.5L20.5 12M20.5 12L16 16.5M20.5 12H4.5" stroke="white" stroke-width="1.5"
                                       stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </span>
-                            </button>
-                        </form>
+                                </button>
+                            </form>
 
+                        </div>
                     </div>
                 </div>
             </div>
+            {/*footer*/}
+            <Footer/>
+            <MiniChat/>
         </div>
-        {/*footer*/}
-        <Footer/>
-        <MiniChat/>
-    </div>
-);
+    );
 }
 export default Change_Password;
