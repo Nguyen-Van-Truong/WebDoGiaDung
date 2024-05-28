@@ -24,44 +24,57 @@ const  Cart = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const  cartList = useSelector(state => state.cart.ListCart);
     const  user_id =useSelector(state => state.appUser.user_id);
-    const  countCart = useSelector(state => state.cart.countCart);
+    const [localCartList, setLocalCartList] = useState([]);
     const dispatch = useDispatch();
-    // const totalQuantity = cartList.reduce((sum, item) => sum + item.quantity, 0);
+    const  price =useSelector(state => state.details.price);
+    useEffect(() => {
+        setLocalCartList(cartList);
+    }, [cartList]);
+
     /**
      * giam san pham
      * @param cart
      * @returns {(function(): void)|*}
      */
-    const handleMinusClick = (cart) => () => {
-        const newQuantity = cart.quantity - 1 > 0 ? cart.quantity - 1 : 1; // Giữ số lượng tối thiểu là 1
-        dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
-        dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
-        dispatch(count(user_id));
-        dispatch(getListCart(user_id));
+    const handleMinusClick = (cart) => async () => {
+        const newQuantity = cart.quantity - 1 > 0 ? cart.quantity - 1 : 1;
+        await dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
 
+        const priceCart = cart.price;
+        // Kiểm tra nếu giá trị sau khi trừ không thấp hơn giá trị price
+        const newPrice = (priceCart - price) > price ? (priceCart - price) : price;
+        await dispatch(updateCart(cart.cart_item_id, newQuantity, newPrice));
+        await dispatch(count(user_id));
+        await dispatch(getListCart(user_id));
     };
     /**
      * tang san pham
      * @param cart
      * @returns {(function(): void)|*}
      */
-    const handlePlusClick = (cart) => () => {
+    const handlePlusClick = (cart) => async () => {
         const newQuantity = cart.quantity + 1;
-        dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
-        dispatch(updateCart(cart.cart_item_id, newQuantity, cart.price*newQuantity))
-        dispatch(count(user_id));
-        dispatch(getListCart(user_id));
+        const newPrice = cart.price + price;
+        console.log('handlePlusClick - cart:', cart);
+        console.log('handlePlusClick - newQuantity:', newQuantity);
+        console.log('handlePlusClick - newPrice:', newPrice);
+
+        await dispatch(setUpdateCart(cart.cart_item_id, newQuantity));
+        await dispatch(updateCart(cart.cart_item_id, newQuantity, newPrice));
+        await dispatch(count(user_id));
+        await dispatch(getListCart(user_id));
     };
     /**
      * xoa sp
      * @param id
      */
 
-    const  delete_Cart  =(id)=>{
-        dispatch(deleteCart(id));
-        dispatch(getListCart(user_id));
-        dispatch(count(user_id));
-    }
+    const delete_Cart = async (id) => {
+        await dispatch(deleteCart(id));
+        setLocalCartList(localCartList.filter(item => item.id_cart !== id));
+        await dispatch(getListCart(user_id));
+        await dispatch(count(user_id));
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -78,7 +91,7 @@ const  Cart = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [handlePlusClick, handleMinusClick]);
     return (
 
         <div>

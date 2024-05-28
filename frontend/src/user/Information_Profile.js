@@ -1,35 +1,47 @@
 
 import 'select2/dist/js/select2';
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
-import profile from '../assets/images/all-img/profile-photo.png'
+
 import MiniChat from "./MiniChat";
 import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
-import {setTabNewProducts} from "../redux/Action";
-import {setConfirmPassword, setError, setNewPassword} from "../redux/ProfileAction";
+
+import {
+    setConfirmPassword,
+    setError,
+    setFullName,
+    setNewPassword,
+    setPassword,
+    setSuccess
+} from "../redux/ProfileAction";
 import {notification, updatePassword} from "../api/Api";
+import {updateFullName} from "../api/ApiUser";
 
 const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const dispatch = useDispatch();
-    const email = sessionStorage.getItem('email');
+    const email = useSelector(state => state.appUser.emailSetting);
     const password =useSelector(state => state.appUser.password);
     const  user_id =useSelector(state => state.appUser.user_id);
     const newPassword = useSelector(state => state.profile.newPassword);
     const confirmPassword = useSelector(state => state.profile.confirmPassword);
     const errors = useSelector(state => state.profile.error);
     const success = useSelector(state => state.profile.success);
+    const success_name=useSelector(state => state.profile.success_name);
+    const  fullName = useSelector(state => state.profile.fullName);
+
     const [showPassword, setShowPassword] = useState(false);
+    const [isPassWordNew, setPassWordNew] = useState(false);
     const [isConfirmPassWord, setConfirmPass] = useState(false);
 
     /**
@@ -44,18 +56,49 @@ const Information_Profile = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    const togglePasswordNewVisibility = () => {
+        setPassWordNew(!isPassWordNew);
+    };
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPass(!isConfirmPassWord);
+    };
     const handClick = async (event) => {
         event.preventDefault();
-        if (newPassword !== confirmPassword) {
+        if(newPassword.trim() ==="" || confirmPassword.trim() === ""){
+            dispatch(setError("Vui lòng điền đầy đủ thông tin"))
+        }else
+        if (newPassword !== confirmPassword ) {
             console.log('mật khẩu không trùng khớp');
             dispatch(setError("mật khẩu không trùng khớp"))
 
         } else {
             dispatch(updatePassword(user_id, password, newPassword));
             dispatch(notification(user_id, 'Mật khẩu của bạn đã thay đổi'))
+            setTimeout(() => {
+                dispatch(setSuccess(''));
+                dispatch(setNewPassword(''));
+                dispatch(setConfirmPassword(''));
+            }, 5000);
         }
     }
-
+    const handClickInformation = (event) => {
+        event.preventDefault();
+        dispatch(updateFullName(user_id, fullName));
+        setTimeout(() => {
+            dispatch(setSuccess(''));
+        }, 5000);
+    }
+    const handFullName=  async (event) => {
+        event.preventDefault();
+        dispatch(setFullName(event.target.value));
+    }
+    const hand_Password = async (event) => {
+        event.preventDefault();
+        dispatch(setPassword(event.target.value));
+    }
+    useEffect(() => {
+        console.log("Success Name:", success_name);
+    }, [success_name]);
     useEffect(() => {
         const handleScroll = () => {
             const scroll = window.scrollY;
@@ -138,15 +181,14 @@ const Information_Profile = () => {
                                                 <div className="p-6-t">
                                                     <h2 className="text-start xl:text-2xl acc-title text-[22px] text-[#272343] font-medium mb-6 font-display">Thông
                                                         tin tài khoản</h2>
+                                                    {success_name && <div className="alert alert-success p-lg-1">{success_name}</div>}
                                                     <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">
+
                                                         <div className="w-full">
-                                                            <input type="text" placeholder="Kevin"
-                                                                   className="input-box focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out"/>
+                                                            <input type="text" placeholder="Fullname"
+                                                                   className="input-box focus:outline-none focus:ring-2 focus:ring-accents transition duration-300 ease-in-out" value={fullName} onChange={handFullName}/>
                                                         </div>
-                                                        <div className="w-full">
-                                                            <input type="text" placeholder="Kevin Gilbert"
-                                                                   className="input-box focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
-                                                        </div>
+
                                                     </div>
 
                                                     <div className="w-full mb-5">
@@ -154,7 +196,7 @@ const Information_Profile = () => {
                                                                className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                                     </div>
 
-                                                    <button type="submit" className="btn-primary">Lưu thay đổi</button>
+                                                    <button type="submit" onClick={handClickInformation} className="btn-primary">Lưu thay đổi</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +212,7 @@ const Information_Profile = () => {
                                                         {success && <div className="alert alert-success p-lg-1">{success }</div>}
                                                         {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
                                                         <div className="relative">
-                                                            <input type={showPassword ? "text" : "password"} value={password}
+                                                            <input type={showPassword ? "text" : "password"} value={password} onChange={hand_Password}
                                                                    className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
                                                                    name="password"/>
                                                             <span
@@ -188,7 +230,7 @@ const Information_Profile = () => {
                                                         stroke="#272343" stroke-width="1.5" stroke-linecap="round"
                                                         stroke-linejoin="round"/>
                                                 </svg>
-                                                <svg id="current-icon-hide" onClick="currentPasswordIcon()" width="20"
+                                                <svg id="current-icon-hide"  width="20"
                                                      height="10" viewBox="0 0 20 10" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16.858 2.93481L18.9963 6.63906" stroke="#272343"
@@ -212,14 +254,14 @@ const Information_Profile = () => {
                                                         </div>
 
                                                         <div className="relative">
-                                                            <input type="password" placeholder="Mật khẩu mới"
+                                                            <input type={isPassWordNew ? "text" : "password"} placeholder="Mật khẩu mới"
                                                                    className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
                                                                    value={newPassword} onChange={handNewPassword}
                                                                    name="password"/>
                                                             <span
                                                                 className="absolute top-[17px] right-5 cursor-pointer select-none ">
 
-                                                <svg id="create-icon-show" onClick="CreatePasswordIcon()" width="24"
+                                                <svg id="create-icon-show"  width="24" onClick={togglePasswordNewVisibility}
                                                      height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path
@@ -232,7 +274,7 @@ const Information_Profile = () => {
                                                         stroke-linejoin="round"/>
                                                 </svg>
 
-                                                <svg id="create-icon-hide" onClick="CreatePasswordIcon()" width="20"
+                                                <svg id="create-icon-hide"  width="20"
                                                      height="10" viewBox="0 0 20 10" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16.858 2.93481L18.9963 6.63906" stroke="#272343"
@@ -256,13 +298,13 @@ const Information_Profile = () => {
                                                         </div>
 
                                                         <div className="relative">
-                                                            <input type="password" placeholder="Xác nhận mật khẩu"
+                                                            <input type={isConfirmPassWord ? "text" : "password"} placeholder="Xác nhận mật khẩu"
                                                                    className="form_password focus:outline-none focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"
                                                                    name="password" value={confirmPassword}
                                                                    onChange={handConfirmPassword}/>
                                                             <span
                                                                 className="absolute top-[17px] right-5 cursor-pointer ">
-                                                <svg id="icon-show" onClick="PasswordIcon()" width="24" height="24"
+                                                <svg id="icon-show"  width="24" height="24" onClick={toggleConfirmPasswordVisibility}
                                                      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path
                                                         d="M12 4.24902C4.5 4.24902 1.5 11.9999 1.5 11.9999C1.5 11.9999 4.5 19.749 12 19.749C19.5 19.749 22.5 11.9999 22.5 11.9999C22.5 11.9999 19.5 4.24902 12 4.24902V4.24902Z"
@@ -273,7 +315,7 @@ const Information_Profile = () => {
                                                         stroke="#272343" stroke-width="1.5" stroke-linecap="round"
                                                         stroke-linejoin="round"/>
                                                 </svg>
-                                                <svg id="icon-hide" onClick="PasswordIcon()" width="20" height="10"
+                                                <svg id="icon-hide"  width="20" height="10"
                                                      viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16.858 2.93481L18.9963 6.63906" stroke="#272343"
                                                           stroke-width="1.5" stroke-linecap="round"

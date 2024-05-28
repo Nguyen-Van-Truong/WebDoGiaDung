@@ -1,18 +1,17 @@
-import $ from 'jquery';
-import Swiper from "swiper";
+
 import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import '../css/tailwind.css'
-import cart1 from "../assets/images/all-img/cart-01.png";
+
 import MiniChat from "./MiniChat";
-import axios from "axios";
+
 import Header_Menu from "./menu/Header_Menu";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Bottom from "./menu/Header_Bottom";
@@ -27,17 +26,21 @@ import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {product_details} from "../api/Product_Details_Api";
 
-const  Products = () => {
+const  Search = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
     const containerRef = useRef(null);
     const dispatch = useDispatch();
-    const products = useSelector(state => state.productAdmin.products);
     const selectedCategory = useSelector(state => state.category.selectedCategory);
     const currentPage = useSelector(state => state.page.currentPage);
     const pageCount = useSelector(state => state.page.pageCount);
     const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
     const  sortBy = useSelector(state => state.productAdmin.sortBy);
     const navigate = useNavigate();
+    /**
+     * lấy danh ach san pham tim kiem
+     */
+
+    const lisProduct = useSelector(state => state.search.lisProduct);
     const handlePageClick = (data) => {
         dispatch(setCurrentPage(data.selected));
     };
@@ -119,7 +122,7 @@ const  Products = () => {
                 {/*menu response*/}
                 <Menu_Response/>
             </header>
-            
+
 
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
@@ -136,17 +139,39 @@ const  Products = () => {
                     <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Shop</h2>
                 </div>
             </div>
-      
+
 
 
             <section className="">
+                <div className="container px-3 md:px-5 xl:px-0">
+                    <div className="product-list py-6">
+                        <div className="product-filter flex flex-col lg:flex-row gap-y-4 gap-x-6 lg:justify-between items-center">
+                            <div className="relative xl:w-[536px] w-full">
+                                <input type="text" name="" id="search2" className="input-box2 bg-[#F0F2F3] px-5 py-[18px] rounded-lg focus:outline-none focus:ring-2 ring-[#029FAE] focus:bg-white transition duration-300 ease-in-out block w-full" placeholder="Search here..."/>
+                                <label htmlFor="search2" className="absolute top-[18px] right-5">
+                                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.9881 20.6428C16.3663 20.6428 20.7262 16.2829 20.7262 10.9047C20.7262 5.52655 16.3663 1.16666 10.9881 1.16666C5.60989 1.16666 1.25 5.52655 1.25 10.9047C1.25 16.2829 5.60989 20.6428 10.9881 20.6428Z" stroke="#272343" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M17.76 18.1826L21.5777 21.9905" stroke="#272343" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </label>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
 
                 <div className="filter-history py-4 shadow-[inset_0px_1px_0px_#E1E3E6]">
                     <div className="container px-3 md:px-5 xl:px-0">
                         <div className="filter-history-list flex flex-wrap gap-y-4 justify-between items-center">
 
                             <div className="filter-activety flex flex-wrap gap-y-2 items-center gap-x-6">
+
+
+                            </div>
+
+                            <div className="filter-result flex gap-1 items-center">
+                                <h2 className="text-[#272343] text-[16px] font-medium font-display">2,547</h2>
+                                <p className="text-[#636270] text-[16px] font-medium font-display">Results found.</p>
                             </div>
                         </div>
                     </div>
@@ -155,12 +180,12 @@ const  Products = () => {
 
                 <div  className="portfoliolist justify-center mx-auto">
 
-                    {products.map((product) => (
+                    {lisProduct.map((product) => (
                         <div className="mix all featured" data-cat="featured">
                             <div className="product-card">
                                 <a onClick={() => handleProductDetail(product.productId)}>
                                     <div className="product-thumb">
-                                        <img src={product.imageUrl}/>
+                                        <img src={product.fileUrl}/>
                                         <span className="badge new"></span>
                                     </div>
                                     <div className="product-info">
@@ -201,12 +226,12 @@ const  Products = () => {
 
             </section>
             {/*phan trang*/}
-                                  <Pagination onPageChange={handlePageClick} pageCount={pageCount}/>
+            <Pagination onPageChange={handlePageClick} pageCount={pageCount}/>
             {/*footer*/}
             <Footer/>
             <MiniChat/>
         </div>
-  
+
     );
 }
-export default Products ;
+export default Search  ;

@@ -599,7 +599,7 @@ a {
 }
 
 
-.seach-content {
+.search-content {
     position: relative;
 }
 .notification-content {
@@ -635,18 +635,31 @@ a {
     border-radius: 8px;
     box-shadow: 0px 0px 30px rgba(39, 35, 67, 0.12);
 }
-
-.seach-content ul {
+.text-shorten {
+    width: 310px; /* Giới hạn chiều rộng của phần tử */
+    white-space: nowrap; /* Ngăn không cho text xuống dòng */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều rộng đã định */
+    text-overflow: ellipsis; /* Thêm dấu "..." nếu nội dung bị cắt */
+}
+.ul_search_height{
+    height: 185px;
+}
+.link_search{
+    color: #0dcaf0 !important;
+}
+.search-content ul {
     position: absolute;
     right: 0px;
     top: 14px;
     display: none;
     list-style: none;
     min-width: 410px;
+
     background: white;
     z-index: 9999;
     border-radius: 8px;
     box-shadow: 0px 0px 30px rgba(39, 35, 67, 0.12);
+    overflow-y: auto;
 }
 .notification-content ul {
     position: absolute;
@@ -711,7 +724,7 @@ color: #636270;
 transition: all 0.3s ease-out 0s;
 }
 .dropdown-content ul li a,
-.profile-content ul li a, .seach-content ul li a  {
+.profile-content ul li a, .search-content ul li a  {
 padding: 12px 16px;
 width: 100%;
 cursor: pointer;
@@ -724,7 +737,7 @@ transition: all 0.3s ease-out 0s;
 }
 
 .dropdown-content ul li a:hover,
-.profile-content ul li a:hover, .seach-content ul li a:hover , .notification-content ul li a:hover{
+.profile-content ul li a:hover, .search-content ul li a:hover , .notification-content ul li a:hover{
 background: #F0F2F3;
 color: #272343;
 border-radius: 5px;

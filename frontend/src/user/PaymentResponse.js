@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
 import {updatePaymentMethod} from "../api/paymentApi";
 import {updateCheckout} from "../api/CartApi";
+import {set_errors_payment, setAddress, setEmailPayment, setFullName, setNumberPhone} from "../redux/paymentActions";
 
 
 const PaymentResponse = () => {
@@ -27,8 +28,8 @@ const PaymentResponse = () => {
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const id_payment =useSelector(state => state.paymentReducer.paymentId);
-    const  user_id =useSelector(state => state.appUser.user_id);
+    const id_payment = useSelector(state => state.paymentReducer.paymentId);
+    const user_id = useSelector(state => state.appUser.user_id);
     useEffect(() => {
 
         const query = new URLSearchParams(location.search);
@@ -45,9 +46,15 @@ const PaymentResponse = () => {
 
                 const data = response.data;
                 setPaymentStatus(data);
-                if(data === "00"){
+                if (data === "00") {
                     dispatch(updatePaymentMethod(id_payment))
                     dispatch(updateCheckout(user_id));
+                    dispatch(setAddress(''));
+                    dispatch(setFullName(''));
+                    dispatch(setNumberPhone(''));
+                    dispatch(setEmailPayment(''));
+                    dispatch(set_errors_payment(''));
+
                 }
             } catch (error) {
                 console.error('Error fetching payment status:', error);
@@ -71,8 +78,6 @@ const PaymentResponse = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [location.search]);
-
-
 
 
     return (
@@ -125,15 +130,16 @@ const PaymentResponse = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
-                                <FaCheckCircle color="green" size="24px" />   <p style={{    margin: '6px'}}> Thanh toán thành công </p>
+                                <FaCheckCircle color="green" size="24px"/>   <p style={{margin: '6px'}}> Thanh toán
+                                thành công </p>
                             </p>
                         </div>
                     }
                     {
                         paymentStatus !== "00" &&
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <FaTimesCircle color="red" size="24px" />
-                            <p style={{ margin: '6px' }}>Thanh toán không thành công</p>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <FaTimesCircle color="red" size="24px"/>
+                            <p style={{margin: '6px'}}>Thanh toán không thành công</p>
                         </div>
                     }
 

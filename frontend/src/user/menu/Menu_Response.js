@@ -58,6 +58,9 @@ const Menu_Response = () => {
         dispatch(setIsMenu(false));
 
     }
+    /**
+     * click vao icon thong bao
+     */
     const clickNotification = () => {
         dispatch(setIsNotification(!isNotification));
         dispatch(setUserMin(false));
@@ -213,11 +216,7 @@ const Menu_Response = () => {
                                                 <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
                                                     hàng</Link>
                                             </li>
-                                            <li>
-                                                <Link to={"/change-password"} onClick={clickAll}>Đổi mật
-                                                    khẩu</Link>
 
-                                            </li>
                                             <li>
                                                 <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
 

@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.CartDTO;
+import com.example.demo.dto.CartItemDTO;
 import com.example.demo.model.Cart;
 import com.example.demo.model.CartItems;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,7 +43,12 @@ public interface CartItemRepository extends JpaRepository<CartItems, Integer> {
             "WHERE c.status = 'active' and u.user_id=:user_id or c.status = 'inactive' and u.user_id=:user_id  or c.status = 'checked_out' and u.user_id=:user_id  " + " group by i.cart.cart_id")
     List<CartDTO>history(@Param("user_id") int user_id);
 
-
+    @Query("SELECT  new com.example.demo.dto.CartItemDTO(i.cart_item_id,i.quantity, i.price)" +
+            "FROM User u " +
+            "JOIN Cart c ON u.user_id = c.user.user_id " +
+            "JOIN CartItems i ON c.cart_id = i.cart.cart_id " +
+            "WHERE c.status = 'active' and u.user_id=:user_id")
+    List<CartItemDTO>findByCart_item_id(@Param("user_id") int user_id);
 
 
 }

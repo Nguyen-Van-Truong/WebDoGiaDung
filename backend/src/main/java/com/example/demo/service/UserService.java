@@ -171,4 +171,17 @@ public class UserService implements User_impl {
         OrderAdminDTO orderDTO = orderConverter.convertToOrderAdminDTO(order);
         return new AdminUserResponse(user, Collections.singletonList(orderDTO), orderRepository.countByUser_Id(user.getUser_id()));
     }
+    // cap nhap full name cho nguoi dung
+    public User updateFulName(int id, String full_name) {
+        Optional<User> users = userRepository.findById(id);
+        if (users.isPresent()) {
+            User user = users.get();
+            user.setFull_name(full_name);
+            userRepository.save(user);
+            return user;
+        } else {
+            return null;
+        }
+
+    }
 }
