@@ -19,6 +19,7 @@ import {reset, set_confirm_password, set_new_password, setErrorForget} from "../
 import {update_password} from "../api/ForgetPasswordApi";
 import {bindActionCreators} from "redux";
 import {register} from "../api/Api";
+import Header_Top from "./menu/Header_Top";
 
 const Change_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -88,27 +89,7 @@ lay id nguoiw dung
     return (
         <div>
 
-            <header class="font-display">
-                <div id="header-sticky" class="">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+           <Header_Top/>
 
             <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container">

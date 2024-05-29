@@ -21,6 +21,7 @@ import {deleteCart} from "../../api/HistoryCartApi";
 import {click_search_success, set_search_items} from "../../redux/SearchAction";
 import {search} from "../../api/SearchApi";
 import {setFullName, setSuccess} from "../../redux/ProfileAction";
+import {useTranslation} from "react-i18next";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const Header_Menu = () => {
     const [webSocket, setWebSocket] = useState(null);
     const isCategory = useSelector((state) => state.appUser.isCategory);
     const isNotification = useSelector(state => state.notification.isNotification);
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const userData = useSelector(state => state.appUser.userData);
     const lisData = useSelector(state => state.notification.listNotification);
@@ -71,6 +72,7 @@ const Header_Menu = () => {
         dispatch(setIsNotification(false));
         dispatch(setIsMenu(!isMenu))
     }
+
     const clickSearch = () => {
         dispatch(setIsSearch(!isSearch));
 
@@ -331,10 +333,9 @@ const Header_Menu = () => {
                                         <div className={"cart-summary"}>
 
                                             <div className="flex justify-between items-center p_10">
-                                                <a href="/cart" className="btn-transparent">Xem giỏ hàng</a>
+                                                <a href="/cart" className="btn-transparent">{t('viewCart')}</a>
                                                 <Link className="btn-primary" to={"/checkout-shopping"}
-                                                      onClick={clickAll}>Thanh
-                                                    toán</Link>
+                                                      onClick={clickAll}>{t('checkout')}</Link>
 
                                             </div>
                                         </div>
@@ -351,7 +352,7 @@ const Header_Menu = () => {
                                                 <img className={"img_product"}
                                                      src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f4.png"
                                                      alt=""/>
-                                                <p className={"text-center"}>Chưa có sản phẩm nào</p>
+                                                <p className={"text-center"}>{t('noProductsAvailable')}</p>
                                             </li>
 
 
@@ -435,28 +436,26 @@ const Header_Menu = () => {
 
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
-                                                            hàng</Link>
+                                                        <Link to={"/order-history"} onClick={clickAll}>{t('orderHistory')}</Link>
                                                     </li>
                                                 </div>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
 
                                                     <li>
-                                                        <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
+                                                        <Link to={"/cart"} onClick={clickAll}>{t('cart')}</Link>
 
                                                     </li>
                                                 </div>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
-                                                            khoản</Link>
+                                                        <Link to={"/account-setting"} onClick={clickAll}>{t('accountSettings')}</Link>
 
                                                     </li>
 
                                                 </div>
                                                 <div className="px-3_t">
                                                     <li>
-                                                        <a onClick={log_out}>Đăng xuất</a>
+                                                        <a onClick={log_out}>{t('logout')}</a>
                                                     </li>
                                                 </div>
                                             </ul>
@@ -466,16 +465,15 @@ const Header_Menu = () => {
                                                 style={{display: isMenu ? 'block' : 'none'}}>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
+                                                        <Link to="/login" onClick={clickAll}>{t('login')}</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
+                                                        <Link to={"/register"} onClick={clickAll}>{t('register')}</Link>
                                                     </li>
                                                 </div>
                                                 <div className="px-3_t shadow-[0px_1px_0px_#E1E3E6]">
                                                     <li>
-                                                        <Link to={"/forget-password"} onClick={clickAll}>Quên mật
-                                                            khẩu</Link>
+                                                        <Link to={"/forget-password"} onClick={clickAll}>{t('forgotPassword')}</Link>
                                                     </li>
 
                                                 </div>

@@ -47,6 +47,16 @@ public class ProductController {
 
         return productService.listAdminProducts(categoryId, page, size, sortDirection, sortBy);
     }
+    @GetMapping("/user/products")
+    public Page<ProductListAdminDTO> getUserProducts(
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection,
+            @RequestParam(defaultValue = "created_at") String sortBy) {
+
+        return productService.listUserProducts(categoryId, page, size, sortDirection, sortBy);
+    }
 
     // lấy sản phẩm bán chạy
     @GetMapping("/top-selling")
