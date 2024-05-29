@@ -29,6 +29,7 @@ import {
     setSelectedProvince,
     setSelectedProvinceName
 } from "../redux/paymentActions";
+import Header_Top from "./menu/Header_Top";
 
 
 const Checkout_Shopping = () => {
@@ -141,6 +142,7 @@ const Checkout_Shopping = () => {
 
         // In các giá trị ra console để kiểm tra
         console.log('Valid Address:', validAddress);
+        console.log('Valid Address:', validAddress);
         console.log('Valid Full Name:', validFullName);
         console.log('Valid Number Phone:', validNumberPhone);
         console.log('Valid Email Payment:', validEmailPayment);
@@ -167,26 +169,7 @@ const Checkout_Shopping = () => {
 
     return (
         <div>
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-                {/*bottom-header*/}
-                <Header_Bottom/>
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
             <div>
                 <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                     <div className="container px-3 md:px-5 xl:px-0">

@@ -14,6 +14,7 @@ import {
 import {timeSince} from "../convertDateTime/Convert";
 import {setIsNotification, setNotificationCount} from "../../redux/NotificationAction";
 import {getNotification, updateIsRead} from "../../api/NotificationApi";
+import {useTranslation} from "react-i18next";
 
 
 const Menu_Response = () => {
@@ -32,6 +33,7 @@ const Menu_Response = () => {
     const sortList = lisData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const  countCart = useSelector(state => state.cart.countCart);
     const  isStatus =useSelector(state => state.appUser.isStatus);
+    const { t } = useTranslation();
     const handClickUserMin = () => {
         dispatch(setUserMin(!isUserMin))
         dispatch(setIsNotification(false));
@@ -198,14 +200,13 @@ const Menu_Response = () => {
                                     {userData === null &&
                                         <ul style={{display: isUserMin ? 'block' : 'none'}}>
                                             <li>
-                                                <Link to="/login" onClick={clickAll}>Đăng nhập</Link>
+                                                <Link to="/login" onClick={clickAll}>{t('login')}</Link>
                                             </li>
                                             <li>
-                                                <Link to={"/register"} onClick={clickAll}>Đăng kí</Link>
+                                                <Link to={"/register"} onClick={clickAll}>{t('register')}</Link>
                                             </li>
                                             <li>
-                                                <Link to={"/forget-password"} onClick={clickAll}>Quên mật
-                                                    khẩu</Link>
+                                                <Link to={"/forget-password"} onClick={clickAll}>{t('forgotPassword')}</Link>
                                             </li>
                                         </ul>
                                     }
@@ -213,21 +214,19 @@ const Menu_Response = () => {
                                         <ul style={{display: isUserMin ? 'block' : 'none'}}>
 
                                             <li>
-                                                <Link to={"/order-history"} onClick={clickAll}>Lịch sử đơn
-                                                    hàng</Link>
+                                                <Link to={"/order-history"} onClick={clickAll}>{t('orderHistory')}</Link>
                                             </li>
 
                                             <li>
-                                                <Link to={"/cart"} onClick={clickAll}>Giỏ hàng</Link>
+                                                <Link to={"/cart"} onClick={clickAll}>{t('cart')}</Link>
 
                                             </li>
                                             <li>
-                                                <Link to={"/account-setting"} onClick={clickAll}>Cài đặt tài
-                                                    khoản</Link>
+                                                <Link to={"/account-setting"} onClick={clickAll}>{t('accountSettings')}</Link>
 
                                             </li>
                                             <li>
-                                                <a onClick={log_out}>Đăng xuất</a>
+                                                <a onClick={log_out}>{t('logout')}</a>
 
                                             </li>
                                         </ul>
@@ -278,7 +277,7 @@ const Menu_Response = () => {
                         </button>
                         <button data-target="panel-2" onClick={handCategory}
                                 className={isCategory ? 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500 active' : 'tab rounded-none w-1/2 text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none text-blue-500 border-b-2 font-medium border-blue-500'}>
-                            Danh mục
+                            {t('category')}
                         </button>
                     </nav>
                 </div>
@@ -288,7 +287,7 @@ const Menu_Response = () => {
                         <div className={isMenu ? 'panel-1 tab-content active' : 'panel-1 tab-content active'}>
                             <ul className="flex flex-col items-center">
                                 <li className="w-full block">
-                                    <a href="/" className="border-b border-[#029FAE] block px-3 py-2">Trang chủ</a>
+                                    <a href="/" className="border-b border-[#029FAE] block px-3 py-2">{t('home')}</a>
                                 </li>
                                 <li className="w-full block">
                                     <a href="/products" className="border-b border-[#029FAE] block px-3 py-2">Shop</a>

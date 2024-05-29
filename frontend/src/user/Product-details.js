@@ -1,18 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
-import Swiper from "swiper";
-import mixitup from "mixitup";
-import $ from "jquery";
-import f_product_4 from '../assets/images/all-img/f-product-04.png'
-import product1 from '../assets/images/all-img/f-product-01.png';
-import product3 from '../assets/images/all-img/f-product-03.png';
-import product2 from '../assets/images/all-img/f-product-02.png'
+
 import '../assets/plugins/css/swipper.css'
 import '../assets/plugins/css/select2.css'
 import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import {Link, useNavigate} from "react-router-dom";
-import cart1 from "../assets/images/all-img/cart-01.png";
+
 import MiniChat from "./MiniChat";
 import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
@@ -22,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {formatPrice} from "../format/FormatMoney";
 import ReactQuill from "react-quill";
 import {addCart, count, getListCart} from "../api/CartApi";
+import Header_Top from "./menu/Header_Top";
 
 const Product_details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -72,20 +67,7 @@ const Product_details = () => {
     useEffect(() => {
 
 
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
 
 
     }, []);
@@ -93,28 +75,7 @@ const Product_details = () => {
     return (
 
         <div>
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0_t">
                     <div className="flex items-center gap-1 py-[1.5px]">

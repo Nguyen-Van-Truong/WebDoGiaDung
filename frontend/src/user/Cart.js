@@ -20,13 +20,17 @@ import {formatPrice} from "../format/FormatMoney";
 import {setUpdateCart} from "../redux/CartAction";
 import {count, getListCart, updateCart} from "../api/CartApi";
 import {deleteCart} from "../api/HistoryCartApi";
+import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 const  Cart = () => {
-    const [isHeaderSticky, setHeaderSticky] = useState(false);
+
     const  cartList = useSelector(state => state.cart.ListCart);
     const  user_id =useSelector(state => state.appUser.user_id);
     const [localCartList, setLocalCartList] = useState([]);
     const dispatch = useDispatch();
     const  price =useSelector(state => state.details.price);
+    const { t } = useTranslation();
+
     useEffect(() => {
         setLocalCartList(cartList);
     }, [cartList]);
@@ -77,46 +81,13 @@ const  Cart = () => {
     };
 
     useEffect(() => {
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, [handlePlusClick, handleMinusClick]);
     return (
 
         <div>
-         
-            <header class="font-display">
-                <div id="header-sticky" class="">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
 
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
- {/*menu response*/}
-             <Menu_Response/>
-            </header>
+            <Header_Top/>
             <div class="pt_b"   style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container px-3 md:px-5 xl:px-0">
                     <div class="flex items-center gap-1 py-[1.5px]">
@@ -141,19 +112,19 @@ const  Cart = () => {
                                     <thead>
                                     <tr>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[240px]">
-                                            Sản phẩm
+                                            {t('product')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[240px]">
-                                           Tên Sản phẩm
+                                            {t('productName')}
                                         </th>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[104px]">
-                                            Giá
+                                            {t('price')}
                                         </th>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[164px]">
-                                            Số lượng
+                                            {t('quantity')}
                                         </th>
                                         <th class="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[96px]">
-                                            Tổng tiền
+                                            {t('total')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[96px]">
 
@@ -205,8 +176,8 @@ const  Cart = () => {
                             <hr class="my-0"/>
                                 <div class="coupon-wrap p-6-t">
                                     <input type="text" name="" id="" class="px-5-tw py-[18px] bg-[#F0F2F3] rounded-lg border-none focus:outline-none coupon-input coupon-btn w-full block focus:ring-2 ring-[#029FAE]" placeholder="Mã giảm giá"/>
-                                        <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">Áp dụng Mã Giảm Giá</button>
-                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg"><a href={"/checkout-shopping"}>Đặt hàng</a></button>
+                                        <button type="submit" class="bg-[#007580] hover:bg-[#272343] transition-all duration-300 inline-flex font-semibold text-gray-white coupon-btn px-6 py-[17px] rounded-lg">{t('applyDiscountCode')}</button>
+                                        <button class="bg-off-white text-[#272343] coupon-btn font-semibold py-[17px] px-6 rounded-lg"><a href={"/checkout-shopping"}>{t('checkout')}</a></button>
                                 </div>
                         </div>
 

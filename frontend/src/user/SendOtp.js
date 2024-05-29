@@ -17,6 +17,7 @@ import { register } from "../api/Api";
 import { resetRegistrationMessage, setError } from "../redux/Action";
 import { bindActionCreators } from "redux";
 import { reset } from "../redux/ForgetPasswordAction";
+import Header_Top from "./menu/Header_Top";
 
 const SendOtp = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -43,18 +44,7 @@ const SendOtp = () => {
         /**
          * chuyen trang
          */
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+
     }, []);
 
     const handleSubmit = async (e) => {
@@ -102,20 +92,7 @@ const SendOtp = () => {
     };
     return (
         <div>
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <Header_Menu />
-                </div>
-                <Header_Bottom />
-                <Menu_Response />
-            </header>
+            <Header_Top/>
             <div className="pt_b" style={{ backgroundColor: "var(--bg-breadcum)" }}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">

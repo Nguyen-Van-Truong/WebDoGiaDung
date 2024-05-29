@@ -21,6 +21,7 @@ import {bindActionCreators} from "redux";
 import {otp} from "../api/Api";
 import {useNavigate} from "react-router-dom";
 import {check} from "../redux/RegisterAction";
+import Header_Top from "./menu/Header_Top";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -57,44 +58,12 @@ const Forget_Password = () => {
 
     }
     useEffect(() => {
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+
     }, []);
     return (
         <div>
 
-            <header class="font-display">
-                <div id="header-sticky" class="">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
 
             <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container">
