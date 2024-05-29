@@ -14,6 +14,7 @@ import Menu_Response from "./menu/Menu_Response";
 import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
+import Header_Top from "./menu/Header_Top";
 
 const Order_Details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -41,45 +42,12 @@ const Order_Details = () => {
     useEffect(() => {
 
 
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, []);
     return (
         <div>
 
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
 
             <div className="pt_b" tyle={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">

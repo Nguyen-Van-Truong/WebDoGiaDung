@@ -28,11 +28,16 @@ import AdminProfile from "./admin/AdminProfile";
 import SendOtp from "./user/SendOtp";
 import PaymentResponse from "./user/PaymentResponse";
 import Search from "./user/Search";
+import {Suspense} from "react";
 
 
 const App = () => {
 
     return (
+
+
+          <Suspense fallback={<div>Loading...</div>}>
+
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
@@ -65,6 +70,7 @@ const App = () => {
                 <Route path={"/search"} element={<Search/>} />
             </Routes>
         </Router>
+          </Suspense>
     );
 }
 

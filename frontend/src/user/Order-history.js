@@ -17,13 +17,15 @@ import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {history} from "../api/HistoryCartApi";
 import {formatPrice} from "../format/FormatMoney";
+import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 const Order_History= () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
    const  list =useSelector(state => state.history.ListHistoryCart);
     const  user_id =useSelector(state => state.appUser.user_id);
     const dispatch = useDispatch();
-
+    const { t } = useTranslation();
     /**
      * chuyen doi ngay gio
      */
@@ -38,45 +40,12 @@ const Order_History= () => {
     useEffect(() => {
 
      dispatch(history(user_id));
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, []);
     return (
         <div className="font-display">
     
-            <header className="font-display">
-                <div id="header-sticky" className="">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+        <Header_Top/>
           
             <section  style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container">
@@ -89,22 +58,22 @@ const Order_History= () => {
                                     <thead>
                                     <tr>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[160px]">
-                                        Mã đơn hàng
+                                            {t('orderId')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[160px]">
-                                           Ảnh sản phẩm
+                                            {t('productImage')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[200px]">
-                                            Ngày
+                                            {t('date')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[160px]">
-                                            Tổng sản phẩm
+                                            {t('totalProducts')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[140px]">
-                                            Giá tiền
+                                            {t('price')}
                                         </th>
                                         <th className="pb-6 border-b border-[#E1E3E6] text-left text-xs font-semibold text-[#272343] uppercase tracking-wider w-[120px]">
-                                            Trạng thái
+                                            {t('status')}
                                         </th>
                                     </tr>
                                     </thead>

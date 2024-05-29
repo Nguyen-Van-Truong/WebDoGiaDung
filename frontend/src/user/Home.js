@@ -37,6 +37,8 @@ import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {useNavigate} from "react-router-dom";
 import {product_details} from "../api/Product_Details_Api";
+import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 
 
@@ -55,7 +57,7 @@ const Home = () => {
     const products_new_array = useSelector((state) => state.appUser.products_new);
     const navigate = useNavigate();
     const {productDetailsAction} = bindActionCreators({productDetailsAction: product_details}, dispatch);
-
+    const { t } = useTranslation();
     const handClickTopSelling = () => {
         dispatch(tabTopSelling());
         dispatch(setTabAll(false));
@@ -167,19 +169,11 @@ const Home = () => {
 
 
         $('.custom-select').select2();
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
+
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+
             fetchProductsDebounced.cancel();
             top_sellingDebounced.cancel();
             productsNewsDebounced.cancel();
@@ -188,26 +182,7 @@ const Home = () => {
     }, [dispatch, products, isAll, isTopSelling, is_new, throttledFetch, throttledTop, throttledNew]);
     return (
         <div className="font-display">
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3_t md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
 
             <section
                 className="banner-section 2xl:mx-[90px] bg-grayscales-500 rounded-bl-[20px] rounded-br-[20px] font-display relative z-10">
@@ -469,8 +444,7 @@ const Home = () => {
             <section className="xl:pb-20 pb-8 md:pb-12 pt-4  " style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
                     <div className="flex flex-wrap justify-between items-center mb-10 px-2-t xl:px-0">
-                        <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Sản
-                            phẩm nổi bật</h2>
+                        <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">{t('featuredProducts')}</h2>
                         <div className="flex gap-[18px]">
                             <button className="featureSwiper-button-prev">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -551,8 +525,7 @@ const Home = () => {
                      style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
                     <div className="flex justify-between items-center mb-10">
-                        <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Danh
-                            Mục Nổi Bật</h2>
+                        <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">{t('featuredCategories')}</h2>
                         <div className="flex gap-[18px]">
                             <button className="categoriesSwiper-button-prev">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -641,13 +614,12 @@ const Home = () => {
 
             <section className="lg:py-20 sm:py-8 py-6" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
-                    <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl text-center font-semibold font-display mb-4">Sản
-                        phẩm</h2>
+                    <h2 className="text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl text-center font-semibold font-display mb-4">{t('products')}</h2>
                     <ul id="filters" className="flex flex-wrap justify-center gap-2 mb-10">
                         <li>
                             <button onClick={handClickAll}
                                     className={isAll ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 ' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active'}
-                                    data-filter=".all" data-mixitup-control>Tất cả
+                                    data-filter=".all" data-mixitup-control>{t('all')}
                             </button>
                         </li>
 
@@ -655,13 +627,13 @@ const Home = () => {
                         <li>
                             <button onClick={handClickNew}
                                     className={is_new ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active ' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
-                                    data-filter=".newest">Mới nhất
+                                    data-filter=".newest">{t('newest')}
                             </button>
                         </li>
                         <li>
                             <button onClick={handClickTopSelling}
                                     className={isTopSelling ? 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2 mixitup-control-active' : 'filter text-[#9A9CAA] text-base leading-[110%] font-display font-medium cursor-pointer p-2'}
-                                    data-filter=".best-sellers">Bán chạy
+                                    data-filter=".best-sellers">{t('bestsellers')}
                             </button>
                         </li>
                     </ul>
@@ -837,8 +809,7 @@ const Home = () => {
 
             <section className="lg:py-20 sm:py-8 py-6" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
-                    <h2 className=" m-b-30 text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">Sản
-                        Phẩm Mới Nhất</h2>
+                    <h2 className=" m-b-30 text-gray-black xl:text-[32px] xl:leading-[110%] text-xl md:text-2xl font-semibold font-display">{t('newestProducts')}</h2>
 
 
                     <div className="portfoliolist justify-center mx-auto">

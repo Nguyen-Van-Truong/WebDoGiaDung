@@ -25,6 +25,7 @@ import {setCurrentPage, setPageCount} from "../admin/redux/actions/CurrentPageAc
 import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {product_details} from "../api/Product_Details_Api";
+import Header_Top from "./menu/Header_Top";
 
 const  Search = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -70,20 +71,8 @@ const  Search = () => {
         }
 
 
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy]);
     const loadProducts = async () => {
         const data = await fetchProducts({
@@ -100,28 +89,7 @@ const  Search = () => {
     return (
 
         <div>
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
 
 
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
