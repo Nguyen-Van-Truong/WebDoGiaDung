@@ -17,6 +17,8 @@ import {resetRegistrationMessage, setError, setFormData} from "../redux/Action";
 import {bindActionCreators} from "redux";
 import {Cookies, useCookies} from "react-cookie";
 import {check} from "../redux/RegisterAction";
+import {useTranslation} from "react-i18next";
+import Header_Top from "./menu/Header_Top";
 
 const Register = () => {
     const [cookies, setCookie] = useCookies(['otp']);
@@ -26,7 +28,7 @@ const Register = () => {
     const dispatch = useDispatch();
     const formData = useSelector(state => state.appUser.formData);
     const errors = useSelector(state => state.appUser.errors);
-
+    const { t } = useTranslation();
     const errorMessage = useSelector(state => state.appUser.errorsMessage);
     const navigate = useNavigate();
     /**
@@ -92,58 +94,24 @@ const Register = () => {
         }
     }
     useEffect(() => {
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, []);
     return (
         <div>
 
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+          <Header_Top/>
 
             <div className="pt_b" tyle={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('home')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('account')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
@@ -151,18 +119,17 @@ const Register = () => {
                         </svg>
 
                         <span
-                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Đăng kí</span>
+                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">{t('register')}</span>
                     </div>
 
-                    <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Đăng kí</h2>
+                    <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">{t('register')}</h2>
                 </div>
             </div>
 
             <div style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container py-20">
                     <div className="sign_in">
-                        <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Đăng
-                            kí</h2>
+                        <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">{t('register')}</h2>
                         <div className="form">
                             <form onSubmit={handleSubmit} className="">
                                 {errorMessage && <div className="alert alert-danger p-lg-1">{errorMessage}</div>}
@@ -248,7 +215,7 @@ const Register = () => {
                                 </div>
 
                                 <button type={"submit"} className="form_btn w-full">
-                                    Đăng kí
+                                    {t('register')}
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -260,9 +227,9 @@ const Register = () => {
                             </form>
                             <div
                                 className="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">
-                                Đã có tài khoản? <Link
+                                {t('dontHaveAccount')} <Link
                                 className="text-dark-accents font-display font-medium text-[14px] leading-[110%]"
-                                to={"/login"}>Đăng nhập</Link></div>
+                                to={"/login"}>{t('login')}</Link></div>
                         </div>
                     </div>
                 </div>

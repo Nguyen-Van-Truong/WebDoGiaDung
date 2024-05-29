@@ -201,6 +201,20 @@ public class ProductService {
 
         return productPage.map(this::convertToDto);
     }
+    public Page<ProductListAdminDTO> listUserProducts(Integer categoryId, int page, int size, String sortDirection, String sortBy) {
+        Sort sort = Sort.by(sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+        Set<Integer> categoryIds = getAllSubCategoryIds(categoryId);
+
+        // Modify the query to filter by multiple category IDs
+        Page<Products> productPage;
+        if (categoryIds.isEmpty()) {
+            productPage = productRepository.findByCategory(categoryId, PageRequest.of(page, size, sort));
+        } else {
+            productPage = productRepository.findByCategoriesIn(categoryIds, PageRequest.of(page, size, sort));
+        }
+
+        return productPage.map(this::convertToDto);
+    }
 
 
     private ProductListAdminDTO convertToDto(Products product) {

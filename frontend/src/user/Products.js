@@ -1,5 +1,4 @@
-import $ from 'jquery';
-import Swiper from "swiper";
+
 import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
@@ -10,33 +9,35 @@ import '../assets/plugins/css/select2.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import '../css/tailwind.css'
-import cart1 from "../assets/images/all-img/cart-01.png";
+
 import MiniChat from "./MiniChat";
-import axios from "axios";
-import Header_Menu from "./menu/Header_Menu";
-import Menu_Response from "./menu/Menu_Response";
-import Header_Bottom from "./menu/Header_Bottom";
+
 import Footer from "./footer/Footer";
 import Pagination from "./page/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchCategories} from "../admin/Api/CategoryApi";
-import {fetchProducts} from "../admin/Api/ProductApi";
-import {setProducts} from "../admin/redux/actions/ProductActions";
-import {setCurrentPage, setPageCount} from "../admin/redux/actions/CurrentPageAction";
+
+
+
 import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {product_details} from "../api/Product_Details_Api";
+import Header_Top from "./menu/Header_Top";
+import {fetchProducts} from "../api/ProductApi";
+import {fetchCategories} from "../api/CategoryApi";
+
+import {setCurrentPage, setPageCount} from "../redux/CurrentPageAction";
+import {setProducts} from "../redux/ProductAction";
 
 const  Products = () => {
-    const [isHeaderSticky, setHeaderSticky] = useState(false);
+
     const containerRef = useRef(null);
     const dispatch = useDispatch();
-    const products = useSelector(state => state.productAdmin.products);
-    const selectedCategory = useSelector(state => state.category.selectedCategory);
-    const currentPage = useSelector(state => state.page.currentPage);
-    const pageCount = useSelector(state => state.page.pageCount);
-    const  sortOrder = useSelector(state => state.productAdmin.sortOrder);
-    const  sortBy = useSelector(state => state.productAdmin.sortBy);
+    const products = useSelector(state => state.productUser.products);
+    const selectedCategory = useSelector(state => state.categoryUser.selectedCategory);
+    const currentPage = useSelector(state => state.pageUser.currentPage);
+    const pageCount = useSelector(state => state.pageUser.pageCount);
+    const  sortOrder = useSelector(state => state.productUser.sortOrder);
+    const  sortBy = useSelector(state => state.productUser.sortBy);
     const navigate = useNavigate();
     const handlePageClick = (data) => {
         dispatch(setCurrentPage(data.selected));
@@ -67,21 +68,8 @@ const  Products = () => {
         }
 
 
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy]);
+    }, [dispatch, currentPage, sortOrder, sortBy]);
     const loadProducts = async () => {
         const data = await fetchProducts({
             categoryId: selectedCategory || undefined,
@@ -97,30 +85,7 @@ const  Products = () => {
     return (
 
         <div>
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3 md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
-            
-
+            <Header_Top/>
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">

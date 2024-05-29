@@ -16,13 +16,20 @@ import cartHistoryReducer from "../../../redux/HistoryCartReducer";
 import paymentReducer from "../../../redux/paymentReducer";
 import orderReducer from "./OrderReducer";
 import SearchReducer from "../../../redux/SearchReducer";
+import categoryUserReducer from "./CategoryReducer";
+import productUserReducer from "../../../redux/ProductRedux";
+import currentPageUserReducer from "../../../redux/CurrentPageReducer";
+import languageReducer from "../../../redux/languageSlice";
 
 
 const rootReducer = combineReducers({
     appUser: appReducer,
     productAdmin: productReducer,
+    productUser :productUserReducer,
     category: categoryReducer,
+    categoryUser: categoryUserReducer,
     page: currentPageReducer,
+    pageUser :currentPageUserReducer,
     notifications: notificationReducer,
     profile: profileReducer,
     notification: notifiCationReducer,
@@ -33,7 +40,8 @@ const rootReducer = combineReducers({
     history: cartHistoryReducer,
     paymentReducer: paymentReducer,
     orderReducer: orderReducer,
-    search :SearchReducer
+    search :SearchReducer,
+    language: languageReducer,
 
 });
 

@@ -26,6 +26,8 @@ import {
 } from "../redux/ProfileAction";
 import {notification, updatePassword} from "../api/Api";
 import {updateFullName} from "../api/ApiUser";
+import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -39,7 +41,7 @@ const Information_Profile = () => {
     const success = useSelector(state => state.profile.success);
     const success_name=useSelector(state => state.profile.success_name);
     const  fullName = useSelector(state => state.profile.fullName);
-
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
     const [isPassWordNew, setPassWordNew] = useState(false);
     const [isConfirmPassWord, setConfirmPass] = useState(false);
@@ -100,68 +102,31 @@ const Information_Profile = () => {
         console.log("Success Name:", success_name);
     }, [success_name]);
     useEffect(() => {
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+       
     }, []);
     return (
         <div>
 
-            <header className="font-display">
-                <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                    <div className="top-header bg-secondary">
-                        <div className="container px-3_t md:px-5 xl:px-0">
-                            <div className="py-3.5 flex justify-center sm:justify-between">
-
-                                <div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/*Header*/}
-                    <Header_Menu/>
-                </div>
-
-                {/*bottom-header*/}
-                <Header_Bottom/>
-
-                {/*menu response*/}
-                <Menu_Response/>
-            </header>
+            <Header_Top/>
 
             <div className="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container px-3_t md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('home')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+                        <a href="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('account')}</a>
 
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
 
-                        <span
-                            className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Đăng kí</span>
+
+
                     </div>
 
-                    <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Đăng kí</h2>
+
                 </div>
             </div>
 
@@ -179,8 +144,8 @@ const Information_Profile = () => {
                                         <div className="box xl:w-[536px]">
                                             <div className="w-full ">
                                                 <div className="p-6-t">
-                                                    <h2 className="text-start xl:text-2xl acc-title text-[22px] text-[#272343] font-medium mb-6 font-display">Thông
-                                                        tin tài khoản</h2>
+                                                    <h2 className="text-start xl:text-2xl acc-title text-[22px] text-[#272343] font-medium mb-6 font-display">{t('accountInformation')}
+                                                       </h2>
                                                     {success_name && <div className="alert alert-success p-lg-1">{success_name}</div>}
                                                     <div className="flex flex-col sm:flex-row gap-5 items-center mb-5">
 
@@ -196,7 +161,7 @@ const Information_Profile = () => {
                                                                className="input-box focus:outline-none  focus:ring-2 focus:ring-accents font-display transition duration-300 ease-in-out"/>
                                                     </div>
 
-                                                    <button type="submit" onClick={handClickInformation} className="btn-primary">Lưu thay đổi</button>
+                                                    <button type="submit" onClick={handClickInformation} className="btn-primary">{t('saveChanges')}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,8 +172,7 @@ const Information_Profile = () => {
                                             <div className="box xl:w-[424px]">
                                                 <div className="">
                                                     <div className="p-6-t">
-                                                        <h2 className="text-start xl:text-2xl acc-title text-[22px] text-[#272343] font-medium mb-6 font-display">Thay
-                                                            đổi mật khẩu</h2>
+                                                        <h2 className="text-start xl:text-2xl acc-title text-[22px] text-[#272343] font-medium mb-6 font-display">{t('changePassword')}</h2>
                                                         {success && <div className="alert alert-success p-lg-1">{success }</div>}
                                                         {errors && <div className="alert alert-danger p-lg-1">{errors}</div>}
                                                         <div className="relative">
@@ -338,8 +302,7 @@ const Information_Profile = () => {
                                                         </div>
 
 
-                                                        <button onClick={handClick} className="btn-primary">Lưu thay
-                                                            đổi
+                                                        <button onClick={handClick} className="btn-primary">{t('saveChanges')}
                                                         </button>
                                                     </div>
                                                 </div>

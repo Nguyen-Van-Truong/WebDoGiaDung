@@ -1,10 +1,13 @@
 import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
 
 const Header_Bottom = () => {
     const dispatch = useDispatch();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { t } = useTranslation();
+
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
@@ -23,7 +26,7 @@ const Header_Bottom = () => {
                                         <path d="M18 14.5H0V12.5H18V14.5Z" fill="currentColor" />
                                     </svg>
                                 </span>
-                                <span className="text-gray-black inline-flex">Danh mục</span>
+                                <span className="text-gray-black inline-flex">{t('category')}</span>
                             </button>
                             {isDropdownOpen && (
                                 <div className="dropdown-content">
@@ -41,7 +44,7 @@ const Header_Bottom = () => {
 
                         <ul className="lg:flex gap-8 items-center hidden main-menu ulOverride ">
                             <li>
-                                <Link to={"/"}>Trang chủ</Link>
+                                <Link to={"/"}>{t('home')}</Link>
                             </li>
                             <li>
                                 <Link to={"/products"}>Shop</Link>
@@ -53,7 +56,7 @@ const Header_Bottom = () => {
                     </div>
                     <div>
                         <p className="ulOverride text-grayscales-900 inline-flex gap-2 items-center text-sm font-display">
-                            <span>Contact:</span><span
+                            <span>{t('contact')}:</span><span
                             className="text-secondary font-medium">0339171545</span></p>
                     </div>
                 </div>

@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/css/ebazar.style.min.css'
+import {useTranslation} from "react-i18next";
+import {useDispatch} from "react-redux";
+import {changeLanguage} from "../../redux/languageSlice";
+import '../assets/css/main.css'
 
 export const MenuItem = ({ item }) => {
     const [isOpen, setIsOpen] = useState(false);
     const hasSubItems = item.subItems && item.subItems.length > 0;
+    const { t } = useTranslation();
 
     const toggleSubItems = (e) => {
         if (hasSubItems) {
@@ -14,17 +19,19 @@ export const MenuItem = ({ item }) => {
     };
 
     return (
-        <li className={`collapsed ${isOpen ? "open" : ""}`}>
+        <li className={`collapsed ${isOpen ? 'open' : ''}`}>
             {/* Use button or div instead of 'a' if 'item.link' is not supposed to navigate directly */}
-            <a href={item.link || "#"} className="m-link" onClick={toggleSubItems}>
-                <i className={`${item.icon} fs-5`}></i> <span>{item.title}</span>
+            <a href={item.link || '#'} className="m-link" onClick={toggleSubItems}>
+                <i className={`${item.icon} fs-5`}></i> <span>{t(item.title)}</span>
                 {hasSubItems && <span className="arrow icofont-rounded-down ms-auto text-end fs-5"></span>}
             </a>
             {hasSubItems && (
-                <ul className={`sub-menu ${isOpen ? "show" : ""}`}>
+                <ul className={`sub-menu ${isOpen ? 'show' : ''}`}>
                     {item.subItems.map((subItem, index) => (
                         <li key={index}>
-                            <Link to={subItem.link} className="ms-link">{subItem.title}</Link>
+                            <Link to={subItem.link} className="ms-link">
+                                {t(subItem.title)}
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -34,58 +41,68 @@ export const MenuItem = ({ item }) => {
 };
 
 export const SidebarMenu = () => {
+    const dispatch = useDispatch();
+    const { i18n } = useTranslation();
+    const { t } = useTranslation();
+    const handleLanguageChange = (lng) => {
+        dispatch(changeLanguage(lng));
+    };
     const menuItems = [
-        { id: 1, title: "Bảng điều khiển", icon: "icofont-home", link: "/index-admin" },
+        { id: 1, title: 'dashboard', icon: 'icofont-home', link: '/index-admin' },
         {
             id: 2,
-            title: "Sản phẩm",
-            icon: "icofont-truck-loaded",
+            title: 'products',
+            icon: 'icofont-truck-loaded',
             subItems: [
-                { title: "Danh sách sản phẩm", link: "/product-list" },
-                // { title: "Chỉnh sửa sản phẩm", link: "/product-edit" },
-                { title: "Thêm sản phẩm", link: "/product-add" }
-            ]
+                { title: 'productList', link: '/product-list' },
+                { title: 'addProduct', link: '/product-add' },
+            ],
         },
         {
             id: 3,
-            title: "Đơn hàng",
-            icon: "icofont-notepad",
-            subItems: [
-                { title: "Danh sách đơn hàng", link: "/order-list" },
-            ]
+            title: 'orders',
+            icon: 'icofont-notepad',
+            subItems: [{ title: 'orderList', link: '/order-list' }],
         },
         {
             id: 4,
-            title: "Khách hàng",
-            icon: "icofont-funky-man",
-            subItems: [
-                { title: "Danh sách khách hàng", link: "/customers" },
-            ]
+            title: 'customers',
+            icon: 'icofont-funky-man',
+            subItems: [{ title: 'customerList', link: '/customers' }],
         },
         {
             id: 5,
-            title: "Khuyến mãi",
-            icon: "icofont-sale-discount",
+            title: 'promotions',
+            icon: 'icofont-sale-discount',
             subItems: [
-                { title: "Danh sách mã giảm giá", link: "/coupons-list" },
-                { title: "Thêm mã sản phẩm", link: "/coupon-add" }
-            ]
+                { title: 'discountCodeList', link: '/coupons-list' },
+                { title: 'addDiscountCode', link: '/coupon-add' },
+            ],
         },
         {
             id: 6,
-            title: "App",
-            icon: "icofont-code-alt",
-            subItems: [
-                { title: "Chat App", link: "/chat" }
-            ]
+            title: 'app',
+            icon: 'icofont-code-alt',
+            subItems: [{ title: 'chatApp', link: '/chat' }],
         },
     ];
 
     return (
-        <ul className="menu-list flex-grow-1 mt-3">
-            {menuItems.map(item => (
-                <MenuItem key={item.id} item={item} />
-            ))}
-        </ul>
+        <div>
+            <div className="language-selector  m-lag">
+                <label className={"color-lag"}>{t('language')}:</label>
+                <select
+                    onChange={(e) => handleLanguageChange(e.target.value)}
+                    defaultValue={i18n.language}>
+                    <option value="en">English</option>
+                    <option value="vi">Tiếng Việt</option>
+                </select>
+            </div>
+            <ul className="menu-list flex-grow-1 mt-3">
+                {menuItems.map((item) => (
+                    <MenuItem key={item.id} item={item} />
+                ))}
+            </ul>
+        </div>
     );
 };
