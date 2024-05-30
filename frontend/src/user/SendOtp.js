@@ -18,6 +18,7 @@ import { resetRegistrationMessage, setError } from "../redux/Action";
 import { bindActionCreators } from "redux";
 import { reset } from "../redux/ForgetPasswordAction";
 import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 const SendOtp = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -33,7 +34,7 @@ const SendOtp = () => {
     const isRegister = useSelector(state => state.appUser.isRegister);
     const location = useLocation();
     const randomNum = location.state && location.state.randomNum;
-
+    const { t } = useTranslation();
     console.log(randomNum + "num");
 
     const handleOtpChange = (e) => {
@@ -96,22 +97,22 @@ const SendOtp = () => {
             <div className="pt_b" style={{ backgroundColor: "var(--bg-breadcum)" }}>
                 <div className="container px-3 md:px-5 xl:px-0">
                     <div className="flex items-center gap-1 py-[1.5px]">
-                        <Link to="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</Link>
+                        <Link to="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('home')}</Link>
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <Link to="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</Link>
+                        <Link to="#" className="text-[14px] font-normal leading-[110%] text-dark-gray">{t('account')}</Link>
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Nhập OTP</span>
+                        <span className="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">OTP</span>
                     </div>
                 </div>
             </div>
             <div className="" style={{ backgroundColor: "var(--bg-breadcum)" }}>
                 <div className="container py-20">
                     <div className="sign_in">
-                        <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Xác nhận OTP</h2>
+                        <h2 className="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">{t('confirmOtp')}</h2>
                         <div className="form">
                             {success && <div className="alert alert-success p-lg-1">{success}</div>}
                             <form onSubmit={handleSubmit} className="">
@@ -128,7 +129,7 @@ const SendOtp = () => {
                                     />
                                 </div>
                                 <button type="submit" className="form_btn w-full">
-                                    Xác nhận
+                                    {t('confirm')}
                                     <span>
                                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16 7.5L20.5 12M20.5 12L16 16.5M20.5 12H4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

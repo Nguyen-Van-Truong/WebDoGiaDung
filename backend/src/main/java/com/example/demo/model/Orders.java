@@ -49,6 +49,13 @@ public class Orders {
 
     }
 
+    public Orders(User user, Timestamp orderDate, Double total, String shippingAddress) {
+        this.user = user;
+        this.orderDate = orderDate;
+        this.total = total;
+        this.shippingAddress = shippingAddress;
+    }
+
     public Orders() {
 
     }

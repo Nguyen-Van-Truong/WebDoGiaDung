@@ -1,5 +1,4 @@
-import $ from 'jquery';
-import Swiper from "swiper";
+
 import 'select2/dist/js/select2';
 import mixitup from 'mixitup';
 import React, {useState, useEffect, useRef} from 'react';
@@ -10,19 +9,18 @@ import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import MiniChat from "./MiniChat";
-import Menu_Response from "./menu/Menu_Response";
-import Header_Menu from "./menu/Header_Menu";
-import Header_Bottom from "./menu/Header_Bottom";
+
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {reset, set_confirm_password, set_new_password, setErrorForget} from "../redux/ForgetPasswordAction";
 import {update_password} from "../api/ForgetPasswordApi";
 import {bindActionCreators} from "redux";
-import {register} from "../api/Api";
+
 import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 const Change_Password = () => {
-    const [isHeaderSticky, setHeaderSticky] = useState(false);
+
     const dispatch = useDispatch();
     const new_password = useSelector(state => state.forget.new_password);
     const confirm_password = useSelector(state => state.forget.confirm_password);
@@ -32,6 +30,7 @@ const Change_Password = () => {
     const {forgetAction} = bindActionCreators({forgetAction: update_password}, dispatch);
     const [isPassWordNew, setPassWordNew] = useState(false);
     const [isConfirmPassWord, setConfirmPass] = useState(false);
+    const { t } = useTranslation();
     const togglePasswordNewVisibility = () => {
         setPassWordNew(!isPassWordNew);
     };
@@ -59,7 +58,6 @@ lay id nguoiw dung
         } else if (new_password !== confirm_password) {
             dispatch(setErrorForget('Mật khẩu không trùng khớp'));
         } else {
-
             dispatch(reset(''));
             forgetAction(idUser, new_password, () => navigate('/login'));
             dispatch(set_new_password(''));
@@ -71,20 +69,7 @@ lay id nguoiw dung
     useEffect(() => {
 
 
-        const handleScroll = () => {
-            const scroll = window.scrollY;
-            if (scroll < 500) {
-                setHeaderSticky(false);
-            } else {
-                setHeaderSticky(true);
-            }
-        };
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, []);
     return (
         <div>
@@ -94,21 +79,21 @@ lay id nguoiw dung
             <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container">
                     <div class="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">{t('home')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">{t('account')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Quên mật khẩu</span>
+                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">{t('forgotPassword')}</span>
                     </div>
 
 
@@ -118,8 +103,7 @@ lay id nguoiw dung
             <div style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container py-20">
                     <div className="sign_in">
-                        <h2 class="text-center text-gray-black  xl:text-[32px] text-[20px] font-semibold font-display">Đổi
-                            mật khẩu</h2>
+                        <h2 class="text-center text-gray-black  xl:text-[32px] text-[20px] font-semibold font-display">{t('changePasswordButton')}</h2>
                         <div className="form">
                             <form onSubmit={handleSubmit} className="">
                                 {success && <div className="alert alert-success p-lg-1">{success}</div>}
@@ -199,7 +183,7 @@ lay id nguoiw dung
                                 </div>
 
                                 <button type={"submit"} className="form_btn w-full">
-                                    Đổi mật khẩu
+                                    {t('changePasswordButton')}
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
