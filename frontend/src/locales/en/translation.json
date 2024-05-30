@@ -50,7 +50,11 @@
   "emailResetPrompt": "Please enter your email address and we will send you a code to reset your password.",
   "language": "Language",
   "english": "English",
-  "vietnamese": "Vietnamese"
+  "vietnamese": "Vietnamese",
+  "continue" : "Continue",
+  "confirmOtp" : "Confirm OTP",
+  "confirm" : "Confirm",
+  "changePasswordButton" : "Change Password"
 
 
 }

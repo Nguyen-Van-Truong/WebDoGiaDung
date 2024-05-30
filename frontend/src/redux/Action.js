@@ -34,7 +34,12 @@ export  const  EMAIL = 'EMAIL';
 export  const  SET_EMAIL ='SET_EMAIL';
  export const  PASSWORD_LOGIN = 'PASSWORD_LOGIN';
  export  const  SET_PASSWORD_LOGIN = 'SET_PASSWORD_LOGIN';
+ export const SET_IS_SUBMITTING='SET_IS_SUBMITTING'
 
+export const setIsSubmitting =(isSubmitting)=>({
+    type:SET_IS_SUBMITTING,
+    payload : isSubmitting
+})
 
 
  export const  email = () => {

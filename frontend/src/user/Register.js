@@ -13,7 +13,7 @@ import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {checkEmail, otp, } from "../api/Api";
-import {resetRegistrationMessage, setError, setFormData} from "../redux/Action";
+import {resetRegistrationMessage, setError, setFormData, setIsSubmitting} from "../redux/Action";
 import {bindActionCreators} from "redux";
 import {Cookies, useCookies} from "react-cookie";
 import {check} from "../redux/RegisterAction";
@@ -22,7 +22,7 @@ import Header_Top from "./menu/Header_Top";
 
 const Register = () => {
     const [cookies, setCookie] = useCookies(['otp']);
-    const [isHeaderSticky, setHeaderSticky] = useState(false);
+
     const [showPassword, setShowPassword] = useState(false);
     const [isConfirmPassWord, setConfirmPass] = useState(false);
     const dispatch = useDispatch();
@@ -30,7 +30,9 @@ const Register = () => {
     const errors = useSelector(state => state.appUser.errors);
     const { t } = useTranslation();
     const errorMessage = useSelector(state => state.appUser.errorsMessage);
+    const isSubmitting =useSelector(state => state.appUser.isSubmitting);
     const navigate = useNavigate();
+
     /**
      *  goi hàm  action
      */
@@ -63,6 +65,9 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(formData.password === '' || formData.email === '' || formData.username === ''){
+            dispatch(setError('Vui lòng điền đẩy đủ các thông tin'));
+        }else
         if (formData.password !== formData.confirmPassword) {
 
             dispatch(setError('Mật khẩu không trùng khớp'));
@@ -72,6 +77,7 @@ const Register = () => {
         } else if (formData.email === '') {
             dispatch(setError('Mail Không được để trống'));
         } else {
+            dispatch(setIsSubmitting(true));
             /**
              * tao ngau nhien otp
              * @type {{password, email: *, username: *}}
@@ -214,7 +220,7 @@ const Register = () => {
                         </span>
                                 </div>
 
-                                <button type={"submit"} className="form_btn w-full">
+                                <button type={"submit"} className="form_btn w-full" disabled={isSubmitting}>
                                     {t('register')}
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"

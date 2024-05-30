@@ -50,5 +50,9 @@
   "emailResetPrompt": "Vui lòng nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một mã code để đặt lại mật khẩu của bạn.",
   "language": "Ngôn ngữ",
   "english": "Tiếng Anh",
-  "vietnamese": "Tiếng Việt"
+  "vietnamese": "Tiếng Việt",
+  "continue" : "Tiêp tục",
+  "confirmOtp" : "Xác Nhận OTP",
+  "confirm" : "Xác nhận",
+  "changePasswordButton" : "Đổi mật khẩu"
 }
