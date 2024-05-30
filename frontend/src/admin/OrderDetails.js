@@ -15,9 +15,9 @@ const OrderDetails = () => {
         dispatch(fetchOrderDetails(orderId));
     }, [dispatch, orderId]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (!orderDetails) return <div>No order found</div>;
+    // if (loading) return <div>Loading...</div>;
+    // if (error) return <div>Error: {error}</div>;
+    // if (!orderDetails) return <div>No order found</div>;
 
     const order = orderDetails; // Assuming the fetched data is directly the order details
 
