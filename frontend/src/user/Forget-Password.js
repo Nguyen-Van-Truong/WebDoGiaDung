@@ -22,6 +22,7 @@ import {otp} from "../api/Api";
 import {useNavigate} from "react-router-dom";
 import {check} from "../redux/RegisterAction";
 import Header_Top from "./menu/Header_Top";
+import {useTranslation} from "react-i18next";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -31,6 +32,7 @@ const Forget_Password = () => {
     const  isPage = useSelector(state => state.forget.isPage);
     const {otpAction} = bindActionCreators({otpAction: otpForget}, dispatch);
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const handleEmailChange = async  (e) => {
         const emailValue = e.target.value;
         console.log('New email value:', emailValue);
@@ -68,21 +70,21 @@ const Forget_Password = () => {
             <div class="pt_b" style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container">
                     <div class="flex items-center gap-1 py-[1.5px]">
-                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Trang chủ</a>
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">{t('home')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">Tài khoản</a>
+                        <a href="#" class="text-[14px] font-normal leading-[110%] text-dark-gray">{t('account')}</a>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.125 5.25L10.875 9L7.125 12.75" stroke="#636270" stroke-linecap="round"
                                   stroke-linejoin="round"/>
                         </svg>
 
-                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">Quên mật khẩu</span>
+                        <span class="text-[14px] font-medium leading-[110%] font-display text-gray-black inline-block">{t('forgotPassword')}</span>
                     </div>
 
 
@@ -92,11 +94,9 @@ const Forget_Password = () => {
             <div style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div class="container py-20">
                     <div class="sign_in">
-                        <h2 class="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">Quên
-                            mật khẩu</h2>
+                        <h2 class="text-center text-gray-black xl:text-[32px] text-[20px] font-semibold font-display">{t('forgotPassword')}</h2>
                         <p class="xl:text-center text-center text-[#636270] text-[16px] font-normal leading-[150%] font-display pb-6 xl:w-[408px] mx-auto">
-                            Vui lòng nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một mã code để đặt lại mật
-                            khẩu của bạn.</p>
+                            {t('emailResetPrompt')}</p>
                         <div class="form">
                             <form onSubmit={handleSubmit} action="" class="">
                                 {errorsMessage && <div className="alert alert-danger p-lg-1">{errorsMessage}</div>}
@@ -106,7 +106,7 @@ const Forget_Password = () => {
                                            onChange={handleEmailChange} value={email}/>
                                 </div>
                                 <button type={"submit"} class="form_btn w-full">
-                                    Tiếp tục
+                                    {t('continue')}
                                     <span>
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -119,8 +119,7 @@ const Forget_Password = () => {
                             <div
                                 class="font-display font-normal text-[14px] leading-[110%] text-gray-black mt-6 text-center">
                                 <a href="/login"
-                                   class="text-dark-accents font-display font-medium text-[14px] leading-[110%]"> Đăng
-                                    nhập</a></div>
+                                   class="text-dark-accents font-display font-medium text-[14px] leading-[110%]"> {t('login')}</a></div>
                         </div>
                     </div>
                 </div>

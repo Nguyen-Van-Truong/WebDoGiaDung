@@ -5,7 +5,7 @@ import {
   IS_TOP_SELLING, NEW_PRODUCTS, PASSWORD_LOGIN, RESET_REGISTRATION_MESSAGE, SET_ALL,
   SET_CATEGORY, SET_EMAIL, SET_ERROR,
   SET_IS_CART,
-  SET_IS_MENU, SET_IS_SEACH, SET_IS_SEARCH, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
+  SET_IS_MENU, SET_IS_SEACH, SET_IS_SEARCH, SET_IS_SUBMITTING, SET_NEW_PRODUCTS, SET_PASSWORD_LOGIN, SET_TOP_SELLING,
   SET_USER_MIN,
   TOGGLE_IS_CART, TOGGLE_IS_MENU,
   TOGGLE_MENU_OPEN,
@@ -55,7 +55,8 @@ const initialState = {
   isRegister :false,
   user_id :0,
   password :'',
-  emailSetting :''
+  emailSetting :'',
+  isSubmitting :false
   };
   const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -326,8 +327,14 @@ const initialState = {
           ...state,
           registrationMessage:action.payload,
           errorsMessage :'',
-          isRegister : true
+          isRegister : true,
+          isSubmitting: false
 
+        }
+      case SET_IS_SUBMITTING:
+        return {
+          ...state,
+          isSubmitting: action.payload
         }
       case  'OTP_ERROR' :
         return {

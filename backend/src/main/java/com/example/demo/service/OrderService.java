@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,10 @@ public class OrderService {
 
     public int addOrder(int id_user, Double total, String shippingAddress) {
         Optional<User> userOptional = userRepository.findById(id_user);
-
+        Timestamp orderDate = new Timestamp(System.currentTimeMillis());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            Orders orders = new Orders(user, total, shippingAddress);
+            Orders orders = new Orders(user,orderDate, total, shippingAddress);
             Orders id_orders = orderRepository.save(orders);
             return id_orders.getOrderId();
         } else {
