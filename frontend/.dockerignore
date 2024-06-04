@@ -1,0 +1,23 @@
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.vscode
+.idea
+*.md
+*.log
+.vscode/
+.idea/
+*.sublime*
+public/*.png
+public/*.jpg
+public/*.jpeg
+public/*.gif
+public/*.svg
+public/*.mp4
+public/*.webm
+temp
+tmp
+az login

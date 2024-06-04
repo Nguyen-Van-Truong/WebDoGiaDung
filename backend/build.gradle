@@ -9,8 +9,8 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	java {
-		sourceCompatibility = '18'
-		targetCompatibility = '18'
+		sourceCompatibility = '17'
+		targetCompatibility = '17'
 	}
 
 
