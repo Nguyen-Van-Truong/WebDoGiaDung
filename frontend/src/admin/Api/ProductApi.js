@@ -11,10 +11,10 @@ export const addProduct = async (formData) => {
 };
 
 
-export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy }) => {
+export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy, keyword }) => {
     try {
         const response = await axios.get(`/api/products/admin/products`, {
-            params: { categoryId, page, size, sortOrder, sortBy }
+            params: { categoryId, page, size, sortOrder, sortBy, keyword }
         });
         return response.data;
     } catch (error) {
@@ -22,6 +22,7 @@ export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy 
         throw error;
     }
 };
+
 
 export const fetchProductDetails = async (productId) => {
     try {

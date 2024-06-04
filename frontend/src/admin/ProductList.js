@@ -28,11 +28,12 @@ const ProductList = () => {
     const sortOrder = useSelector(state => state.productAdmin.sortOrder);
     const sortBy = useSelector(state => state.productAdmin.sortBy);
 
+    const [searchKeyword, setSearchKeyword] = useState('');
 
     useEffect(() => {
         dispatch(fetchCategories());
         loadProducts();
-    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy]); // Ensure currentPage is a dependency
+    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy, searchKeyword]);
 
     const loadProducts = async () => {
         const data = await fetchProducts({
@@ -40,14 +41,17 @@ const ProductList = () => {
             page: currentPage,
             size: 5,
             sortOrder,
-            sortBy
+            sortBy,
+            keyword: searchKeyword
         });
         dispatch(setProducts(data.content));
         dispatch(setPageCount(data.totalPages));
     };
+
     const handlePageClick = (data) => {
         dispatch(setCurrentPage(data.selected));
     };
+
     const buildOptions = (categories, parentId = null, prefix = '') => {
         return categories
             .filter(category => category.parentId === parentId)
@@ -65,6 +69,11 @@ const ProductList = () => {
 
     const handleNavigateToEdit = (productId) => {
         navigate(`/product-edit/${productId}`);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchKeyword(e.target.value);
+        handlePageClick({selected: 0});
     };
 
     return (
@@ -143,9 +152,24 @@ const ProductList = () => {
                                                 </select>
                                             </div>
                                         </div>
-
+                                        <div className="card mb-3">
+                                            <div
+                                                className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                                                <h6 className="m-0 fw-bold">Tìm kiếm sản phẩm</h6>
+                                            </div>
+                                            <div className="card-body">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Nhập từ khóa tìm kiếm"
+                                                    value={searchKeyword}
+                                                    onChange={handleSearchChange}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div className="col-md-12 col-lg-8 col-xl-8 col-xxl-9">
 
                                     <div className="card mb-3 bg-transparent p-2">

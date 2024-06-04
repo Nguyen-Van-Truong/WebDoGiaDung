@@ -44,6 +44,8 @@ const orderReducer = (state = initialState, action) => {
         case FETCH_ORDER_DETAILS_REQUEST:
             return {...state, loading: true};
         case FETCH_ORDER_DETAILS_SUCCESS:
+            console.log('FETCH_ORDER_DETAILS_SUCCESS:', JSON.stringify(action.payload));
+
             return {...state, orderDetails: action.payload, loading: false};
         case FETCH_ORDER_DETAILS_FAILURE:
             return {...state, error: action.payload, loading: false};
