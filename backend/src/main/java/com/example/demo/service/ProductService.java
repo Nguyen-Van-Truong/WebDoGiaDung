@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -187,20 +188,16 @@ public class ProductService {
         return uniqueFileName;
     }
 
-    public Page<ProductListAdminDTO> listAdminProducts(Integer categoryId, int page, int size, String sortDirection, String sortBy) {
-        Sort sort = Sort.by(sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
-        Set<Integer> categoryIds = getAllSubCategoryIds(categoryId);
-
-        // Modify the query to filter by multiple category IDs
-        Page<Products> productPage;
-        if (categoryIds.isEmpty()) {
-            productPage = productRepository.findByCategory(categoryId, PageRequest.of(page, size, sort));
+    public Page<ProductListAdminDTO> listAdminProducts(Integer categoryId, int page, int size, String sortDirection, String sortBy, String keyword) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        if (categoryId != null) {
+            return productRepository.findByCategoryAndName(categoryId, keyword, pageable);
         } else {
-            productPage = productRepository.findByCategoriesIn(categoryIds, PageRequest.of(page, size, sort));
+            return productRepository.findByName(keyword, pageable);
         }
-
-        return productPage.map(this::convertToDto);
     }
+
     public Page<ProductListAdminDTO> listUserProducts(Integer categoryId, int page, int size, String sortDirection, String sortBy) {
         Sort sort = Sort.by(sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
         Set<Integer> categoryIds = getAllSubCategoryIds(categoryId);

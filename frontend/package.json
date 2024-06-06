@@ -27,6 +27,7 @@
     "mixitup": "^3.3.1",
     "nouislider": "^15.7.1",
     "react": "^18.2.0",
+    "react-autocomplete": "^1.8.1",
     "react-cookie": "^7.1.4",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
