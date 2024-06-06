@@ -1,10 +1,8 @@
 // frontend/src/admin/ProductList.js
 import React, {useEffect, useRef, useState} from 'react';
-import noUiSlider from 'nouislider';
 import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import Pagination from "./component/Index/Pagination";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "./Api/CategoryApi";
 import {fetchProducts} from "./Api/ProductApi";
@@ -14,6 +12,8 @@ import {setSelectedCategory} from "./redux/actions/CategoryActions";
 import {setCurrentPage, setPageCount} from "./redux/actions/CurrentPageAction";
 import {formatPrice} from "../format/FormatMoney";
 import {useNavigate} from "react-router-dom";
+import Autocomplete from 'react-autocomplete';
+import removeAccents from 'remove-accents';
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const ProductList = () => {
     const sortBy = useSelector(state => state.productAdmin.sortBy);
 
     const [searchKeyword, setSearchKeyword] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -72,28 +73,36 @@ const ProductList = () => {
     };
 
     const handleSearchChange = (e) => {
-        setSearchKeyword(e.target.value);
-        handlePageClick({selected: 0});
+        const value = e.target.value;
+        setSearchKeyword(value);
+
+        // Lọc danh sách gợi ý dựa trên từ khóa tìm kiếm không phân biệt dấu
+        if (value.length >= 1) {
+            const filteredSuggestions = products
+                .filter(product => removeAccents(product.productName).toLowerCase().includes(removeAccents(value).toLowerCase()))
+                .map(product => product.productName)
+                .slice(0, 3); // Lấy 3 gợi ý đầu tiên
+            setSuggestions(filteredSuggestions);
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleSearchSelect = (value) => {
+        setSearchKeyword(value);
+        setSuggestions([]);
+        handlePageClick({ selected: 0 });
     };
 
     return (
         <div>
             <div id="ebazar-layout" className="theme-blue">
-                {/* sidebar */}
-                <Sidebar/>
-
-                {/* main body area */}
+                <Sidebar />
                 <div className="main px-lg-4 px-md-4">
-                    {/* Body: Header */}
-                    <Header/>
-
-
-                    {/* Body: Body */}
+                    <Header />
                     <div className="body d-flex py-3">
                         <div className="container-xxl">
                             <div className="row align-items-center">
-
-                                {/* Add toggle buttons */}
                                 <div className="border-0 mb-4">
                                     <div
                                         className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
@@ -102,23 +111,20 @@ const ProductList = () => {
                                             <button
                                                 className={`btn d-inline-flex align-items-center ${viewMode === 'grid' ? 'active' : ''}`}
                                                 onClick={() => toggleViewMode('grid')}>
-                                                <i className="icofont-wall px-2 fs-5"/>Grid View
+                                                <i className="icofont-wall px-2 fs-5" />Grid View
                                             </button>
                                             <button
                                                 className={`btn d-inline-flex align-items-center ${viewMode === 'list' ? 'active' : ''}`}
                                                 onClick={() => toggleViewMode('list')}>
-                                                <i className="icofont-listing-box px-2 fs-5"/> List View
+                                                <i className="icofont-listing-box px-2 fs-5" /> List View
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Row end  */}
                             <div className="row g-3 mb-3">
                                 <div className="col-md-12 col-lg-4 col-xl-4 col-xxl-3">
                                     <div className="sticky-lg-top">
-
                                         <div className="card mb-3">
                                             <div className="reset-block">
                                                 <div className="filter-title">
@@ -129,8 +135,6 @@ const ProductList = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/*categories*/}
                                         <div className="card mb-3">
                                             <div
                                                 className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -145,7 +149,7 @@ const ProductList = () => {
                                                     value={selectedCategory}
                                                     onChange={e => {
                                                         dispatch(setSelectedCategory(e.target.value));
-                                                        handlePageClick({selected: 0})
+                                                        handlePageClick({ selected: 0 });
                                                     }}>
                                                     <option value="">Tất cả</option>
                                                     {buildOptions(categories)}
@@ -158,23 +162,28 @@ const ProductList = () => {
                                                 <h6 className="m-0 fw-bold">Tìm kiếm sản phẩm</h6>
                                             </div>
                                             <div className="card-body">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    placeholder="Nhập từ khóa tìm kiếm"
+                                                <Autocomplete
+                                                    getItemValue={(item) => item}
+                                                    items={suggestions}
+                                                    renderItem={(item, isHighlighted) =>
+                                                        <div key={item} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                                            {item}
+                                                        </div>
+                                                    }
                                                     value={searchKeyword}
                                                     onChange={handleSearchChange}
+                                                    onSelect={handleSearchSelect}
+                                                    inputProps={{
+                                                        className: "form-control",
+                                                        placeholder: "Nhập từ khóa tìm kiếm"
+                                                    }}
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="col-md-12 col-lg-8 col-xl-8 col-xxl-9">
-
                                     <div className="card mb-3 bg-transparent p-2">
-
-                                        {/* list view */}
                                         {viewMode === 'list' && (
                                             <div>
                                                 {products.map(product => (
@@ -185,7 +194,7 @@ const ProductList = () => {
                                                                 <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                     <img className="w120 rounded img-fluid"
                                                                          src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
-                                                                         alt={product.productName}/>
+                                                                         alt={product.productName} />
                                                                 </a>
                                                                 <div
                                                                     className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
@@ -204,21 +213,17 @@ const ProductList = () => {
                                                                         </div>
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                                            <div className="text-muted small">Số lượng
-                                                                            </div>
+                                                                            <div className="text-muted small">Số lượng</div>
                                                                             <strong>{product.stockQuantity}</strong>
                                                                         </div>
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                                            <div className="text-muted small">Ngày tạo
-                                                                            </div>
+                                                                            <div className="text-muted small">Ngày tạo</div>
                                                                             <strong>{new Date(product.createdAt).toLocaleDateString()} {new Date(product.createdAt).toLocaleTimeString()}</strong>
                                                                         </div>
                                                                         <div
                                                                             className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                                                            <div className="text-muted small">Trạng
-                                                                                thái
-                                                                            </div>
+                                                                            <div className="text-muted small">Trạng thái</div>
                                                                             <strong>{product.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}</strong>
                                                                         </div>
                                                                     </div>
@@ -227,9 +232,6 @@ const ProductList = () => {
                                                                                 onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>
                                                                         </button>
-                                                                        {/*<button className="btn p-0" title="Xóa">*/}
-                                                                        {/*    <i className="fa fa-trash fa-lg text-danger"></i>*/}
-                                                                        {/*</button>*/}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -238,8 +240,6 @@ const ProductList = () => {
                                                 ))}
                                             </div>
                                         )}
-
-                                        {/* grid view */}
                                         {viewMode === 'grid' && (
                                             <div
                                                 className="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-3">
@@ -262,7 +262,7 @@ const ProductList = () => {
                                                                                 style={{
                                                                                     maxWidth: '100%',
                                                                                     maxHeight: '220px'
-                                                                                }}/>
+                                                                                }} />
                                                                         </a>
                                                                     </div>
                                                                     <a className="add-wishlist" href="#">
@@ -270,14 +270,13 @@ const ProductList = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="product-content p-3">
-                            <span className="rating mb-2 d-block"><i
-                                className="icofont-star text-warning"></i> 4.5 (145)</span>
+                                                                    <span className="rating mb-2 d-block"><i
+                                                                        className="icofont-star text-warning"></i> 4.5 (145)</span>
                                                                     <a onClick={() => handleNavigateToEdit(product.productId)}
                                                                        className="fw-bold">{product.productName}</a>
-                                                                    <p className="text-muted">Loại sản
-                                                                        phẩm: {product.categoryName}</p>
+                                                                    <p className="text-muted">Loại sản phẩm: {product.categoryName}</p>
                                                                     <span
-                                                                        className="d-block fw-bold fs-5 text-secondary">${formatPrice(product.price)} VNĐ</span>
+                                                                        className="d-block fw-bold fs-5 text-secondary">{formatPrice(product.price)} VNĐ</span>
                                                                     <div className="d-flex align-items-center">
                                                                         <button className="btn p-0 me-2" title="Sửa"
                                                                                 onClick={() => handleNavigateToEdit(product.productId)}>
@@ -294,17 +293,10 @@ const ProductList = () => {
                                                 ))}
                                             </div>
                                         )}
-
-
                                     </div>
-
-
-                                    <Pagination2 onPageChange={handlePageClick} pageCount={pageCount}/>
-
+                                    <Pagination2 onPageChange={handlePageClick} pageCount={pageCount} />
                                 </div>
                             </div>
-
-                            {/* Row end  */}
                         </div>
                     </div>
                 </div>
