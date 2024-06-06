@@ -1,20 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formatCurrency } from "./utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrderDetails } from "./redux/actions/OrderActions";
+import { fetchOrderDetails, updateOrderStatus } from "./redux/actions/OrderActions";
 
 const OrderDetails = () => {
     const { orderId } = useParams();
     const dispatch = useDispatch();
     const { orderDetails, loading, error } = useSelector(state => state.orderReducer);
+    const [orderStatus, setOrderStatus] = useState('');
+    const statusOptions = ["Chưa xác nhận", "Đã xác nhận", "Đang giao", "Đã giao", "Đã hủy"];
 
     useEffect(() => {
         dispatch(fetchOrderDetails(orderId));
     }, [dispatch, orderId]);
 
+    useEffect(() => {
+        if (orderDetails) {
+            setOrderStatus(orderDetails.status);
+        }
+    }, [orderDetails]);
+
+    const handleStatusChange = (e) => {
+        setOrderStatus(e.target.value);
+    };
+
+    const handleUpdateStatus = () => {
+        dispatch(updateOrderStatus(orderId, orderStatus));
+    };
 
     const order = orderDetails;
 
@@ -31,9 +46,8 @@ const OrderDetails = () => {
                     <div className="container-xxl">
                         <div className="row align-items-center">
                             <div className="border-0 mb-4">
-                                <div
-                                    className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                                    <h3 className="fw-bold mb-0">Chi tiết đơn hàng: #{order.orderId}</h3>
+                                <div className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                                    <h3 className="fw-bold mb-0">Chi tiết đơn hàng: #{order?.orderId}</h3>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +61,7 @@ const OrderDetails = () => {
                                         </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Ngày đặt hàng</div>
-                                            <span className="small">{new Date(order.orderDate).toLocaleString()}</span>
+                                            <span className="small">{new Date(order?.orderDate).toLocaleString()}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +74,7 @@ const OrderDetails = () => {
                                         </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Khách hàng</div>
-                                            <span className="small">{order.user?.fullName || 'N/A'}</span>
+                                            <span className="small">{order?.user?.fullName || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +87,7 @@ const OrderDetails = () => {
                                         </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Email</div>
-                                            <span className="small">{order.user?.email || 'N/A'}</span>
+                                            <span className="small">{order?.user?.email || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +100,7 @@ const OrderDetails = () => {
                                         </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Contact No</div>
-                                            <span className="small">{order.user?.phone || 'N/A'}</span>
+                                            <span className="small">{order?.user?.phone || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -104,12 +118,8 @@ const OrderDetails = () => {
                                         <div className="row g-3">
                                             <div className="col-12">
                                                 <label className="form-label col-6 col-sm-5">Địa chỉ:</label>
-                                                <span><strong>{order.shippingAddress || 'N/A'}</strong></span>
+                                                <span><strong>{order?.shippingAddress || 'N/A'}</strong></span>
                                             </div>
-                                            {/*<div className="col-12">
-                                                <label className="form-label col-6 col-sm-5">Phone:</label>
-                                                <span><strong>202-458-4568</strong></span>
-                                            </div>*/}
                                         </div>
                                     </div>
                                 </div>
@@ -124,14 +134,27 @@ const OrderDetails = () => {
                                             <div className="row g-3 align-items-center">
                                                 <div className="col-md-12">
                                                     <label className="form-label">Tình trạng đặt hàng</label>
-                                                    <select className="form-select" aria-label="Default select example">
-                                                        <option value={1}>Progress</option>
-                                                        <option value={2}>Completed</option>
-                                                        <option selected value={3}>Pending</option>
+                                                    <select
+                                                        className="form-select"
+                                                        aria-label="Default select example"
+                                                        value={orderStatus}
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        {statusOptions.map((status, index) => (
+                                                            <option key={index} value={status}>
+                                                                {status}
+                                                            </option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                             </div>
-                                            <button type="button" className="btn btn-primary mt-4 text-uppercase">Cập nhật</button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary mt-4 text-uppercase"
+                                                onClick={handleUpdateStatus}
+                                            >
+                                                Cập nhật
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -156,7 +179,7 @@ const OrderDetails = () => {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {order.orderDetails?.map((item, index) => (
+                                                    {order?.orderDetails?.map((item, index) => (
                                                         <tr key={index}>
                                                             <td>
                                                                 <div className="d-flex align-items-center">
@@ -191,7 +214,7 @@ const OrderDetails = () => {
                                                     </div>
                                                     <div className="single-total total-payable">
                                                         <p className="value">Tổng số tiền phải trả:</p>
-                                                        <p className="price">{formatCurrency(order.total || 0)}</p>
+                                                        <p className="price">{formatCurrency(order?.total || 0)}</p>
                                                     </div>
                                                 </div>
                                             </div>
