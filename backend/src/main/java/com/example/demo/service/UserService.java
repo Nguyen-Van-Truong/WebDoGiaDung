@@ -142,8 +142,13 @@ public class UserService implements User_impl {
     }
 
     // lay danh sach user cho admin quan ly
-    public Page<AdminUserResponse> getAllUsers(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+    public Page<AdminUserResponse> getAllUsers(Pageable pageable, String email) {
+        Page<User> users;
+        if (email != null && !email.isEmpty()) {
+            users = userRepository.findByEmailContaining(email, pageable);
+        } else {
+            users = userRepository.findAll(pageable);
+        }
         return users.map(this::convertToAdminUserResponse);
     }
 

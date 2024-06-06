@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
@@ -10,13 +11,14 @@ import { setProducts, setViewMode } from "./redux/actions/ProductActions";
 import { setSelectedCategory } from "./redux/actions/CategoryActions";
 import { setCurrentPage, setPageCount } from "./redux/actions/CurrentPageAction";
 import { formatPrice } from "../format/FormatMoney";
-import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import removeAccents from 'remove-accents';
 
 const ProductList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const [initialized, setInitialized] = useState(false);
 
     const categories = useSelector(state => state.category.categories);
     const products = useSelector(state => state.productAdmin.products);
@@ -31,9 +33,18 @@ const ProductList = () => {
     const [suggestions, setSuggestions] = useState([]);
 
     useEffect(() => {
-        dispatch(fetchCategories());
-        loadProducts();
-    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy, searchKeyword]);
+        if (!initialized) {
+            dispatch(setCurrentPage(0));
+            setInitialized(true);
+        }
+    }, [dispatch, initialized]);
+
+    useEffect(() => {
+        if (initialized) {
+            dispatch(fetchCategories());
+            loadProducts();
+        }
+    }, [dispatch, currentPage, selectedCategory, sortOrder, sortBy, searchKeyword, initialized]);
 
     const loadProducts = async () => {
         const data = await fetchProducts({
@@ -72,15 +83,15 @@ const ProductList = () => {
     };
 
     const handleSearchChange = (inputValue) => {
+        dispatch(setCurrentPage(0));
         const value = inputValue || '';
         setSearchKeyword(value);
 
-        // Lọc danh sách gợi ý dựa trên từ khóa tìm kiếm không phân biệt dấu
         if (value.length >= 1) {
             const filteredSuggestions = products
                 .filter(product => removeAccents(product.productName).toLowerCase().includes(removeAccents(value).toLowerCase()))
                 .map(product => product.productName)
-                .slice(0, 3); // Lấy 3 gợi ý đầu tiên
+                .slice(0, 3);
             setSuggestions(filteredSuggestions);
         } else {
             setSuggestions([]);
@@ -106,8 +117,7 @@ const ProductList = () => {
                         <div className="container-xxl">
                             <div className="row align-items-center">
                                 <div className="border-0 mb-4">
-                                    <div
-                                        className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                                    <div className="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                                         <h3 className="fw-bold mb-0">Danh sách sản phẩm</h3>
                                         <div className="btn-group group-link btn-set-task w-sm-100">
                                             <button
@@ -138,8 +148,7 @@ const ProductList = () => {
                                             </div>
                                         </div>
                                         <div className="card mb-3">
-                                            <div
-                                                className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                                            <div className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
                                                 <h6 className="m-0 fw-bold">Loại sản phẩm</h6>
                                             </div>
                                             <div className="card-body">
@@ -159,8 +168,7 @@ const ProductList = () => {
                                             </div>
                                         </div>
                                         <div className="card mb-3">
-                                            <div
-                                                className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                                            <div className="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
                                                 <h6 className="m-0 fw-bold">Tìm kiếm sản phẩm</h6>
                                             </div>
                                             <div className="card-body">
@@ -183,40 +191,32 @@ const ProductList = () => {
                                                 {products.map(product => (
                                                     <div className="col-md-12" key={product.productId}>
                                                         <div className="card border-0 mb-1">
-                                                            <div
-                                                                className="card-body d-flex align-items-center flex-column flex-md-row">
+                                                            <div className="card-body d-flex align-items-center flex-column flex-md-row">
                                                                 <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                     <img className="w120 rounded img-fluid"
                                                                          src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
                                                                          alt={product.productName} />
                                                                 </a>
-                                                                <div
-                                                                    className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
+                                                                <div className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
                                                                     <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                         <h6 className="mb-3 fw-bold">{product.productName}
-                                                                            <span
-                                                                                className="text-muted small fw-light d-block">Loại sản phẩm: {product.categoryName}</span>
+                                                                            <span className="text-muted small fw-light d-block">Loại sản phẩm: {product.categoryName}</span>
                                                                         </h6>
                                                                     </a>
-                                                                    <div
-                                                                        className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                                                        <div
-                                                                            className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                    <div className="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
+                                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Giá</div>
                                                                             <strong>{formatPrice(product.price)} VNĐ</strong>
                                                                         </div>
-                                                                        <div
-                                                                            className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Số lượng</div>
                                                                             <strong>{product.stockQuantity}</strong>
                                                                         </div>
-                                                                        <div
-                                                                            className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Ngày tạo</div>
                                                                             <strong>{new Date(product.createdAt).toLocaleDateString()} {new Date(product.createdAt).toLocaleTimeString()}</strong>
                                                                         </div>
-                                                                        <div
-                                                                            className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                                                        <div className="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                                                             <div className="text-muted small">Trạng thái</div>
                                                                             <strong>{product.stockQuantity > 0 ? "Còn hàng" : "Hết hàng"}</strong>
                                                                         </div>
@@ -235,8 +235,7 @@ const ProductList = () => {
                                             </div>
                                         )}
                                         {viewMode === 'grid' && (
-                                            <div
-                                                className="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-3">
+                                            <div className="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-3">
                                                 {products.map(product => (
                                                     <div className="col" key={product.productId}>
                                                         <div className="card">
@@ -264,16 +263,12 @@ const ProductList = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="product-content p-3">
-                                                                    <span className="rating mb-2 d-block"><i
-                                                                        className="icofont-star text-warning"></i> 4.5 (145)</span>
-                                                                    <a onClick={() => handleNavigateToEdit(product.productId)}
-                                                                       className="fw-bold">{product.productName}</a>
+                                                                    <span className="rating mb-2 d-block"><i className="icofont-star text-warning"></i> 4.5 (145)</span>
+                                                                    <a onClick={() => handleNavigateToEdit(product.productId)} className="fw-bold">{product.productName}</a>
                                                                     <p className="text-muted">Loại sản phẩm: {product.categoryName}</p>
-                                                                    <span
-                                                                        className="d-block fw-bold fs-5 text-secondary">{formatPrice(product.price)} VNĐ</span>
+                                                                    <span className="d-block fw-bold fs-5 text-secondary">{formatPrice(product.price)} VNĐ</span>
                                                                     <div className="d-flex align-items-center">
-                                                                        <button className="btn p-0 me-2" title="Sửa"
-                                                                                onClick={() => handleNavigateToEdit(product.productId)}>
+                                                                        <button className="btn p-0 me-2" title="Sửa" onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <i className="fa fa-pencil fa-lg text-primary"></i>
                                                                         </button>
                                                                         <button className="btn p-0" title="Xóa">
