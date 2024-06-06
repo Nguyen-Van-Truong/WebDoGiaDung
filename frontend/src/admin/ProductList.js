@@ -1,18 +1,17 @@
-// frontend/src/admin/ProductList.js
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './assets/plugin/nouislider/nouislider.min.css';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCategories} from "./Api/CategoryApi";
-import {fetchProducts} from "./Api/ProductApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "./Api/CategoryApi";
+import { fetchProducts } from "./Api/ProductApi";
 import Pagination2 from "./component/Index/Pagination2";
-import {setProducts, setViewMode} from "./redux/actions/ProductActions";
-import {setSelectedCategory} from "./redux/actions/CategoryActions";
-import {setCurrentPage, setPageCount} from "./redux/actions/CurrentPageAction";
-import {formatPrice} from "../format/FormatMoney";
-import {useNavigate} from "react-router-dom";
-import Autocomplete from 'react-autocomplete';
+import { setProducts, setViewMode } from "./redux/actions/ProductActions";
+import { setSelectedCategory } from "./redux/actions/CategoryActions";
+import { setCurrentPage, setPageCount } from "./redux/actions/CurrentPageAction";
+import { formatPrice } from "../format/FormatMoney";
+import { useNavigate } from "react-router-dom";
+import Select from 'react-select';
 import removeAccents from 'remove-accents';
 
 const ProductList = () => {
@@ -72,8 +71,8 @@ const ProductList = () => {
         navigate(`/product-edit/${productId}`);
     };
 
-    const handleSearchChange = (e) => {
-        const value = e.target.value;
+    const handleSearchChange = (inputValue) => {
+        const value = inputValue || '';
         setSearchKeyword(value);
 
         // Lọc danh sách gợi ý dựa trên từ khóa tìm kiếm không phân biệt dấu
@@ -88,11 +87,14 @@ const ProductList = () => {
         }
     };
 
-    const handleSearchSelect = (value) => {
+    const handleSearchSelect = (selectedOption) => {
+        const value = selectedOption ? selectedOption.value : '';
         setSearchKeyword(value);
         setSuggestions([]);
         handlePageClick({ selected: 0 });
     };
+
+    const searchOptions = suggestions.map(suggestion => ({ value: suggestion, label: suggestion }));
 
     return (
         <div>
@@ -162,21 +164,13 @@ const ProductList = () => {
                                                 <h6 className="m-0 fw-bold">Tìm kiếm sản phẩm</h6>
                                             </div>
                                             <div className="card-body">
-                                                <Autocomplete
-                                                    getItemValue={(item) => item}
-                                                    items={suggestions}
-                                                    renderItem={(item, isHighlighted) =>
-                                                        <div key={item} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                                                            {item}
-                                                        </div>
-                                                    }
-                                                    value={searchKeyword}
-                                                    onChange={handleSearchChange}
-                                                    onSelect={handleSearchSelect}
-                                                    inputProps={{
-                                                        className: "form-control",
-                                                        placeholder: "Nhập từ khóa tìm kiếm"
-                                                    }}
+                                                <Select
+                                                    options={searchOptions}
+                                                    onChange={handleSearchSelect}
+                                                    onInputChange={handleSearchChange}
+                                                    value={searchOptions.find(option => option.value === searchKeyword)}
+                                                    isClearable
+                                                    placeholder="Nhập từ khóa tìm kiếm"
                                                 />
                                             </div>
                                         </div>
