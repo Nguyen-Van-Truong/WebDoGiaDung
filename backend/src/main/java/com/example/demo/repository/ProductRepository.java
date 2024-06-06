@@ -85,5 +85,6 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
             "GROUP BY p.product_id")
     Page<ProductListAdminDTO> findByName(@Param("keyword") String keyword, Pageable pageable);
 
-
+    @Query("SELECT COUNT(p) FROM Products p")
+    Long findTotalProducts();
 }
