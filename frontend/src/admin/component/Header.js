@@ -1,21 +1,19 @@
 import React, {useEffect} from 'react';
 import profile from "../assets/images/profile_av.jpg";
 import $ from 'jquery';
-import {logout, setEmail, setPassword} from "../../redux/Action";
-import {useDispatch} from "react-redux";
+import {logout, reset_logout, setEmail, setPassword} from "../../redux/Action";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 const Header = () => {
-    const username = sessionStorage.getItem('username');
-    const email = sessionStorage.getItem('email');
+    const username = useSelector(state => state.appUser.usernameMess);
+
+    const email = useSelector(state => state.appUser.emailSetting);
     const dispatch = useDispatch();
     const   navigate = useNavigate();
     const  log_out =()=>{
         dispatch(logout());
-        sessionStorage.removeItem("isStatus");
-        sessionStorage.removeItem("username")
-       sessionStorage.removeItem("email");
-        sessionStorage.removeItem("password");
+      dispatch(reset_logout([]))
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));

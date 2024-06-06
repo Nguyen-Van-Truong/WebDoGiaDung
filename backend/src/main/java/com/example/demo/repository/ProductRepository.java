@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.CartDTO;
+import com.example.demo.dto.ProductListAdminDTO;
 import com.example.demo.dto.ProductMediaInfo;
 import com.example.demo.model.Products;
 import org.springframework.data.domain.Page;
@@ -67,5 +68,23 @@ public interface ProductRepository extends JpaRepository<Products, Integer> {
     List<Products> getProductsBy(@Param("user_id") int user_id);
 
 
+    @Query("SELECT new com.example.demo.dto.ProductListAdminDTO(p.product_id, p.product_name, p.category.categoryName, p.price, p.stock_quantity, p.created_at, p.status, m.file_url) " +
+            "FROM Products p " +
+            "LEFT JOIN p.category c " +
+            "LEFT JOIN p.medias m " +
+            "WHERE (:keyword IS NULL OR LOWER(p.product_name) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "AND (:categoryId IS NULL OR p.category.categoryId = :categoryId) " +
+            "GROUP BY p.product_id")
+    Page<ProductListAdminDTO> findByCategoryAndName(@Param("categoryId") Integer categoryId, @Param("keyword") String keyword, Pageable pageable);
 
+    @Query("SELECT new com.example.demo.dto.ProductListAdminDTO(p.product_id, p.product_name, p.category.categoryName, p.price, p.stock_quantity, p.created_at, p.status, m.file_url) " +
+            "FROM Products p " +
+            "LEFT JOIN p.category c " +
+            "LEFT JOIN p.medias m " +
+            "WHERE (:keyword IS NULL OR LOWER(p.product_name) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "GROUP BY p.product_id")
+    Page<ProductListAdminDTO> findByName(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("SELECT COUNT(p) FROM Products p")
+    Long findTotalProducts();
 }

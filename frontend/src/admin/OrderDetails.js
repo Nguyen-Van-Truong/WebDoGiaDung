@@ -1,35 +1,31 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from "./component/Sidebar";
 import Header from "./component/Header";
-import {useLocation, useParams} from "react-router-dom";
-import {formatCurrency} from "./utils/utils";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchOrderDetails} from "./redux/actions/OrderActions";
+import { useLocation, useParams } from "react-router-dom";
+import { formatCurrency } from "./utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderDetails } from "./redux/actions/OrderActions";
 
 const OrderDetails = () => {
-    const {orderId} = useParams();
+    const { orderId } = useParams();
     const dispatch = useDispatch();
-    const {orderDetails, loading, error} = useSelector(state => state.orderReducer);
+    const { orderDetails, loading, error } = useSelector(state => state.orderReducer);
 
     useEffect(() => {
         dispatch(fetchOrderDetails(orderId));
     }, [dispatch, orderId]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (!orderDetails) return <div>No order found</div>;
 
-    const order = orderDetails; // Assuming the fetched data is directly the order details
-
+    const order = orderDetails;
 
     return (
         <div id="ebazar-layout" className="theme-blue">
             {/* sidebar */}
-            <Sidebar/>
+            <Sidebar />
             {/* main body area */}
             <div className="main px-lg-4 px-md-4">
                 {/* Body: Header */}
-                <Header/>
+                <Header />
                 {/* Body: Body */}
                 <div className="body d-flex py-3">
                     <div className="container-xxl">
@@ -42,13 +38,13 @@ const OrderDetails = () => {
                             </div>
                         </div>
                         {/* Row end  */}
-                        <div
-                            className="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-4">
+                        <div className="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-4">
                             <div className="col">
                                 <div className="alert-success alert mb-0">
                                     <div className="d-flex align-items-center">
-                                        <div className="avatar rounded no-thumbnail bg-success text-light"><i
-                                            className="fa fa-shopping-cart fa-lg" aria-hidden="true"/></div>
+                                        <div className="avatar rounded no-thumbnail bg-success text-light">
+                                            <i className="fa fa-shopping-cart fa-lg" aria-hidden="true" />
+                                        </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Ngày đặt hàng</div>
                                             <span className="small">{new Date(order.orderDate).toLocaleString()}</span>
@@ -59,11 +55,12 @@ const OrderDetails = () => {
                             <div className="col">
                                 <div className="alert-danger alert mb-0">
                                     <div className="d-flex align-items-center">
-                                        <div className="avatar rounded no-thumbnail bg-danger text-light"><i
-                                            className="fa fa-user fa-lg" aria-hidden="true"/></div>
+                                        <div className="avatar rounded no-thumbnail bg-danger text-light">
+                                            <i className="fa fa-user fa-lg" aria-hidden="true" />
+                                        </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Khách hàng</div>
-                                            <span className="small">{order.user.fullName}</span>
+                                            <span className="small">{order.user?.fullName || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -71,11 +68,12 @@ const OrderDetails = () => {
                             <div className="col">
                                 <div className="alert-warning alert mb-0">
                                     <div className="d-flex align-items-center">
-                                        <div className="avatar rounded no-thumbnail bg-warning text-light"><i
-                                            className="fa fa-envelope fa-lg" aria-hidden="true"/></div>
+                                        <div className="avatar rounded no-thumbnail bg-warning text-light">
+                                            <i className="fa fa-envelope fa-lg" aria-hidden="true" />
+                                        </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Email</div>
-                                            <span className="small">{order.user.email}</span>
+                                            <span className="small">{order.user?.email || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -83,82 +81,73 @@ const OrderDetails = () => {
                             <div className="col">
                                 <div className="alert-info alert mb-0">
                                     <div className="d-flex align-items-center">
-                                        <div className="avatar rounded no-thumbnail bg-info text-light"><i
-                                            className="fa fa-phone-square fa-lg" aria-hidden="true"/></div>
+                                        <div className="avatar rounded no-thumbnail bg-info text-light">
+                                            <i className="fa fa-phone-square fa-lg" aria-hidden="true" />
+                                        </div>
                                         <div className="flex-fill ms-3 text-truncate">
                                             <div className="h6 mb-0">Contact No</div>
-                                            <span className="small">202-906-12354</span>
+                                            <span className="small">{order.user?.phone || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {/* Row end  */}
-                        <div
-                            className="row g-3 mb-3 row-cols-1 row-cols-md-1 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 row-deck">
+                        <div className="row g-3 mb-3 row-cols-1 row-cols-md-1 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 row-deck">
                             <div className="col">
                                 <div className="card auth-detailblock">
-                                    <div
-                                        className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                        <h6 className="mb-0 fw-bold ">Địa chỉ giao hàng</h6>
+                                    <div className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                        <h6 className="mb-0 fw-bold">Địa chỉ giao hàng</h6>
                                         <a href="#" className="text-muted">Edit</a>
                                     </div>
                                     <div className="card-body">
                                         <div className="row g-3">
                                             <div className="col-12">
                                                 <label className="form-label col-6 col-sm-5">Địa chỉ:</label>
-                                                <span><strong>{order.shippingAddress}</strong></span>
+                                                <span><strong>{order.shippingAddress || 'N/A'}</strong></span>
                                             </div>
-                                            {/*<div className="col-12">*/}
-                                            {/*    <label className="form-label col-6 col-sm-5">Phone:</label>*/}
-                                            {/*    <span><strong>202-458-4568</strong></span>*/}
-                                            {/*</div>*/}
+                                            {/*<div className="col-12">
+                                                <label className="form-label col-6 col-sm-5">Phone:</label>
+                                                <span><strong>202-458-4568</strong></span>
+                                            </div>*/}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-xl-12 col-xxl-4">
                                 <div className="card mb-3">
-                                    <div
-                                        className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                        <h6 className="mb-0 fw-bold ">Trạng thái đơn hàng</h6>
+                                    <div className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                        <h6 className="mb-0 fw-bold">Trạng thái đơn hàng</h6>
                                     </div>
                                     <div className="card-body">
                                         <form>
                                             <div className="row g-3 align-items-center">
                                                 <div className="col-md-12">
                                                     <label className="form-label">Tình trạng đặt hàng</label>
-                                                    <select className="form-select"
-                                                            aria-label="Default select example">
+                                                    <select className="form-select" aria-label="Default select example">
                                                         <option value={1}>Progress</option>
                                                         <option value={2}>Completed</option>
                                                         <option selected value={3}>Pending</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <button type="button"
-                                                    className="btn btn-primary mt-4 text-uppercase">Cập nhật
-                                            </button>
+                                            <button type="button" className="btn btn-primary mt-4 text-uppercase">Cập nhật</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {/* Row end  */}
                         <div className="row g-3 mb-3">
                             <div className="col-xl-12 col-xxl-12">
                                 <div className="card">
-                                    <div
-                                        className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                        <h6 className="mb-0 fw-bold ">Chi tiết các đơn hàng</h6>
+                                    <div className="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                        <h6 className="mb-0 fw-bold">Chi tiết các đơn hàng</h6>
                                     </div>
                                     <div className="card-body">
                                         <div className="product-cart">
                                             <div className="checkout-table table-responsive">
-                                                <table id="myCartTable"
-                                                       className="table display dataTable table-hover align-middle"
-                                                       style={{width: '100%'}}>
+                                                <table id="myCartTable" className="table display dataTable table-hover align-middle" style={{ width: '100%' }}>
                                                     <thead>
                                                     <tr>
                                                         <th>SẢN PHẨM</th>
@@ -167,26 +156,22 @@ const OrderDetails = () => {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-
-                                                    {order.orderDetails.map((item, index) => (
+                                                    {order.orderDetails?.map((item, index) => (
                                                         <tr key={index}>
                                                             <td>
                                                                 <div className="d-flex align-items-center">
-                                                                    <img src={item.product.imageUrl}
-                                                                         className="avatar rounded me-2" alt="product"/>
-                                                                    {item.product.productName}
+                                                                    <img src={item.product?.imageUrl} className="avatar rounded me-2" alt="product" />
+                                                                    {item.product?.productName || 'N/A'}
                                                                 </div>
                                                             </td>
-                                                            <td>{item.quantity}</td>
-                                                            <td>{formatCurrency(item.price)}</td>
+                                                            <td>{item.quantity || 'N/A'}</td>
+                                                            <td>{formatCurrency(item.price || 0)}</td>
                                                         </tr>
-                                                    ))}
-
+                                                    )) || <tr><td colSpan="3">No order details found</td></tr>}
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div
-                                                className="checkout-coupon-total checkout-coupon-total-2 d-flex flex-wrap justify-content-end">
+                                            <div className="checkout-coupon-total checkout-coupon-total-2 d-flex flex-wrap justify-content-end">
                                                 <div className="checkout-total">
                                                     <div className="single-total">
                                                         <p className="value">Giá phụ:</p>
@@ -206,7 +191,7 @@ const OrderDetails = () => {
                                                     </div>
                                                     <div className="single-total total-payable">
                                                         <p className="value">Tổng số tiền phải trả:</p>
-                                                        <p className="price">{formatCurrency(order.total)}</p>
+                                                        <p className="price">{formatCurrency(order.total || 0)}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -214,14 +199,12 @@ const OrderDetails = () => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {/* Row end  */}
                     </div>
                 </div>
             </div>
         </div>
-
     );
 };
 

@@ -21,4 +21,10 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 
     @Query("SELECT o FROM Orders o WHERE o.user.user_id = :userId")
     Page<Orders> findByUserId(int userId, Pageable pageable);
+
+    @Query("SELECT SUM(o.total) FROM Orders o")
+    Double findTotalRevenue();
+
+    @Query("SELECT COUNT(o) FROM Orders o")
+    Long findTotalOrders();
 }

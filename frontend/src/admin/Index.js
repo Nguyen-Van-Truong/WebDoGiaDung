@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {fetchOrders, setCurrentPage} from "./redux/actions/OrderActions";
 import {formatCurrency, shortenProductName} from "./utils/utils";
+import {fetchStatistics} from "./redux/actions/statisticsActions";
 
 const Index = () => {
 
@@ -24,9 +25,11 @@ const Index = () => {
 
     const {orders, totalPages, loading, error} = useSelector(state => state.orderReducer);
     const currentPage = useSelector(state => state.page.currentPage);
+    const statistics = useSelector(state => state.statisticsReducer.statistics);
 
     useEffect(() => {
         dispatch(fetchOrders(currentPage, 5));
+        dispatch(fetchStatistics());
     }, [dispatch, currentPage]);
 
     const handlePageClick = (data) => {
@@ -62,8 +65,9 @@ const Index = () => {
                                                     <i className="fa fa-dollar fa-lg"/>
                                                 </div>
                                                 <div className="flex-fill ms-3 text-truncate">
-                                                    <div className="h6 mb-0">Revenue</div>
-                                                    <span className="small">$18,925</span>
+                                                    <div className="h6 mb-0">Doanh thu</div>
+                                                    <span
+                                                        className="small">{formatCurrency(statistics.totalRevenue)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,8 +79,8 @@ const Index = () => {
                                                     <i className="fa fa-credit-card fa-lg"/>
                                                 </div>
                                                 <div className="flex-fill ms-3 text-truncate">
-                                                    <div className="h6 mb-0">Expense</div>
-                                                    <span className="small">$11,024</span>
+                                                    <div className="h6 mb-0">Tổng số sản phẩm đã bán</div>
+                                                    <span className="small">{statistics.totalProductsSold}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,8 +92,8 @@ const Index = () => {
                                                     <i className="fa fa-smile-o fa-lg"/>
                                                 </div>
                                                 <div className="flex-fill ms-3 text-truncate">
-                                                    <div className="h6 mb-0">Happy Clients</div>
-                                                    <span className="small">8,925</span>
+                                                    <div className="h6 mb-0">Tổng số đơn đặt hàng</div>
+                                                    <span className="small">{statistics.totalOrders}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,11 +102,11 @@ const Index = () => {
                                         <div className="alert-info alert mb-0">
                                             <div className="d-flex align-items-center">
                                                 <div className="avatar rounded no-thumbnail bg-info text-light">
-                                                    <i className="fa fa-shopping-bag" aria-hidden="true"/>
+                                                    <i className="icofont-shopping-cart fs-3 color-lavender-purple" aria-hidden="true"/>
                                                 </div>
                                                 <div className="flex-fill ms-3 text-truncate">
-                                                    <div className="h6 mb-0">New StoreOpen</div>
-                                                    <span className="small">8,925</span>
+                                                    <div className="h6 mb-0">Số giỏ hàng đang hoạt động</div>
+                                                    <span className="small">{statistics.totalActiveCarts}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +118,7 @@ const Index = () => {
                                     <div className="col-lg-12 col-md-12">
                                         <div
                                             className="tab-filter d-flex align-items-center justify-content-between mb-3 flex-wrap"></div>
-                                        <DashboardSummary/>
+                                        <DashboardSummary statistics={statistics} />
 
                                     </div>
                                 </div>

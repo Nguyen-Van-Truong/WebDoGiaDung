@@ -63,6 +63,24 @@ export const logout = () => {
         type: 'LOGOUT'
     };
 };
+export const reset_logout = (mess) => {
+    return {
+        type: 'RESET_LOGOUT',
+        payload :mess
+    };
+};
+
+export const setAdmin = () => {
+    return {
+        type: 'SET_ADMIN'
+    };
+};
+
+export const setUser = () => {
+    return {
+        type: 'SET_USER'
+    };
+};
 
 export  const  setPassword = (password)=>{
     return {

@@ -3,7 +3,7 @@ import cart1 from '../../assets/images/all-img/cart-01.png'
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    logout,
+    logout, reset_logout,
     setCategory, setEmail,
     setIsCart,
     setIsMenu, setIsSearch, setPassword,
@@ -31,6 +31,7 @@ const Header_Menu = () => {
     const isSearch = useSelector((state) => state.appUser.isSearch);
     const isUserMin = useSelector((state) => state.appUser.isUserMin);
     const [webSocket, setWebSocket] = useState(null);
+
     const isCategory = useSelector((state) => state.appUser.isCategory);
     const isNotification = useSelector(state => state.notification.isNotification);
     const { t } = useTranslation();
@@ -131,8 +132,8 @@ const Header_Menu = () => {
      */
     const log_out = () => {
         dispatch(logout());
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("username");
+        dispatch(reset_logout([]))
+
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));

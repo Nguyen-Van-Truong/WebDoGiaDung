@@ -20,6 +20,9 @@ import categoryUserReducer from "./CategoryReducer";
 import productUserReducer from "../../../redux/ProductRedux";
 import currentPageUserReducer from "../../../redux/CurrentPageReducer";
 import languageReducer from "../../../redux/languageSlice";
+import statisticsReducer from "./statisticsReducer";
+import messageReducer from "../../../redux/MessageReducer";
+import messageAdminReducer from "./MessageReducer";
 
 
 const rootReducer = combineReducers({
@@ -41,7 +44,10 @@ const rootReducer = combineReducers({
     paymentReducer: paymentReducer,
     orderReducer: orderReducer,
     search :SearchReducer,
+    statisticsReducer,
     language: languageReducer,
+    message  :messageReducer,
+    messageAdmin :messageAdminReducer
 
 });
 
