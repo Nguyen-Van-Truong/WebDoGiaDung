@@ -43,9 +43,10 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "desc") String sortDirection,
-            @RequestParam(defaultValue = "created_at") String sortBy) {
+            @RequestParam(defaultValue = "created_at") String sortBy,
+            @RequestParam(required = false) String keyword) {
 
-        return productService.listAdminProducts(categoryId, page, size, sortDirection, sortBy);
+        return productService.listAdminProducts(categoryId, page, size, sortDirection, sortBy, keyword);
     }
     @GetMapping("/user/products")
     public Page<ProductListAdminDTO> getUserProducts(

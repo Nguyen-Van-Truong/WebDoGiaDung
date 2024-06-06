@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 * @param password
 	 * @return
 	 */
-    
+
 	 @Query("SELECT u FROM User u WHERE u.email = :email AND u.password = :password")
 	  Optional<User> login(@Param("email") String email, @Param("password") String password);
 	/**
@@ -29,4 +29,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 */
 	@Query("SELECT u.user_id FROM User u WHERE u.email = :email")
 	int  findBy(@Param("email") String email);
+
+	@Query("SELECT COUNT(u) FROM User u WHERE u.is_admin = true")
+	Long findTotalAdminUsers();
+
+	@Query("SELECT COUNT(u) FROM User u WHERE u.is_admin = false")
+	Long findTotalRegularUsers();
 }
