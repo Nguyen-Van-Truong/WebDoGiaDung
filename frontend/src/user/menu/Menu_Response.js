@@ -2,7 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    logout,
+    logout, reset_logout,
     setCategory,
     setEmail,
     setIsCart,
@@ -77,8 +77,8 @@ const Menu_Response = () => {
     const log_out = () => {
 
         dispatch(logout());
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("username");
+        dispatch(reset_logout([]))
+
         navigate('/login')
         dispatch(setPassword(''));
         dispatch(setEmail(''));

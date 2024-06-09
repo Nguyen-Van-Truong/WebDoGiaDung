@@ -2,15 +2,20 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/css/ebazar.style.min.css'
 import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changeLanguage} from "../../redux/languageSlice";
 import '../assets/css/main.css'
+import alert from "bootstrap/js/src/alert";
+import {check_click_app} from "../../redux/MessageActions";
+
+
 
 export const MenuItem = ({ item }) => {
     const [isOpen, setIsOpen] = useState(false);
     const hasSubItems = item.subItems && item.subItems.length > 0;
     const { t } = useTranslation();
-
+    const dispatch = useDispatch();
+    const check_click = useSelector(state => state.message.check_click);
     const toggleSubItems = (e) => {
         if (hasSubItems) {
             e.preventDefault(); // Prevent default if it's not a direct link
@@ -18,9 +23,14 @@ export const MenuItem = ({ item }) => {
         }
     };
 
+    const handleSubItemClick = (subItem) => {
+        if (subItem.link === '/chat') {
+
+        }
+    };
+
     return (
         <li className={`collapsed ${isOpen ? 'open' : ''}`}>
-            {/* Use button or div instead of 'a' if 'item.link' is not supposed to navigate directly */}
             <a href={item.link || '#'} className="m-link" onClick={toggleSubItems}>
                 <i className={`${item.icon} fs-5`}></i> <span>{t(item.title)}</span>
                 {hasSubItems && <span className="arrow icofont-rounded-down ms-auto text-end fs-5"></span>}
@@ -29,7 +39,7 @@ export const MenuItem = ({ item }) => {
                 <ul className={`sub-menu ${isOpen ? 'show' : ''}`}>
                     {item.subItems.map((subItem, index) => (
                         <li key={index}>
-                            <Link to={subItem.link} className="ms-link">
+                            <Link to={subItem.link} className="ms-link" onClick={() => handleSubItemClick(subItem)}>
                                 {t(subItem.title)}
                             </Link>
                         </li>
@@ -39,6 +49,7 @@ export const MenuItem = ({ item }) => {
         </li>
     );
 };
+
 
 export const SidebarMenu = () => {
     const dispatch = useDispatch();
