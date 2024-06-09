@@ -8,9 +8,7 @@ import '../css/tailwind.css'
 import '../css/styles.css'
 import '../css/responsive.css'
 import MiniChat from "./MiniChat";
-import Menu_Response from "./menu/Menu_Response";
-import Header_Menu from "./menu/Header_Menu";
-import Header_Bottom from "./menu/Header_Bottom";
+
 import Footer from "./footer/Footer";
 
 import {useDispatch, useSelector} from "react-redux";

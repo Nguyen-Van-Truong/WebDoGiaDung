@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import {loginSuccess, resetRegistrationMessage} from "../redux/Action";
+import {loginSuccess, resetRegistrationMessage, setAdmin, setUser} from "../redux/Action";
 import {debounce, throttle} from "lodash";
 import {check_success} from "../redux/RegisterAction";
 
@@ -174,15 +174,19 @@ export const register = (userData, onSuccess) => {
 export const login = (email, password) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/api/users/login', {email, password});
+            const response = await axios.post('/api/users/login', { email, password });
             const data = response.data;
-            dispatch({type: 'LOGIN_SUCCESS', payload: data});
+            dispatch({ type: 'LOGIN_SUCCESS', payload: data });
 
+            if (data.is_admin) {
+                dispatch(setAdmin()); // Đặt trạng thái admin
+            } else {
+                dispatch(setUser()); // Đặt trạng thái user
+            }
 
         } catch (error) {
             const errorMessage = error.response.data;
-            dispatch({type: 'LOGIN_ERROR', payload: errorMessage});
-
+            dispatch({ type: 'LOGIN_ERROR', payload: errorMessage });
         }
     };
 };
