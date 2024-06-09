@@ -3,10 +3,12 @@ import axios from 'axios';
 export const FETCH_CUSTOMERS_SUCCESS = 'FETCH_CUSTOMERS_SUCCESS';
 export const FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS = 'FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS';
 export const FETCH_CUSTOMER_DETAIL_ORDERS_FAILURE = 'FETCH_CUSTOMER_DETAIL_ORDERS_FAILURE';
+
 const fetchCustomersSuccess = (data) => ({
     type: FETCH_CUSTOMERS_SUCCESS,
     payload: data
 });
+
 const fetchCustomerDetailOrdersSuccess = (data) => ({
     type: FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS,
     payload: data
@@ -29,17 +31,15 @@ export const fetchCustomerDetailOrders = (userId, page, size, sortDirection = 'd
     };
 };
 
-export const fetchCustomers = (page, size) => {
+export const fetchCustomers = (page, size, email = '') => {
     return (dispatch) => {
-        axios.get(`/api/users/admin/getAllUsers?page=${page}&size=${size}`)
+        axios.get(`/api/users/admin/getAllUsers?page=${page}&size=${size}&email=${email}`)
             .then(response => {
                 dispatch(fetchCustomersSuccess(response.data));
-                // console.log('Fetching customers successful:', JSON.stringify(response.data));
             })
             .catch(error => {
                 const errorMsg = error.response ? error.response.data.message : error.message;
                 console.error('Error fetching customers:', errorMsg);
             });
     };
-
 };

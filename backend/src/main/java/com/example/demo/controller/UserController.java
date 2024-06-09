@@ -127,10 +127,12 @@ public class UserController {
     }
 
     @GetMapping("/admin/getAllUsers")
-    public Page<AdminUserResponse> getUsers(@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "10") int size) {
+    public Page<AdminUserResponse> getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String email) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AdminUserResponse> userPage = userService.getAllUsers(pageable);
+        Page<AdminUserResponse> userPage = userService.getAllUsers(pageable, email);
         return userPage;
     }
 
