@@ -1,6 +1,5 @@
 package com.example.demo.repository;
 
-import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 
 import java.util.Optional;
@@ -41,9 +40,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("SELECT u FROM User u WHERE u.email LIKE %:email%")
 	Page<User> findByEmailContaining(@Param("email") String email, Pageable pageable);
-
-    @Query("SELECT COUNT(u) FROM User u WHERE u.is_admin = false")
-    Long findTotalRegularUsers();
 
     /**
      * lay id cua admin

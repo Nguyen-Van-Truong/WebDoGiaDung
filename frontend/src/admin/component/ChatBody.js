@@ -38,7 +38,7 @@ const ChatBody = () => {
                 if (socket.readyState === WebSocket.OPEN) {
                     socket.send(`${userId}:ping`);
                 }
-            }, 500);
+            }, 2000);
 
             socket.onclose = () => {
                 clearInterval(messageIntervalRef.current);
