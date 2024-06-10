@@ -6,6 +6,9 @@ pause_on_error() {
     read -n 1 -s
 }
 
+# Lấy đường dẫn tới thư mục chứa script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Kiểm tra xem Ollama đã được cài đặt hay chưa
 if ! command -v ollama &> /dev/null
 then
@@ -35,14 +38,12 @@ else
 fi
 
 # Đường dẫn tới file JAR
-JAR_PATH="D:/intellji/ettshop/Truong/eTTShop/backend/build/libs/demo-0.0.1-SNAPSHOT.jar"
-# Đường dẫn tới thư mục chứa tệp gradlew
-GRADLEW_DIR="D:/intellji/ettshop/Truong/eTTShop/backend"
+JAR_PATH="$SCRIPT_DIR/build/libs/demo-0.0.1-SNAPSHOT.jar"
 
 # Kiểm tra xem file JAR đã tồn tại hay chưa
 if [ ! -f "$JAR_PATH" ]; then
     echo "File JAR không tồn tại. Đang tiến hành build..."
-    (cd "$GRADLEW_DIR" && ./gradlew clean build)
+    (cd "$SCRIPT_DIR" && ./gradlew clean build)
     if [ ! -f "$JAR_PATH" ]; then
         echo "Build failed. File JAR không tồn tại sau khi build."
         pause_on_error
