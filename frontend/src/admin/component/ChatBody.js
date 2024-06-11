@@ -1,3 +1,4 @@
+// D:\intellji\ettshop\Truong\eTTShop\frontend\src\admin\component\ChatBody.js
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useCallback } from "react";
 import { setGetMessenger, resetMessages } from "../../redux/MessageActions"; // Đảm bảo nhập đúng đường dẫn
@@ -38,7 +39,7 @@ const ChatBody = () => {
                 if (socket.readyState === WebSocket.OPEN) {
                     socket.send(`${userId}:ping`);
                 }
-            }, 500);
+            }, 2000);
 
             socket.onclose = () => {
                 clearInterval(messageIntervalRef.current);
