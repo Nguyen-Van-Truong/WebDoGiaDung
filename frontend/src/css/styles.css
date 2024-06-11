@@ -10,6 +10,23 @@
     --warning: #F5813F;
     --success: #01AD5A;
 }
+.tab-pane {
+    display: none; /* Ensure all tab panes are hidden */
+}
+
+.tab-pane.show {
+    display: block; /* Only display the active tab pane */
+}
+
+.tab-content2 .fade {
+    opacity: 0; /* Start with opacity 0 */
+    transition: opacity 0.15s linear; /* Smooth transition for fade effect */
+}
+
+.tab-content2 .fade.show {
+    opacity: 1; /* Show active tab with full opacity */
+}
+
 
 .pagination-centered {
     display: flex;
