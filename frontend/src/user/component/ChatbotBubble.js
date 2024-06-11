@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import { faRobot, faSquare } from '@fortawesome/free-solid-svg-icons';
 
 const ChatbotBubble = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,9 +9,75 @@ const ChatbotBubble = () => {
     const [isTyping, setIsTyping] = useState(false);
     const [error, setError] = useState(null);
     const messagesEndRef = useRef(null);
+    const socketRef = useRef(null);
 
     const toggleChatbot = () => {
         setIsOpen(!isOpen);
+        if (!isOpen) {
+            // Mở bong bóng chat, kết nối WebSocket
+            connectWebSocket();
+        } else {
+            // Đóng bong bóng chat, ngắt kết nối WebSocket
+            disconnectWebSocket();
+        }
+    };
+
+    const connectWebSocket = () => {
+        // Tạo WebSocket connection.
+        socketRef.current = new WebSocket('ws://localhost:8080/ws/ai');
+
+        // Connection opened
+        socketRef.current.onopen = () => {
+            console.log('WebSocket connection established');
+        };
+
+        // Listen for messages
+        socketRef.current.onmessage = (event) => {
+            let newMessage = event.data;
+            if (newMessage === 'Stream finished') {
+                console.log('Stream finished');
+                setIsTyping(false);
+                return;
+            }
+            if (newMessage === '') {
+                newMessage = ' ';
+            }
+            setMessages((prevMessages) => {
+                // Gộp các phản hồi mới vào một dòng
+                if (prevMessages.length > 0 && prevMessages[prevMessages.length - 1].sender === 'bot') {
+                    const lastMessage = prevMessages[prevMessages.length - 1];
+                    return [
+                        ...prevMessages.slice(0, -1),
+                        { sender: 'bot', text: lastMessage.text + newMessage }
+                    ];
+                } else {
+                    return [
+                        ...prevMessages,
+                        { sender: 'bot', text: newMessage }
+                    ];
+                }
+            });
+            setIsTyping(true);
+        };
+
+        // Handle errors
+        socketRef.current.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            setError('WebSocket error. Please try again.');
+            setIsTyping(false);
+        };
+
+        // Connection closed
+        socketRef.current.onclose = () => {
+            console.log('WebSocket connection closed');
+            setIsTyping(false);
+        };
+    };
+
+    const disconnectWebSocket = () => {
+        if (socketRef.current) {
+            socketRef.current.close();
+        }
     };
 
     const handleChange = (event) => {
@@ -22,28 +88,15 @@ const ChatbotBubble = () => {
         event.preventDefault();
         if (input.trim() === '') return;
         setMessages([...messages, { sender: 'user', text: input }]);
-        fetchGeneratedResponse(input);
+        sendMessage(input);
         setInput('');
     };
 
-    const fetchGeneratedResponse = async (message) => {
+    const sendMessage = (message) => {
         setIsTyping(true);
         setError(null);
-        try {
-            const response = await fetch(`http://localhost:3000/ai/generate?message=${encodeURIComponent(message)}`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                { sender: 'bot', text: data.generation }
-            ]);
-        } catch (error) {
-            console.error('Error occurred:', error);
-            setError('Failed to fetch response. Please try again.');
-        } finally {
-            setIsTyping(false);
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            socketRef.current.send(message);
         }
     };
 
@@ -128,6 +181,9 @@ const ChatbotBubble = () => {
             backgroundColor: '#28a745',
             color: 'white',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         error: {
             color: 'red',
@@ -172,9 +228,10 @@ const ChatbotBubble = () => {
                                 style={styles.input}
                                 placeholder="Type a message..."
                                 aria-label="Type your message here"
+                                disabled={isTyping}
                             />
                             <button type="submit" style={styles.button} disabled={isTyping}>
-                                {isTyping ? 'Sending...' : 'Send'}
+                                {isTyping ? <FontAwesomeIcon icon={faSquare} /> : 'Send'}
                             </button>
                         </form>
                     </>
