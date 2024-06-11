@@ -4,6 +4,10 @@ body {
     margin: 0;
     padding: 10px;
 }
+select {
+    background: #7258db;
+    color: #ffff;
+}
 .chat-header {
     display: flex;
     align-items: center;
