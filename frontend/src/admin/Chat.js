@@ -1,20 +1,20 @@
-// D:\intellji\ettshop\Truong\eTTShop\frontend\src\admin\Chat.js
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./component/Sidebar";
+import ChatLeft from "./component/ChatLeft";
+import ChatBody from "./component/ChatBody";
+import ChatBody1 from "./component/ChatBody1"; // Import the new ChatBody1 component
+
+import { addMessage, setMessages } from "./redux/actions/MessageActions";
 import './assets/plugin/datatables/responsive.dataTables.min.css';
 import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
 import './assets/css/ebazar.style.min.css';
-import { useDispatch, useSelector } from "react-redux";
-import ChatLeft from "./component/ChatLeft";
-import ChatBody from "./component/ChatBody";
-import { addMessage, setMessages } from "./redux/actions/MessageActions";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 const Chat = () => {
     const userId = useSelector(state => state.messageAdmin.user_id);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
+    const [selectedTab, setSelectedTab] = useState('chat'); // State to track selected tab
     const socketRef = useRef(null);
 
     useEffect(() => {
@@ -51,8 +51,6 @@ const Chat = () => {
         };
 
         socketRef.current = newSocket;
-
-
     }, [dispatch, userId]);
 
     const sendMessage = () => {
@@ -71,6 +69,10 @@ const Chat = () => {
         }
     };
 
+    const handleSelectTab = (tab) => {
+        setSelectedTab(tab);
+    };
+
     return (
         <div id="ebazar-layout" className="theme-blue">
             <Sidebar />
@@ -79,10 +81,10 @@ const Chat = () => {
                     <div className="container-xxl p-0">
                         <div className="row g-0">
                             <div className="col-12 d-flex">
-                                <ChatLeft />
+                                <ChatLeft onSelectTab={handleSelectTab} />
                                 <div className="card card-chat-body border-0 w-100 px-4 px-md-5 py-3 py-md-4">
-                                    <ChatHeader />
-                                    <ChatBody />
+                                    <ChatHeader selectedTab={selectedTab} />
+                                    {selectedTab === 'chat' ? <ChatBody /> : <ChatBody1 />}
                                     <div className="chat-message">
                                         <textarea
                                             className="form-control"
@@ -91,7 +93,6 @@ const Chat = () => {
                                             onChange={(e) => setMessage(e.target.value)}
                                             onKeyPress={handleKeyPress}
                                         />
-
                                     </div>
                                 </div>
                             </div>
@@ -119,6 +120,8 @@ const Chat = () => {
         </div>
     );
 };
+
+
 
 const ChatHeader = () => {
     const usernameMess = useSelector(state => state.messageAdmin.usernameMess);
