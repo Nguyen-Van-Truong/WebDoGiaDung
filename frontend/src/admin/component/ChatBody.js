@@ -1,4 +1,3 @@
-// D:\intellji\ettshop\Truong\eTTShop\frontend\src\admin\component\ChatBody.js
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useCallback } from "react";
 import { setGetMessenger, resetMessages } from "../../redux/MessageActions"; // Đảm bảo nhập đúng đường dẫn
@@ -11,6 +10,7 @@ const ChatBody = () => {
     const messageIntervalRef = useRef(null);
     const check_click = useSelector(state => state.message.check_click);
     const isAdmin = useSelector(state => state.messageAdmin.isAdmin);
+    const chatEndRef = useRef(null);  // Thêm ref để cuộn xuống dưới
 
     const isJSON = (str) => {
         try {
@@ -79,10 +79,24 @@ const ChatBody = () => {
 
             // Khởi tạo WebSocket mới
             initializeWebSocket();
+
+            // Khởi tạo lại WebSocket sau mỗi giây
+            const timeoutId = setTimeout(() => {
+                console.log('Reinitializing WebSocket');
+                initializeWebSocket();
+            }, 100000);
+
+            return () => {
+                clearTimeout(timeoutId);
+            };
         } else {
             console.error('Invalid userId:', userId);
         }
     }, [userId, initializeWebSocket, dispatch, check_click]);
+
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const sortedMessages = [...messages].sort((a, b) => new Date(a.create) - new Date(b.create));
 
@@ -106,6 +120,7 @@ const ChatBody = () => {
                     </li>
                 </div>
             ))}
+            <div ref={chatEndRef} /> {/* Thêm phần tử này để cuộn */}
         </ul>
     );
 };
