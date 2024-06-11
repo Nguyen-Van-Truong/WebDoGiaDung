@@ -1,3 +1,4 @@
+// D:\intellji\ettshop\Truong\eTTShop\frontend\src\admin\component\ChatBody.js
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useRef, useCallback } from "react";
 import { setGetMessenger, resetMessages } from "../../redux/MessageActions"; // Đảm bảo nhập đúng đường dẫn

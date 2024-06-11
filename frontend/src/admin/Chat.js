@@ -1,3 +1,4 @@
+// D:\intellji\ettshop\Truong\eTTShop\frontend\src\admin\Chat.js
 import React, { useEffect, useState, useRef } from 'react';
 import Sidebar from "./component/Sidebar";
 import './assets/plugin/datatables/responsive.dataTables.min.css';
