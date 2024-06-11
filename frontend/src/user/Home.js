@@ -39,6 +39,7 @@ import {useNavigate} from "react-router-dom";
 import {product_details} from "../api/Product_Details_Api";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 
 
@@ -871,6 +872,7 @@ const Home = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
             {/*<ChatUser/>*/}
 
         </div>
