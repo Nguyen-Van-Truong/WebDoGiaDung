@@ -22,6 +22,7 @@ import {count, getListCart, updateCart} from "../api/CartApi";
 import {deleteCart} from "../api/HistoryCartApi";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 const  Cart = () => {
 
     const  cartList = useSelector(state => state.cart.ListCart);
@@ -189,6 +190,8 @@ const  Cart = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }
