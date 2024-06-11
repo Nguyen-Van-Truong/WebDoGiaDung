@@ -16,7 +16,7 @@ const ChatUser = () => {
     const [message, setMessage] = useState("");
     const socketRef1 = useRef(null);
     const socketRef2 = useRef(null);
-
+    const isStatus = useSelector(state => state.appUser.isStatus);
     const handleClick = () => {
         dispatch(setStatus(!status));
     };
@@ -123,7 +123,6 @@ const ChatUser = () => {
     const sendMessage = () => {
         if (socketRef2.current && socketRef2.current.readyState === WebSocket.OPEN) {
             const messageText = message;
-
             socketRef2.current.send(`${userId}:${messageText}`);
             dispatch(addMessage({ user_send: userId, message, user_rec: "receiver", create: new Date().toISOString() }));
             setMessage("");
@@ -145,19 +144,24 @@ const ChatUser = () => {
                     <FontAwesomeIcon icon={faTimes} onClick={handleClick} style={{ cursor: 'pointer', marginLeft: 'auto' }} />
                 </div>
                 <div className="message-container">
-                    {sortedMessages.map((msg, index) => (
-                        <div key={index} className={`message ${msg.user_send === "admin" ? 'sender' : 'receiver'}`}>
-                            <div className="user-label">{msg.user_send}</div>
-                            <div>
-                                {msg.message}
-                                <br />
-                                <span className="message-time">
-                                    {isValidDate(msg.create) ? new Date(msg.create).toLocaleTimeString() : 'Invalid date'}
-                                </span>
+                    {isStatus === true ? (
+                        sortedMessages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.user_send === "admin" ? 'sender' : 'receiver'}`}>
+                                <div className="user-label">{msg.user_send}</div>
+                                <div>
+                                    {msg.message}
+                                    <br />
+                                    <span className="message-time">
+                        {isValidDate(msg.create) ? new Date(msg.create).toLocaleTimeString() : 'Invalid date'}
+                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <div className="login-message">Vui lòng đăng nhập</div>
+                    )}
                 </div>
+
                 <div className="chat-footer">
                     <input
                         className="message_color"

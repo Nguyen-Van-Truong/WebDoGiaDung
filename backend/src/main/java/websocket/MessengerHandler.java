@@ -12,13 +12,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class MessengerHandler extends TextWebSocketHandler {
 
     private final MessengerService messengerService;
-    private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
+    private final ConcurrentHashMap<String, CopyOnWriteArrayList<WebSocketSession>> userSessions = new ConcurrentHashMap<>();
 
     public MessengerHandler(MessengerService messengerService) {
         this.messengerService = messengerService;
@@ -26,16 +27,16 @@ public class MessengerHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        sessions.add(session);
         System.out.println("WebSocket connection established with session ID: " + session.getId());
 
-        // Get userId from query parameters
         URI uri = session.getUri();
         String query = uri.getQuery();
         String[] queryParams = query.split("=");
         String userId = queryParams.length > 1 ? queryParams[1] : null;
 
         if (userId != null) {
+            userSessions.computeIfAbsent(userId, k -> new CopyOnWriteArrayList<>()).add(session);
+
             try {
                 int userIdInt = Integer.parseInt(userId);
                 List<MessagerDTO> messages = messengerService.getAllMessagesForUser(userIdInt);
@@ -51,7 +52,7 @@ public class MessengerHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        sessions.remove(session);
+        userSessions.forEach((userId, sessions) -> sessions.remove(session));
         System.out.println("WebSocket connection closed with session ID: " + session.getId());
     }
 
@@ -80,16 +81,16 @@ public class MessengerHandler extends TextWebSocketHandler {
 
             try {
                 int userIdInt = Integer.parseInt(userId);
-                List<MessagerDTO> combinedMessages = messengerService.sendMessage(userIdInt, messageText);
+                messengerService.sendMessage(userIdInt, messageText);
+                List<MessagerDTO> combinedMessages = messengerService.getAllMessagesForUser(userIdInt);
+                String combinedMessagesJson = convertToJson(combinedMessages);
 
-                if (combinedMessages != null) {
-                    String combinedMessagesJson = convertToJson(combinedMessages);
-                    // Gửi tin nhắn đến tất cả các phiên kết nối WebSocket đang mở
+                // Gửi tin nhắn đến tất cả các phiên kết nối của userId tương ứng
+                List<WebSocketSession> sessions = userSessions.get(userId);
+                if (sessions != null) {
                     for (WebSocketSession sess : sessions) {
                         sendMessage(sess, combinedMessagesJson);
                     }
-                } else {
-                    sendMessage(session, "Error: Could not retrieve messages.");
                 }
             } catch (NumberFormatException e) {
                 sendMessage(session, "Invalid user ID format");
