@@ -27,6 +27,7 @@ import {fetchCategories} from "../api/CategoryApi";
 
 import {setCurrentPage, setPageCount} from "../redux/CurrentPageAction";
 import {setProducts} from "../redux/ProductAction";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const  Products = () => {
 
@@ -101,7 +102,7 @@ const  Products = () => {
                     <h2 className="pt-[13.5px] text-2xl font-semibold text-gray-black font-display">Shop</h2>
                 </div>
             </div>
-      
+
 
 
             <section className="">
@@ -170,8 +171,10 @@ const  Products = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
-  
+
     );
 }
 export default Products ;

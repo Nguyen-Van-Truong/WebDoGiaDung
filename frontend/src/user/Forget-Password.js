@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import {check} from "../redux/RegisterAction";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Forget_Password = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -127,6 +128,8 @@ const Forget_Password = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

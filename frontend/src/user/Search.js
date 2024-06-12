@@ -26,6 +26,7 @@ import {formatPrice} from "../format/FormatMoney";
 import {bindActionCreators} from "redux";
 import {product_details} from "../api/Product_Details_Api";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const  Search = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -198,6 +199,8 @@ const  Search = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
 
     );

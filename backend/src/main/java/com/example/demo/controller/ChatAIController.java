@@ -7,12 +7,14 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ai.ollama.OllamaChatModel;
 import reactor.core.publisher.Flux;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import websocket.AIResponseHandler;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -23,10 +25,11 @@ public class ChatAIController {
     private static final Logger logger = LoggerFactory.getLogger(ChatAIController.class);
 
     private final OllamaChatModel chatModel;
-
+    private final AIResponseHandler aiResponseHandler;
     @Autowired
-    public ChatAIController(OllamaChatModel chatModel) {
+    public ChatAIController(OllamaChatModel chatModel, AIResponseHandler aiResponseHandler) {
         this.chatModel = chatModel;
+        this.aiResponseHandler = aiResponseHandler;
     }
 
     @GetMapping("/ai/generate")
