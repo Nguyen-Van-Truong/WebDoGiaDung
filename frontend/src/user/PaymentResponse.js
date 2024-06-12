@@ -18,6 +18,7 @@ import {updatePaymentMethod} from "../api/paymentApi";
 import {updateCheckout} from "../api/CartApi";
 import {set_errors_payment, setAddress, setEmailPayment, setFullName, setNumberPhone} from "../redux/paymentActions";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 
 const PaymentResponse = () => {
@@ -133,6 +134,8 @@ const PaymentResponse = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

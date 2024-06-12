@@ -28,6 +28,7 @@ import {notification, updatePassword} from "../api/Api";
 import {updateFullName} from "../api/ApiUser";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Information_Profile = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -102,7 +103,7 @@ const Information_Profile = () => {
         console.log("Success Name:", success_name);
     }, [success_name]);
     useEffect(() => {
-       
+
     }, []);
     return (
         <div>
@@ -323,6 +324,8 @@ const Information_Profile = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

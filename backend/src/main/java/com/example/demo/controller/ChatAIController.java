@@ -60,9 +60,4 @@ public class ChatAIController {
         }
     }
 
-    @PostMapping("/stop-stream")
-    public String stopStream(@RequestParam String sessionId) {
-        aiResponseHandler.stopStreaming(sessionId);
-        return "Streaming stopped for session ID: " + sessionId;
-    }
 }

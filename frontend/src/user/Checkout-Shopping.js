@@ -30,6 +30,7 @@ import {
     setSelectedProvinceName
 } from "../redux/paymentActions";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 
 const Checkout_Shopping = () => {
@@ -357,7 +358,9 @@ const Checkout_Shopping = () => {
 
             {/*footer*/}
             <Footer/>
-            <MiniChat/>v
+            <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }
