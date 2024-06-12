@@ -14,6 +14,7 @@ import { login } from "../api/Api";
 import { setEmail, setError, setPassword } from "../redux/Action";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const SignIn = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -171,6 +172,8 @@ const SignIn = () => {
             {/*footer*/}
             <Footer />
             <MiniChat />
+            <ChatbotBubble/>
+
         </div>
     );
 };

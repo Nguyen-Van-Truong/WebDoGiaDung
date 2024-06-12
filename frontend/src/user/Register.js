@@ -19,6 +19,7 @@ import {Cookies, useCookies} from "react-cookie";
 import {check} from "../redux/RegisterAction";
 import {useTranslation} from "react-i18next";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Register = () => {
     const [cookies, setCookie] = useCookies(['otp']);
@@ -245,6 +246,8 @@ const Register = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

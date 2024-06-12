@@ -17,6 +17,7 @@ import { bindActionCreators } from "redux";
 import { reset } from "../redux/ForgetPasswordAction";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const SendOtp = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -141,6 +142,8 @@ const SendOtp = () => {
             </div>
             <Footer />
             <MiniChat />
+            <ChatbotBubble/>
+
         </div>
     );
 }

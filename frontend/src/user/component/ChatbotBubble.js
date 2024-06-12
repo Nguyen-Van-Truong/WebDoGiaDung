@@ -8,6 +8,7 @@ const ChatbotBubble = () => {
     const [messages, setMessages] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
     const [error, setError] = useState(null);
+    const [sessionId, setSessionId] = useState(null); // Thêm state để lưu session ID
     const messagesEndRef = useRef(null);
     const socketRef = useRef(null);
 
@@ -33,31 +34,39 @@ const ChatbotBubble = () => {
 
         // Listen for messages
         socketRef.current.onmessage = (event) => {
-            let newMessage = event.data;
-            if (newMessage === 'Stream finished') {
-                console.log('Stream finished');
-                setIsTyping(false);
-                return;
-            }
-            if (newMessage === '') {
-                newMessage = ' ';
-            }
-            setMessages((prevMessages) => {
-                // Gộp các phản hồi mới vào một dòng
-                if (prevMessages.length > 0 && prevMessages[prevMessages.length - 1].sender === 'bot') {
-                    const lastMessage = prevMessages[prevMessages.length - 1];
-                    return [
-                        ...prevMessages.slice(0, -1),
-                        { sender: 'bot', text: lastMessage.text + newMessage }
-                    ];
-                } else {
-                    return [
-                        ...prevMessages,
-                        { sender: 'bot', text: newMessage }
-                    ];
+            const data = event.data;
+            try {
+                const message = JSON.parse(data);
+                if (message.sessionId) {
+                    setSessionId(message.sessionId); // Lưu session ID
                 }
-            });
-            setIsTyping(true);
+            } catch (e) {
+                let newMessage = data;
+                if (newMessage === 'Stream finished') {
+                    console.log('Stream finished');
+                    setIsTyping(false);
+                    return;
+                }
+                if (newMessage === '') {
+                    newMessage = ' ';
+                }
+                setMessages((prevMessages) => {
+                    // Gộp các phản hồi mới vào một dòng
+                    if (prevMessages.length > 0 && prevMessages[prevMessages.length - 1].sender === 'bot') {
+                        const lastMessage = prevMessages[prevMessages.length - 1];
+                        return [
+                            ...prevMessages.slice(0, -1),
+                            { sender: 'bot', text: lastMessage.text + newMessage }
+                        ];
+                    } else {
+                        return [
+                            ...prevMessages,
+                            { sender: 'bot', text: newMessage }
+                        ];
+                    }
+                });
+                setIsTyping(true);
+            }
         };
 
         // Handle errors
@@ -98,6 +107,13 @@ const ChatbotBubble = () => {
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
             socketRef.current.send(message);
         }
+    };
+
+    const handleStop = () => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            socketRef.current.send(JSON.stringify({ action: 'stop' }));
+        }
+        setIsTyping(false);
     };
 
     useEffect(() => {
@@ -185,6 +201,18 @@ const ChatbotBubble = () => {
             alignItems: 'center',
             justifyContent: 'center',
         },
+        stopButton: {
+            padding: '10px',
+            borderRadius: '5px',
+            border: 'none',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '10px auto', // căn giữa nút
+        },
         error: {
             color: 'red',
             textAlign: 'center',
@@ -214,7 +242,7 @@ const ChatbotBubble = () => {
                             ))}
                             {isTyping && (
                                 <div style={{ ...styles.message, ...styles.botMessage }}>
-                                    <em>Bot is typing...</em>
+                                    <em>Bot đang phản hồi...</em>
                                 </div>
                             )}
                             {error && <div style={styles.error}>{error}</div>}
@@ -228,9 +256,12 @@ const ChatbotBubble = () => {
                                 style={styles.input}
                                 placeholder="Type a message..."
                                 aria-label="Type your message here"
-                                disabled={isTyping}
                             />
-                            <button type="submit" style={styles.button} disabled={isTyping}>
+                            <button
+                                type="submit"
+                                style={{ ...styles.button, backgroundColor: isTyping ? '#dc3545' : '#28a745' }}
+                                onClick={isTyping ? handleStop : handleSubmit}
+                            >
                                 {isTyping ? <FontAwesomeIcon icon={faSquare} /> : 'Send'}
                             </button>
                         </form>

@@ -17,6 +17,7 @@ import {formatPrice} from "../format/FormatMoney";
 import ReactQuill from "react-quill";
 import {addCart, count, getListCart} from "../api/CartApi";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Product_details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -210,6 +211,8 @@ const Product_details = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
 
     )

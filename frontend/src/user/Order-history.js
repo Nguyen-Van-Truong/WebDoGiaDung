@@ -19,6 +19,7 @@ import {history} from "../api/HistoryCartApi";
 import {formatPrice} from "../format/FormatMoney";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Order_History= () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -44,9 +45,9 @@ const Order_History= () => {
     }, []);
     return (
         <div className="font-display">
-    
+
         <Header_Top/>
-          
+
             <section  style={{backgroundColor: "var(--bg-breadcum)"}}>
                 <div className="container">
 
@@ -133,6 +134,8 @@ const Order_History= () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

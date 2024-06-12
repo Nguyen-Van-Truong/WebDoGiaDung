@@ -15,6 +15,7 @@ import Header_Menu from "./menu/Header_Menu";
 import Header_Bottom from "./menu/Header_Bottom";
 import Footer from "./footer/Footer";
 import Header_Top from "./menu/Header_Top";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Order_Details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -189,6 +190,8 @@ const Order_Details = () => {
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

@@ -18,6 +18,7 @@ import {bindActionCreators} from "redux";
 
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
+import ChatbotBubble from "./component/ChatbotBubble";
 
 const Change_Password = () => {
 
@@ -201,6 +202,8 @@ lay id nguoiw dung
             {/*footer*/}
             <Footer/>
             <MiniChat/>
+            <ChatbotBubble/>
+
         </div>
     );
 }

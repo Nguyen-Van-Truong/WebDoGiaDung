@@ -33,6 +33,13 @@ public class AIResponseHandler extends TextWebSocketHandler {
         sessions.add(session);
         sessionSubscriptions.put(session.getId(), new AtomicReference<>());
         System.out.println("WebSocket connection established with session ID: " + session.getId());
+
+        // Gửi session ID đến frontend
+        try {
+            session.sendMessage(new TextMessage("{\"sessionId\":\"" + session.getId() + "\"}"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,6 +75,11 @@ public class AIResponseHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
         String payload = message.getPayload();
+        if (payload.equals("{\"action\":\"stop\"}")) {
+            stopStreaming(session.getId());
+            return;
+        }
+
         Prompt prompt = new Prompt(new UserMessage(payload));
 
         stopStreaming(session.getId()); // Stop any existing stream before starting a new one
