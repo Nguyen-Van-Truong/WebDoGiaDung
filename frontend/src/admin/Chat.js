@@ -4,7 +4,6 @@ import Sidebar from "./component/Sidebar";
 import ChatLeft from "./component/ChatLeft";
 import ChatBody from "./component/ChatBody";
 import ChatBody1 from "./component/ChatBody1"; // Import the new ChatBody1 component
-
 import { addMessage, setMessages } from "./redux/actions/MessageActions";
 import './assets/plugin/datatables/responsive.dataTables.min.css';
 import './assets/plugin/datatables/dataTables.bootstrap5.min.css';
@@ -85,15 +84,17 @@ const Chat = () => {
                                 <div className="card card-chat-body border-0 w-100 px-4 px-md-5 py-3 py-md-4">
                                     <ChatHeader selectedTab={selectedTab} />
                                     {selectedTab === 'chat' ? <ChatBody /> : <ChatBody1 />}
-                                    <div className="chat-message">
-                                        <textarea
-                                            className="form-control"
-                                            placeholder="Enter text here..."
-                                            value={message}
-                                            onChange={(e) => setMessage(e.target.value)}
-                                            onKeyPress={handleKeyPress}
-                                        />
-                                    </div>
+                                    {selectedTab === 'chat' && (
+                                        <div className="chat-message">
+                                            <textarea
+                                                className="form-control"
+                                                placeholder="Enter text here..."
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                onKeyPress={handleKeyPress}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -121,9 +122,7 @@ const Chat = () => {
     );
 };
 
-
-
-const ChatHeader = () => {
+const ChatHeader = ({ selectedTab }) => {
     const usernameMess = useSelector(state => state.messageAdmin.usernameMess);
 
     return (
