@@ -49,11 +49,11 @@ const ChatLeft = ({ onSelectTab }) => {
                 </div>
                 <div className="tab-pane fade" id="chatbot" role="tabpanel">
                     <ul className="list-unstyled list-group list-group-custom list-group-flush mb-0">
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 1</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 2</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 3</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 4</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 5</li>
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 1</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 2</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 3</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 4</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 5</li>*/}
                     </ul>
                 </div>
             </div>
