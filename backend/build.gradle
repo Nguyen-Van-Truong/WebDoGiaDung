@@ -8,9 +8,10 @@ group = 'org.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '18'
-	targetCompatibility = '18'
-}
+	java {
+		sourceCompatibility = '17'
+		targetCompatibility = '17'
+	}
 
 repositories {
 	mavenCentral()
