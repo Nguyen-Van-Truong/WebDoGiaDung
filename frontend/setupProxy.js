@@ -4,7 +4,7 @@ module.exports = function(app) {
     app.use(
         '/api',
         createProxyMiddleware({
-            target: 'https://ettshopcontainer.happysea-b769e5ec.southeastasia.azurecontainerapps.io',
+            target: 'http://localhost:8080', // Sử dụng localhost và cổng của backend
             changeOrigin: true,
         })
     );

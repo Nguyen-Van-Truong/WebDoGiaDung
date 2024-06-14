@@ -158,7 +158,7 @@ const Header_Menu = () => {
         if (user_id !== null) {
             dispatch(getNotification(user_id));
         }
-        const socket = new WebSocket(`wss://ettshopcontainer.happysea-b769e5ec.southeastasia.azurecontainerapps.io/countNotification?user_id=${user_id}`);
+        const socket = new WebSocket(`ws://localhost:8080/countNotification?user_id=${user_id}`);
         socket.addEventListener('open', function (event) {
             console.log('Connected to WS Server');
             const messageInterval = setInterval(() => {
