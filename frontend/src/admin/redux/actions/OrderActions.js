@@ -1,4 +1,5 @@
 import axios from "axios";
+import API_BASE_URL from "../../../config";
 
 export const FETCH_ORDERS_REQUEST = 'FETCH_ORDERS_REQUEST';
 export const FETCH_ORDERS_SUCCESS = 'FETCH_ORDERS_SUCCESS';
@@ -36,7 +37,7 @@ const updateOrderStatusFailure = (error) => ({
 
 export const fetchOrderDetails = (orderId) => dispatch => {
     dispatch(fetchOrderDetailsRequest());
-    axios.get(`/api/admin/orders/${orderId}`)
+    axios.get(`${API_BASE_URL}api/admin/orders/${orderId}`)
         .then(response => {
             dispatch(fetchOrderDetailsSuccess(response.data));
         })
@@ -46,7 +47,7 @@ export const fetchOrderDetails = (orderId) => dispatch => {
 };
 
 export const updateOrderStatus = (orderId, status) => dispatch => {
-    axios.put(`/api/admin/orders/${orderId}/update`, null, {
+    axios.put(`${API_BASE_URL}api/admin/orders/${orderId}/update`, null, {
         params: { status }
     })
         .then(response => {
@@ -74,7 +75,7 @@ export const fetchOrdersFailure = (error) => ({
 
 export const fetchOrders = (page, size) => dispatch => {
     dispatch({ type: FETCH_ORDERS_REQUEST });
-    axios.get(`/api/admin/orders?page=${page}&size=${size}&sortDirection=asc&sortBy=orderDate`)
+    axios.get(`${API_BASE_URL}api/admin/orders?page=${page}&size=${size}&sortDirection=asc&sortBy=orderDate`)
         .then(response => {
             dispatch(fetchOrdersSuccess(response.data.content, response.data.totalPages));
         })

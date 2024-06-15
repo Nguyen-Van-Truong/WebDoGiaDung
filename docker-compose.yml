@@ -1,35 +1,31 @@
 version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: truongclone232_ettshop_backend
+    image: truongclone232/ettshop_backend:v1.0.0
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: truongclone232_ettshop_frontend
+    image: truongclone232/ettshop_frontend:v1.0.0
+    ports:
+      - "3000:3000"
+
   ollama:
-    image: ollama/ollama
-    container_name: ollama
+    image: truongclone232/ollama:v1.0.0
+    container_name: truongclone232_ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama:/root/.ollama
-
-  backend:
-    build: ./backend
-    container_name: ettshop-backend
-    ports:
-      - "8080:8080"
-    environment:
-      - MYSQL_HOST=ettshop.mysql.database.azure.com
-      - MYSQL_DATABASE=ettshopdata
-      - MYSQL_USER=truong
-      - MYSQL_PASSWORD=Gacon12345.
-      - SPRING_AI_OLLAMA_BASE_URL=http://ollama:11434
-    depends_on:
-      - ollama
-
-  frontend:
-    build: ./frontend
-    container_name: ettshop-frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
 
 volumes:
   ollama:
