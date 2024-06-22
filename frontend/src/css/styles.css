@@ -13,7 +13,9 @@
 .tab-pane {
     display: none; /* Ensure all tab panes are hidden */
 }
-
+.bg-secondary-1 {
+    background: var(--secondary-color) !important;
+}
 .tab-pane.show {
     display: block; /* Only display the active tab pane */
 }
