@@ -5,27 +5,38 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: truongclone232_ettshop_backend
-    image: truongclone232/ettshop_backend:v1.0.0
+    container_name: truongclone232_ettshop_backend_local
+    image: truongclone232/ettshop_backend_local:v1.0.0
     ports:
       - "8080:8080"
+    networks:
+      - ettshop_network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: truongclone232_ettshop_frontend
-    image: truongclone232/ettshop_frontend:v1.0.0
+    container_name: truongclone232_ettshop_frontend_local
+    image: truongclone232/ettshop_frontend_local:v1.0.0
     ports:
       - "3000:3000"
+    networks:
+      - ettshop_network
 
   ollama:
-    image: truongclone232/ollama:v1.0.0
+    build:
+      context: ./ollama
     container_name: truongclone232_ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama:/root/.ollama
+    restart: always
+    networks:
+      - ettshop_network
+
+networks:
+  ettshop_network:
 
 volumes:
   ollama:

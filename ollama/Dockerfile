@@ -1,11 +1,8 @@
-# Sử dụng hình ảnh chính thức của Ollama
+# Use the official Ollama image as the base image
 FROM ollama/ollama:latest
 
-# Thiết lập thư mục làm việc
-WORKDIR /app
+# Set the working directory
+WORKDIR /root/.ollama
 
-# Expose the Ollama service port
-EXPOSE 11434
-
-# Command to run the Ollama service (assuming the Ollama service runs automatically on container start)
-CMD ["ollama", "run", "qwen2:0.5b"]
+# Command to start the Ollama service
+CMD ["ollama", "serve"]

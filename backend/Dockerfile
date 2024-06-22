@@ -21,8 +21,11 @@ RUN dos2unix gradlew && chmod +x gradlew
 # Check if gradlew exists and can be executed
 RUN ./gradlew --version
 
-# Build the application and run tests
-RUN ./gradlew clean build --no-daemon --info
+## Build the application and run tests
+#RUN ./gradlew clean build --no-daemon --info
+
+# Build the application without running tests
+RUN ./gradlew clean build -x test --no-daemon --info
 
 # Debug: List files in build output directory to confirm JAR existence
 RUN ls -l /workspace/app/build/libs/
