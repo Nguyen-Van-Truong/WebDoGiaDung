@@ -37,7 +37,7 @@ const Header_Top = () => {
     return (
         <header className="font-display">
             <div className={isHeaderSticky ? 'header-sticky' : ''} id="header-sticky">
-                <div className="top-header bg-secondary">
+                <div className="top-header bg-secondary-1">
                     <div className="container px-3 md:px-5 xl:px-0">
                         <div className="py-3.5 flex justify-center sm:justify-between">
 
