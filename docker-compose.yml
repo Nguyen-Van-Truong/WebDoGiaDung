@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: truongclone232_ettshop_backend_local
+    image: truongclone232/ettshop_backend_local:v1.0.0
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: truongclone232_ettshop_frontend_local
+    image: truongclone232/ettshop_frontend_local:v1.0.0
+    ports:
+      - "3000:3000"
+
+  ollama:
+    build:
+      context: ./ollama
+    container_name: truongclone232_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    restart: always
+
+volumes:
+  ollama:

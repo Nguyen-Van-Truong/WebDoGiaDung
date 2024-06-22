@@ -26,7 +26,7 @@ export const fetchStatistics = () => {
     return async (dispatch) => {
         dispatch(fetchStatisticsRequest());
         try {
-            const response = await axios.get('/api/statistics');
+            const response = await axios.get('http://localhost:8080/api/statistics');
             dispatch(fetchStatisticsSuccess(response.data));
         } catch (error) {
             dispatch(fetchStatisticsFailure(error.message));
