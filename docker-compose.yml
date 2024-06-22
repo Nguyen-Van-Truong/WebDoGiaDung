@@ -23,18 +23,6 @@ services:
     networks:
       - ettshop_network
 
-  ollama:
-    build:
-      context: ./ollama
-    container_name: truongclone232_ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
-    restart: always
-    networks:
-      - ettshop_network
-
 networks:
   ettshop_network:
 
