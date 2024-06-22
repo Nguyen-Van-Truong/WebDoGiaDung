@@ -3,12 +3,13 @@ import axios from "axios";
 import {loginSuccess, resetRegistrationMessage, setAdmin, setUser} from "../redux/Action";
 import {debounce, throttle} from "lodash";
 import {check_success} from "../redux/RegisterAction";
+import API_BASE_URL from "../config";
 
 
 export const fetchProducts = () => {
     return async dispatch => {
         try {
-            const response = await axios.get("/api/products/products");
+            const response = await axios.get(`${API_BASE_URL}api/products/products`);
 
             const data = response.data;
             console.log(data);
@@ -34,7 +35,7 @@ export const throttledFetchProducts = throttle((dispatch) => {
 export const top_selling = () => {
     return async dispatch => {
         try {
-            const reponse = await axios.get("/api/products/top-selling");
+            const reponse = await axios.get(`${API_BASE_URL}api/products/top-selling`);
             const data = reponse.data
             dispatch({type: 'TOP_SELLING_SUCCESS', payload: data});
         } catch (error) {
@@ -52,7 +53,7 @@ export const throttledTop_selling = throttle((dispatch) => {
 export const products_new = () => {
     return async dispatch => {
         try {
-            const reponse = await axios.get("/api/products/new");
+            const reponse = await axios.get(`${API_BASE_URL}api/products/new`);
             const data = reponse.data
             dispatch({type: 'PRODUCTS_NEW_SUCCESS', payload: data});
         } catch (error) {
@@ -134,7 +135,7 @@ export const register = (userData, onSuccess) => {
     return async (dispatch, getState) => {
         try {
 
-            const response = await axios.post("/api/users/register", userData);
+            const response = await axios.post(`${API_BASE_URL}api/users/register`, userData);
             const data = response.data;
             dispatch({type: 'REGISTER_SUCCESS', payload: data.message || data});
             console.log(data.message);
@@ -174,7 +175,7 @@ export const register = (userData, onSuccess) => {
 export const login = (email, password) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/api/users/login', { email, password });
+            const response = await axios.post(`${API_BASE_URL}api/users/login`, { email, password });
             const data = response.data;
             dispatch({ type: 'LOGIN_SUCCESS', payload: data });
 
@@ -200,7 +201,7 @@ export const login = (email, password) => {
 export const otp = (email, code, onSuccess) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/sendOtp', {email, code});
+            const response = await axios.post(`${API_BASE_URL}sendOtp`, {email, code});
             const data = response.data;
             dispatch({type: 'OTP_SUCCESS', payload: data});
             setTimeout(() => {
@@ -221,7 +222,7 @@ export const otp = (email, code, onSuccess) => {
 export const checkEmail = (email) => {
     return async dispatch => {
         try {
-            const response = await axios.post('/checkEmail', {email});
+            const response = await axios.post(`${API_BASE_URL}checkEmail`, {email});
             const data = response.data;
             dispatch({type: 'CHECK_EMAIL_SUCCESS', payload: data});
         } catch (error) {
@@ -243,7 +244,7 @@ export const updatePassword = (id, oldPassword, newPassword) => {
         const numericId = Number(id);
         try {
 
-            const response = await axios.get(`/api/users/updatePassword?id=${numericId}&oldPassword=${oldPassword}&newPassword=${newPassword}`);
+            const response = await axios.get(`${API_BASE_URL}api/users/updatePassword?id=${numericId}&oldPassword=${oldPassword}&newPassword=${newPassword}`);
             const data = response.data;
             console.log(data);
             dispatch({type: 'UPDATE_PASSWORD_SUCCESS', payload: data});
@@ -264,7 +265,7 @@ export const notification = (id, message) => {
     return async dispatch => {
         const numericId = Number(id);
         try {
-            const response = await axios.get(`/addNotification?id=${numericId}&message=${message}`);
+            const response = await axios.get(`${API_BASE_URL}addNotification?id=${numericId}&message=${message}`);
             const data = response.data;
             console.log(data);
             dispatch({type: 'NOTIFICATION_SUCCESS', payload: data});

@@ -31,8 +31,8 @@ const Orderlist = () => {
     };
 
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    // if (loading) return <div>Loading...</div>;
+    // if (error) return <div>Error: {error}</div>;
 
     return (
         <div id="ebazar-layout" className="theme-blue">
