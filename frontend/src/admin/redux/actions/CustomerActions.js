@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_BASE_URL from "../../../config";
 
 export const FETCH_CUSTOMERS_SUCCESS = 'FETCH_CUSTOMERS_SUCCESS';
 export const FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS = 'FETCH_CUSTOMER_DETAIL_ORDERS_SUCCESS';
@@ -21,7 +22,7 @@ const fetchCustomerDetailOrdersFailure = (error) => ({
 
 export const fetchCustomerDetailOrders = (userId, page, size, sortDirection = 'desc', sortBy = 'orderDate') => {
     return (dispatch) => {
-        axios.get(`/api/users/admin/getUser/${userId}?page=${page}&size=${size}&sortDirection=${sortDirection}&sortBy=${sortBy}`)
+        axios.get(`${API_BASE_URL}api/users/admin/getUser/${userId}?page=${page}&size=${size}&sortDirection=${sortDirection}&sortBy=${sortBy}`)
             .then(response => {
                 dispatch(fetchCustomerDetailOrdersSuccess(response.data));
             })
@@ -33,7 +34,7 @@ export const fetchCustomerDetailOrders = (userId, page, size, sortDirection = 'd
 
 export const fetchCustomers = (page, size, email = '') => {
     return (dispatch) => {
-        axios.get(`/api/users/admin/getAllUsers?page=${page}&size=${size}&email=${email}`)
+        axios.get(`${API_BASE_URL}api/users/admin/getAllUsers?page=${page}&size=${size}&email=${email}`)
             .then(response => {
                 dispatch(fetchCustomersSuccess(response.data));
             })

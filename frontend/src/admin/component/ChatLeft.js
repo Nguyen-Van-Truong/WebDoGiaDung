@@ -22,7 +22,7 @@ const ChatLeft = ({ onSelectTab }) => {
                 </div>
                 <div className="nav nav-pills justify-content-between text-center" role="tablist">
                     <a className="flex-fill rounded border-0 nav-link active" data-bs-toggle="tab" href="#chat-recent" role="tab" aria-selected="true" onClick={() => onSelectTab('chat')}>Chat</a>
-                    <a className="flex-fill rounded border-0 nav-link" data-bs-toggle="tab" href="#chat-groups" role="tab" aria-selected="false" onClick={() => onSelectTab('groups')}>Ecommerce Groups</a>
+                    <a className="flex-fill rounded border-0 nav-link" data-bs-toggle="tab" href="#chatbot" role="tab" aria-selected="false" onClick={() => onSelectTab('chatbot')}>Chatbot</a>
                 </div>
             </div>
             <div className="tab-content2 border-top">
@@ -47,13 +47,13 @@ const ChatLeft = ({ onSelectTab }) => {
                         )}
                     </ul>
                 </div>
-                <div className="tab-pane fade" id="chat-groups" role="tabpanel">
+                <div className="tab-pane fade" id="chatbot" role="tabpanel">
                     <ul className="list-unstyled list-group list-group-custom list-group-flush mb-0">
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Group 1</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Group 2</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Group 3</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Group 4</li>
-                        <li className="list-group-item px-md-4 py-3 py-md-4">Group 5</li>
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 1</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 2</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 3</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 4</li>*/}
+                        {/*<li className="list-group-item px-md-4 py-3 py-md-4">Chatbot 5</li>*/}
                     </ul>
                 </div>
             </div>

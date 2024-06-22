@@ -19,6 +19,7 @@ import {updateCheckout} from "../api/CartApi";
 import {set_errors_payment, setAddress, setEmailPayment, setFullName, setNumberPhone} from "../redux/paymentActions";
 import Header_Top from "./menu/Header_Top";
 import ChatbotBubble from "./component/ChatbotBubble";
+import API_BASE_URL from "../config";
 
 
 const PaymentResponse = () => {
@@ -41,7 +42,7 @@ const PaymentResponse = () => {
 
             const amount = query.get('vnp_Amount');
 
-            const response = await axios.get(`/api/payment/paymentResponse?vnp_ResponseCode=${responseCode}`);
+            const response = await axios.get(`${API_BASE_URL}api/payment/paymentResponse?vnp_ResponseCode=${responseCode}`);
             setIsLoading(true);
 
             try {

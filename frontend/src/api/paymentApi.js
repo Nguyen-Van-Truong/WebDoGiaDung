@@ -1,8 +1,9 @@
 // src/api/paymentApi.js
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 export const createPayment = async ({ user_id, shippingAddress, code, amount, bankCode, orderInfo }) => {
-    const API_URL = `/api/payment/create-payment?user_id=${user_id}&shippingAddress=${shippingAddress}&code=${code}&amount=${amount}&bankCode=${bankCode}&orderInfo=${orderInfo}`;
+    const API_URL = `${API_BASE_URL}api/payment/create-payment?user_id=${user_id}&shippingAddress=${shippingAddress}&code=${code}&amount=${amount}&bankCode=${bankCode}&orderInfo=${orderInfo}`;
     try {
         const response = await fetch(API_URL, {
             headers: {
@@ -26,7 +27,7 @@ export const updatePaymentMethod = (id) => {
     return async dispatch => {
         try {
             const numericId = Number(id);
-            const reponse = await axios.get(`/api/payment/update?id_payment=${numericId}`);
+            const reponse = await axios.get(`${API_BASE_URL}api/payment/update?id_payment=${numericId}`);
             const data = reponse.data
 
             dispatch({type: 'GET_UPDATE_PAYMENT_METHOD_SUCCESS', payload: data});

@@ -33,8 +33,8 @@ const CustomerDetail = () => {
     };
     console.log(orders);
     console.log(detailCustomer);
-    if (error) return <div>Error: {error}</div>;
-    if (!orders) return <div>Loading...</div>;
+    // if (error) return <div>Error: {error}</div>;
+    // if (!orders) return <div>Loading...</div>;
 
     return (
         <div id="ebazar-layout" className="theme-blue">
