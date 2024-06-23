@@ -1,9 +1,10 @@
 // frontend/src/admin/Api/ProductApi.js
 import axios from 'axios';
+import API_BASE_URL from "../../config";
 
 export const addProduct = async (formData) => {
     try {
-        const response = await axios.post("/api/products/add", formData, {});
+        const response = await axios.post(`${API_BASE_URL}api/products/add`, formData, {});
         return response.data;
     } catch (error) {
         throw error;
@@ -13,7 +14,7 @@ export const addProduct = async (formData) => {
 
 export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy, keyword }) => {
     try {
-        const response = await axios.get(`/api/products/admin/products`, {
+        const response = await axios.get(`${API_BASE_URL}api/products/admin/products`, {
             params: { categoryId, page, size, sortOrder, sortBy, keyword }
         });
         return response.data;
@@ -26,7 +27,7 @@ export const fetchProducts = async ({ categoryId, page, size, sortOrder, sortBy,
 
 export const fetchProductDetails = async (productId) => {
     try {
-        const response = await axios.get(`/api/products/product-detail?id=${productId}`);
+        const response = await axios.get(`${API_BASE_URL}api/products/product-detail?id=${productId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to fetch product details:', error);
@@ -39,7 +40,7 @@ export const updateProduct = async (productId, formData) => {
         headers: {'Content-Type': 'multipart/form-data'}
     };
     try {
-        const response = await axios.put(`/api/products/update/${productId}`, formData, config);
+        const response = await axios.put(`${API_BASE_URL}api/products/update/${productId}`, formData, config);
         return response.data;  // Return data for success handling in the component
     } catch (error) {
         console.error('Failed to update product:', error);
@@ -49,7 +50,7 @@ export const updateProduct = async (productId, formData) => {
 
 export const fetchStatusesApi = async () => {
     try {
-        const response = await axios.get('/api/products/statuses');
+        const response = await axios.get(`${API_BASE_URL}api/products/statuses`);
         return response.data; // Return the statuses directly
     } catch (error) {
         console.error('Failed to fetch statuses:', error);

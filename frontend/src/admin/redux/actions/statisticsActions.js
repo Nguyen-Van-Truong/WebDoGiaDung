@@ -1,5 +1,6 @@
 // frontend/src/redux/actions/statisticsActions.js
 import axios from 'axios';
+import API_BASE_URL from "../../../config";
 
 // Action Types
 export const FETCH_STATISTICS_REQUEST = 'FETCH_STATISTICS_REQUEST';
@@ -26,7 +27,7 @@ export const fetchStatistics = () => {
     return async (dispatch) => {
         dispatch(fetchStatisticsRequest());
         try {
-            const response = await axios.get('/api/statistics');
+            const response = await axios.get(`${API_BASE_URL}api/statistics`);
             dispatch(fetchStatisticsSuccess(response.data));
         } catch (error) {
             dispatch(fetchStatisticsFailure(error.message));

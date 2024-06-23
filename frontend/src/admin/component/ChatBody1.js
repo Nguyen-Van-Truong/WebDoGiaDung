@@ -21,6 +21,7 @@ const ChatBody1 = () => {
 
         socketRef.current.onopen = () => {
             console.log('WebSocket connection established');
+            setError(null);
         };
 
         socketRef.current.onmessage = (event) => {
@@ -68,6 +69,7 @@ const ChatBody1 = () => {
         socketRef.current.onclose = () => {
             console.log('WebSocket connection closed');
             setIsTyping(false);
+            setError('WebSocket connection closed.');
         };
     };
 

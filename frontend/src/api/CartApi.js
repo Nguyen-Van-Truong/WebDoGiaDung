@@ -1,13 +1,14 @@
 import axios from "axios";
 import {debounce, throttle} from "lodash";
 import {top_selling} from "./Api";
+import API_BASE_URL from "../config";
 
 
 
 export const getListCart = (user_id) => {
     return async dispatch => {
         try {
-            const response = await axios.get(`/getListCart?user_id=${user_id}`);
+            const response = await axios.get(`${API_BASE_URL}getListCart?user_id=${user_id}`);
             const data = response.data;
             dispatch({type: 'GET_CART_SUCCESS', payload: data});
         } catch (error) {
@@ -21,7 +22,7 @@ export const getListCart = (user_id) => {
 export  const addCart=(user_id, product_id, quanitity, price)=>{
     return async dispatch =>{
         try {
-            const response = await axios.get(`/addCart?user_id=${user_id}&product_id=${product_id}&quantity=${quanitity}&price=${price}`);
+            const response = await axios.get(`${API_BASE_URL}addCart?user_id=${user_id}&product_id=${product_id}&quantity=${quanitity}&price=${price}`);
             const data = response.data;
             dispatch({type: 'ADD_CART_SUCCESS', payload: data});
         } catch (error) {
@@ -34,7 +35,7 @@ export  const addCart=(user_id, product_id, quanitity, price)=>{
 export const count = (user_id) => {
     return async dispatch => {
         try {
-            const response = await axios.get(`/countCart?user_id=${user_id}`);
+            const response = await axios.get(`${API_BASE_URL}countCart?user_id=${user_id}`);
             const data = response.data;
             dispatch({type: 'COUNT_CART_SUCCESS', payload: data});
         } catch (error) {
@@ -53,7 +54,7 @@ export const throttledCountCart = throttle((user_id, dispatch) => {
 export  const  updateCart =(cart_item_id, quantity,price)=>{
     return async dispatch => {
         try {
-            const response = await axios.get(`/updateCart?cart_item_id=${cart_item_id}&quantity=${quantity}&price=${price}`);
+            const response = await axios.get(`${API_BASE_URL}updateCart?cart_item_id=${cart_item_id}&quantity=${quantity}&price=${price}`);
             const data = response.data;
             dispatch({type: 'UPDATE_CART_SUCCESS', payload: data});
         } catch (error) {
@@ -69,7 +70,7 @@ export  const  updateCart =(cart_item_id, quantity,price)=>{
 export const updateCheckout = (user_id) => {
     return async dispatch => {
         try {
-            const response = await axios.get(`/updateCartCheckOut?user_id=${user_id}`);
+            const response = await axios.get(`${API_BASE_URL}updateCartCheckOut?user_id=${user_id}`);
             const data = response.data;
             dispatch({type: 'UPDATE_CHECKOUT_CART_SUCCESS', payload: data});
         } catch (error) {
