@@ -13,6 +13,7 @@ import { setCurrentPage, setPageCount } from "./redux/actions/CurrentPageAction"
 import { formatPrice } from "../format/FormatMoney";
 import Select from 'react-select';
 import removeAccents from 'remove-accents';
+import {getFullImageUrl} from "../config";
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -194,7 +195,7 @@ const ProductList = () => {
                                                             <div className="card-body d-flex align-items-center flex-column flex-md-row">
                                                                 <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                     <img className="w120 rounded img-fluid"
-                                                                         src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
+                                                                         src={getFullImageUrl(product.imageUrl) || "https://via.placeholder.com/120x120.png"}
                                                                          alt={product.productName} />
                                                                 </a>
                                                                 <div className="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
@@ -249,7 +250,7 @@ const ProductList = () => {
                                                                     }}>
                                                                         <a onClick={() => handleNavigateToEdit(product.productId)}>
                                                                             <img
-                                                                                src={product.imageUrl || "https://via.placeholder.com/120x120.png"}
+                                                                                src={getFullImageUrl(product.imageUrl) || "https://via.placeholder.com/120x120.png"}
                                                                                 alt="product"
                                                                                 className="img-fluid w-100"
                                                                                 style={{

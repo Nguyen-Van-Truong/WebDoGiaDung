@@ -28,6 +28,7 @@ import {fetchCategories} from "../api/CategoryApi";
 import {setCurrentPage, setPageCount} from "../redux/CurrentPageAction";
 import {setProducts} from "../redux/ProductAction";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 const  Products = () => {
 
@@ -126,7 +127,7 @@ const  Products = () => {
                             <div className="product-card">
                                 <a onClick={() => handleProductDetail(product.productId)}>
                                     <div className="product-thumb">
-                                        <img src={product.imageUrl}/>
+                                        <img src={getFullImageUrl(product.imageUrl)}/>
                                         <span className="badge new"></span>
                                     </div>
                                     <div className="product-info">

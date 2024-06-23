@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchOrders} from "./redux/actions/OrderActions";
 import {setCurrentPage} from "./redux/actions/CurrentPageAction";
 import {useNavigate} from "react-router-dom";
+import {getFullImageUrl} from "../config";
 
 const Orderlist = () => {
     const dispatch = useDispatch();
@@ -74,7 +75,7 @@ const Orderlist = () => {
                                                     <td>
                                                         {order.orderDetails.map((item, index) => (
                                                             <div key={index} className="item-details">
-                                                                <img src={item.product.imageUrl}
+                                                                <img src={getFullImageUrl(item.product.imageUrl)}
                                                                      className="avatar lg rounded me-2" alt="product"/>
                                                                 <span>{shortenProductName(item.product.productName)} - Số lượng: {item.quantity} - Tổng giá: {formatCurrency(item.price)} VNĐ</span>
                                                             </div>

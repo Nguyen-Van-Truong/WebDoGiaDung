@@ -27,6 +27,7 @@ import {bindActionCreators} from "redux";
 import {product_details} from "../api/Product_Details_Api";
 import Header_Top from "./menu/Header_Top";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 const  Search = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -154,7 +155,7 @@ const  Search = () => {
                             <div className="product-card">
                                 <a onClick={() => handleProductDetail(product.productId)}>
                                     <div className="product-thumb">
-                                        <img src={product.fileUrl}/>
+                                        <img src={getFullImageUrl(product.fileUrl)}/>
                                         <span className="badge new"></span>
                                     </div>
                                     <div className="product-info">

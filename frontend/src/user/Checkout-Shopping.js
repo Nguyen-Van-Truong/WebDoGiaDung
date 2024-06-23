@@ -31,6 +31,7 @@ import {
 } from "../redux/paymentActions";
 import Header_Top from "./menu/Header_Top";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 
 const Checkout_Shopping = () => {
@@ -294,7 +295,7 @@ const Checkout_Shopping = () => {
                                     <div className="flex justify-between items-center pb-4">
                                         <div className="flex items-center gap-3">
                                             <div>
-                                                <img src={cart.url} alt=""/>
+                                                <img src={getFullImageUrl(cart.url)} alt=""/>
                                             </div>
                                             <div className="flex gap-[6px]">
                                                 <p>{cart.name}</p>

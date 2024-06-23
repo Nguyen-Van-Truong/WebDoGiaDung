@@ -22,6 +22,7 @@ import {click_search_success, set_search_items} from "../../redux/SearchAction";
 import {search} from "../../api/SearchApi";
 import {setFullName, setSuccess} from "../../redux/ProfileAction";
 import {useTranslation} from "react-i18next";
+import {getFullImageUrl} from "../../config";
 
 const Header_Menu = () => {
     const dispatch = useDispatch();
@@ -313,7 +314,7 @@ const Header_Menu = () => {
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-1">
                                                             <div>
-                                                                <img src={cart.url} alt=""/>
+                                                                <img src={getFullImageUrl(cart.url)} alt=""/>
                                                             </div>
                                                             <div className="px-2-t">
                                                                 <h5 style={{fontSize: "15px"}}

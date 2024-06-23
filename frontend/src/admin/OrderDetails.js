@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { formatCurrency } from "./utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderDetails, updateOrderStatus } from "./redux/actions/OrderActions";
+import {getFullImageUrl} from "../config";
 
 const OrderDetails = () => {
     const { orderId } = useParams();
@@ -183,7 +184,7 @@ const OrderDetails = () => {
                                                         <tr key={index}>
                                                             <td>
                                                                 <div className="d-flex align-items-center">
-                                                                    <img src={item.product?.imageUrl} className="avatar rounded me-2" alt="product" />
+                                                                    <img src={getFullImageUrl(item.product?.imageUrl)} className="avatar rounded me-2" alt="product" />
                                                                     {item.product?.productName || 'N/A'}
                                                                 </div>
                                                             </td>

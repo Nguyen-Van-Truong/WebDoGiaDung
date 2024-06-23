@@ -20,6 +20,7 @@ import {formatPrice} from "../format/FormatMoney";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 const Order_History= () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -87,7 +88,7 @@ const Order_History= () => {
                                             </td>
                                             <td>
                                                 <div className="w-[70px] h-[70px]">
-                                                    <img className="w-full h-full rounded-lg" src={history.url} alt="" />
+                                                    <img className="w-full h-full rounded-lg" src={getFullImageUrl(history.url)} alt="" />
                                                 </div>
 
                                             </td>

@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchCustomerDetailOrders} from "./redux/actions/CustomerActions";
 import {formatCurrency, shortenProductName} from "./utils/utils";
 import Pagination2 from "./component/Index/Pagination2";
+import {getFullImageUrl} from "../config";
 
 const CustomerDetail = () => {
     const {userId} = useParams();
@@ -127,7 +128,7 @@ const CustomerDetail = () => {
                                                             <td>
                                                                 {order.orderDetails.map((item, itemIdx) => (
                                                                     <div key={itemIdx} className="item-details">
-                                                                        <img src={item.product.imageUrl}
+                                                                        <img src={getFullImageUrl(item.product.imageUrl)}
                                                                              className="avatar lg rounded me-2"
                                                                              alt="product"/>
                                                                         <span>{shortenProductName(item.product.productName)} - Số lượng: {item.quantity} - Tổng giá: {formatCurrency(item.price)} VNĐ</span>

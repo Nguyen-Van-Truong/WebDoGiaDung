@@ -23,6 +23,7 @@ import {deleteCart} from "../api/HistoryCartApi";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 const  Cart = () => {
 
     const  cartList = useSelector(state => state.cart.ListCart);
@@ -138,7 +139,7 @@ const  Cart = () => {
                                             <td className="py-6 text-sm">
                                                 <div className="flex gap-2 items-center">
                                                     <div className="w-[70px] h-[70px]">
-                                                        <img className="w-full h-full rounded-lg" src={cart.url} alt="" />
+                                                        <img className="w-full h-full rounded-lg" src={getFullImageUrl(cart.url)} alt="" />
                                                     </div>
 
                                                 </div>

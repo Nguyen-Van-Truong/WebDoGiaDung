@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {fetchOrders, setCurrentPage} from "./redux/actions/OrderActions";
 import {formatCurrency, shortenProductName} from "./utils/utils";
 import {fetchStatistics} from "./redux/actions/statisticsActions";
+import {getFullImageUrl} from "../config";
 
 const Index = () => {
 
@@ -158,7 +159,7 @@ const Index = () => {
                                                         <td>
                                                             {order.orderDetails.map((item, index) => (
                                                                 <div key={index} className="item-details">
-                                                                    <img src={item.product.imageUrl}
+                                                                    <img src={getFullImageUrl(item.product.imageUrl)}
                                                                          className="avatar lg rounded me-2"
                                                                          alt="product"/>
                                                                     <span>{shortenProductName(item.product.productName)} - Số lượng: {item.quantity} - Tổng giá: {formatCurrency(item.price)} VNĐ</span>

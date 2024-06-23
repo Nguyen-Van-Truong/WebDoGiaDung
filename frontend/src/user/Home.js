@@ -40,6 +40,7 @@ import {product_details} from "../api/Product_Details_Api";
 import Header_Top from "./menu/Header_Top";
 import {useTranslation} from "react-i18next";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 
 
@@ -471,7 +472,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
-                                            <img src={product.fileUrl}/>
+                                            <img src={getFullImageUrl(product.fileUrl)}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">
@@ -648,7 +649,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
-                                            <img src={product.fileUrl}/>
+                                            <img src={getFullImageUrl(product.fileUrl)}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">
@@ -703,7 +704,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(topSelling.productId)}>
                                         <div className="product-thumb">
-                                            <img src={topSelling.fileUrl}/>
+                                            <img src={getFullImageUrl(topSelling.fileUrl)}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">
@@ -758,7 +759,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(produtsList.productId)}>
                                         <div className="product-thumb">
-                                            <img src={produtsList.fileUrl}/>
+                                            <img src={getFullImageUrl(produtsList.fileUrl)}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">
@@ -820,7 +821,7 @@ const Home = () => {
                                 <div className="product-card">
                                     <a onClick={() => handleProductDetail(product.productId)}>
                                         <div className="product-thumb">
-                                            <img src={product.fileUrl}/>
+                                            <img src={getFullImageUrl(product.fileUrl)}/>
                                             <span className="badge new"></span>
                                         </div>
                                         <div className="product-info">

@@ -18,6 +18,7 @@ import ReactQuill from "react-quill";
 import {addCart, count, getListCart} from "../api/CartApi";
 import Header_Top from "./menu/Header_Top";
 import ChatbotBubble from "./component/ChatbotBubble";
+import {getFullImageUrl} from "../config";
 
 const Product_details = () => {
     const [isHeaderSticky, setHeaderSticky] = useState(false);
@@ -112,7 +113,7 @@ const Product_details = () => {
                                         <div className="swiper-slide">
 
                                             {firstImageUrl &&
-                                                <img src={firstImageUrl} alt={productDetails.product_name}/>}
+                                                <img src={getFullImageUrl(firstImageUrl)} alt={productDetails.product_name}/>}
                                         </div>
 
                                     </div>
