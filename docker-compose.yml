@@ -9,6 +9,10 @@ services:
     image: truongclone232/ettshop_backend_local:v1.0.0
     ports:
       - "8080:8080"
+    volumes:
+      - "D:\\project-uploads:/uploads"
+    environment:
+      - UPLOAD_DIR=/uploads
     networks:
       - ettshop_network
 
