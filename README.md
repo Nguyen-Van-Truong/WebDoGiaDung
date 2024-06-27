@@ -26,7 +26,7 @@
 
 #### Back-end
 - **Microservices Architecture với Spring Boot:** Dễ dàng mở rộng và bảo trì thông qua các microservices độc lập.
-- **RESTful API:** Giao tiếp linh hoạt giữa front-end và back-end.
+- **REST API:** Giao tiếp linh hoạt giữa front-end và back-end.
 - **Bảo Mật với Spring Security:** Đảm bảo thông tin người dùng và dữ liệu hệ thống được bảo vệ.
 - **Quản Lý Dữ Liệu với Spring Data JPA và MySQL:** Tối ưu hóa quá trình quản lý và truy vấn dữ liệu.
 - **Spring WebSocket:** Cải thiện trải nghiệm chat thời gian thực.
